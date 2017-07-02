@@ -13,7 +13,7 @@ from time import sleep
 from pypozyx import *
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
-
+import time
 
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
@@ -42,9 +42,9 @@ class ReadyToLocalize(object):
         self.pozyx.clearDevices(self.remote_id)
         self.setAnchorsManual()
         self.printPublishConfigurationResult()
-        network_id = self.remote_id 
+        network_id = self.remote_id
         
-    def loop(self, Index=None):
+    def loop(self):
         """Performs positioning and displays/exports the results."""
 
         position = Coordinates()
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     if not remote:
         remote_id = None
 
-    Index = 0 
+    Index = 0
 
     use_processing = False             # enable to send position data through OSC
     ip = "127.0.0.1"                   # IP for the OSC UDP
