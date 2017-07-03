@@ -13,7 +13,7 @@ from time import sleep
 from pypozyx import *
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
-import time
+import time as t
 
 
 class ReadyToLocalize(object):
@@ -44,31 +44,32 @@ class ReadyToLocalize(object):
         self.setAnchorsManual()
         self.printPublishConfigurationResult()
         network_id = self.remote_id
-        
-    def loop(self):
-        """Performs positioning and displays/exports the results."""
 
+    def loop(self, index=None):
+        """Performs positioning and displays/exports the results."""
+        start=t.clock()
+        print(start)
         position = Coordinates()
         status = self.pozyx.doPositioning(
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
         if status == POZYX_SUCCESS:
+            end=t.clock()
+            duration=(end-start)
+            print(end)
             self.printPublishPosition(position)
+           #print(end-start)
+            print(duration)
         else:
+            end=t.clock()
             self.printPublishErrorCode("positioning")
-        
+
 
     def printPublishPosition(self, position):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
         network_id = self.remote_id
         if network_id is None:
             network_id = 0
-       # print(Index,",","POS ID {}, x(mm): {pos.x} y(mm): {pos.y} z(mm): {pos.z}".format(
-        #    "0x%0.4x" % network_id, pos=position))
-       # if self.osc_udp_client is not None:
-        #    self.osc_udp_client.send_message(
-         #       "/position", [network_id, int(position.x), int(position.y), int(position.z)])
-        
-        print(Index, "{pos.x} {pos.y} {pos.z}".format(
+        print(index, duration, "{pos.x} {pos.y} {pos.z}".format(
             "0x%0.4x" % network_id, pos=position))
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message()
@@ -141,7 +142,7 @@ class ReadyToLocalize(object):
                     "/anchor", [anchor.network_id, int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
                 sleep(0.025)
 
-if __name__ == "__main__":
+if  __name__ == "__main__":
     # shortcut to not have to find out the port yourself
     serial_port = get_serial_ports()[2].device
 
@@ -150,7 +151,10 @@ if __name__ == "__main__":
     if not remote:
         remote_id = None
 
-    Index = 0
+    index = 0
+    start = 0
+    end = 0
+    duration=(end-start)
 
     use_processing = False             # enable to send position data through OSC
     ip = "127.0.0.1"                   # IP for the OSC UDP
@@ -174,4 +178,4 @@ if __name__ == "__main__":
     r.setup()
     while True:
         r.loop()
-        Index = Index + 1
+        index = index + 1
