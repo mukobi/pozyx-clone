@@ -14,7 +14,22 @@ from pypozyx import *
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
+#import pdb; pdb.set_trace();  #use to debug line by line
 
+
+#this function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
+#this is to make it easier to read the data from the console since every row will have the same number of data points
+def strSetLength(number, length):
+    numString = str(number);
+    numLength = len(numString);
+    while len(numString) < length:
+        numString += "0"
+    while len(numString) > length:
+        numString = numString[:-1]
+    return numString
+    
+    
+    
 
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
@@ -45,23 +60,27 @@ class ReadyToLocalize(object):
         self.printPublishConfigurationResult()
         network_id = self.remote_id
 
-    def loop(self, elapsed, index=None):
+    def loop(self, elapsed, timeDifference, index=None):
         """Performs positioning and displays/exports the results."""
         position = Coordinates()
         status = self.pozyx.doPositioning(
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
         if status == POZYX_SUCCESS:
-            self.printPublishPosition(position, elapsed)
+            self.printPublishPosition(position, elapsed, timeDifference)
         else:
             self.printPublishErrorCode("positioning")
 
 
-    def printPublishPosition(self, position, elapsed):
+    def printPublishPosition(self, position, elapsed, timeDifference):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
         network_id = self.remote_id
         if network_id is None:
             network_id = 0
-        print(index, elapsed, "{pos.x} {pos.y} {pos.z}".format(
+        hertz = 1 / timeDifference
+        elapsed = strSetLength(elapsed, 20)
+        timeDifference = strSetLength(timeDifference, 20)
+        hertz = strSetLength(hertz, 5)
+        print(index, "Total:", elapsed, "Diff:", timeDifference, "Hz:", hertz, "Pos:", "{pos.x} {pos.y} {pos.z}".format(
             "0x%0.4x" % network_id, pos=position))
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message()
@@ -133,10 +152,13 @@ class ReadyToLocalize(object):
                 self.osc_udp_client.send_message(
                     "/anchor", [anchor.network_id, int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
                 sleep(0.025)
+    
+
+    
 
 if  __name__ == "__main__":
     # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[2].device
+    serial_port = get_serial_ports()[0].device
 
     remote_id = 0x610c                 # remote device network ID
     remote = True                  # whether to use a remote device
@@ -145,6 +167,12 @@ if  __name__ == "__main__":
 
     index = 0
     start=t.time()
+    oldTime = 0
+    newTime = 0
+
+
+    
+    
 
 
     use_processing = False             # enable to send position data through OSC
@@ -167,8 +195,19 @@ if  __name__ == "__main__":
     pozyx = PozyxSerial(serial_port)
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
-    while True:
-        elapsed=(t.time()-start)
-        r.loop(elapsed)
-        index = index + 1
+    try:
+        while True:
+            elapsed=(t.time()-start) #elapsed time since the program started
+            #oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
+            oldTime = newTime
+            #newTime is the time of the current cycle.
+            newTime = elapsed;
+            #timeDifference is the difference in time between each subsequent cycle
+            timeDifference = newTime - oldTime
 
+            r.loop(elapsed, timeDifference)
+            index = index + 1
+
+            
+    except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
+        pass

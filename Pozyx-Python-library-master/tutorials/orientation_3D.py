@@ -83,9 +83,9 @@ class Orientation3D(object):
 
 if __name__ == '__main__':
     # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[2].device
+    serial_port = get_serial_ports()[0].device
 
-    remote_id = 0x6112                    # remote device network ID
+    remote_id = 0x610c                    # remote device network ID
     remote = True                         # whether to use a remote device
     if not remote:
         remote_id = None
