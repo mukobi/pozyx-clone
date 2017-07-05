@@ -83,7 +83,8 @@ class ReadyToLocalize(object):
         print(index, "Total:", elapsed, "Diff:", timeDifference, "Hz:", hertz, "Pos:", "{pos.x} {pos.y} {pos.z}".format(
             "0x%0.4x" % network_id, pos=position))
         if self.osc_udp_client is not None:
-            self.osc_udp_client.send_message()
+            self.osc_udp_client.send_message(
+                "/position", [network_id, int(position.x), int(position.y), int(position.z)])
 
     def printPublishErrorCode(self, operation):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
@@ -175,7 +176,7 @@ if  __name__ == "__main__":
     
 
 
-    use_processing = False             # enable to send position data through OSC
+    use_processing = True             # enable to send position data through OSC
     ip = "127.0.0.1"                   # IP for the OSC UDP 
     network_port = 8888                # network port for the OSC UDP
     osc_udp_client = None
