@@ -139,25 +139,25 @@ class ReadyToLocalize(object):
 
 if __name__ == "__main__":
     # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[2].device
+    serial_port = get_serial_ports()[0].device
 
-    remote_id = 0x6829                 # remote device network ID
+    remote_id = 0x610c                 # remote device network ID
     remote = True                   # whether to use a remote device
     if not remote:
         remote_id = None
 
-    use_processing = False             # enable to send position data through OSC
+    use_processing = True             # enable to send position data through OSC
     ip = "127.0.0.1"                   # IP for the OSC UDP
     network_port = 8888                # network port for the OSC UDP
     osc_udp_client = None
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
     # necessary data for calibration, change the IDs and coordinates yourself
-    anchors = [DeviceCoordinates(0x6146, 1, Coordinates(0,0,0)),
-               DeviceCoordinates(0x6837, 1, Coordinates(1000,0,0)),
-               DeviceCoordinates(0x611d, 1, Coordinates(1000,1000,0)),
-               DeviceCoordinates(0x6126, 1, Coordinates(0,1000,0))]
-
+    anchors = [DeviceCoordinates(0x605d, 1, Coordinates(0, 1669, 1016)),
+               DeviceCoordinates(0x6020, 1, Coordinates(3024, 5886, 1535)),
+               DeviceCoordinates(0x604f, 1, Coordinates(3545, 0, 2595)),
+               DeviceCoordinates(0x6129, 1, Coordinates(5182, 3052, 198))]
+    
     algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     dimension = POZYX_3D               # positioning dimension
     height = 1000                      # height of device, required in 2.5D positioning
