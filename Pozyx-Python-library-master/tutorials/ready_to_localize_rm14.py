@@ -45,31 +45,24 @@ class ReadyToLocalize(object):
         self.printPublishConfigurationResult()
         network_id = self.remote_id
 
-    def loop(self, index=None):
+    def loop(self, elapsed, index=None):
         """Performs positioning and displays/exports the results."""
-        start=t.clock()
-        print(start)
         position = Coordinates()
         status = self.pozyx.doPositioning(
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
         if status == POZYX_SUCCESS:
-            end=t.clock()
-            duration=(end-start)
-            print(end)
-            self.printPublishPosition(position)
-           #print(end-start)
-            print(duration)
+            self.printPublishPosition(position, elapsed)
         else:
             end=t.clock()
             self.printPublishErrorCode("positioning")
 
 
-    def printPublishPosition(self, position):
+    def printPublishPosition(self, position, elapsed):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
         network_id = self.remote_id
         if network_id is None:
             network_id = 0
-        print(index, duration, "{pos.x} {pos.y} {pos.z}".format(
+        print(index, elapsed, "{pos.x} {pos.y} {pos.z}".format(
             "0x%0.4x" % network_id, pos=position))
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message()
@@ -152,12 +145,11 @@ if  __name__ == "__main__":
         remote_id = None
 
     index = 0
-    start = 0
-    end = 0
-    duration=(end-start)
+    start=t.clock()
+
 
     use_processing = False             # enable to send position data through OSC
-    ip = "127.0.0.1"                   # IP for the OSC UDP
+    ip = "127.0.0.1"                   # IP for the OSC UDP 
     network_port = 8888                # network port for the OSC UDP
     osc_udp_client = None
     if use_processing:
@@ -177,5 +169,7 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
     while True:
-        r.loop()
+        elapsed=(t.clock()-start)
+        r.loop(elapsed)
         index = index + 1
+
