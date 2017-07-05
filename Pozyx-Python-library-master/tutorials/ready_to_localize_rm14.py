@@ -53,7 +53,6 @@ class ReadyToLocalize(object):
         if status == POZYX_SUCCESS:
             self.printPublishPosition(position, elapsed)
         else:
-            end=t.clock()
             self.printPublishErrorCode("positioning")
 
 
@@ -145,7 +144,7 @@ if  __name__ == "__main__":
         remote_id = None
 
     index = 0
-    start=t.clock()
+    start=t.time()
 
 
     use_processing = False             # enable to send position data through OSC
@@ -169,7 +168,7 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
     while True:
-        elapsed=(t.clock()-start)
+        elapsed=(t.time()-start)
         r.loop(elapsed)
         index = index + 1
 
