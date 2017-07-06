@@ -189,8 +189,6 @@ if  __name__ == "__main__":
     newTime = 0
 
 
-    
-    
 
 
     use_processing = True             # enable to send position data through OSC
@@ -229,7 +227,7 @@ if  __name__ == "__main__":
                 timeDifference = newTime - oldTime                    #timeDifference is the differece in time between each subsequent cycle
 
                 singleLineOutput = r.loop(elapsed, timeDifference)    #the loop method of r prints data to the console and returns what is printed
-                logfile.write(singleLineOutput + "\n")                       #writes the data returned from the loop method to the file
+                logfile.write(singleLineOutput + "\n")                #writes the data returned from the loop method to the file
 
                 index = index + 1                                     #increment data index
 
