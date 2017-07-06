@@ -235,6 +235,5 @@ if  __name__ == "__main__":
 
 
         except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
-            #logfile.close()
             pass
         
