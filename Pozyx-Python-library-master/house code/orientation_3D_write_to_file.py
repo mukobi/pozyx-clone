@@ -27,7 +27,7 @@ from pythonosc.udp_client import SimpleUDPClient
 import time as t
 
 
-#this function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
+#this function takes a number (a data point) and rounds it off/adds zeros to return a string of the number with a set character length
 #this is to make it easier to read the data from the console since every row will have the same number of data points
 def strSetLength(number, length):
     numString = str(number);
@@ -83,7 +83,7 @@ class Orientation3D(object):
         self.addComponentsOSC(sensor_data.euler_angles)
         self.addComponentsOSC(sensor_data.quaternion)
         self.addComponentsOSC(sensor_data.linear_acceleration)
-        self.addComponentsOSC(sensor_data.gravity_vector)
+        self.addComponentsOSC(sensor_data.gravity_vector)\
 
     def addComponentsOSC(self, component):
         """Adds a sensor data component to the OSC message"""
