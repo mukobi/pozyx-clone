@@ -1,23 +1,22 @@
 
 
-def write_to_file(singleLineOutput, filename):
+def write_to_file(single_line_output, filename):
     """
     Creating a new file to save data easily
 
-    :param singleLineOutput: the output to be printed to file
+    :param single_line_output: the output to be printed to file
     :param filename: the name of the text file to be saved
+
+    Put in main to get name of file,
+    filename = input("Please enter a filename: ")
+    filename = filename + ".txt"
+    Put in while loop to write data to file,
+    write_to_file(singleLineOutput, filename)
     """
     if filename == "":
         filename = "default_position_test.txt"
     with open(filename, "a") as f:
-        f.write (singleLineOutput + '\n')
-    """
-    Put in main,
-    filename = input("Please enter a filename: ")
-    filename = filename + ".txt"
-    Put in while loop,
-    write_to_file(singleLineOutput, filename)
-    """
+        f.write (single_line_output + '\n')
 
 def read_ranging(filename='',directory=''):
     '''Read in data from ready_to_range.py'''

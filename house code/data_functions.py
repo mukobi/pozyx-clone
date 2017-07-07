@@ -6,6 +6,13 @@ def findtotaldistance(position, prev_pos, total_distance):
     :param position: the position of the Pozyx tag
     :prev_pos: the previous position for computation
     :param total_distance: the saved value of the total distance travelled
+
+    Put in main to initialize variables,
+    total_distance = 0
+    prev_pos = 0
+    Put in while loop to execute function and set prev_pos,
+    total_distance = findtotaldistance(pos, prev_pos, total_distance)
+    prev_pos = pos
     """
     from math import sqrt
     if prev_pos != 0:
@@ -15,14 +22,6 @@ def findtotaldistance(position, prev_pos, total_distance):
         temp_dist = sqrt((position.x)**2 + (position.y)**2 +(position.z)**2)
         total_distance += temp_dist
     return total_distance
-    """
-    Put in main,
-    total_distance = 0
-    prev_pos = 0
-    Put in while loop,
-    total_distance = findtotaldistance(pos, prev_pos, total_distance)
-    prev_pos = pos
-    """
 
 def strSetLength(number, length):
     """
@@ -45,3 +44,23 @@ def strSetLength(number, length):
     while len(numString) > length:
         numString = numString[:-1]
     return numString
+
+def hertz(time_difference, index, elapsed):
+    """
+    Finds the insantaneous and average frequency of the data
+
+    :param time_difference: the difference in time between two data points
+    :param index: the index of the data point
+    :param elapsed: the total elapsed time since function began
+
+    Extra comments
+    """
+    try:
+        hertz = 1 / time_difference
+    except ZeroDivisionError:
+        hertz = 0
+    try:
+        average_hertz = index / elapsed
+    except ZeroDivisionError:
+        average_hertz = 0
+    return hertz, average_hertz
