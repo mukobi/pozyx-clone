@@ -4,8 +4,10 @@ def write_to_file(single_line_output, filename):
     """
     Creating a new file to save data easily
 
-    :param single_line_output: the output to be printed to file
-    :param filename: the name of the text file to be saved
+    :param string single_line_output: the output to be printed to file
+    :param string filename: the input for name of the text file
+
+    If the input is blank, returns default_position_test as filename
 
     Put in main to get name of file,
     filename = input("Please enter a filename: ")
