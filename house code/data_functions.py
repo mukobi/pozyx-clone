@@ -1,13 +1,11 @@
 
 def findtotaldistance(position, prev_pos, total_distance):
-    '''Function to determine the total distance travelled by the Pozyx device'''
     """
-    Put in main,
-    total_distance = 0
-    prev_pos = 0
-    Put in while loop,
-    total_distance = findtotaldistance(pos, prev_pos, total_distance)
-    prev_pos = pos
+    Function to determine the total distance travelled by the Pozyx device
+
+    :param position: the position of the Pozyx tag
+    :prev_pos: the previous position for computation
+    :param total_distance: the saved value of the total distance travelled
     """
     from math import sqrt
     if prev_pos != 0:
@@ -17,6 +15,14 @@ def findtotaldistance(position, prev_pos, total_distance):
         temp_dist = sqrt((position.x)**2 + (position.y)**2 +(position.z)**2)
         total_distance += temp_dist
     return total_distance
+    """
+    Put in main,
+    total_distance = 0
+    prev_pos = 0
+    Put in while loop,
+    total_distance = findtotaldistance(pos, prev_pos, total_distance)
+    prev_pos = pos
+    """
 
 def strSetLength(number, length):
     """
