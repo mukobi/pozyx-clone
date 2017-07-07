@@ -41,9 +41,9 @@ def strSetLength(number, length):
     while len(numString) > length:
         numString = numString[:-1]
     return numString
-    
-    
-    
+
+
+
 
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
@@ -170,9 +170,9 @@ class ReadyToLocalize(object):
                 self.osc_udp_client.send_message(
                     "/anchor", [anchor.network_id, int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
                 sleep(0.025)
-    
 
-    
+
+
 
 if  __name__ == "__main__":
     # shortcut to not have to find out the port yourself
@@ -192,7 +192,7 @@ if  __name__ == "__main__":
 
 
     use_processing = True             # enable to send position data through OSC
-    ip = "127.0.0.1"                   # IP for the OSC UDP 
+    ip = "127.0.0.1"                   # IP for the OSC UDP
     network_port = 8888                # network port for the OSC UDP
     osc_udp_client = None
     if use_processing:
@@ -218,7 +218,7 @@ if  __name__ == "__main__":
     filename = "localize log " + dateTimeString + ".txt"
 
     with open(filename, 'a') as logfile:
-    
+
         try:
             while True:
                 elapsed=(t.time()-start)                              #elapsed time since the program started
@@ -234,4 +234,3 @@ if  __name__ == "__main__":
 
         except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
             pass
-        
