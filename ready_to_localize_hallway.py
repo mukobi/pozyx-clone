@@ -101,12 +101,14 @@ class ReadyToLocalize(object):
         hertz = strSetLength(hertz, 5)
         output = str(index) + " Total: " + elapsed + " Diff: " + timeDifference + " Hz: " + hertz + " Pos: " + "{pos.x} {pos.y} {pos.z}".format("0x%0.4x" % network_id, pos=position)
 
-        return output
+       
 
         """Sending data to OSC packet"""
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
                 "/position", [network_id, int(position.x), int(position.y), int(position.z)])
+
+        return output
 
     def printPublishErrorCode(self, operation):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
@@ -199,7 +201,7 @@ if __name__ == "__main__":
         osc_udp_client = SimpleUDPClient(ip, network_port)
     # necessary data for calibration, change the IDs and coordinates yourself
     anchors = [DeviceCoordinates(0x6863, 1, Coordinates(14592, 5616, 1750)),
-               DeviceCoordinates(0x6134, 1, Coordinates(5786, 0, 950)),
+               DeviceCoordinates(0x6134, 1, Coordinates(5786, 5616, 950)),
                DeviceCoordinates(0x607c, 1, Coordinates(9452, 7616, 2000)),
                DeviceCoordinates(0x615a, 1, Coordinates(0, 5616, 1445))]
 #9452+5140
