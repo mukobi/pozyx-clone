@@ -1,11 +1,25 @@
 
 
+def write_to_file(singleLineOutput, filename):
+    '''Opening the file to add the position data'''
+    """
+    Put in main,
+    filename = input("Please enter a filename: ")
+    filename = filename + ".txt"
+    Put in while loop,
+    write_to_file(singleLineOutput, filename)
+    """
+    if filename == "":
+        filename = "default_position_test.txt"
+    with open(filename, "a") as f:
+        f.write (singleLineOutput + '\n')
+
 def read_ranging(filename='',directory=''):
     '''Read in data from ready_to_range.py'''
 
     from astropy.io import ascii
     import numpy as np
-    
+
 
     if directory=='':
         directory='/Users/CoraJune/Desktop/pozyx_testing/'
