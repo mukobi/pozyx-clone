@@ -1,7 +1,16 @@
 
 
 def write_to_file(singleLineOutput, filename):
-    '''Opening the file to add the position data'''
+    """
+    Creating a new file to save data easily
+
+    :param singleLineOutput: the output to be printed to file
+    :param filename: the name of the text file to be saved
+    """
+    if filename == "":
+        filename = "default_position_test.txt"
+    with open(filename, "a") as f:
+        f.write (singleLineOutput + '\n')
     """
     Put in main,
     filename = input("Please enter a filename: ")
@@ -9,10 +18,6 @@ def write_to_file(singleLineOutput, filename):
     Put in while loop,
     write_to_file(singleLineOutput, filename)
     """
-    if filename == "":
-        filename = "default_position_test.txt"
-    with open(filename, "a") as f:
-        f.write (singleLineOutput + '\n')
 
 def read_ranging(filename='',directory=''):
     '''Read in data from ready_to_range.py'''
