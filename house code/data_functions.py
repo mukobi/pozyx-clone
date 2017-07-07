@@ -3,9 +3,14 @@ def findtotaldistance(position, prev_pos, total_distance):
     """
     Function to determine the total distance travelled by the Pozyx device
 
-    :param position: the position of the Pozyx tag
-    :prev_pos: the previous position for computation
-    :param total_distance: the saved value of the total distance travelled
+    :param array position: the position of the Pozyx tag
+    :param array prev_pos: the previous position for computation
+    :param float total_distance: the saved value of the total distance travelled
+
+    :return total_distance: returns total_distance for calculation
+
+
+    Uses temp_dist to calculate the distance travelled from point to point
 
     Put in main to initialize variables,
     total_distance = 0
@@ -49,11 +54,11 @@ def hertz(time_difference, index, elapsed):
     """
     Finds the insantaneous and average frequency of the data
 
-    :param time_difference: the difference in time between two data points
-    :param index: the index of the data point
-    :param elapsed: the total elapsed time since function began
+    :param float time_difference: the difference in time between two data points
+    :param integer index: the index of the data point
+    :param float elapsed: the total elapsed time since function began
 
-    Extra comments
+    The average hertz is calculated with the number of data points and the total time elapsed
     """
     try:
         hertz = 1 / time_difference
