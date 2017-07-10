@@ -30,6 +30,8 @@ from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
 
+from ..modules import user_input_config_functions as user_input
+
 
 #this function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
 #this is to make it easier to read the data from the console since every row will have the same number of data points
@@ -184,12 +186,12 @@ if  __name__ == "__main__":
         remote_id = None
 
     index = 0
-    start=t.time()
     oldTime = 0
     newTime = 0
 
-
-
+    """User input configuration section, comment out to use above settings"""
+    remote = user_input.use_remote()
+    remote_id = user_input.get_remote_id(remote)
 
     use_processing = True             # enable to send position data through OSC
     ip = "127.0.0.1"                   # IP for the OSC UDP
@@ -218,19 +220,18 @@ if  __name__ == "__main__":
     filename = "localize log " + dateTimeString + ".txt"
 
     with open(filename, 'a') as logfile:
-
+        start = t.time()
         try:
             while True:
                 elapsed=(t.time()-start)                              #elapsed time since the program started
                 oldTime = newTime                                     #oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
-                newTime = elapsed;                                    #newTime is the time of the current cycle.
+                newTime = elapsed                                    #newTime is the time of the current cycle.
                 timeDifference = newTime - oldTime                    #timeDifference is the differece in time between each subsequent cycle
 
                 singleLineOutput = r.loop(elapsed, timeDifference)    #the loop method of r prints data to the console and returns what is printed
                 logfile.write(singleLineOutput + "\n")                #writes the data returned from the loop method to the file
 
                 index = index + 1                                     #increment data index
-
 
         except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
             pass
