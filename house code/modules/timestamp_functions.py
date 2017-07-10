@@ -1,4 +1,4 @@
-from time import time
+import time as time
 
 
 def get_time():
@@ -36,6 +36,3 @@ def single_cycle_time_difference(previous_time, current_time):
     time_difference = current_time - previous_time
     new_previous_time = current_time
     return time_difference, new_previous_time
-
-
-
