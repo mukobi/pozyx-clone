@@ -26,10 +26,20 @@ from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
 
+if __name__ == "__main__" and __package__ is None:
+    from sys import path
+    from os.path import dirname as dir
 
-#this function takes a number (a data point) and rounds it off/adds zeros to return a string of the number with a set character length
-#this is to make it easier to read the data from the console since every row will have the same number of data points
+    path.append(dir(path[0]))
+    __package__ = "examples"
+from modules import user_input_config_functions as user_input
+
+
 def strSetLength(number, length):
+    """this function takes a number (a data point) and rounds it off/adds zeros to
+    return a string of the number with a set character length
+    this is to make it easier to read the data from the console since every row
+    will have the same number of data points"""
     numString = str(number);
     numLength = len(numString);
     while len(numString) < length:
@@ -167,9 +177,15 @@ if __name__ == '__main__':
         remote_id = None
 
     index = 0
-    
     oldTime = 0
     newTime = 0
+
+    """User input configuration section, comment out to use above settings"""
+    remote = user_input.use_remote()
+    remote_id = user_input.get_remote_id(remote)
+    to_use_file = user_input.use_file()
+    filename = user_input.get_filename(to_use_file)
+    attribute_to_log = user_input.get_attribute_to_log()
 
     ip = "127.0.0.1"
     network_port = 8888 
@@ -179,27 +195,24 @@ if __name__ == '__main__':
     o = Orientation3D(pozyx, osc_udp_client, remote_id)
     o.setup()
 
-    filename = input("Enter a filename to which data will be recorded\n") + ".txt"
-    
+    if to_use_file:
+        logfile = open(filename, 'a')
 
-    attributeToLog = ""
-    possibleAttributes = ["pressure", "acceleration", "magnetic", "angular velocity", "euler angles", "quaternion", "linear acceleration", "gravity"]
-    while attributeToLog not in possibleAttributes: #check if input is correct
-        attributeToLog = input("What do you want to log?\n(pressure, acceleration, magnetic, angular velocity, euler angles, quaternion, linear acceleration, or gravity)\n")
+    start=t.time()
+    try:
+        while True:
+            elapsed=(t.time()-start)                              #elapsed time since the program started
+            oldTime = newTime                                     #oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
+            newTime = elapsed                                     #newTime is the time of the current cycle.
+            timeDifference = newTime - oldTime                    #timeDifference is the differece in time between each subsequent cycle
 
-    with open(filename, 'a') as logfile:
-        start=t.time()
-        try:
-            while True:
-                elapsed=(t.time()-start)                              #elapsed time since the program started
-                oldTime = newTime                                     #oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
-                newTime = elapsed;                                    #newTime is the time of the current cycle.
-                timeDifference = newTime - oldTime                    #timeDifference is the differece in time between each subsequent cycle
-
-                singleLineOutput = o.loop(attributeToLog, elapsed, timeDifference, index)
+            singleLineOutput = o.loop(attribute_to_log, elapsed, timeDifference, index)
+            if to_use_file:
                 logfile.write(singleLineOutput + "\n")
-                index += 1                                            #increment data index
+            index += 1                                            #increment data index
 
+    except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
+            pass
 
-        except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
-                pass
+    if to_use_file:
+        logfile.close()
