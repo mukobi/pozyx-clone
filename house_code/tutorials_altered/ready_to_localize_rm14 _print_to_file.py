@@ -30,7 +30,13 @@ from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
 
-from ..modules import user_input_config_functions as user_input
+if __name__ == "__main__" and __package__ is None:
+    from sys import path
+    from os.path import dirname as dir
+
+    path.append(dir(path[0]))
+    __package__ = "examples"
+from modules import user_input_config_functions as user_input
 
 
 #this function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
@@ -97,11 +103,19 @@ class ReadyToLocalize(object):
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
                 "/position", [network_id, int(position.x), int(position.y), int(position.z)])
-        hertz = 1 / timeDifference
-        elapsed = strSetLength(elapsed, 20)
-        timeDifference = strSetLength(timeDifference, 20)
+        try:
+            hertz = 1 / timeDifference
+        except ZeroDivisionError:
+            hertz = 0
+        try:
+            averageHertz = index / elapsed
+        except ZeroDivisionError:
+            averageHertz = 0
+        averageHertz = strSetLength(averageHertz, 7)
+        elapsed = strSetLength(elapsed, 10)
+        timeDifference = strSetLength(timeDifference, 10)
         hertz = strSetLength(hertz, 5)
-        output = str(index) + " Total: " + elapsed + " Diff: " + timeDifference + " Hz: " + hertz + " Pos: " + "{pos.x} {pos.y} {pos.z}".format("0x%0.4x" % network_id, pos=position)
+        output =  str(index) + " Time: " + elapsed + " Cycle Time: " + timeDifference + " Hz: " + hertz + " Ave Hz: " + averageHertz + " | Pos: " + "{pos.x} {pos.y} {pos.z}".format("0x%0.4x" % network_id, pos=position)
         print(output)
         return output
 
@@ -192,6 +206,8 @@ if  __name__ == "__main__":
     """User input configuration section, comment out to use above settings"""
     remote = user_input.use_remote()
     remote_id = user_input.get_remote_id(remote)
+    to_use_file = user_input.use_file()
+    filename = user_input.get_filename(to_use_file)
 
     use_processing = True             # enable to send position data through OSC
     ip = "127.0.0.1"                   # IP for the OSC UDP
@@ -205,8 +221,8 @@ if  __name__ == "__main__":
                DeviceCoordinates(0x604f, 1, Coordinates(3545, 0, 2595)),
                DeviceCoordinates(0x6129, 1, Coordinates(5182, 3052, 198))]
 
-    #algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
-    algorithm = POZYX_POS_ALG_TRACKING  #tracking positioning algorithm
+    # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
+    algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
     dimension = POZYX_3D               # positioning dimension
     height = 1000                      # height of device, required in 2.5D positioning
 
@@ -214,24 +230,26 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
 
-    dt = datetime.now()
-    dateTimeString = str(dt.year) + "-" + str(dt.month) + "-" + str(dt.day) + "_" + str(dt.hour) + "-" + str(dt.minute) + "-" + str(dt.second)
-    print(dateTimeString)
-    filename = "localize log " + dateTimeString + ".txt"
+    if to_use_file:
+        logfile = open(filename, 'a')
 
-    with open(filename, 'a') as logfile:
-        start = t.time()
-        try:
-            while True:
-                elapsed=(t.time()-start)                              #elapsed time since the program started
-                oldTime = newTime                                     #oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
-                newTime = elapsed                                    #newTime is the time of the current cycle.
-                timeDifference = newTime - oldTime                    #timeDifference is the differece in time between each subsequent cycle
+    start=t.time()
+    try:
+        while True:
+            elapsed=(t.time()-start)                              # elapsed time since the program started
+            oldTime = newTime                                     # oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
+            newTime = elapsed                                     # newTime is the time of the current cycle.
+            timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
 
-                singleLineOutput = r.loop(elapsed, timeDifference)    #the loop method of r prints data to the console and returns what is printed
-                logfile.write(singleLineOutput + "\n")                #writes the data returned from the loop method to the file
+            singleLineOutput = r.loop(elapsed, timeDifference)    # the loop method of r prints data to the console and returns what is printed
+            if to_use_file:
+                logfile.write(singleLineOutput + "\n")                # writes the data returned from the loop method to the file
 
-                index = index + 1                                     #increment data index
+            index = index + 1                                     # increment data index
 
-        except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
-            pass
+    except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
+        pass
+
+    if to_use_file:
+        logfile.close()
+
