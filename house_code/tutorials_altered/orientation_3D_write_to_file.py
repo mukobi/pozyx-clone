@@ -195,23 +195,30 @@ if __name__ == '__main__':
     o = Orientation3D(pozyx, osc_udp_client, remote_id)
     o.setup()
 
+    logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
 
-    start=t.time()
+    start = t.time()
     try:
         while True:
-            elapsed=(t.time()-start)                              #elapsed time since the program started
-            oldTime = newTime                                     #oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
-            newTime = elapsed                                     #newTime is the time of the current cycle.
-            timeDifference = newTime - oldTime                    #timeDifference is the differece in time between each subsequent cycle
+            # elapsed time since the program started
+            elapsed = (t.time()-start)
+            # oldTime is the time of previous cycle. It is set to
+            # newTime here since newTime has not been updated and still
+            # is the old cycle.
+            oldTime = newTime
+            # newTime is the time of the current cycle.
+            newTime = elapsed
+            # timeDifference is the difference in time between each subsequent cycle
+            timeDifference = newTime - oldTime
 
             singleLineOutput = o.loop(attribute_to_log, elapsed, timeDifference, index)
             if to_use_file:
                 logfile.write(singleLineOutput + "\n")
-            index += 1                                            #increment data index
+            index += 1                                            # increment data index
 
-    except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
+    except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
             pass
 
     if to_use_file:
