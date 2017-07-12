@@ -25,22 +25,9 @@ from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
-from modules.data_functions import DataFunctions as DataFunctions
+from modules.sensor_data_file_writing import SensorDataFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 import time as t
-
-
-def strSetLength(number, length):
-    """this function takes a number (a data point) and rounds it off/adds zeros to
-    return a string of the number with a set character length
-    this is to make it easier to read the data from the console since every row
-    will have the same number of data points"""
-    numString = str(number);
-    while len(numString) < length:
-        numString += "0"
-    while len(numString) > length:
-        numString = numString[:-1]
-    return numString
 
 
 class Orientation3D(object):
@@ -86,7 +73,7 @@ class Orientation3D(object):
         self.addComponentsOSC(sensor_data.euler_angles)
         self.addComponentsOSC(sensor_data.quaternion)
         self.addComponentsOSC(sensor_data.linear_acceleration)
-        self.addComponentsOSC(sensor_data.gravity_vector)\
+        self.addComponentsOSC(sensor_data.gravity_vector)
 
     def addComponentsOSC(self, component):
         """Adds a sensor data component to the OSC message"""
@@ -132,6 +119,7 @@ if __name__ == '__main__':
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
+        FileWriting.write_header_to_file(logfile)
 
     start = ConsoleLogging.get_time()
     try:
@@ -143,12 +131,14 @@ if __name__ == '__main__':
             time_difference = current_cycle_time - previous_cycle_time
 
             one_cycle_sensor_data = o.loop()
+
             formatted_data_dictionary = ConsoleLogging.format_sensor_data(
                 one_cycle_sensor_data, attributes_to_log)
             ConsoleLogging.log_to_console(index, elapsed, formatted_data_dictionary)
-
             if to_use_file:
-                logfile.write("file writing not yet set up ")
+                FileWriting.write_line_of_data_to_file(
+                    index, elapsed, time_difference,
+                    logfile, one_cycle_sensor_data)
             index += 1                      # increment data index
 
     # this allows Windows users to exit the while loop by pressing ctrl+c
