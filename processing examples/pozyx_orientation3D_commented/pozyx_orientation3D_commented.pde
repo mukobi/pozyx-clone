@@ -287,15 +287,23 @@ void draw(){
     stroke(0,0,0);
     // 1 pixel stroke weight
     strokeWeight(1);
+    // makes the horizontal black line for body coordinates
     line(x_center-75, y_center, x_center+75, y_center);
+    // makes the vertical black line for body coordinates
     line(x_center, y_center-75, x_center, y_center+75);
+    // designate that the circles we will make will be positioned by their centers
     ellipseMode(CENTER);
+    // create a static ellipse with width and height of 50px, thus making a circle
     ellipse(x_center, y_center, 50, 50);
+    // create a dynamic ellipse that moves and resizes with linear acceleration
     ellipse(x_center+lin_acc_x/50, y_center-lin_acc_y/50, 50*(1-lin_acc_z/1000), 50*(1-lin_acc_z/1000));
+    // set fill color to black
     fill(0,0,0);
+    // add text labeling the linear acceleration circles
     text("Linear acceleration\n(body coordinates)", x_center-50, y_center + 100);
     
     // show the linear acceleration in world coordinates
+    //same as above, just for world coordinates
     x_center = 900;
     fill(93, 175, 83);
     stroke(0,0,0);
@@ -305,6 +313,8 @@ void draw(){
     ellipseMode(CENTER);
     ellipse(x_center, y_center, 50, 50);
     
+    
+    // this section uses vector math to convert body coordinates linear acceleration into world coordinates via rotation
     PVector lin_acc = new PVector(lin_acc_x, lin_acc_y, lin_acc_z);
     //PVector lin_acc = new PVector(grav_x*1000.0f, grav_y*1000.0f, grav_z*1000.0f);    // test to verify the rotation
     lin_acc = quaternion_rotate(quat_w, quat_x, quat_y, quat_z, lin_acc);
@@ -332,16 +342,19 @@ void draw(){
     
     // draw the heading (compass)
     int img_size = 160;
+    // creates a compass with center at (1000, 700)
     image(compass_img, 1000-img_size/2, 700-img_size/2, img_size, img_size);
+    // change stroke color to red
     stroke(255,0,0);
+    // 3 pixel stroke weight
     strokeWeight(3);
+    // creates line from compass center (1000, 700) in the direction of Pozyx heading
     line(1000, 700, 1000+50*cos(radians(heading)), 700+50*sin(radians(heading))); 
-    
-    
-    
 }
 
 
+// serialEvent runs everytime a serial message is sent
+// I'm not going to comment this since we prefer to use Python and osc
 void serialEvent(Serial p) {
   
   inString = (myPort.readString());
@@ -406,12 +419,30 @@ void serialEvent(Serial p) {
   }
 }
 
+
+// oscEvent runs everytime a message is sent from Python over the osc
 void oscEvent(OscMessage theOscMessage) {
   // osc message received
   println("### received an osc message with addrpattern "+theOscMessage.addrPattern()+" and typetag "+theOscMessage.typetag());
+  // if the message address indicates the message has sensordata
   if (theOscMessage.addrPattern().equals("/sensordata")){
     //theOscMessage.print();}
     try{
+      // This sections reads all of the sensor data from the osc message and stores it
+      // The osc data is sent as an ArrayList, so the get function gets each data point.
+      // Here is a map of the osc message data structure in index:measurement pairs
+      /*
+      1:pressure
+      2,3,4:acceleration x,y,z
+      5,6,7:magnetometer x,y,z
+      8,9,10:gyro/angular velocity x,y,z
+      11,12,13:heading, roll, pitch
+      14,15,16,17:quaternion x,y,z,w
+      18,19,20:linear acceleration x,y,z
+      21,22,23:gravity x,y,z
+      24,25,26,27:sensor calibration status
+      */
+      
       // the pressure from mPa to Pa is coming in at a slower rate
       pressure = theOscMessage.get(1).floatValue();
       
@@ -441,6 +472,7 @@ void oscEvent(OscMessage theOscMessage) {
       quat_x = theOscMessage.get(15).floatValue();
       quat_y = theOscMessage.get(16).floatValue();
       quat_z = theOscMessage.get(17).floatValue();
+      // the magnitude of the quaternion 4D vector?
       float norm = PApplet.sqrt(quat_x * quat_x + quat_y * quat_y + quat_z
                   * quat_z +quat_w * quat_w);     
       quat_w = quat_w/norm;
@@ -460,7 +492,8 @@ void oscEvent(OscMessage theOscMessage) {
       grav_z = theOscMessage.get(23).floatValue();
       
       // the calibration status
-      calib_status = "Mag: " + str(theOscMessage.get(24).intValue()) + " - Acc: " + str(theOscMessage.get(25).intValue()) + " - Gyro: " + str(theOscMessage.get(26).intValue()) + " - System: " + str(theOscMessage.get(27).intValue());
+      calib_status = "Mag: " + str(theOscMessage.get(24).intValue()) + " - Acc: " + str(theOscMessage.get(25).intValue()) 
+            + " - Gyro: " + str(theOscMessage.get(26).intValue()) + " - System: " + str(theOscMessage.get(27).intValue());
     }catch(Exception e){
       println("Error while receiving OSC sensor data");
     }
@@ -468,11 +501,20 @@ void oscEvent(OscMessage theOscMessage) {
 }
 
 
+// used to draw the green box for orientation representation
 void draw_rect(int r, int g, int b) {
   scale(100);
+  // marks beginning of the box shape
+  // passes in QUADS to indicate the drawing of quadrilaterals
   beginShape(QUADS);
   
+  // set color to whatever was passed in, green above
   fill(r, g, b);
+  // Here, the function defines all of the vertices of he rectangular prism.
+  // You may think it would only have 8 vertices, but by specifying only 6 
+  // Processing might draw the faces incorrectly, e.g. diagonally through the
+  // box. Instead, we define 4 vertices at a time to each make a face. 6 of 
+  // those 4-vertex chunk makes 6 faces for the rectangular prism
   vertex(-1,  1.5,  0.25);
   vertex( 1,  1.5,  0.25);
   vertex( 1, -1.5,  0.25);
@@ -507,6 +549,12 @@ void draw_rect(int r, int g, int b) {
   
 }
 
+
+// These two functions, quat_rotate and quaternion_rotate are weird quaternion
+// functions involved with using quaternion measurements to generate rotation.
+// Don't worry about how they work, just know that they use the quaternion
+// measurements collected by the Pozyx to make radian rotations that Processing
+// can understand and use to rotate the green box as a Pozyx rotates.
 public void quat_rotate(float w, float x, float y, float z) {
    float _x, _y, _z;
    //if (q1.w > 1) q1.normalise(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
