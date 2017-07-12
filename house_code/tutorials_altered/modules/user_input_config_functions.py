@@ -106,6 +106,33 @@ class UserInputConfigFunctions():
         return attribute_to_log
 
     @staticmethod
+    def get_multiple_attributes_to_log(
+            prompt1="What do you want to log?\n(pressure, acceleration, "
+                    "magnetic, angular velocity, euler angles, quaternion, "
+                    "linear acceleration, or gravity)\n",
+            prompt2="What else do you want to log?\n(pressure, acceleration, "
+                    "magnetic, angular velocity, euler angles, quaternion, "
+                    "linear acceleration, or gravity)\n"
+                    "Press enter to be done.\n"):
+        possible_attributes = ["pressure", "acceleration", "magnetic", "angular velocity", "euler angles",
+                               "quaternion", "linear acceleration", "gravity"]
+        attributes_to_log_list = []
+        user_input = ""
+        # ask for first attribute to log
+        while user_input not in possible_attributes:  # check if input is correct
+            user_input = input(prompt1)
+            attributes_to_log_list.append(user_input)
+        # keep adding attributes to log as the user says
+        while True:
+            user_input = input(prompt2)
+            # if user hits enter, stop asking
+            if user_input == "":
+                break
+            if user_input in possible_attributes: # check if correct input
+                attributes_to_log_list.append(user_input)
+        return attributes_to_log_list
+
+    @staticmethod
     def use_column_headers(
             prompt="Do you want to have column headers and not labels in each row?\n"
                    "(y/n, default no\n"):

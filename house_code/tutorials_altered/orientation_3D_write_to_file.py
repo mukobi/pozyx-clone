@@ -24,15 +24,10 @@ from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
+from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
+from modules.data_functions import DataFunctions as DataFunctions
+from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 import time as t
-
-if __name__ == "__main__" and __package__ is None:
-    from sys import path
-    from os.path import dirname as dir
-
-    path.append(dir(path[0]))
-    __package__ = "examples"
-from modules import user_input_config_functions as user_input
 
 
 def strSetLength(number, length):
@@ -41,7 +36,6 @@ def strSetLength(number, length):
     this is to make it easier to read the data from the console since every row
     will have the same number of data points"""
     numString = str(number);
-    numLength = len(numString);
     while len(numString) < length:
         numString += "0"
     while len(numString) > length:
@@ -62,7 +56,7 @@ class Orientation3D(object):
         """There is no specific setup functionality"""
         self.current_time = time()
 
-    def loop(self, attributeToLog, elapsed, timeDifference, index):
+    def loop(self):
         """Gets new IMU sensor data"""
         sensor_data = SensorData()
         calibration_status = SingleRegister()
@@ -70,11 +64,11 @@ class Orientation3D(object):
             status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
             status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
             if status == POZYX_SUCCESS:
-                return self.publishSensorData(sensor_data, calibration_status, attributeToLog, elapsed, timeDifference, index)
+                return sensor_data
 
-        return str(index) + " Time: " + strSetLength(elapsed, 10) + " Error, no data to print for this line"
+        return "Error, no data to print for this line"
 
-    def publishSensorData(self, sensor_data, calibration_status, attributeToLog, elapsed, timeDifference, index):
+    def publishSensorData(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
         self.msg_builder = OscMessageBuilder("/sensordata")
         self.msg_builder.add_arg(int(1000 * (time() - self.current_time)))
@@ -82,7 +76,6 @@ class Orientation3D(object):
         self.addSensorData(sensor_data)
         self.addCalibrationStatus(calibration_status)
         self.osc_udp_client.send(self.msg_builder.build())
-        return self.printSensorData(sensor_data, attributeToLog, elapsed, timeDifference)
 
     def addSensorData(self, sensor_data):
         """Adds the sensor data to the OSC message"""
@@ -106,65 +99,6 @@ class Orientation3D(object):
         self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
         self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
         self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
-
-    def printSensorData(self, sensor_data, attributeToLog, elapsed, timeDifference):
-        """Prints the Sensor Data to the Console"""
-        try:
-            hertz = 1 / timeDifference
-        except ZeroDivisionError:
-            hertz = 0
-        try:
-            averageHertz = index / elapsed
-        except ZeroDivisionError:
-            averageHertz = 0
-        averageHertz = strSetLength(averageHertz, 7)
-        elapsed = strSetLength(elapsed, 10)
-        timeDifference = strSetLength(timeDifference, 10)
-        hertz = strSetLength(hertz, 5)
-        
-        output = str(index) + " Time: " + elapsed + " Cycle Time: " + timeDifference + " Hz: " + hertz + " Ave Hz: " + averageHertz + " | "
-
-        if attributeToLog == "pressure":
-            output += "Pressure: " + str(sensor_data.pressure) + " pa"
-        elif attributeToLog == "acceleration":
-            x = strSetLength(sensor_data.acceleration.x, 8)
-            y = strSetLength(sensor_data.acceleration.y, 8)
-            z = strSetLength(sensor_data.acceleration.z, 8)
-            output += "Acceleration: " + " X: " + x + " Y: " + y + " Z: " + z
-        elif attributeToLog == "magnetic":
-            x = strSetLength(sensor_data.magnetic.x, 8)
-            y = strSetLength(sensor_data.magnetic.y, 8)
-            z = strSetLength(sensor_data.magnetic.z, 8)
-            output += "Magnetic Field: " + " X: " + x + " Y: " + y + " Z: " + z
-        elif attributeToLog == "angular velocity":
-            x = strSetLength(sensor_data.angular_vel.x, 8)
-            y = strSetLength(sensor_data.angular_vel.y, 8)
-            z = strSetLength(sensor_data.angular_vel.z, 8)
-            output += "Angular Velocity: " + " X: " + x + " Y: " + y + " Z: " + z
-        elif attributeToLog == "euler angles":
-            heading = strSetLength(sensor_data.euler_angles.heading, 8)
-            roll    = strSetLength(sensor_data.euler_angles.roll, 8)
-            pitch   = strSetLength(sensor_data.euler_angles.pitch, 8)
-            output += "Euler Angles: " + " Heading: " + heading + " Roll: " + roll + " Pitch: " + pitch
-        elif attributeToLog == "quaternion":
-            x = strSetLength(sensor_data.quaternion.x, 16)
-            y = strSetLength(sensor_data.quaternion.y, 16)
-            z = strSetLength(sensor_data.quaternion.z, 16)
-            w = strSetLength(sensor_data.quaternion.w, 16)
-            output += "Quaternion: " + " X: " + x + " Y: " + y + " Z: " + z + " W: " + w
-        elif attributeToLog == "linear acceleration":
-            x = strSetLength(sensor_data.linear_acceleration.x, 8)
-            y = strSetLength(sensor_data.linear_acceleration.y, 8)
-            z = strSetLength(sensor_data.linear_acceleration.z, 8)
-            output += "Linear Acceleration: " + " X: " + x + " Y: " + y + " Z: " + z
-        elif attributeToLog == "gravity":
-            x = strSetLength(sensor_data.gravity_vector.x, 8)
-            y = strSetLength(sensor_data.gravity_vector.y, 8)
-            z = strSetLength(sensor_data.gravity_vector.z, 8)
-            output += "Gravity Vector: " + " X: " + x + " Y: " + y + " Z: " + z
-        
-        print(output)
-        return output
         
 
 if __name__ == '__main__':
@@ -177,15 +111,15 @@ if __name__ == '__main__':
         remote_id = None
 
     index = 0
-    oldTime = 0
-    newTime = 0
+    previous_cycle_time = 0
+    current_cycle_time = 0
 
     """User input configuration section, comment out to use above settings"""
-    remote = user_input.use_remote()
-    remote_id = user_input.get_remote_id(remote)
-    to_use_file = user_input.use_file()
-    filename = user_input.get_filename(to_use_file)
-    attribute_to_log = user_input.get_attribute_to_log()
+    remote = UserInput.use_remote()
+    remote_id = UserInput.get_remote_id(remote)
+    to_use_file = UserInput.use_file()
+    filename = UserInput.get_filename(to_use_file)
+    attributes_to_log = UserInput.get_multiple_attributes_to_log()
 
     ip = "127.0.0.1"
     network_port = 8888 
@@ -199,27 +133,27 @@ if __name__ == '__main__':
     if to_use_file:
         logfile = open(filename, 'a')
 
-    start = t.time()
+    start = ConsoleLogging.get_time()
     try:
         while True:
-            # elapsed time since the program started
-            elapsed = (t.time()-start)
-            # oldTime is the time of previous cycle. It is set to
-            # newTime here since newTime has not been updated and still
-            # is the old cycle.
-            oldTime = newTime
-            # newTime is the time of the current cycle.
-            newTime = elapsed
-            # timeDifference is the difference in time between each subsequent cycle
-            timeDifference = newTime - oldTime
+            # updates elapsed time and time difference
+            elapsed = ConsoleLogging.get_elapsed_time(ConsoleLogging, start)
+            previous_cycle_time = current_cycle_time
+            current_cycle_time = elapsed
+            time_difference = current_cycle_time - previous_cycle_time
 
-            singleLineOutput = o.loop(attribute_to_log, elapsed, timeDifference, index)
+            one_cycle_sensor_data = o.loop()
+            formatted_data_dictionary = ConsoleLogging.format_sensor_data(
+                one_cycle_sensor_data, attributes_to_log)
+            ConsoleLogging.log_to_console(index, elapsed, formatted_data_dictionary)
+
             if to_use_file:
-                logfile.write(singleLineOutput + "\n")
-            index += 1                                            # increment data index
+                logfile.write("file writing not yet set up ")
+            index += 1                      # increment data index
 
-    except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
-            pass
+    # this allows Windows users to exit the while loop by pressing ctrl+c
+    except KeyboardInterrupt:
+        pass
 
     if to_use_file:
         logfile.close()

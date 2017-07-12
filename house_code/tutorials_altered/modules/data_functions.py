@@ -1,4 +1,4 @@
-class DataFunctions():
+class DataFunctions:
     @staticmethod
     def find_total_distance(position, prev_pos, total_distance):
         """
@@ -39,18 +39,44 @@ class DataFunctions():
         :return: a string representation of the input number with set length
         :rtype: str
 
-        This function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
-        This is to make it easier to read the data from the console since every row will have the same number of data points
+        This function takes a number and rounds it off/adds zeros to
+        return a string of the number with a set character length.
+        This is to make it easier to read the data from the console
+        since every row will have the same number of data points.
 
         Ex: strSetLength(352.3549234234, 6) --> 352.35
         strSetLength(23.22, 7) --> 23.2200
         """
-        num_string = str(number);
+        num_string = str(number)
         while len(num_string) < length:
             num_string += "0"
         while len(num_string) > length:
             num_string = num_string[:-1]
         return num_string
+
+    @staticmethod
+    def exp_notation_str_set_length(self, number, length):
+        """
+        Make a data value with exponential notation have a set character length
+
+        :param self: use what DataFunctions class was imported as
+        :param float number: the data point, probably a number, that you want to round
+        :param int length: the length of characters you want the output to be
+        :return: a string representation of the input number with set length
+        :rtype: str
+
+        This function takes a number and rounds it off/adds zeros to
+        return a string of the number with a set character length.
+        This is to make it easier to read the data from the console
+        since every row will have the same number of data points.
+        """
+        str_number = str(number)
+        if 'e' not in str_number:
+            return str_number
+        everything_to_the_e = str_number[0:str_number.find('e')]
+        everything_after_e = str_number[str_number.find('e'):]
+        new_everything_to_the_e = self.str_set_length(everything_to_the_e, length)
+        return new_everything_to_the_e + everything_after_e
 
     @staticmethod
     def convert_hertz(time_difference):
