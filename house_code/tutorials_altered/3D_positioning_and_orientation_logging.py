@@ -26,7 +26,7 @@ from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
-from modules.sensor_data_file_writing import SensorDataFileWriting as FileWriting
+from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 import time as t
 
@@ -226,7 +226,7 @@ if __name__ == '__main__':
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
-        FileWriting.write_header_to_file(logfile)
+        FileWriting.write_sensor_and_position_header_to_file(logfile)
 
     start = ConsoleLogging.get_time()
     try:
@@ -250,12 +250,13 @@ if __name__ == '__main__':
                         "x:", one_cycle_position.x, "y:", one_cycle_position.y, "z:", one_cycle_position.z]
                 ConsoleLogging.log_to_console(index, elapsed, formatted_data_dictionary)
                 if to_use_file:
-                    FileWriting.write_line_of_data_to_file(
+                    FileWriting.write_sensor_and_position_data_to_file(
                         index, elapsed, time_difference,
-                        logfile, one_cycle_sensor_data)
-            # if the loop didn't return a tuple, meaning it returned an error string
+                        logfile, one_cycle_sensor_data, one_cycle_position)
+            # if the loop didn't return a tuple, it returned an error string
             else:
-                ConsoleLogging.print_data_error_message(index, elapsed, loop_results)
+                error_string = loop_results
+                ConsoleLogging.print_data_error_message(index, elapsed, error_string)
             index += 1                      # increment data index
 
     # this allows Windows users to exit the while loop by pressing ctrl+c

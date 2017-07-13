@@ -25,7 +25,7 @@ from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
-from modules.sensor_data_file_writing import SensorDataFileWriting as FileWriting
+from modules.file_writing import SensorDataFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 import time as t
 
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
-        FileWriting.write_header_to_file(logfile)
+        FileWriting.write_sensor_data_header_to_file(logfile)
 
     start = ConsoleLogging.get_time()
     try:
@@ -137,7 +137,7 @@ if __name__ == '__main__':
                 one_cycle_sensor_data, attributes_to_log)
             ConsoleLogging.log_to_console(index, elapsed, formatted_data_dictionary)
             if to_use_file:
-                FileWriting.write_line_of_data_to_file(
+                FileWriting.write_line_of_sensor_data_to_file(
                     index, elapsed, time_difference,
                     logfile, one_cycle_sensor_data)
             index += 1                      # increment data index
