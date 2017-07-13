@@ -94,7 +94,6 @@ class ReadyToLocalize(object):
 
         return "unexpected error"
 
-
     def printPublishPosition(self, position, elapsed, timeDifference):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
         network_id = self.remote_id

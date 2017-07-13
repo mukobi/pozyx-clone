@@ -170,3 +170,10 @@ class ConsoleLoggingFunctions:
             return data_dictionary
         except AttributeError:
             return " Error in data"
+
+    @staticmethod
+    def print_data_error_message(index, elapsed_time, message="Error, no data"):
+        output = (str(index) + " Time: "
+                  + DataFunctions.str_set_length(elapsed_time, 10) + " "
+                  + message)
+        print(output)
