@@ -44,7 +44,10 @@ class UserInputConfigFunctions():
         str_last_4_digits = None
         while str_last_4_digits is None or str_last_4_digits.isdigit is False:
             str_last_4_digits = input(prompt)
-        return "0x" + str_last_4_digits
+        # hex string, like "0x6110"
+        hex_str = "0x" + str_last_4_digits
+        # hex number, lke 0x6110
+        return int(hex_str, 16)
 
     @staticmethod
     def use_file(
@@ -110,7 +113,7 @@ class UserInputConfigFunctions():
             prompt1="What do you want to log?\n(pressure, acceleration, "
                     "magnetic, angular velocity, euler angles, quaternion, "
                     "linear acceleration, or gravity)\n",
-            prompt2="What else do you want to log?\n(pressure, acceleration, "
+            prompt2="\nWhat else do you want to log?\n(pressure, acceleration, "
                     "magnetic, angular velocity, euler angles, quaternion, "
                     "linear acceleration, or gravity)\n"
                     "Press enter to be done.\n"):
@@ -161,3 +164,5 @@ class UserInputConfigFunctions():
                   or user_input[0] == "n"):
                 to_use_column_headers = False
         return to_use_column_headers
+
+

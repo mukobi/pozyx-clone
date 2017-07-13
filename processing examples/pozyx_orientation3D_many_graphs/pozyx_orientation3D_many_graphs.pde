@@ -23,7 +23,7 @@ int     lf = 10;       //ASCII linefeed
 String  inString;      //String for testing serial communication
 int[] rgb_color = {0, 0, 255, 0, 160, 122, 0, 255, 0, 255}; // color array for graph traces
 
-Graph2D g_acc, g_gyro, g_mag; // objects to hold the 3 graphs
+Graph2D g_acc, g_gyro, g_mag, g_euler, g_linear; // objects to hold the 3 graphs
 PImage compass_img; // compass image
 PImage psu_logo;
 
@@ -57,6 +57,8 @@ String calib_status = "";
 ArrayList<rangeData> accData;
 ArrayList<rangeData> magData;
 ArrayList<rangeData> gyroData;
+ArrayList<rangeData> eulerData;
+ArrayList<rangeData> linearData;
  
  
 /////////////////////////////////////////////////////////////
@@ -125,12 +127,16 @@ void setup(){
   // which makes the X and Y axes not have to meet at (0,0)
   g_acc = new Graph2D(this, 400, 200, false); 
   g_mag = new Graph2D(this, 400, 200, false);
-  g_gyro = new Graph2D(this, 400, 200, false);   
+  g_gyro = new Graph2D(this, 400, 200, false); 
+  g_euler = new Graph2D(this, 400, 200, false);
+  g_linear = new Graph2D(this, 400, 200, false);
   
   // initialize the three graph data variables as new arrays of rangeData objects
   accData = new ArrayList<rangeData>();
   magData = new ArrayList<rangeData>();
   gyroData = new ArrayList<rangeData>();    
+  eulerData = new ArrayList<rangeData>();
+  linearData = new ArrayList<rangeData>();
   
   //for each of the three different colors of lines on each graph
   for(int i=0; i<3; i++){
@@ -168,12 +174,26 @@ void setup(){
     rl.setTraceColour(rgb_color[i%10], rgb_color[(i+1)%10], rgb_color[(i+2)%10]);
     rl.setLineWidth(2);      
     g_gyro.addTrace(rl);    
-   
+    
+    r = new rangeData();
+    eulerData.add(r);
+    rl = new RollingLine2DTrace(r ,100,0.1f);
+    rl.setTraceColour(rgb_color[i%10], rgb_color[(i+1)%10], rgb_color[(i+2)%10]);
+    rl.setLineWidth(2);      
+    g_euler.addTrace(rl); 
+    
+    r = new rangeData();
+    linearData.add(r);
+    rl = new RollingLine2DTrace(r ,100,0.1f);
+    rl.setTraceColour(rgb_color[i%10], rgb_color[(i+1)%10], rgb_color[(i+2)%10]);
+    rl.setLineWidth(2);      
+    g_linear.addTrace(rl); 
+    
   }
   
-  stroke(255,255,255);
+
   // create the accelerometer graph
-  //g_acc.setFontColour(new GWColour(1f,1f,1f));
+  g_acc.setFontColour(new GWColour(1f,1f,1f));
   g_acc.setYAxisMin(-2.0f);        // minimum y axis value
   g_acc.setYAxisMax(2.0f);         // maximum y axis value
   g_acc.position.y = 50;           // distance from top of window
@@ -186,7 +206,7 @@ void setup(){
   
   // create the magnetometer graph
   //same as above, but for magnetic graph
-  //g_mag.setFontColour(new GWColour(1f,1f,1f));
+  g_mag.setFontColour(new GWColour(1f,1f,1f));
   g_mag.setYAxisMin(-80.0f);
   g_mag.setYAxisMax(80.0f);
   g_mag.position.y = 300;
@@ -199,7 +219,7 @@ void setup(){
   
   // create the gyrometer graph
   //same as above, but for angular velocity graph
-  //g_gyro.setFontColour(new GWColour(1f,1f,1f));
+  g_gyro.setFontColour(new GWColour(1f,1f,1f));
   g_gyro.setYAxisMin(-1000.0f);
   g_gyro.setYAxisMax(1000.0f);
   g_gyro.position.y = 550;
@@ -209,6 +229,30 @@ void setup(){
   g_gyro.setXAxisLabel("time (s)");
   g_gyro.setYAxisLabel("angular velocity [deg/s]");
   g_gyro.setBackground(new SolidColourBackground(new GWColour(1f,1f,1f)));
+  
+  //same as above, but for euler angles graph
+  g_euler.setFontColour(new GWColour(1f,1f,1f));
+  g_euler.setYAxisMin(-180.0f);
+  g_euler.setYAxisMax(360.0f);
+  g_euler.position.y = 120;
+  g_euler.position.x = 630;    
+  g_euler.setYAxisTickSpacing(250f);
+  g_euler.setXAxisMax(5f);
+  g_euler.setXAxisLabel("time (s)");
+  g_euler.setYAxisLabel("heading, roll, and pitch [deg]");
+  g_euler.setBackground(new SolidColourBackground(new GWColour(1f,1f,1f)));
+  
+  //same as above, but for linear acceleration graph
+  g_linear.setFontColour(new GWColour(1f,1f,1f));
+  g_linear.setYAxisMin(-2.0f);
+  g_linear.setYAxisMax(2.0f);
+  g_linear.position.y = 400;
+  g_linear.position.x = 630;    
+  g_linear.setYAxisTickSpacing(0.5f);
+  g_linear.setXAxisMax(5f);
+  g_linear.setXAxisLabel("time (s)");
+  g_linear.setYAxisLabel("linear acceleration [g]");
+  g_linear.setBackground(new SolidColourBackground(new GWColour(1f,1f,1f)));
   
 }
 
@@ -231,6 +275,8 @@ void draw(){
     g_acc.draw();
     g_mag.draw();
     g_gyro.draw();
+    g_euler.draw();
+    g_linear.draw();
     
     //Show 3D orientation data
     // sets lines and borders make below this to be black
@@ -482,6 +528,12 @@ void oscEvent(OscMessage theOscMessage) {
       z_angle = theOscMessage.get(11).floatValue();
       heading = theOscMessage.get(11).floatValue();
       
+      // set Euler graph data
+      eulerData.get(0).setCurVal(heading);
+      eulerData.get(1).setCurVal(y_angle);
+      eulerData.get(2).setCurVal(x_angle);
+      
+      
       // the orientation quaternion
       quat_w = theOscMessage.get(14).floatValue();
       quat_x = theOscMessage.get(15).floatValue();
@@ -500,6 +552,12 @@ void oscEvent(OscMessage theOscMessage) {
       lin_acc_x = theOscMessage.get(18).floatValue();
       lin_acc_y = theOscMessage.get(19).floatValue();
       lin_acc_z = theOscMessage.get(20).floatValue();
+      
+      // set linear acceleration graph data
+      linearData.get(0).setCurVal(lin_acc_x/1000.0f);
+      linearData.get(1).setCurVal(lin_acc_y/1000.0f);
+      linearData.get(2).setCurVal(lin_acc_z/1000.0f);
+      
       
       // gravitation vector from mg to g
       grav_x = theOscMessage.get(21).floatValue();
