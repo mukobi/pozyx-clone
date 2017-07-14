@@ -29,14 +29,11 @@ from pypozyx import *
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
+from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
+from modules.file_writing import SensorAndPositionFileWriting as FileWriting
+from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 
-if __name__ == "__main__" and __package__ is None:
-    from sys import path
-    from os.path import dirname as dir
 
-    path.append(dir(path[0]))
-    __package__ = "examples"
-from modules import user_input_config_functions as user_input
 
 
 #this function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
@@ -194,7 +191,7 @@ if  __name__ == "__main__":
     serial_port = get_serial_ports()[0].device
 
     remote_id = 0x610c                 # remote device network ID
-    remote = False                  # whether to use a remote device
+    remote = True                  # whether to use a remote device
     if not remote:
         remote_id = None
 
@@ -203,10 +200,10 @@ if  __name__ == "__main__":
     newTime = 0
 
     """User input configuration section, comment out to use above settings"""
-    remote = user_input.use_remote()
-    remote_id = user_input.get_remote_id(remote)
-    to_use_file = user_input.use_file()
-    filename = user_input.get_filename(to_use_file)
+    # remote = UserInput.use_remote()
+    # remote_id = UserInput.get_remote_id(remote)
+    to_use_file = UserInput.use_file()
+    filename = UserInput.get_filename(to_use_file)
 
     use_processing = True             # enable to send position data through OSC
     ip = "127.0.0.1"                   # IP for the OSC UDP
@@ -215,10 +212,10 @@ if  __name__ == "__main__":
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
     # necessary data for calibration, change the IDs and coordinates yourself
-    anchors = [DeviceCoordinates(0x605d, 1, Coordinates(0, 1669, 1016)),
-               DeviceCoordinates(0x6020, 1, Coordinates(3024, 5886, 1535)),
-               DeviceCoordinates(0x604f, 1, Coordinates(3545, 0, 2595)),
-               DeviceCoordinates(0x6129, 1, Coordinates(5182, 3052, 198))]
+    anchors = [DeviceCoordinates(0x6863, 1, Coordinates(0, 4760, 1030)),
+               DeviceCoordinates(0x615a, 1, Coordinates(15280, 4760, 1030)),
+               DeviceCoordinates(0x607c, 1, Coordinates(0, 0, 1730)),
+               DeviceCoordinates(0x6134, 1, Coordinates(7600, 0, 2400))]
 
     # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm

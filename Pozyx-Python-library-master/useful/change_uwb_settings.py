@@ -59,7 +59,7 @@ class ChangeUWBSettings:
 if __name__ == '__main__':
     # new uwb_settings
     uwb_settings = UWBSettings(channel=2,
-                               bitrate=0,
+                               bitrate=1,
                                prf=2,
                                plen=0x08,
                                gain_db=15.0)
@@ -73,10 +73,10 @@ if __name__ == '__main__':
     # list of IDs to set UWB settings for. example devices = [0x6001, 0x6002,
     # 0x6799]
     #devices = [0x605d, 0x6020, 0x604f, 0x6129, 0x614e, 0x610c]
-    devices = [0x605a]
+    devices = [0x6134]
 
     # pozyx
-    pozyx = PozyxSerial(get_serial_ports()[2].device)
+    pozyx = PozyxSerial(get_serial_ports()[0].device)
 
     # initialize the class
     c = ChangeUWBSettings(pozyx, uwb_settings, devices, set_local, save_to_flash)
