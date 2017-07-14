@@ -28,6 +28,7 @@ from pythonosc.udp_client import SimpleUDPClient
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
+from modules.data_functions import DataFunctions as DataFunctions
 import time as t
 
 
@@ -191,27 +192,29 @@ if __name__ == '__main__':
     index = 0
     previous_cycle_time = 0
     current_cycle_time = 0
+    number_of_indices_until_test_is_done = 500
 
-    attributes_to_log = ["acceleration"]
+    attributes_to_log = ["linear acceleration"]
     to_use_file = False
     filename = None
 
     """User input configuration section, comment out to use above settings"""
 
-    remote = UserInput.use_remote()
-    remote_id = UserInput.get_remote_id(remote)
-    to_use_file = UserInput.use_file()
-    filename = UserInput.get_filename(to_use_file)
-    attributes_to_log = UserInput.get_multiple_attributes_to_log()
+    # remote = UserInput.use_remote()
+    # remote_id = UserInput.get_remote_id(remote)
+    # to_use_file = UserInput.use_file()
+    # filename = UserInput.get_filename(to_use_file)
+    # attributes_to_log = UserInput.get_multiple_attributes_to_log()
+
 
     use_processing = True
     ip = "127.0.0.1"
     network_port = 8888
 
     anchors = [DeviceCoordinates(0x605d, 1, Coordinates(0, 1669, 1016)),
-               DeviceCoordinates(0x6020, 1, Coordinates(3024, 5886, 1535)),
+               DeviceCoordinates(0x6829, 1, Coordinates(3024, 5886, 1535)),
                DeviceCoordinates(0x604f, 1, Coordinates(3545, 0, 2595)),
-               DeviceCoordinates(0x6129, 1, Coordinates(5182, 3052, 198))]
+               DeviceCoordinates(0x6120, 1, Coordinates(5182, 3052, 198))]
 
     # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
@@ -258,6 +261,11 @@ if __name__ == '__main__':
                 error_string = loop_results
                 ConsoleLogging.print_data_error_message(index, elapsed, error_string)
             index += 1                      # increment data index
+
+            if (index > number_of_indices_until_test_is_done):
+                average_hertz = DataFunctions.find_average_hertz(index, elapsed)
+                print("\nTest done, average hz: " + str(average_hertz))
+                break
 
     # this allows Windows users to exit the while loop by pressing ctrl+c
     except KeyboardInterrupt:
