@@ -141,7 +141,7 @@ if __name__ == "__main__":
     # shortcut to not have to find out the port yourself
     serial_port = get_serial_ports()[0].device
 
-    remote_id = 0x610c                 # remote device network ID
+    remote_id = 0x610c                # remote device network ID
     remote = True                   # whether to use a remote device
     if not remote:
         remote_id = None
@@ -154,10 +154,10 @@ if __name__ == "__main__":
         osc_udp_client = SimpleUDPClient(ip, network_port)
     # necessary data for calibration, change the IDs and coordinates yourself
     anchors = [DeviceCoordinates(0x605d, 1, Coordinates(0, 1669, 1016)),
-               DeviceCoordinates(0x6020, 1, Coordinates(3024, 5886, 1535)),
+               DeviceCoordinates(0x6110, 1, Coordinates(3024, 5886, 1535)),
                DeviceCoordinates(0x604f, 1, Coordinates(3545, 0, 2595)),
-               DeviceCoordinates(0x6129, 1, Coordinates(5182, 3052, 198))]
-    
+               DeviceCoordinates(0x684f, 1, Coordinates(5182, 3052, 198))]
+
     algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     dimension = POZYX_3D               # positioning dimension
     height = 1000                      # height of device, required in 2.5D positioning

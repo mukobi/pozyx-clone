@@ -184,7 +184,7 @@ if __name__ == '__main__':
     # shortcut to not have to find out the port yourself
     serial_port = get_serial_ports()[0].device
 
-    remote_id = 0x6110                    # remote device network ID
+    remote_id = 0x610c                    # remote device network ID
     remote = True                        # whether to use a remote device
     # if not remote:
     #     remote_id = None
@@ -195,26 +195,25 @@ if __name__ == '__main__':
     number_of_indices_until_test_is_done = 500
 
     attributes_to_log = ["linear acceleration"]
-    to_use_file = False
+    to_use_file = True
     filename = None
 
     """User input configuration section, comment out to use above settings"""
 
     # remote = UserInput.use_remote()
     # remote_id = UserInput.get_remote_id(remote)
-    # to_use_file = UserInput.use_file()
-    # filename = UserInput.get_filename(to_use_file)
+    to_use_file = UserInput.use_file()
+    filename = UserInput.get_filename(to_use_file)
     # attributes_to_log = UserInput.get_multiple_attributes_to_log()
-
 
     use_processing = True
     ip = "127.0.0.1"
     network_port = 8888
 
     anchors = [DeviceCoordinates(0x605d, 1, Coordinates(0, 1669, 1016)),
-               DeviceCoordinates(0x6829, 1, Coordinates(3024, 5886, 1535)),
+               DeviceCoordinates(0x6110, 1, Coordinates(3024, 5886, 1535)),
                DeviceCoordinates(0x604f, 1, Coordinates(3545, 0, 2595)),
-               DeviceCoordinates(0x6120, 1, Coordinates(5182, 3052, 198))]
+               DeviceCoordinates(0x684f, 1, Coordinates(5182, 3052, 198))]
 
     # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
