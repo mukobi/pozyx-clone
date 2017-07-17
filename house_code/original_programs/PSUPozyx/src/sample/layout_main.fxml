@@ -47,11 +47,11 @@
             <Label alignment="CENTER" font="$x1" text="Configuration Settings" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
             <HBox id="HBox" alignment="CENTER" layoutX="77.0" layoutY="128.0" spacing="50.0">
               <children>
-                <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Use Mobile Device" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                <CheckBox fx:id="use_mobile_device" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Use Mobile Device" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
                     <Label font="$x2" text="Mobile Device ID:" textFill="WHITE" />
-                    <TextField prefWidth="200.0" promptText="0x0000" />
+                    <TextField id="mobile_device_ID" fx:id="mobile_device_id" prefWidth="200.0" promptText="0x0000" />
                   </children>
                 </HBox>
               </children>
@@ -63,49 +63,49 @@
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
                     <Label font="$x2" text="Anchor 1 ID:" textFill="WHITE" />
-                    <TextField prefWidth="200.0" promptText="0x0000" />
+                    <TextField fx:id="a1_id" prefWidth="200.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField id="a2_id" fx:id="a1_x" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a1_y" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a1_z" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Label font="$x2" text="Anchor 1 ID:" textFill="WHITE" />
-                    <TextField prefWidth="200.0" promptText="0x0000" />
+                    <Label font="$x2" text="Anchor 2 ID:" textFill="WHITE" />
+                    <TextField fx:id="a2_id" prefWidth="200.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a2_x" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a2_y" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a2_z" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Label font="$x2" text="Anchor 1 ID:" textFill="WHITE" />
-                    <TextField prefWidth="200.0" promptText="0x0000" />
+                    <Label font="$x2" text="Anchor 3 ID:" textFill="WHITE" />
+                    <TextField fx:id="a3_id" prefWidth="200.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a3_x" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a3_y" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a3_z" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Label font="$x2" text="Anchor 1 ID:" textFill="WHITE" />
-                    <TextField prefWidth="200.0" promptText="0x0000" />
+                    <Label font="$x2" text="Anchor 4 ID:" textFill="WHITE" />
+                    <TextField fx:id="a4_id" prefWidth="200.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a4_x" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a4_y" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField prefWidth="96.0" promptText="0" />
+                    <TextField fx:id="a4_z" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
               </children>
@@ -114,49 +114,55 @@
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="20.0">
                   <children>
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Pressure" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Acceleration" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Magnetic" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Angular Velocity" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_pressure" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Pressure" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_acceleration" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Acceleration" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_magnetic" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Magnetic" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_angular_velocity" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Angular Velocity" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="20.0">
                   <children>
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Euler Angles" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Quaternion" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Linear Acceleration" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-                    <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Gravity" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_euler_angles" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Euler Angles" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_quaternion" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Quaternion" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_linear_acceleration" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Linear Acceleration" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox fx:id="log_gravity" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Gravity" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
                   </children>
                 </HBox>
               </children>
             </VBox>
             <Label font="$x3" layoutX="42.0" layoutY="395.0" text="Sensor Data " textFill="WHITE" />
             <Label font="$x3" layoutX="42.0" layoutY="530.0" text="File Writing" textFill="WHITE" />
-            <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" layoutX="77.0" layoutY="573.0" mnemonicParsing="false" text="Write Data to File" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-            <HBox id="HBox" alignment="CENTER" layoutX="228.0" layoutY="572.0" spacing="5.0">
+            <HBox id="HBox" alignment="CENTER" layoutX="78.0" layoutY="572.0" spacing="25.0">
               <children>
-                <Label font="$x2" text="Filename" textFill="WHITE" />
-                <TextField prefWidth="200.0" promptText="filename" />
+                <CheckBox fx:id="write_data_to_file" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Write Data to File" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Filename:" textFill="WHITE" />
+                    <TextField fx:id="filename" prefWidth="200.0" promptText="filename" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
+                  <children>
+                    <Label font="$x2" text="Extension:" textFill="WHITE" />
+                    <RadioButton fx:id="extention_txt" font="$x2" mnemonicParsing="false" prefHeight="22.0" text=".txt" textFill="WHITE">
+                      <toggleGroup>
+                        <ToggleGroup fx:id="ToggleGroupFileExt" />
+                      </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="extension_csv" font="$x2" mnemonicParsing="false" text=".csv" textFill="WHITE" toggleGroup="$ToggleGroupFileExt" />
+                  </children>
+                </HBox>
               </children>
             </HBox>
-            <Group id="Group" layoutX="542.0" layoutY="575.0">
-              <children>
-                <RadioButton font="$x2" layoutX="0.0" layoutY="0.0" mnemonicParsing="false" text=".txt" textFill="WHITE">
-                  <toggleGroup>
-                    <ToggleGroup fx:id="ToggleGroupFileExt" />
-                  </toggleGroup>
-                </RadioButton>
-                <RadioButton font="$x2" layoutX="109.0" layoutY="0.0" mnemonicParsing="false" text=".csv" textFill="WHITE" toggleGroup="$ToggleGroupFileExt" />
-              </children>
-            </Group>
+            <Group id="Group" layoutX="542.0" layoutY="575.0" />
             <Label font="$x3" layoutX="42.0" layoutY="630.0" text="Graphing" textFill="WHITE" />
-            <CheckBox allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" layoutX="77.0" layoutY="668.0" mnemonicParsing="false" text="Output Data Graphically Using Processing" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-            <Button layoutY="720.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="180.0" style="&#10;" text="Save Settings" textFill="$x4" AnchorPane.leftAnchor="636.0" AnchorPane.rightAnchor="33.5">
+            <CheckBox fx:id="use_processing" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" layoutX="77.0" layoutY="668.0" mnemonicParsing="false" text="Output Data Graphically Using Processing" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+            <Button layoutY="720.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="180.0" style="&#10;" text="Save Settings" textFill="BLACK" AnchorPane.leftAnchor="636.0" AnchorPane.rightAnchor="33.5">
               <font>
                 <Font size="16.0" fx:id="x5" />
               </font>
             </Button>
-            <Button font="$x5" layoutY="720.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="180.0" style="&#10;" text="Load Settings" textFill="$x4" AnchorPane.leftAnchor="422.0" AnchorPane.rightAnchor="247.5" />
+            <Button font="$x5" layoutY="720.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="180.0" style="&#10;" text="Load Settings" textFill="BLACK" AnchorPane.leftAnchor="422.0" AnchorPane.rightAnchor="247.5" />
           </children>
         </AnchorPane>
       </items>
