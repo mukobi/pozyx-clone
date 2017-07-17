@@ -1,5 +1,10 @@
 class DataFunctions:
     @staticmethod
+    def error_handling():
+        """
+
+        """
+        
     def find_total_distance(position, prev_pos, total_distance):
         """
         Function to determine the total distance travelled by the Pozyx device
@@ -27,7 +32,19 @@ class DataFunctions:
         else:
             temp_dist = sqrt(position.x**2 + position.y**2 + position.z**2)
             total_distance += temp_dist
-        return total_distance
+        return total_distance, temp_dist
+
+    def find_velocity(temp_dist, time_difference):
+        """
+        Function to calculate the instantaneous velocity at a point
+
+        :param float temp_dist: the distance between the previous and current data point
+        :param float time_difference: the difference in time between the last point and current point
+
+        :return velocity: returns the velocity value
+        """
+        velocity = (temp_dist / time_difference)
+        return velocity
 
     @staticmethod
     def str_set_length(number, length):
