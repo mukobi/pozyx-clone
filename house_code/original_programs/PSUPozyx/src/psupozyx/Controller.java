@@ -1,4 +1,4 @@
-package sample;
+package psupozyx;
 
 public class Controller {
 }
