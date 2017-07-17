@@ -1,4 +1,4 @@
-package sample;
+package psupozyx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
