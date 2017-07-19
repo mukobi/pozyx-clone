@@ -178,7 +178,7 @@ if __name__ == '__main__':
                       "Heading Roll Pitch "
                       "Quaternion-X Quaternion-Y Quaternion-Z Quaternion-W "
                       "Linear-Acceleration-X Linear-Acceleration-Y Linear-Acceleration-Z "
-                      "Gravity-X Gravity-Y Gravity-Z ")
+                      "Gravity-X Gravity-Y Gravity-Z \n")
 
     start = ConsoleLogging.get_time()
     previous_rotation_time = ConsoleLogging.get_time()
@@ -197,6 +197,7 @@ if __name__ == '__main__':
             previous_heading = current_heading
             if type(one_cycle_sensor_data) is not str:
                 current_heading = one_cycle_sensor_data.euler_angles.heading
+            else: print(one_cycle_sensor_data)
 
             heading_difference = current_heading - previous_heading
 
@@ -218,8 +219,6 @@ if __name__ == '__main__':
                   + " Rotations: " + str(total_rotations)
                   + " Rotation Speed: " + str(DataFunctions.str_set_length(current_rotation_speed, 8)) + "RPS"
                   )
-
-
 
             if to_use_file:
                 o.write_rotation_and_sensor_data_to_file(index, elapsed, time_difference, logfile, one_cycle_sensor_data, total_rotations, current_rotation_speed)
