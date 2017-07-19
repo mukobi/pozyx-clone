@@ -3,7 +3,7 @@
 <script>
     function launchApplication(jnlpfile) {
         dtjava.launch(            {
-                url : 'JavaFXApp.jnlp'
+                url : 'PSU Pozyx Configurator.jnlp'
             },
             {
                 javafx : '8.0+'
@@ -15,11 +15,11 @@
 </script>
 
 <script>
-    function javafxEmbedJavaFXApp_id() {
+    function javafxEmbedPSU Pozyx Configurator_id() {
         dtjava.embed(
             {
-                id : 'JavaFXApp_id',
-                url : 'JavaFXApp.jnlp',
+                id : 'PSU Pozyx Configurator_id',
+                url : 'PSU Pozyx Configurator.jnlp',
                 placeholder : 'javafx-app-placeholder',
                 width : '1280',
                 height : '800'
@@ -31,12 +31,12 @@
         );
     }
     <!-- Embed FX application into web page once page is loaded -->
-    dtjava.addOnloadCallback(javafxEmbedJavaFXApp_id);
+    dtjava.addOnloadCallback(javafxEmbedPSU Pozyx Configurator_id);
 </script>
 
 </head><body>
-<h2>Test page for <b>JavaFXApp</b></h2>
-  <b>Webstart:</b> <a href='JavaFXApp.jnlp' onclick="return launchApplication('JavaFXApp.jnlp');">click to launch this app as webstart</a><br><hr><br>
+<h2>Test page for <b>PSU Pozyx Configurator</b></h2>
+  <b>Webstart:</b> <a href='PSU Pozyx Configurator.jnlp' onclick="return launchApplication('PSU Pozyx Configurator.jnlp');">click to launch this app as webstart</a><br><hr><br>
 
   <!-- Applet will be inserted here -->
   <div id='javafx-app-placeholder'></div>

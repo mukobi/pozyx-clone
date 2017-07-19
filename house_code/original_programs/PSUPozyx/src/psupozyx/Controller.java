@@ -3,6 +3,7 @@ package psupozyx;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -16,6 +17,9 @@ public class Controller {
     @FXML
     private GridPane grid_pane_stage;
     private Stage stage = (Stage) (grid_pane_stage != null ? grid_pane_stage.getScene().getWindow() : null);
+
+    @FXML
+    private Label m_status_display;
     // interface fields
     @FXML
     private CheckBox m_use_mobile_device;
@@ -125,7 +129,6 @@ public class Controller {
         File loadFile = fileChooser.showOpenDialog(stage);
         if (loadFile != null) {
             String templatePath = loadFile.getAbsolutePath();
-            System.out.println(loadFile);
             load_properties_from_file(templatePath);
         }
     }
@@ -141,8 +144,8 @@ public class Controller {
         File templateFile = fileChooser.showSaveDialog(stage);
         if (templateFile != null) {
             String templatePath = templateFile.getAbsolutePath();
-            System.out.println(templateFile);
             save_properties_to_file(templatePath);
+            m_status_display.setText("Successfully saved settings to template.");
         }
 
     }
@@ -151,7 +154,7 @@ public class Controller {
     private void handleSaveUseButtonAction(ActionEvent event) {
         update_variables_from_gui();
         save_properties_to_file("Configurations/master_config_for_python_reading.properties");
-        // print_variables();s
+        m_status_display.setText("Successfully saved settings for use.");
     }
 
 
@@ -253,7 +256,7 @@ public class Controller {
 
     private void load_properties_from_file(String loadPath) {
         if(!loadPath.endsWith(".properties")) {
-            System.out.println("Invalid file, cannot read properties");
+            m_status_display.setText("Invalid file, cannot read properties");
             return;
         }
 //        if(!loadPath.startsWith("/")) {
@@ -263,7 +266,6 @@ public class Controller {
         try {
             //load a properties file from class path, inside static method
             FileInputStream stream = new FileInputStream(loadPath);
-            System.out.println(stream);
             prop.load(stream);
             //get the property value and print it out
             m_use_mobile_device.setSelected(Boolean.valueOf(prop.getProperty("use_mobile_device", "false")));
@@ -298,47 +300,49 @@ public class Controller {
             m_use_processing.setSelected(Boolean.valueOf(prop.getProperty("use_processing", "")));
 
             update_variables_from_gui();
+
+            m_status_display.setText("Successfully loaded values.");
         }
         catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    @SuppressWarnings("SuspiciousNameCombination")
-    private void print_variables() {
-        System.out.println(use_remote);
-        System.out.println(remote_id);
-        System.out.println(anchor1_id);
-        System.out.println(anchor1_x);
-        System.out.println(anchor1_y);
-        System.out.println(anchor1_z);
-        System.out.println(anchor2_id);
-        System.out.println(anchor2_x);
-        System.out.println(anchor2_y);
-        System.out.println(anchor2_z);
-        System.out.println(anchor3_id);
-        System.out.println(anchor3_x);
-        System.out.println(anchor3_y);
-        System.out.println(anchor3_z);
-        System.out.println(anchor4_id);
-        System.out.println(anchor4_x);
-        System.out.println(anchor4_y);
-        System.out.println(anchor4_z);
-
-        System.out.println(log_pressure);
-        System.out.println(log_acceleration);
-        System.out.println(log_magnetic);
-        System.out.println(log_angular_velocity);
-        System.out.println(log_euler_angles);
-        System.out.println(log_quaternion);
-        System.out.println(log_linear_acceleration);
-        System.out.println(log_gravity);
-
-        System.out.println(use_file);
-        System.out.println(filename);
-        System.out.println(use_txt_ext);
-        System.out.println(use_processing);
-    }
+//    @SuppressWarnings("SuspiciousNameCombination")
+//    private void print_variables() {
+//        System.out.println(use_remote);
+//        System.out.println(remote_id);
+//        System.out.println(anchor1_id);
+//        System.out.println(anchor1_x);
+//        System.out.println(anchor1_y);
+//        System.out.println(anchor1_z);
+//        System.out.println(anchor2_id);
+//        System.out.println(anchor2_x);
+//        System.out.println(anchor2_y);
+//        System.out.println(anchor2_z);
+//        System.out.println(anchor3_id);
+//        System.out.println(anchor3_x);
+//        System.out.println(anchor3_y);
+//        System.out.println(anchor3_z);
+//        System.out.println(anchor4_id);
+//        System.out.println(anchor4_x);
+//        System.out.println(anchor4_y);
+//        System.out.println(anchor4_z);
+//
+//        System.out.println(log_pressure);
+//        System.out.println(log_acceleration);
+//        System.out.println(log_magnetic);
+//        System.out.println(log_angular_velocity);
+//        System.out.println(log_euler_angles);
+//        System.out.println(log_quaternion);
+//        System.out.println(log_linear_acceleration);
+//        System.out.println(log_gravity);
+//
+//        System.out.println(use_file);
+//        System.out.println(filename);
+//        System.out.println(use_txt_ext);
+//        System.out.println(use_processing);
+//    }
 
     private static void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Save Settings Template");

@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="JavaFXApp">
+  <artifact type="javafx" name="PSU Pozyx Configurator">
     <output-path>$PROJECT_DIR$/</output-path>
     <properties id="javafx-properties">
       <options>
@@ -14,7 +14,7 @@
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="JavaFXApp.jar">
+      <element id="archive" name="PSU Pozyx Configurator.jar">
         <element id="module-output" name="PSUPozyx" />
       </element>
     </root>
