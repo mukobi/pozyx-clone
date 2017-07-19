@@ -157,6 +157,18 @@ public class Controller {
         m_status_display.setText("Successfully saved settings for use.");
     }
 
+    @FXML
+    private void handleLaunchPositioning(ActionEvent event) {
+
+    }
+    @FXML
+    private void handleLaunchMotionData(ActionEvent event) {
+
+    }
+    @FXML
+    private void handleLaunchPositioningAndMotionData(ActionEvent event) {
+
+    }
 
     private void update_variables_from_gui() {
         use_remote = String.valueOf(m_use_mobile_device.isSelected());
@@ -353,4 +365,6 @@ public class Controller {
                 new FileChooser.ExtensionFilter("Properties", "*.properties")
         );
     }
+
+
 }
