@@ -9,7 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.*;
 import java.util.Properties;
 
@@ -120,8 +119,18 @@ public class Controller {
 
     @FXML
     private void handleLoadButtonAction(ActionEvent event) {
-
+        update_variables_from_gui();
+        FileChooser fileChooser = new FileChooser();
+        configureFileChooser(fileChooser);
+        File loadFile = fileChooser.showOpenDialog(stage);
+        if (loadFile != null) {
+            String templatePath = loadFile.getAbsolutePath();
+            System.out.println(loadFile);
+            load_properties_from_file(templatePath);
+        }
     }
+
+
 
     @FXML
     private void handleSaveTemplateButtonAction(ActionEvent event) {
@@ -133,7 +142,7 @@ public class Controller {
         if (templateFile != null) {
             String templatePath = templateFile.getAbsolutePath();
             System.out.println(templateFile);
-            save_variables_to_file(templatePath);
+            save_properties_to_file(templatePath);
         }
 
     }
@@ -141,7 +150,7 @@ public class Controller {
     @FXML
     private void handleSaveUseButtonAction(ActionEvent event) {
         update_variables_from_gui();
-        save_variables_to_file("Configurations/master_config_for_python_reading.properties");
+        save_properties_to_file("Configurations/master_config_for_python_reading.properties");
         // print_variables();s
     }
 
@@ -181,7 +190,7 @@ public class Controller {
         use_processing = String.valueOf(m_use_processing.isSelected());
     }
 
-    private void save_variables_to_file(String file) {
+    private void save_properties_to_file(String file) {
         Properties props = new Properties();
         OutputStream output = null;
         if(!file.endsWith(".properties")) {
@@ -222,7 +231,7 @@ public class Controller {
 
             props.setProperty("use_file", use_file);
             props.setProperty("filename", filename);
-            props.setProperty("use_.txt_extension", use_txt_ext);
+            props.setProperty("use_txt_extension", use_txt_ext);
             props.setProperty("use_processing", use_processing);
 
             // save properties to project root folder
@@ -239,6 +248,59 @@ public class Controller {
                 }
             }
 
+        }
+    }
+
+    private void load_properties_from_file(String loadPath) {
+        if(!loadPath.endsWith(".properties")) {
+            System.out.println("Invalid file, cannot read properties");
+            return;
+        }
+//        if(!loadPath.startsWith("/")) {
+//            loadPath = "/" + loadPath;
+//        }
+        Properties prop = new Properties();
+        try {
+            //load a properties file from class path, inside static method
+            FileInputStream stream = new FileInputStream(loadPath);
+            System.out.println(stream);
+            prop.load(stream);
+            //get the property value and print it out
+            m_use_mobile_device.setSelected(Boolean.valueOf(prop.getProperty("use_mobile_device", "false")));
+            m_mobile_device_id.setText(prop.getProperty("remote_id", ""));
+            m_a1_id.setText(prop.getProperty("anchor_1_id", ""));
+            m_a1_x.setText(prop.getProperty("anchor_1_x", ""));
+            m_a1_y.setText(prop.getProperty("anchor_1_y", ""));
+            m_a1_z.setText(prop.getProperty("anchor_1_z", ""));
+            m_a2_id.setText(prop.getProperty("anchor_2_id", ""));
+            m_a2_x.setText(prop.getProperty("anchor_2_x", ""));
+            m_a2_y.setText(prop.getProperty("anchor_2_y", ""));
+            m_a2_z.setText(prop.getProperty("anchor_2_z", ""));
+            m_a3_id.setText(prop.getProperty("anchor_3_id", ""));
+            m_a3_x.setText(prop.getProperty("anchor_3_x", ""));
+            m_a3_y.setText(prop.getProperty("anchor_3_y", ""));
+            m_a3_z.setText(prop.getProperty("anchor_3_z", ""));
+            m_a4_id.setText(prop.getProperty("anchor_4_id", ""));
+            m_a4_x.setText(prop.getProperty("anchor_4_x", ""));
+            m_a4_y.setText(prop.getProperty("anchor_4_y", ""));
+            m_a4_z.setText(prop.getProperty("anchor_4_z", ""));
+            m_log_pressure.setSelected(Boolean.valueOf(prop.getProperty("log_pressure", "false")));
+            m_log_acceleration.setSelected(Boolean.valueOf(prop.getProperty("log_acceleration", "false")));
+            m_log_magnetic.setSelected(Boolean.valueOf(prop.getProperty("log_magnetic", "false")));
+            m_log_angular_velocity.setSelected(Boolean.valueOf(prop.getProperty("log_angular_velocity", "false")));
+            m_log_euler_angles.setSelected(Boolean.valueOf(prop.getProperty("log_euler_angles", "false")));
+            m_log_quaternion.setSelected(Boolean.valueOf(prop.getProperty("log_quaternion", "false")));
+            m_log_linear_acceleration.setSelected(Boolean.valueOf(prop.getProperty("log_linear_acceleration", "false")));
+            m_log_gravity.setSelected(Boolean.valueOf(prop.getProperty("log_gravity", "false")));
+            m_use_file.setSelected(Boolean.valueOf(prop.getProperty("use_file", "false")));
+            m_filename.setText(prop.getProperty("filename", ""));
+            m_use_txt_ext.setSelected(Boolean.valueOf(prop.getProperty("use_txt_extension", "false")));
+            m_use_processing.setSelected(Boolean.valueOf(prop.getProperty("use_processing", "")));
+
+            update_variables_from_gui();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
