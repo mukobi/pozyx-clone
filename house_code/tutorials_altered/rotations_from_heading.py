@@ -129,7 +129,17 @@ if __name__ == '__main__':
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
-        FileWriting.write_sensor_data_header_to_file(logfile)
+        logfile.write("Index Time Difference Hz AveHz "
+                      "Rotations "
+                      "RPS "
+                      "Pressure "
+                      "Acceleration-X Acceleration-Y Acceleration-Z "
+                      "Magnetic-X Magnetic-Y Magnetic-Z "
+                      "Angular-Vel-X Angular-Vel-Y Angular-Vel-Z "
+                      "Heading Roll Pitch "
+                      "Quaternion-X Quaternion-Y Quaternion-Z Quaternion-W "
+                      "Linear-Acceleration-X Linear-Acceleration-Y Linear-Acceleration-Z "
+                      "Gravity-X Gravity-Y Gravity-Z ")
 
     start = ConsoleLogging.get_time()
     previous_rotation_time = ConsoleLogging.get_time()
@@ -146,7 +156,8 @@ if __name__ == '__main__':
             one_cycle_sensor_data = o.loop()
 
             previous_heading = current_heading
-            current_heading = one_cycle_sensor_data.euler_angles.heading
+            if type(one_cycle_sensor_data) is not str:
+                current_heading = one_cycle_sensor_data.euler_angles.heading
 
             heading_difference = current_heading - previous_heading
 
@@ -162,11 +173,14 @@ if __name__ == '__main__':
                 current_rotation_speed = 0
 
             print("Index: " + str(index)
-                  + " Time: " + elapsed
-                  + " Hz: " + DataFunctions.find_average_hertz(index, elapsed)
-                  + " Rotations: " + total_rotations
-                  + " Rotation Speed: " + DataFunctions.str_set_length(current_rotation_speed, 8) + "RPS"
+                  + " Time: " + DataFunctions.str_set_length(elapsed, 8)
+                  + " Hz: " + DataFunctions.str_set_length(DataFunctions.find_average_hertz(index, elapsed), 5)
+                  + " Heading: " + DataFunctions.str_set_length(current_heading, 7)
+                  + " Rotations: " + str(total_rotations)
+                  + " Rotation Speed: " + str(DataFunctions.str_set_length(current_rotation_speed, 8)) + "RPS"
                   )
+
+
 
             if to_use_file:
                 FileWriting.write_line_of_sensor_data_to_file(
@@ -180,3 +194,44 @@ if __name__ == '__main__':
 
     if to_use_file:
         logfile.close()
+
+
+    def write_rotation_and_sensor_data_to_file(index, elapsed_time, time_difference,
+                                               file, sensor_data, rotations, rps):
+        hz = DataFunctions.convert_hertz(time_difference)
+        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
+        output = (str(index) + " " + str(elapsed_time) + " "
+                  + str(time_difference) + " " + str(hz) + " "
+                  + str(ave_hz) + " ")
+        try:
+            output += (str(rotations) + " "
+                       + str(rps) + " "
+                       + str(sensor_data.pressure) + " "
+                       + str(sensor_data.acceleration.x) + " "
+                       + str(sensor_data.acceleration.y) + " "
+                       + str(sensor_data.acceleration.z) + " "
+                       + str(sensor_data.magnetic.x) + " "
+                       + str(sensor_data.magnetic.y) + " "
+                       + str(sensor_data.magnetic.z) + " "
+                       + str(sensor_data.angular_vel.x) + " "
+                       + str(sensor_data.angular_vel.y) + " "
+                       + str(sensor_data.angular_vel.z) + " "
+                       + str(sensor_data.euler_angles.heading) + " "
+                       + str(sensor_data.euler_angles.roll) + " "
+                       + str(sensor_data.euler_angles.pitch) + " "
+                       + str(sensor_data.quaternion.x) + " "
+                       + str(sensor_data.quaternion.y) + " "
+                       + str(sensor_data.quaternion.z) + " "
+                       + str(sensor_data.quaternion.w) + " "
+                       + str(sensor_data.linear_acceleration.x) + " "
+                       + str(sensor_data.linear_acceleration.y) + " "
+                       + str(sensor_data.linear_acceleration.z) + " "
+                       + str(sensor_data.gravity_vector.x) + " "
+                       + str(sensor_data.gravity_vector.y) + " "
+                       + str(sensor_data.gravity_vector.z) + " "
+                       + "\n")
+        except AttributeError:
+            for i in range(0,23):
+                output += "error "
+            output += "\n"
+        file.write(output)
