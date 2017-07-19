@@ -67,8 +67,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="8" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
+            <state relative-caret-position="255">
+              <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -79,16 +79,20 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="205" column="5" lean-forward="true" selection-start-line="205" selection-start-column="5" selection-end-line="205" selection-end-column="5" />
+            <state relative-caret-position="275">
+              <caret line="161" column="73" lean-forward="false" selection-start-line="161" selection-start-column="73" selection-end-line="161" selection-end-column="73" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+                <element signature="e#3046#3047#0" expanded="true" />
+                <element signature="e#3137#3138#0" expanded="true" />
                 <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-                <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
                 <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
                 <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
+                <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
+                <element signature="e#12031#12083#0" expanded="false" />
                 <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+                <element signature="e#13851#13852#0" expanded="true" />
+                <element signature="e#13921#13922#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,7 +103,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
               <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-              <folding />
+              <folding>
+                <element signature="e#0#1177#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -109,7 +115,51 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
               <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
-              <folding />
+              <folding>
+                <marker date="1500498385074" expanded="true" signature="2601:3156" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="2630:3132" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="3382:3640" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="3403:3492" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="3517:3619" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="3814:14790" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="3835:14768" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="4155:4831" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="4180:4811" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="4498:4785" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="4527:4761" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="5141:8485" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="5166:8465" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="5232:5982" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="5261:5958" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="6048:6797" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="6077:6773" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="6863:7612" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="6892:7588" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="7678:8439" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="7707:8415" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="8579:11106" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="8604:11086" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="8671:9826" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="8700:9802" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="9893:11060" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="9922:11036" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="11402:12760" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="11427:12740" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="11738:12003" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="11767:11979" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="12070:12714" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="12099:12690" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="12332:12507" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="12368:12472" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="13344:14143" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="13369:14123" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="13551:13680" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="13576:13654" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="14351:14746" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="14376:14726" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="14858:14941" ph="..." />
+                <marker date="1500498385074" expanded="true" signature="14960:15038" ph="..." />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="JavaFX-Scene-Builder">
@@ -159,9 +209,9 @@
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/Main.java" />
         <option value="$PROJECT_DIR$/src/sample/layout_main.fxml" />
-        <option value="$PROJECT_DIR$/src/psupozyx/Main.java" />
         <option value="$PROJECT_DIR$/src/psupozyx/FMXL.java" />
         <option value="$PROJECT_DIR$/src/psupozyx/layout_main.fxml" />
+        <option value="$PROJECT_DIR$/src/psupozyx/Main.java" />
         <option value="$PROJECT_DIR$/src/psupozyx/Controller.java" />
       </list>
     </option>
@@ -558,13 +608,13 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1932" height="1056" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -631,12 +681,16 @@
           <caret line="289" column="46" lean-forward="false" selection-start-line="289" selection-start-column="46" selection-end-line="289" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="e#3046#3047#0" expanded="true" />
+            <element signature="e#3137#3138#0" expanded="true" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
             <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
+            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
+            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+            <element signature="e#13851#13852#0" expanded="true" />
+            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -645,7 +699,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -653,7 +709,51 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
           <caret line="63" column="24" lean-forward="false" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-          <folding />
+          <folding>
+            <marker date="1500498385074" expanded="true" signature="2601:3156" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="2630:3132" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3382:3640" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3403:3492" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3517:3619" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3814:14790" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3835:14768" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4155:4831" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4180:4811" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4498:4785" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4527:4761" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5141:8485" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5166:8465" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5232:5982" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5261:5958" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6048:6797" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6077:6773" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6863:7612" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6892:7588" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7678:8439" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7707:8415" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8579:11106" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8604:11086" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8671:9826" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8700:9802" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9893:11060" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9922:11036" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11402:12760" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11427:12740" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11738:12003" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11767:11979" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12070:12714" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12099:12690" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12332:12507" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12368:12472" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13344:14143" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13369:14123" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13551:13680" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13576:13654" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14351:14746" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14376:14726" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14858:14941" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14960:15038" ph="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -676,12 +776,16 @@
           <caret line="289" column="46" lean-forward="false" selection-start-line="289" selection-start-column="46" selection-end-line="289" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="e#3046#3047#0" expanded="true" />
+            <element signature="e#3137#3138#0" expanded="true" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
             <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
+            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
+            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+            <element signature="e#13851#13852#0" expanded="true" />
+            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -690,7 +794,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="35" column="26" lean-forward="true" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -698,7 +804,51 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
           <caret line="63" column="24" lean-forward="false" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-          <folding />
+          <folding>
+            <marker date="1500498385074" expanded="true" signature="2601:3156" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="2630:3132" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3382:3640" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3403:3492" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3517:3619" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3814:14790" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3835:14768" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4155:4831" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4180:4811" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4498:4785" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4527:4761" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5141:8485" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5166:8465" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5232:5982" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5261:5958" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6048:6797" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6077:6773" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6863:7612" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6892:7588" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7678:8439" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7707:8415" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8579:11106" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8604:11086" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8671:9826" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8700:9802" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9893:11060" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9922:11036" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11402:12760" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11427:12740" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11738:12003" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11767:11979" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12070:12714" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12099:12690" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12332:12507" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12368:12472" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13344:14143" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13369:14123" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13551:13680" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13576:13654" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14351:14746" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14376:14726" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14858:14941" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14960:15038" ph="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -719,7 +869,51 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-          <folding />
+          <folding>
+            <marker date="1500498385074" expanded="true" signature="2601:3156" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="2630:3132" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3382:3640" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3403:3492" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3517:3619" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3814:14790" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3835:14768" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4155:4831" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4180:4811" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4498:4785" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4527:4761" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5141:8485" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5166:8465" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5232:5982" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5261:5958" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6048:6797" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6077:6773" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6863:7612" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6892:7588" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7678:8439" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7707:8415" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8579:11106" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8604:11086" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8671:9826" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8700:9802" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9893:11060" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9922:11036" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11402:12760" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11427:12740" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11738:12003" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11767:11979" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12070:12714" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12099:12690" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12332:12507" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12368:12472" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13344:14143" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13369:14123" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13551:13680" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13576:13654" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14351:14746" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14376:14726" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14858:14941" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14960:15038" ph="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -732,12 +926,16 @@
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="e#3046#3047#0" expanded="true" />
+            <element signature="e#3137#3138#0" expanded="true" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
             <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
+            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
+            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+            <element signature="e#13851#13852#0" expanded="true" />
+            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -764,7 +962,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -775,39 +975,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="8" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/layout_main.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
-          <folding />
+          <folding>
+            <marker date="1500498385074" expanded="true" signature="2601:3156" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="2630:3132" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3382:3640" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3403:3492" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3517:3619" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3814:14790" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="3835:14768" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4155:4831" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4180:4811" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4498:4785" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="4527:4761" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5141:8485" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5166:8465" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5232:5982" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="5261:5958" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6048:6797" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6077:6773" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6863:7612" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="6892:7588" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7678:8439" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="7707:8415" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8579:11106" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8604:11086" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8671:9826" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="8700:9802" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9893:11060" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="9922:11036" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11402:12760" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11427:12740" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11738:12003" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="11767:11979" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12070:12714" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12099:12690" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12332:12507" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="12368:12472" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13344:14143" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13369:14123" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13551:13680" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="13576:13654" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14351:14746" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14376:14726" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14858:14941" ph="..." />
+            <marker date="1500498385074" expanded="true" signature="14960:15038" ph="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="205" column="5" lean-forward="true" selection-start-line="205" selection-start-column="5" selection-end-line="205" selection-end-column="5" />
+        <state relative-caret-position="255">
+          <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="161" column="73" lean-forward="false" selection-start-line="161" selection-start-column="73" selection-end-line="161" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3046#3047#0" expanded="true" />
+            <element signature="e#3137#3138#0" expanded="true" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
             <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
+            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
+            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+            <element signature="e#13851#13852#0" expanded="true" />
+            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
