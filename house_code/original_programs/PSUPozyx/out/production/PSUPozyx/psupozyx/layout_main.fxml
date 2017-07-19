@@ -188,7 +188,7 @@
             <HBox id="HBox" alignment="CENTER" layoutX="506.0" layoutY="663.0" spacing="5.0">
               <children>
                 <Label font="$x2" text="Status:" textFill="WHITE" />
-                <Label fx:id="m_status_display" font="$x2" prefWidth="250.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
+                <Label fx:id="m_status_display" font="$x2" prefWidth="260.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
               </children>
             </HBox>
           </children>
