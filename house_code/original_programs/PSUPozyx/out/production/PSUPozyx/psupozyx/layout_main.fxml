@@ -22,7 +22,7 @@
               <children>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="327.0" text="3D Positioning">
+                    <Button mnemonicParsing="false" onAction="#handleLaunchPositioning" prefHeight="50.0" prefWidth="327.0" text="3D Positioning">
                       <font>
                         <Font size="18.0" fx:id="x3" />
                       </font>
@@ -36,13 +36,14 @@
                 </VBox>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Button font="$x3" mnemonicParsing="false" prefHeight="50.0" prefWidth="327.0" text="Motion Data" />
+                    <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchMotionData" prefHeight="50.0" prefWidth="327.0" text="Motion Data" />
                     <Label font="$x2" prefHeight="85.0" prefWidth="327.0" text="Collects data from the different sensors onboard a device, including acceleration, orientation, angular velocity, gravity, pressure, temperature, linear acceleration, and magnetic fields." wrapText="true" />
+                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
                   </children>
                 </VBox>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Button font="$x3" mnemonicParsing="false" prefHeight="50.0" prefWidth="327.0" text="Positioning and Motion Data" textOverrun="ELLIPSIS" wrapText="true" />
+                    <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" prefHeight="50.0" prefWidth="327.0" text="Positioning and Motion Data" textOverrun="ELLIPSIS" wrapText="true" />
                     <Label font="$x2" prefHeight="70.0" prefWidth="327.0" text="Combines the 3D Positioning and Motion Data functionality to collect data from a devices sensors and collect data on its position simultaneously. " wrapText="true" />
                   </children>
                 </VBox>
@@ -182,6 +183,13 @@
                 </Button>
                 <Button font="$x5" mnemonicParsing="false" onAction="#handleSaveTemplateButtonAction" prefHeight="50.0" prefWidth="220.0" style="&#10;" text="Save Settings As Template" textFill="BLACK" wrapText="true" />
                 <Button font="$x5" mnemonicParsing="false" onAction="#handleSaveUseButtonAction" prefHeight="50.0" prefWidth="220.0" style="&#10;" text="Save Settings For Use" textFill="BLACK" />
+              </children>
+            </HBox>
+            <HBox id="HBox" alignment="CENTER" layoutX="529.0" layoutY="650.0" prefHeight="32.0" spacing="5.0" />
+            <HBox id="HBox" alignment="CENTER" layoutX="506.0" layoutY="663.0" spacing="5.0">
+              <children>
+                <Label font="$x2" text="Status:" textFill="WHITE" />
+                <Label fx:id="m_status_display" font="$x2" prefWidth="250.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
               </children>
             </HBox>
           </children>
