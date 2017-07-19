@@ -131,7 +131,7 @@ class Orientation3D(object):
 
 if __name__ == '__main__':
     # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[0].device
+    serial_port = get_serial_ports()[2].device
 
     remote_id = 0x610c                    # remote device network ID
     remote = True                        # whether to use a remote device
@@ -201,7 +201,7 @@ if __name__ == '__main__':
 
             heading_difference = current_heading - previous_heading
 
-            if heading_difference < -45:
+            if heading_difference < -2:
                 total_rotations += 1
                 current_rotation_time = ConsoleLogging.get_time()
                 rotation_time_difference = current_rotation_time - previous_rotation_time
