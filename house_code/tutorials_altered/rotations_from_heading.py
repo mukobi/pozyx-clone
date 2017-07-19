@@ -88,7 +88,46 @@ class Orientation3D(object):
         self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
         self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
         self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
-        
+
+    def write_rotation_and_sensor_data_to_file(self, index, elapsed_time, time_difference,
+                                               file, sensor_data, rotations, rps):
+        hz = DataFunctions.convert_hertz(time_difference)
+        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
+        output = (str(index) + " " + str(elapsed_time) + " "
+                  + str(time_difference) + " " + str(hz) + " "
+                  + str(ave_hz) + " ")
+        try:
+            output += (str(rotations) + " "
+                       + str(rps) + " "
+                       + str(sensor_data.pressure) + " "
+                       + str(sensor_data.acceleration.x) + " "
+                       + str(sensor_data.acceleration.y) + " "
+                       + str(sensor_data.acceleration.z) + " "
+                       + str(sensor_data.magnetic.x) + " "
+                       + str(sensor_data.magnetic.y) + " "
+                       + str(sensor_data.magnetic.z) + " "
+                       + str(sensor_data.angular_vel.x) + " "
+                       + str(sensor_data.angular_vel.y) + " "
+                       + str(sensor_data.angular_vel.z) + " "
+                       + str(sensor_data.euler_angles.heading) + " "
+                       + str(sensor_data.euler_angles.roll) + " "
+                       + str(sensor_data.euler_angles.pitch) + " "
+                       + str(sensor_data.quaternion.x) + " "
+                       + str(sensor_data.quaternion.y) + " "
+                       + str(sensor_data.quaternion.z) + " "
+                       + str(sensor_data.quaternion.w) + " "
+                       + str(sensor_data.linear_acceleration.x) + " "
+                       + str(sensor_data.linear_acceleration.y) + " "
+                       + str(sensor_data.linear_acceleration.z) + " "
+                       + str(sensor_data.gravity_vector.x) + " "
+                       + str(sensor_data.gravity_vector.y) + " "
+                       + str(sensor_data.gravity_vector.z) + " "
+                       + "\n")
+        except AttributeError:
+            for i in range(0, 23):
+                output += "error "
+            output += "\n"
+        file.write(output)
 
 if __name__ == '__main__':
     # shortcut to not have to find out the port yourself
@@ -183,9 +222,7 @@ if __name__ == '__main__':
 
 
             if to_use_file:
-                FileWriting.write_line_of_sensor_data_to_file(
-                    index, elapsed, time_difference,
-                    logfile, one_cycle_sensor_data)
+                o.write_rotation_and_sensor_data_to_file(index, elapsed, time_difference, logfile, one_cycle_sensor_data, total_rotations, current_rotation_speed)
             index += 1                      # increment data index
 
     # this allows Windows users to exit the while loop by pressing ctrl+c
@@ -196,42 +233,4 @@ if __name__ == '__main__':
         logfile.close()
 
 
-    def write_rotation_and_sensor_data_to_file(index, elapsed_time, time_difference,
-                                               file, sensor_data, rotations, rps):
-        hz = DataFunctions.convert_hertz(time_difference)
-        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
-        output = (str(index) + " " + str(elapsed_time) + " "
-                  + str(time_difference) + " " + str(hz) + " "
-                  + str(ave_hz) + " ")
-        try:
-            output += (str(rotations) + " "
-                       + str(rps) + " "
-                       + str(sensor_data.pressure) + " "
-                       + str(sensor_data.acceleration.x) + " "
-                       + str(sensor_data.acceleration.y) + " "
-                       + str(sensor_data.acceleration.z) + " "
-                       + str(sensor_data.magnetic.x) + " "
-                       + str(sensor_data.magnetic.y) + " "
-                       + str(sensor_data.magnetic.z) + " "
-                       + str(sensor_data.angular_vel.x) + " "
-                       + str(sensor_data.angular_vel.y) + " "
-                       + str(sensor_data.angular_vel.z) + " "
-                       + str(sensor_data.euler_angles.heading) + " "
-                       + str(sensor_data.euler_angles.roll) + " "
-                       + str(sensor_data.euler_angles.pitch) + " "
-                       + str(sensor_data.quaternion.x) + " "
-                       + str(sensor_data.quaternion.y) + " "
-                       + str(sensor_data.quaternion.z) + " "
-                       + str(sensor_data.quaternion.w) + " "
-                       + str(sensor_data.linear_acceleration.x) + " "
-                       + str(sensor_data.linear_acceleration.y) + " "
-                       + str(sensor_data.linear_acceleration.z) + " "
-                       + str(sensor_data.gravity_vector.x) + " "
-                       + str(sensor_data.gravity_vector.y) + " "
-                       + str(sensor_data.gravity_vector.z) + " "
-                       + "\n")
-        except AttributeError:
-            for i in range(0,23):
-                output += "error "
-            output += "\n"
-        file.write(output)
+
