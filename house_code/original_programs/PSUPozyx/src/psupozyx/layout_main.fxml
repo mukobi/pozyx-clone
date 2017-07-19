@@ -38,7 +38,6 @@
                   <children>
                     <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchMotionData" prefHeight="50.0" prefWidth="327.0" text="Motion Data" />
                     <Label font="$x2" prefHeight="85.0" prefWidth="327.0" text="Collects data from the different sensors onboard a device, including acceleration, orientation, angular velocity, gravity, pressure, temperature, linear acceleration, and magnetic fields." wrapText="true" />
-                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
                   </children>
                 </VBox>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
