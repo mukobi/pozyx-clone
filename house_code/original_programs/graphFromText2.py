@@ -1,9 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from pandas import Series
 
 headers=['Time', 'Linear-Acceleration-X']
 
-df=pd.read_csv('/Users/CoraJune/Documents/GitHub/Pozyx/Data/motor_turntable_2.txt', delimiter=' ',  usecols=['Time','Linear-Acceleration-X','Acceleration-X','Linear-Acceleration-Y','Acceleration-Y','Linear-Acceleration-Z','Acceleration-Z'])
+df=pd.read_csv('/Users/CoraJune/Documents/GitHub/Pozyx/Data/testing_files_1.txt', delimiter=' ',  usecols=['Time','Linear-Acceleration-X','Acceleration-X','Linear-Acceleration-Y','Acceleration-Y','Linear-Acceleration-Z','Acceleration-Z'])
 
 x=df['Time']
 y1=df['Linear-Acceleration-X']
@@ -26,7 +27,7 @@ plt.plot(x,y5)
 plt.plot(x,y6)
 plt.show()
 
-
+print(df)
 
 ax = df.plot.scatter(x='Time', y='Linear-Acceleration-X', s=1,  title='Linear-Acceleration-X')
 ax.set_xlabel("Time")
@@ -34,7 +35,7 @@ ax.set_ylabel("Acceleration-X")
 ax.plot()
 plt.show()
 
-df=pd.read_csv('/Users/CoraJune/Documents/GitHub/Pozyx/Data/motor_turntable_2.txt', delimiter=' ',  usecols=['Time','Linear-Acceleration-Y'])
+df=pd.read_csv('/Users/CoraJune/Documents/GitHub/Pozyx/Data/acceleration_test_still.txt', delimiter=' ',  usecols=['Time','Linear-Acceleration-Y'])
 
 
 ax1 = df.plot.scatter(x='Time', y='Linear-Acceleration-Y', s=1,  title='Linear-Acceleration-Y')
@@ -43,7 +44,7 @@ ax.set_ylabel("Acceleration-Y")
 ax.plot()
 plt.show()
 
-df=pd.read_csv('/Users/CoraJune/Documents/GitHub/Pozyx/Data/motor_turntable_2.txt', delimiter=' ',  usecols=['Time','Linear-Acceleration-Z'])
+df=pd.read_csv('/Users/CoraJune/Documents/GitHub/Pozyx/Data/acceleration_test_still.txt', delimiter=' ',  usecols=['Time','Linear-Acceleration-Z'])
 
 
 ax2 = df.plot.scatter(x='Time', y='Linear-Acceleration-Z', s=1,  title='Linear-Acceleration-Z')
