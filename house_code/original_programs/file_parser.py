@@ -823,15 +823,15 @@ if __name__ == '__main__':
 
     information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
     if information == 2:
-        data, name_one, name_two = get_pozyx_data_two(name)
+        data, name_one, name_two = get_pozyx_data_two(file_name)
         create_graph_two(data, name_one, name_two)
 
     elif information == 3:
-        data, name_one, name_two, name_three = get_pozyx_data_three(name)
+        data, name_one, name_two, name_three = get_pozyx_data_three(file_name)
         create_graph_three(data, name_one, name_two, name_three)
 
     elif information == 4:
-        data, name_one, name_two, name_three, name_four = get_pozyx_data_four(name)
+        data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name)
         create_graph_four(data, name_one, name_two, name_three, name_four)
     else:
         print("Invalid input.")
