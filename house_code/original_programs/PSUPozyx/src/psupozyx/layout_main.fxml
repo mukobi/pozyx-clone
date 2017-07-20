@@ -38,7 +38,6 @@
                   <children>
                     <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchMotionData" prefHeight="50.0" prefWidth="327.0" text="Motion Data" />
                     <Label font="$x2" prefHeight="85.0" prefWidth="327.0" text="Collects data from the different sensors onboard a device, including acceleration, orientation, angular velocity, gravity, pressure, temperature, linear acceleration, and magnetic fields." wrapText="true" />
-                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
                   </children>
                 </VBox>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
@@ -189,7 +188,7 @@
             <HBox id="HBox" alignment="CENTER" layoutX="506.0" layoutY="663.0" spacing="5.0">
               <children>
                 <Label font="$x2" text="Status:" textFill="WHITE" />
-                <Label fx:id="m_status_display" font="$x2" prefWidth="250.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
+                <Label fx:id="m_status_display" font="$x2" prefWidth="260.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
               </children>
             </HBox>
           </children>

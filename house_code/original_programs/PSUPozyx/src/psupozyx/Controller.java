@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Controller {
     @FXML
@@ -120,6 +122,9 @@ public class Controller {
     private String use_txt_ext;
     private String use_processing;
 
+    public void initialize() {
+        load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
+    }
 
     @FXML
     private void handleLoadButtonAction(ActionEvent event) {
@@ -151,9 +156,9 @@ public class Controller {
     }
 
     @FXML
-    private void handleSaveUseButtonAction(ActionEvent event) {
+    private void handleSaveUseButtonAction(ActionEvent event){
         update_variables_from_gui();
-        save_properties_to_file("Configurations/master_config_for_python_reading.properties");
+        save_properties_to_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
         m_status_display.setText("Successfully saved settings for use.");
     }
 
@@ -366,5 +371,7 @@ public class Controller {
         );
     }
 
-
+    private void set_nothing_to_show_status() {
+        m_status_display.setText("Nothing to show right now.");
+    }
 }

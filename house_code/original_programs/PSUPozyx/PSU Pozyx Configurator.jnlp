@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PSU Pozyx Configurator.jar" size="34792" download="eager" />
+    <jar href="PSU Pozyx Configurator.jar" size="37240" download="eager" />
   </resources>
   <jfx:javafx-desc  width="1280" height="800" main-class="psupozyx.Main"  name="PSU Pozyx Configurator" />
   <update check="background"/>
