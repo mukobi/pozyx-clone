@@ -173,7 +173,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "-c", "3D_positioning.command"};
+                String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_positioning.py"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
@@ -196,7 +196,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "-c", "motion_data.command"};
+                String[] cmd = new String[]{"/bin/sh", "-c", "python motion_data.py"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
@@ -218,14 +218,8 @@ public class Controller {
             }
         }
         else {
-//            try {
-//                String[] args = new String[] {"ping", "www.google.com"};
-//                Process proc = new ProcessBuilder(args).start();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             try {
-                String[] cmd = new String[]{"/bin/sh", "-c", "3D_position_and_motion_data.command"};
+                String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_position_and_motion_data.py"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
