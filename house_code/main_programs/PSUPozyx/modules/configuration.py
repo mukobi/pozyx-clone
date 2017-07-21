@@ -3,7 +3,7 @@ from pypozyx import *
 MASTER_PROPS_LOCATION = "../PSUPozyx/Configurations/MASTER_ACTIVE_CONFIG.properties"
 
 
-class PropertyReading:
+class Configuration:
 
     @staticmethod
     def get_properties():
@@ -52,3 +52,18 @@ class PropertyReading:
                    DeviceCoordinates(anchor_4_id, 1, Coordinates(anchor_4_x, anchor_4_y, anchor_4_z)),]
 
         return use_remote, remote_id, anchors, attributes_to_log, use_file, filename, use_processing
+
+    @staticmethod
+    def get_correct_serial_port():
+        port = None
+        try:
+            port = get_serial_ports()[2].device
+        except IndexError:
+            try:
+                port = get_serial_ports()[1].device
+            except IndexError:
+                try:
+                    port = get_serial_ports()[0].device
+                except IndexError:
+                    pass
+        return port
