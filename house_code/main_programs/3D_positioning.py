@@ -202,7 +202,7 @@ if  __name__ == "__main__":
 
     # import properties from saved properties file
     (remote, remote_id, anchors, attributes_to_log, to_use_file,
-        filename, use_processing) = PozyxProperties.getProperties()
+        filename, use_processing) = PozyxProperties.get_properties()
 
     if not remote:
         remote_id = None
@@ -212,7 +212,6 @@ if  __name__ == "__main__":
     osc_udp_client = None
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
-
 
     # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm

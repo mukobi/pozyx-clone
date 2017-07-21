@@ -25,10 +25,9 @@ from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
-from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
-import time as t
+from modules.property_reading import PropertyReading as PozyxProperties
 
 
 class Orientation3D(object):
@@ -67,6 +66,7 @@ class Orientation3D(object):
         """Gets new IMU sensor data"""
         # check sensor data status
         sensor_data = SensorData()
+        position = Coordinates()
         calibration_status = SingleRegister()
         if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
             status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
@@ -83,8 +83,8 @@ class Orientation3D(object):
                 else:
                     pass
                     # self.printPublishErrorCode("positioning")
-
-        return "Error, no data to print for this line"
+        # return sensor_data, position
+        return "Error with positioning, check anchor configuration."
 
     def publishSensorData(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
@@ -196,22 +196,15 @@ if __name__ == '__main__':
     to_use_file = False
     filename = None
 
-    """User input configuration section, comment out to use above settings"""
+    # import properties from saved properties file
+    (remote, remote_id, anchors, attributes_to_log, to_use_file,
+        filename, use_processing) = PozyxProperties.get_properties()
 
-    remote = UserInput.use_remote()
-    remote_id = UserInput.get_remote_id(remote)
-    to_use_file = UserInput.use_file()
-    filename = UserInput.get_filename(to_use_file)
-    attributes_to_log = UserInput.get_multiple_attributes_to_log()
+    if not remote:
+        remote_id = None
 
-    use_processing = True
     ip = "127.0.0.1"
     network_port = 8888
-
-    anchors = [DeviceCoordinates(0x6863, 1, Coordinates(0, 0, 2000)),
-               DeviceCoordinates(0x615a, 1, Coordinates(0, 18288, 1000)),
-               DeviceCoordinates(0x607c, 1, Coordinates(18288, 0, 1000)),
-               DeviceCoordinates(0x6134, 1, Coordinates(18288, 18288, 2000))]
 
     # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
