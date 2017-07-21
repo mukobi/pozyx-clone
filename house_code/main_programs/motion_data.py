@@ -50,6 +50,7 @@ class Orientation3D(object):
             status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
             if status == POZYX_SUCCESS:
                 self.publishSensorData(sensor_data, calibration_status)
+                print(calibration_status)
                 return sensor_data
 
         return "Error, no data to print for this line"
