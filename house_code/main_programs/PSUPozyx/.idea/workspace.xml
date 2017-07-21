@@ -77,13 +77,11 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="222" column="40" lean-forward="false" selection-start-line="222" selection-start-column="40" selection-end-line="222" selection-end-column="40" />
+            <state relative-caret-position="207">
+              <caret line="149" column="0" lean-forward="true" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-                <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-                <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
                 <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
               </folding>
             </state>
@@ -108,14 +106,8 @@
             <state relative-caret-position="17">
               <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
               <folding>
-                <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-                <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-                <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-                <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-                <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-                <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-                <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-                <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+                <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+                <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
               </folding>
             </state>
           </provider>
@@ -637,7 +629,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="14" />
+      <option name="time" value="15" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -669,14 +661,8 @@
         <state relative-caret-position="442">
           <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -691,8 +677,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
@@ -721,14 +705,8 @@
         <state relative-caret-position="442">
           <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -740,8 +718,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
@@ -770,14 +746,8 @@
         <state relative-caret-position="442">
           <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -789,8 +759,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
@@ -819,14 +787,8 @@
         <state relative-caret-position="442">
           <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -838,8 +800,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
@@ -860,8 +820,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
@@ -882,14 +840,8 @@
         <state relative-caret-position="1071">
           <caret line="63" column="24" lean-forward="false" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -909,8 +861,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
@@ -931,14 +881,8 @@
         <state relative-caret-position="1071">
           <caret line="63" column="24" lean-forward="false" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -956,14 +900,8 @@
         <state relative-caret-position="119">
           <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -975,8 +913,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
@@ -1022,14 +958,8 @@
         <state relative-caret-position="17">
           <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
           <folding>
-            <marker date="1500662175934" expanded="true" signature="12702:13501" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12727:13481" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12909:13038" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="12934:13012" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13709:14104" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="13734:14084" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14216:14299" ph="..." />
-            <marker date="1500662175934" expanded="true" signature="14318:14396" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="13990:14073" ph="..." />
+            <marker date="1500662561182" expanded="true" signature="14092:14170" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1047,13 +977,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="222" column="40" lean-forward="false" selection-start-line="222" selection-start-column="40" selection-end-line="222" selection-end-column="40" />
+        <state relative-caret-position="207">
+          <caret line="149" column="0" lean-forward="true" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
-            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
         </state>
