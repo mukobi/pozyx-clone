@@ -32,7 +32,7 @@ import time as t
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
-from modules.property_reading import PropertyReading as PozyxProperties
+from modules.configuration import Configuration as Configuration
 
 
 class ReadyToLocalize(object):
@@ -158,8 +158,7 @@ class ReadyToLocalize(object):
 
 
 if  __name__ == "__main__":
-    # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[0].device
+    serial_port = Configuration.get_correct_serial_port()
 
     remote_id = 0x610c                 # remote device network ID
     remote = True                  # whether to use a remote device
@@ -172,7 +171,7 @@ if  __name__ == "__main__":
 
     # import properties from saved properties file
     (remote, remote_id, anchors, attributes_to_log, to_use_file,
-        filename, use_processing) = PozyxProperties.get_properties()
+        filename, use_processing) = Configuration.get_properties()
 
     if not remote:
         remote_id = None
