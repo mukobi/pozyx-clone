@@ -11,9 +11,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Controller {
     @FXML
@@ -138,8 +138,6 @@ public class Controller {
         }
     }
 
-
-
     @FXML
     private void handleSaveTemplateButtonAction(ActionEvent event) {
         update_variables_from_gui();
@@ -164,15 +162,36 @@ public class Controller {
 
     @FXML
     private void handleLaunchPositioning(ActionEvent event) {
-
+        try {
+            Process p = Runtime.getRuntime().exec("cmd /c start positioning.bat");
+            p.waitFor();
+            System.out.println(p.exitValue());
+        }
+        catch (Exception err) {
+            err.printStackTrace();
+        }
     }
     @FXML
-    private void handleLaunchMotionData(ActionEvent event) {
-
+    private void handleLaunchMotionData(ActionEvent event) throws IOException {
+        try {
+            Process p = Runtime.getRuntime().exec("cmd /c start motion_data.bat");
+            p.waitFor();
+            System.out.println(p.exitValue());
+        }
+        catch (Exception err) {
+            err.printStackTrace();
+        }
     }
     @FXML
     private void handleLaunchPositioningAndMotionData(ActionEvent event) {
-
+        try {
+            Process p = Runtime.getRuntime().exec("cmd /c start positioning_and_motion_data.bat");
+            p.waitFor();
+            System.out.println(p.exitValue());
+        }
+        catch (Exception err) {
+            err.printStackTrace();
+        }
     }
 
     private void update_variables_from_gui() {
@@ -276,9 +295,6 @@ public class Controller {
             m_status_display.setText("Invalid file, cannot read properties");
             return;
         }
-//        if(!loadPath.startsWith("/")) {
-//            loadPath = "/" + loadPath;
-//        }
         Properties prop = new Properties();
         try {
             //load a properties file from class path, inside static method
@@ -325,42 +341,6 @@ public class Controller {
         }
     }
 
-//    @SuppressWarnings("SuspiciousNameCombination")
-//    private void print_variables() {
-//        System.out.println(use_remote);
-//        System.out.println(remote_id);
-//        System.out.println(anchor1_id);
-//        System.out.println(anchor1_x);
-//        System.out.println(anchor1_y);
-//        System.out.println(anchor1_z);
-//        System.out.println(anchor2_id);
-//        System.out.println(anchor2_x);
-//        System.out.println(anchor2_y);
-//        System.out.println(anchor2_z);
-//        System.out.println(anchor3_id);
-//        System.out.println(anchor3_x);
-//        System.out.println(anchor3_y);
-//        System.out.println(anchor3_z);
-//        System.out.println(anchor4_id);
-//        System.out.println(anchor4_x);
-//        System.out.println(anchor4_y);
-//        System.out.println(anchor4_z);
-//
-//        System.out.println(log_pressure);
-//        System.out.println(log_acceleration);
-//        System.out.println(log_magnetic);
-//        System.out.println(log_angular_velocity);
-//        System.out.println(log_euler_angles);
-//        System.out.println(log_quaternion);
-//        System.out.println(log_linear_acceleration);
-//        System.out.println(log_gravity);
-//
-//        System.out.println(use_file);
-//        System.out.println(filename);
-//        System.out.println(use_txt_ext);
-//        System.out.println(use_processing);
-//    }
-
     private static void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Save Settings Template");
         fileChooser.setInitialDirectory(
@@ -374,4 +354,7 @@ public class Controller {
     private void set_nothing_to_show_status() {
         m_status_display.setText("Nothing to show right now.");
     }
+
 }
+
+
