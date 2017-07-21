@@ -163,9 +163,8 @@ public class Controller {
     @FXML
     private void handleLaunchPositioning(ActionEvent event) {
         try {
-            Process p = Runtime.getRuntime().exec("cmd /c start positioning.bat");
+            Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning.bat");
             p.waitFor();
-            System.out.println(p.exitValue());
         }
         catch (Exception err) {
             err.printStackTrace();
@@ -185,7 +184,7 @@ public class Controller {
     @FXML
     private void handleLaunchPositioningAndMotionData(ActionEvent event) {
         try {
-            Process p = Runtime.getRuntime().exec("cmd /c start positioning_and_motion_data.bat");
+            Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning_and_motion_data.bat");
             p.waitFor();
             System.out.println(p.exitValue());
         }
