@@ -35,22 +35,6 @@ from modules.console_logging_functions import ConsoleLoggingFunctions as Console
 from modules.property_reading import PropertyReading as PozyxProperties
 
 
-
-
-#this function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
-#this is to make it easier to read the data from the console since every row will have the same number of data points
-def strSetLength(number, length):
-    numString = str(number);
-    numLength = len(numString);
-    while len(numString) < length:
-        numString += "0"
-    while len(numString) > length:
-        numString = numString[:-1]
-    return numString
-
-
-
-
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
     def __init__(self, pozyx, osc_udp_client, anchors, algorithm=POZYX_POS_ALG_UWB_ONLY, dimension=POZYX_3D, height=1000, remote_id=None):
