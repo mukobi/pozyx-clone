@@ -173,7 +173,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "3D_positioning.sh"};
+                String[] cmd = new String[]{"/bin/sh", "3D_positioning.command"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
@@ -196,7 +196,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "motion_data.sh"};
+                String[] cmd = new String[]{"/bin/sh", "motion_data.command"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
@@ -219,7 +219,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "3D_position_and_motion_data.sh"};
+                String[] cmd = new String[]{"/bin/sh", "3D_position_and_motion_data.command"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
