@@ -76,7 +76,7 @@ if __name__ == '__main__':
     devices = [0x6110,0x6104]
 
     # pozyx
-    pozyx = PozyxSerial(get_serial_ports()[2].device)
+    pozyx = PozyxSerial(get_serial_ports()[0].device)
 
     # initialize the class
     c = ChangeUWBSettings(pozyx, uwb_settings, devices, set_local, save_to_flash)

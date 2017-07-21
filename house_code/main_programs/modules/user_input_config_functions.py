@@ -79,7 +79,7 @@ class UserInputConfigFunctions():
 
     @staticmethod
     def get_filename(to_use_file=True,
-                     file_ext=".txt",
+                     file_ext=".csv",
                      prompt="Enter filename:\n"):
         """
         Returns desired filename from user input
@@ -164,5 +164,3 @@ class UserInputConfigFunctions():
                   or user_input[0] == "n"):
                 to_use_column_headers = False
         return to_use_column_headers
-
-

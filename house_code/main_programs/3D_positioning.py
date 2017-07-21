@@ -80,19 +80,20 @@ class ReadyToLocalize(object):
         self.printPublishConfigurationResult()
         network_id = self.remote_id
 
-    def loop(self, elapsed, timeDifference, index=None):
+    def loop(self):
         """Performs positioning and displays/exports the results."""
         position = Coordinates()
         status = self.pozyx.doPositioning(
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
         if status == POZYX_SUCCESS:
-            return self.printPublishPosition(position, elapsed, timeDifference)
+            self.printPublishPosition(position)
+            return position
         else:
             self.printPublishErrorCode("positioning")
 
         return "unexpected error"
 
-    def printPublishPosition(self, position, elapsed, timeDifference):
+    def printPublishPosition(self, position):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
         network_id = self.remote_id
         if network_id is None:
@@ -100,21 +101,6 @@ class ReadyToLocalize(object):
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
                 "/position", [network_id, int(position.x), int(position.y), int(position.z)])
-        try:
-            hertz = 1 / timeDifference
-        except ZeroDivisionError:
-            hertz = 0
-        try:
-            averageHertz = index / elapsed
-        except ZeroDivisionError:
-            averageHertz = 0
-        averageHertz = strSetLength(averageHertz, 7)
-        elapsed = strSetLength(elapsed, 10)
-        timeDifference = strSetLength(timeDifference, 10)
-        hertz = strSetLength(hertz, 5)
-        output =  str(index) + " Time: " + elapsed + " Cycle Time: " + timeDifference + " Hz: " + hertz + " Ave Hz: " + averageHertz + " | Pos: " + "{pos.x} {pos.y} {pos.z}".format("0x%0.4x" % network_id, pos=position)
-        print(output)
-        return output
 
     def printPublishErrorCode(self, operation):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
@@ -222,10 +208,12 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
 
+    logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
+        FileWriting.write_position_header_to_file(logfile)
 
-    start=t.time()
+    start = t.time()
     try:
         while True:
             elapsed=(t.time()-start)                              # elapsed time since the program started
@@ -233,9 +221,11 @@ if  __name__ == "__main__":
             newTime = elapsed                                     # newTime is the time of the current cycle.
             timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
 
-            singleLineOutput = r.loop(elapsed, timeDifference)    # the loop method of r prints data to the console and returns what is printed
+            one_cycle_position = r.loop()    # the loop method of r prints data to the console and returns what is printed
+
+            ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
             if to_use_file:
-                logfile.write(singleLineOutput + "\n")                # writes the data returned from the loop method to the file
+                FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
 
             index = index + 1                                     # increment data index
 
