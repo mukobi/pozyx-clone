@@ -67,11 +67,9 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="187">
               <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -79,20 +77,15 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="161" column="73" lean-forward="false" selection-start-line="161" selection-start-column="73" selection-end-line="161" selection-end-column="73" />
+            <state relative-caret-position="466">
+              <caret line="165" column="75" lean-forward="false" selection-start-line="165" selection-start-column="75" selection-end-line="165" selection-end-column="75" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3046#3047#0" expanded="true" />
-                <element signature="e#3137#3138#0" expanded="true" />
+                <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
                 <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+                <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
                 <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
-                <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
-                <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
-                <element signature="e#12031#12083#0" expanded="false" />
                 <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
-                <element signature="e#13851#13852#0" expanded="true" />
-                <element signature="e#13921#13922#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,53 +106,9 @@
       <file leaf-file-name="layout_main.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/layout_main.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
-              <folding>
-                <marker date="1500503401721" expanded="true" signature="2601:3156" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="2630:3132" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="3382:3640" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="3403:3492" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="3517:3619" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="3814:14790" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="3835:14768" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="4155:4831" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="4180:4811" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="4498:4785" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="4527:4761" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="5141:8485" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="5166:8465" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="5232:5982" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="5261:5958" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="6048:6797" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="6077:6773" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="6863:7612" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="6892:7588" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="7678:8439" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="7707:8415" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="8579:11106" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="8604:11086" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="8671:9826" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="8700:9802" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="9893:11060" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="9922:11036" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="11402:12760" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="11427:12740" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="11738:12003" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="11767:11979" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="12070:12714" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="12099:12690" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="12332:12507" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="12368:12472" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="13344:14143" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="13369:14123" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="13551:13680" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="13576:13654" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="14351:14746" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="14376:14726" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="14858:14941" ph="..." />
-                <marker date="1500503401721" expanded="true" signature="14960:15038" ph="..." />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+              <folding />
             </state>
           </provider>
           <provider editor-type-id="JavaFX-Scene-Builder">
@@ -220,7 +169,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1932" />
+    <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectReloadState">
@@ -241,9 +190,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -349,13 +298,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -411,21 +353,12 @@
       </Profilers>
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
@@ -460,13 +393,13 @@
       <option name="MAIN_CLASS_NAME" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
+        <value defaultName="singleModule" />
       </option>
       <envs />
       <patterns />
@@ -518,14 +451,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -537,15 +462,15 @@
       <option name="METHOD_NAME" />
       <option name="GROUP_NAME" />
       <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" />
       <option name="OUTPUT_DIRECTORY" />
       <option name="ANNOTATION_TYPE" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
+        <value defaultName="singleModule" />
       </option>
       <option name="USE_DEFAULT_REPORTERS" value="false" />
       <option name="PROPERTIES_FILE" />
@@ -580,11 +505,6 @@
       <item index="0" class="java.lang.String" itemvalue="Application.Main" />
       <item index="1" class="java.lang.String" itemvalue="JAR Application.JavaFXApp.jar" />
     </list>
-    <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="JAR Application.JavaFXApp.jar" />
-      </list>
-    </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -592,6 +512,9 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -608,42 +531,44 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22093023" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20720251" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22093023" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20677084" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39957717" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -656,7 +581,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -668,10 +593,175 @@
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="14" lean-forward="false" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
+          <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/layout_main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4080">
+          <caret line="240" column="12" lean-forward="false" selection-start-line="240" selection-start-column="12" selection-end-line="240" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
+            <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/layout_main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4080">
+          <caret line="240" column="41" lean-forward="false" selection-start-line="240" selection-start-column="31" selection-end-line="240" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
+            <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/layout_main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4080">
+          <caret line="240" column="41" lean-forward="false" selection-start-line="240" selection-start-column="31" selection-end-line="240" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
+            <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/layout_main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2737">
+          <caret line="161" column="73" lean-forward="false" selection-start-line="161" selection-start-column="73" selection-end-line="161" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
+            <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="14" lean-forward="false" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -681,16 +771,11 @@
           <caret line="289" column="46" lean-forward="false" selection-start-line="289" selection-start-column="46" selection-end-line="289" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3046#3047#0" expanded="true" />
-            <element signature="e#3137#3138#0" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
-            <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
-            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
-            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
-            <element signature="e#13851#13852#0" expanded="true" />
-            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -709,64 +794,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
           <caret line="63" column="24" lean-forward="false" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-          <folding>
-            <marker date="1500503401721" expanded="true" signature="2601:3156" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="2630:3132" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3382:3640" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3403:3492" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3517:3619" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3814:14790" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3835:14768" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4155:4831" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4180:4811" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4498:4785" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4527:4761" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5141:8485" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5166:8465" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5232:5982" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5261:5958" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6048:6797" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6077:6773" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6863:7612" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6892:7588" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7678:8439" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7707:8415" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8579:11106" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8604:11086" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8671:9826" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8700:9802" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9893:11060" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9922:11036" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11402:12760" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11427:12740" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11738:12003" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11767:11979" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12070:12714" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12099:12690" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12332:12507" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12368:12472" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13344:14143" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13369:14123" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13551:13680" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13576:13654" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14351:14746" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14376:14726" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14858:14941" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14960:15038" ph="..." />
-          </folding>
+          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -776,16 +812,11 @@
           <caret line="289" column="46" lean-forward="false" selection-start-line="289" selection-start-column="46" selection-end-line="289" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3046#3047#0" expanded="true" />
-            <element signature="e#3137#3138#0" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
-            <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
-            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
-            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
-            <element signature="e#13851#13852#0" expanded="true" />
-            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -804,64 +835,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
           <caret line="63" column="24" lean-forward="false" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-          <folding>
-            <marker date="1500503401721" expanded="true" signature="2601:3156" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="2630:3132" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3382:3640" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3403:3492" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3517:3619" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3814:14790" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3835:14768" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4155:4831" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4180:4811" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4498:4785" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4527:4761" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5141:8485" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5166:8465" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5232:5982" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5261:5958" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6048:6797" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6077:6773" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6863:7612" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6892:7588" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7678:8439" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7707:8415" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8579:11106" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8604:11086" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8671:9826" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8700:9802" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9893:11060" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9922:11036" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11402:12760" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11427:12740" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11738:12003" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11767:11979" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12070:12714" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12099:12690" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12332:12507" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12368:12472" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13344:14143" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13369:14123" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13551:13680" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13576:13654" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14351:14746" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14376:14726" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14858:14941" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14960:15038" ph="..." />
-          </folding>
+          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -869,55 +851,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-          <folding>
-            <marker date="1500503401721" expanded="true" signature="2601:3156" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="2630:3132" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3382:3640" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3403:3492" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3517:3619" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3814:14790" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3835:14768" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4155:4831" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4180:4811" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4498:4785" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4527:4761" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5141:8485" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5166:8465" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5232:5982" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5261:5958" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6048:6797" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6077:6773" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6863:7612" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6892:7588" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7678:8439" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7707:8415" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8579:11106" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8604:11086" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8671:9826" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8700:9802" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9893:11060" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9922:11036" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11402:12760" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11427:12740" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11738:12003" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11767:11979" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12070:12714" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12099:12690" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12332:12507" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12368:12472" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13344:14143" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13369:14123" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13551:13680" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13576:13654" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14351:14746" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14376:14726" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14858:14941" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14960:15038" ph="..." />
-          </folding>
+          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
@@ -926,16 +861,11 @@
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3046#3047#0" expanded="true" />
-            <element signature="e#3137#3138#0" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
-            <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
-            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
-            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
-            <element signature="e#13851#13852#0" expanded="true" />
-            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -954,17 +884,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
           <caret line="986" column="18" lean-forward="false" selection-start-line="986" selection-start-column="18" selection-end-line="986" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#1177#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -975,55 +894,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Program Scripts/motion_data.py" />
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#1177#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/layout_main.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
-          <folding>
-            <marker date="1500503401721" expanded="true" signature="2601:3156" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="2630:3132" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3382:3640" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3403:3492" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3517:3619" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3814:14790" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="3835:14768" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4155:4831" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4180:4811" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4498:4785" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="4527:4761" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5141:8485" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5166:8465" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5232:5982" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="5261:5958" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6048:6797" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6077:6773" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6863:7612" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="6892:7588" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7678:8439" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="7707:8415" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8579:11106" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8604:11086" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8671:9826" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="8700:9802" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9893:11060" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="9922:11036" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11402:12760" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11427:12740" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11738:12003" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="11767:11979" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12070:12714" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12099:12690" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12332:12507" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="12368:12472" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13344:14143" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13369:14123" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13551:13680" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="13576:13654" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14351:14746" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14376:14726" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14858:14941" ph="..." />
-            <marker date="1500503401721" expanded="true" signature="14960:15038" ph="..." />
-          </folding>
+        <state relative-caret-position="17">
+          <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+          <folding />
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -1032,30 +918,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="187">
           <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="161" column="73" lean-forward="false" selection-start-line="161" selection-start-column="73" selection-end-line="161" selection-end-column="73" />
+        <state relative-caret-position="466">
+          <caret line="165" column="75" lean-forward="false" selection-start-line="165" selection-start-column="75" selection-end-line="165" selection-end-column="75" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3046#3047#0" expanded="true" />
-            <element signature="e#3137#3138#0" expanded="true" />
+            <element signature="method#handleLoadButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#handleSaveTemplateButtonAction#0;class#Controller#0" expanded="false" />
+            <element signature="method#handleSaveUseButtonAction#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
-            <element signature="method#save_properties_to_file#0;class#Controller#0" expanded="false" />
-            <element signature="method#load_properties_from_file#0;class#Controller#0" expanded="false" />
-            <element signature="e#12031#12083#0" expanded="false" />
             <element signature="method#configureFileChooser#0;class#Controller#0" expanded="false" />
-            <element signature="e#13851#13852#0" expanded="true" />
-            <element signature="e#13921#13922#0" expanded="true" />
           </folding>
         </state>
       </provider>
