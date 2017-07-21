@@ -82,8 +82,6 @@ public class Controller {
     private CheckBox m_use_file;
     @FXML
     private TextField m_filename;
-    @FXML
-    private RadioButton m_use_txt_ext;
 
     @FXML
     private CheckBox m_use_processing;
@@ -119,7 +117,6 @@ public class Controller {
 
     private String use_file;
     private String filename;
-    private String use_txt_ext;
     private String use_processing;
 
     public void initialize() {
@@ -224,7 +221,6 @@ public class Controller {
 
         use_file = String.valueOf(m_use_file.isSelected());
         filename = m_filename.getText();
-        use_txt_ext = String.valueOf(m_use_txt_ext.isSelected());
         use_processing = String.valueOf(m_use_processing.isSelected());
     }
 
@@ -269,7 +265,6 @@ public class Controller {
 
             props.setProperty("use_file", use_file);
             props.setProperty("filename", filename);
-            props.setProperty("use_txt_extension", use_txt_ext);
             props.setProperty("use_processing", use_processing);
 
             // save properties to project root folder
@@ -328,7 +323,6 @@ public class Controller {
             m_log_gravity.setSelected(Boolean.valueOf(prop.getProperty("log_gravity", "false")));
             m_use_file.setSelected(Boolean.valueOf(prop.getProperty("use_file", "false")));
             m_filename.setText(prop.getProperty("filename", ""));
-            m_use_txt_ext.setSelected(Boolean.valueOf(prop.getProperty("use_txt_extension", "false")));
             m_use_processing.setSelected(Boolean.valueOf(prop.getProperty("use_processing", "")));
 
             update_variables_from_gui();
@@ -349,11 +343,6 @@ public class Controller {
                 new FileChooser.ExtensionFilter("Properties", "*.properties")
         );
     }
-
-    private void set_nothing_to_show_status() {
-        m_status_display.setText("Nothing to show right now.");
-    }
-
 }
 
 
