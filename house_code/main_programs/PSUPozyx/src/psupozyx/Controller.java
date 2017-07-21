@@ -119,7 +119,11 @@ public class Controller {
     private String filename;
     private String use_processing;
 
+
+    private String osName;
+
     public void initialize() {
+        osName = System.getProperty("os.name");
         load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
     }
 
@@ -159,36 +163,69 @@ public class Controller {
     @FXML
     private void handleLaunchPositioning(ActionEvent event) {
         saveSettingsForUse();
-        try {
-            Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning.bat");
-            p.waitFor();
+        if(osName.startsWith("Windows")) {
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning.bat");
+                p.waitFor();
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        else {
+            try {
+                String[] cmd = new String[]{"/bin/sh", "3D_positioning.sh"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                pr.waitFor();
+                System.out.println(pr.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
     }
     @FXML
-    private void handleLaunchMotionData(ActionEvent event) throws IOException {
+    private void handleLaunchMotionData(ActionEvent event) {
         saveSettingsForUse();
-        try {
-            Process p = Runtime.getRuntime().exec("cmd /c start motion_data.bat");
-            p.waitFor();
-            System.out.println(p.exitValue());
+        if(osName.startsWith("Windows")) {
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c start motion_data.bat");
+                p.waitFor();
+                System.out.println(p.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        else {
+            try {
+                String[] cmd = new String[]{"/bin/sh", "motion_data.sh"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                pr.waitFor();
+                System.out.println(pr.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
     }
     @FXML
     private void handleLaunchPositioningAndMotionData(ActionEvent event) {
         saveSettingsForUse();
-        try {
-            Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning_and_motion_data.bat");
-            p.waitFor();
-            System.out.println(p.exitValue());
+        if(osName.startsWith("Windows")) {
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning_and_motion_data.bat");
+                p.waitFor();
+                System.out.println(p.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        else {
+            try {
+                String[] cmd = new String[]{"/bin/sh", "3D_position_and_motion_data.sh"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                pr.waitFor();
+                System.out.println(pr.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
     }
 
