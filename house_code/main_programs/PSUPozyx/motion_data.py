@@ -28,7 +28,7 @@ from modules.console_logging_functions import ConsoleLoggingFunctions as Console
 from modules.property_reading import PropertyReading as PozyxProperties
 
 
-class Orientation3D(object):            
+class Orientation3D(object):
     """Reads out all sensor data from either a local or remote Pozyx"""
 
     def __init__(self, pozyx, osc_udp_client, remote_id=None):
