@@ -165,7 +165,7 @@ public class Controller {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
-                Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning.bat");
+                Process p = Runtime.getRuntime().exec("cmd /c start python 3D_positioning.py");
                 p.waitFor();
             } catch (Exception err) {
                 err.printStackTrace();
@@ -173,7 +173,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "3D_positioning.command"};
+                String[] cmd = new String[]{"/bin/sh", "3D_positioning.py"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
@@ -187,7 +187,7 @@ public class Controller {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
-                Process p = Runtime.getRuntime().exec("cmd /c start motion_data.bat");
+                Process p = Runtime.getRuntime().exec("cmd /c start python motion_data.py");
                 p.waitFor();
                 System.out.println(p.exitValue());
             } catch (Exception err) {
@@ -196,7 +196,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "motion_data.command"};
+                String[] cmd = new String[]{"/bin/sh", "motion_data.py"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
@@ -210,7 +210,7 @@ public class Controller {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
-                Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning_and_motion_data.bat");
+                Process p = Runtime.getRuntime().exec("cmd /c start python 3D_positioning_and_motion_data.py");
                 p.waitFor();
                 System.out.println(p.exitValue());
             } catch (Exception err) {
@@ -219,7 +219,7 @@ public class Controller {
         }
         else {
             try {
-                String[] cmd = new String[]{"/bin/sh", "3D_position_and_motion_data.command"};
+                String[] cmd = new String[]{"/bin/sh", "3D_position_and_motion_data.py"};
                 Process pr = Runtime.getRuntime().exec(cmd);
                 pr.waitFor();
                 System.out.println(pr.exitValue());
