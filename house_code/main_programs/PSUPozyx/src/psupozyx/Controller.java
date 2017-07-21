@@ -145,20 +145,20 @@ public class Controller {
         if (templateFile != null) {
             String templatePath = templateFile.getAbsolutePath();
             save_properties_to_file(templatePath);
-            m_status_display.setText("Successfully saved settings to template.");
+            m_status_display.setText("Saved settings to template.");
         }
 
     }
 
-    @FXML
-    private void handleSaveUseButtonAction(ActionEvent event){
+    private void saveSettingsForUse() {
         update_variables_from_gui();
         save_properties_to_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
-        m_status_display.setText("Successfully saved settings for use.");
+        m_status_display.setText("Saved active settings for use.");
     }
 
     @FXML
     private void handleLaunchPositioning(ActionEvent event) {
+        saveSettingsForUse();
         try {
             Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning.bat");
             p.waitFor();
@@ -169,6 +169,7 @@ public class Controller {
     }
     @FXML
     private void handleLaunchMotionData(ActionEvent event) throws IOException {
+        saveSettingsForUse();
         try {
             Process p = Runtime.getRuntime().exec("cmd /c start motion_data.bat");
             p.waitFor();
@@ -180,6 +181,7 @@ public class Controller {
     }
     @FXML
     private void handleLaunchPositioningAndMotionData(ActionEvent event) {
+        saveSettingsForUse();
         try {
             Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning_and_motion_data.bat");
             p.waitFor();
@@ -327,7 +329,7 @@ public class Controller {
 
             update_variables_from_gui();
 
-            m_status_display.setText("Successfully loaded values.");
+            m_status_display.setText("Loaded settings from template.");
         }
         catch (IOException ex) {
             ex.printStackTrace();
