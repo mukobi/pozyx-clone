@@ -157,17 +157,7 @@
                     <TextField id="filename" fx:id="m_filename" prefWidth="200.0" promptText="filename" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="10.0">
-                  <children>
-                    <Label font="$x2" text="Extension:" textFill="WHITE" />
-                    <RadioButton id="extention_txt" fx:id="m_use_txt_ext" font="$x2" mnemonicParsing="false" prefHeight="22.0" text=".txt" textFill="WHITE">
-                      <toggleGroup>
-                        <ToggleGroup fx:id="ToggleGroupFileExt" />
-                      </toggleGroup>
-                    </RadioButton>
-                    <RadioButton id="extension_csv" font="$x2" mnemonicParsing="false" text=".csv" textFill="WHITE" toggleGroup="$ToggleGroupFileExt" />
-                  </children>
-                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="10.0" />
               </children>
             </HBox>
             <Group id="Group" layoutX="542.0" layoutY="575.0" />
