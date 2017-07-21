@@ -133,7 +133,7 @@ if __name__ == '__main__':
 
             formatted_data_dictionary = ConsoleLogging.format_sensor_data(
                 one_cycle_sensor_data, attributes_to_log)
-            ConsoleLogging.log_to_console(index, elapsed, formatted_data_dictionary)
+            ConsoleLogging.log_sensor_data_to_console(index, elapsed, formatted_data_dictionary)
             if to_use_file:
                 FileWriting.write_line_of_sensor_data_to_file(
                     index, elapsed, time_difference,
