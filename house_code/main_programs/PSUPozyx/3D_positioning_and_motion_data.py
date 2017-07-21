@@ -73,7 +73,6 @@ class Orientation3D(object):
             status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
             if status == POZYX_SUCCESS:
                 # check position status
-                position = Coordinates()
                 status = self.pozyx.doPositioning(
                     position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
                 if status == POZYX_SUCCESS:
