@@ -250,7 +250,7 @@ if __name__ == '__main__':
                 if type(formatted_data_dictionary) == dict:
                     formatted_data_dictionary["Position"] = [
                         "x:", one_cycle_position.x, "y:", one_cycle_position.y, "z:", one_cycle_position.z]
-                ConsoleLogging.log_to_console(index, elapsed, formatted_data_dictionary)
+                ConsoleLogging.log_sensor_data_to_console(index, elapsed, formatted_data_dictionary)
                 if to_use_file:
                     FileWriting.write_sensor_and_position_data_to_file(
                         index, elapsed, time_difference,
