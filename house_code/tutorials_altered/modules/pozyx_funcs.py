@@ -16,7 +16,7 @@ def write_to_file(single_line_output, filename):
     write_to_file(singleLineOutput, filename)
     """
     if filename == "":
-        filename = "default_position_test.txt"
+        filename = "default_position_test.csv"
     with open(filename, "a") as f:
         f.write (single_line_output + '\n')
 
