@@ -157,40 +157,29 @@
                     <TextField id="filename" fx:id="m_filename" prefWidth="200.0" promptText="filename" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="10.0">
-                  <children>
-                    <Label font="$x2" text="Extension:" textFill="WHITE" />
-                    <RadioButton id="extention_txt" fx:id="m_use_txt_ext" font="$x2" mnemonicParsing="false" prefHeight="22.0" text=".txt" textFill="WHITE">
-                      <toggleGroup>
-                        <ToggleGroup fx:id="ToggleGroupFileExt" />
-                      </toggleGroup>
-                    </RadioButton>
-                    <RadioButton id="extension_csv" font="$x2" mnemonicParsing="false" text=".csv" textFill="WHITE" toggleGroup="$ToggleGroupFileExt" />
-                  </children>
-                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="10.0" />
               </children>
             </HBox>
             <Group id="Group" layoutX="542.0" layoutY="575.0" />
             <Label font="$x3" layoutX="42.0" layoutY="630.0" text="Graphing" textFill="WHITE" />
             <CheckBox id="use_processing" fx:id="m_use_processing" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" layoutX="77.0" layoutY="668.0" mnemonicParsing="false" text="Output Data Graphically Using Processing" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-            <HBox id="HBox" alignment="CENTER" layoutY="720.0" prefWidth="713.0" spacing="30.0" AnchorPane.leftAnchor="70.0">
+            <HBox id="HBox" alignment="CENTER" layoutY="720.0" prefWidth="800.0" spacing="30.0" AnchorPane.leftAnchor="30.0">
               <children>
-                <Button mnemonicParsing="false" onAction="#handleLoadButtonAction" prefHeight="50.0" prefWidth="220.0" style="&#10;" text="Load Settings From File" textFill="BLACK">
+                <Button mnemonicParsing="false" onAction="#handleLoadButtonAction" prefHeight="50.0" prefWidth="200.0" style="&#10;" text="Load Settings" textFill="BLACK">
                   <font>
                     <Font size="16.0" fx:id="x5" />
                   </font>
                 </Button>
-                <Button font="$x5" mnemonicParsing="false" onAction="#handleSaveTemplateButtonAction" prefHeight="50.0" prefWidth="220.0" style="&#10;" text="Save Settings As Template" textFill="BLACK" wrapText="true" />
-                <Button font="$x5" mnemonicParsing="false" onAction="#handleSaveUseButtonAction" prefHeight="50.0" prefWidth="220.0" style="&#10;" text="Save Settings For Use" textFill="BLACK" />
+                <Button font="$x5" mnemonicParsing="false" onAction="#handleSaveTemplateButtonAction" prefHeight="50.0" prefWidth="200.0" style="&#10;" text="Save Settings" textFill="BLACK" wrapText="true" />
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Status:" textFill="WHITE" />
+                    <Label fx:id="m_status_display" font="$x2" prefWidth="220.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
+                  </children>
+                </HBox>
               </children>
             </HBox>
             <HBox id="HBox" alignment="CENTER" layoutX="529.0" layoutY="650.0" prefHeight="32.0" spacing="5.0" />
-            <HBox id="HBox" alignment="CENTER" layoutX="506.0" layoutY="663.0" spacing="5.0">
-              <children>
-                <Label font="$x2" text="Status:" textFill="WHITE" />
-                <Label fx:id="m_status_display" font="$x2" prefWidth="260.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
-              </children>
-            </HBox>
           </children>
         </AnchorPane>
       </items>

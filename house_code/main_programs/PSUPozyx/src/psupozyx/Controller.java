@@ -82,8 +82,6 @@ public class Controller {
     private CheckBox m_use_file;
     @FXML
     private TextField m_filename;
-    @FXML
-    private RadioButton m_use_txt_ext;
 
     @FXML
     private CheckBox m_use_processing;
@@ -119,10 +117,13 @@ public class Controller {
 
     private String use_file;
     private String filename;
-    private String use_txt_ext;
     private String use_processing;
 
+
+    private String osName;
+
     public void initialize() {
+        osName = System.getProperty("os.name");
         load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
     }
 
@@ -148,48 +149,83 @@ public class Controller {
         if (templateFile != null) {
             String templatePath = templateFile.getAbsolutePath();
             save_properties_to_file(templatePath);
-            m_status_display.setText("Successfully saved settings to template.");
+            m_status_display.setText("Saved settings to template.");
         }
 
     }
 
-    @FXML
-    private void handleSaveUseButtonAction(ActionEvent event){
+    private void saveSettingsForUse() {
         update_variables_from_gui();
         save_properties_to_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
-        m_status_display.setText("Successfully saved settings for use.");
+        m_status_display.setText("Saved active settings for use.");
     }
 
     @FXML
     private void handleLaunchPositioning(ActionEvent event) {
-        try {
-            Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning.bat");
-            p.waitFor();
+        saveSettingsForUse();
+        if(osName.startsWith("Windows")) {
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c start python 3D_positioning.py");
+                p.waitFor();
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        else {
+            try {
+                String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_positioning.py"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                pr.waitFor();
+                System.out.println(pr.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
     }
     @FXML
-    private void handleLaunchMotionData(ActionEvent event) throws IOException {
-        try {
-            Process p = Runtime.getRuntime().exec("cmd /c start motion_data.bat");
-            p.waitFor();
-            System.out.println(p.exitValue());
+    private void handleLaunchMotionData(ActionEvent event) {
+        saveSettingsForUse();
+        if(osName.startsWith("Windows")) {
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c start python motion_data.py");
+                p.waitFor();
+                System.out.println(p.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        else {
+            try {
+                String[] cmd = new String[]{"/bin/sh", "-c", "python motion_data.py"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                pr.waitFor();
+                System.out.println(pr.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
     }
     @FXML
     private void handleLaunchPositioningAndMotionData(ActionEvent event) {
-        try {
-            Process p = Runtime.getRuntime().exec("cmd /c start 3D_positioning_and_motion_data.bat");
-            p.waitFor();
-            System.out.println(p.exitValue());
+        saveSettingsForUse();
+        if(osName.startsWith("Windows")) {
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c start python 3D_positioning_and_motion_data.py");
+                p.waitFor();
+                System.out.println(p.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
-        catch (Exception err) {
-            err.printStackTrace();
+        else {
+            try {
+                String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_position_and_motion_data.py"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                pr.waitFor();
+                System.out.println(pr.exitValue());
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
         }
     }
 
@@ -224,7 +260,6 @@ public class Controller {
 
         use_file = String.valueOf(m_use_file.isSelected());
         filename = m_filename.getText();
-        use_txt_ext = String.valueOf(m_use_txt_ext.isSelected());
         use_processing = String.valueOf(m_use_processing.isSelected());
     }
 
@@ -269,7 +304,6 @@ public class Controller {
 
             props.setProperty("use_file", use_file);
             props.setProperty("filename", filename);
-            props.setProperty("use_txt_extension", use_txt_ext);
             props.setProperty("use_processing", use_processing);
 
             // save properties to project root folder
@@ -328,12 +362,11 @@ public class Controller {
             m_log_gravity.setSelected(Boolean.valueOf(prop.getProperty("log_gravity", "false")));
             m_use_file.setSelected(Boolean.valueOf(prop.getProperty("use_file", "false")));
             m_filename.setText(prop.getProperty("filename", ""));
-            m_use_txt_ext.setSelected(Boolean.valueOf(prop.getProperty("use_txt_extension", "false")));
             m_use_processing.setSelected(Boolean.valueOf(prop.getProperty("use_processing", "")));
 
             update_variables_from_gui();
 
-            m_status_display.setText("Successfully loaded values.");
+            m_status_display.setText("Loaded settings from template.");
         }
         catch (IOException ex) {
             ex.printStackTrace();
@@ -349,11 +382,6 @@ public class Controller {
                 new FileChooser.ExtensionFilter("Properties", "*.properties")
         );
     }
-
-    private void set_nothing_to_show_status() {
-        m_status_display.setText("Nothing to show right now.");
-    }
-
 }
 
 
