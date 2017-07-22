@@ -1,6 +1,6 @@
 from pypozyx import *
 
-MASTER_PROPS_LOCATION = "../../original_programs/PSUPozyx/Configurations/MASTER_ACTIVE_CONFIG.properties"
+MASTER_PROPS_LOCATION = "../../original_programs/PSUPozyx/Configuration/MASTER_ACTIVE_CONFIG.properties"
 
 
 class PropertyReading:
