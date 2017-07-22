@@ -859,19 +859,19 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
         plt.legend()
 
     else:
-        plt.subplot(2, 1, 1)
+        plt.subplot(3, 1, 1)
         plt.plot(x, y1)
         plt.legend( loc=2, prop={'size': 6})
         plt.title(name_two + " & " + name_three + " vs. " + name_one)
         plt.ylabel(name_two)
 
-        plt.subplot(2, 1, 2)
+        plt.subplot(3, 1, 2)
         plt.plot(x, y2)
         plt.legend(loc=2, prop={'size': 6})
         plt.xlabel(name_one)
         plt.ylabel(name_three)
 
-        plt.subplot(2, 1, 3)
+        plt.subplot(3, 1, 3)
         plt.plot(x, y3)
         plt.legend(loc=2, prop={'size': 6})
         plt.xlabel(name_one)
