@@ -1,14 +1,58 @@
 
 """
-This file will have to be changed if you wish to view different data files.
+Notes:
+To view files in different folders the path string variable must be changed in the main function.
 The data files selected must be .csv format.
-From the file, you may look at any type of data so long as you put in the correct integers and exact file name.
-Moreover, the first row of the CSV file must have all the types of data listed.
+The csv file must list at the top all of the types of data being read.
 
-The purpose of this program is to read data and create readily readable graphs for users.
+The purpose of this program is to read data and create readily readable graphical information for users.
 
 The program still has trouble with graphing Position-X in relation to Position-Y
+
+Improve/Bugs:
+For Pandas to work properly, the usecols should be a number, otherwise data is terrible.
+Possibly use mathematical functions to smooth the data for better analysis?
+Finish working on whether or not the lines will be graphed on top of each other.
 """
+def get_available_datatypes(path):
+    """
+    This function reads the csv file and prints the names of all the available datatypes the user can use.
+
+    :param string path: this is the string of the path to the csv file
+    """
+    print("These are the available datatypes for use: ")
+    number = 0
+
+    import csv
+    with open(path, "r") as f:
+        reader = csv.reader(f)
+        line = next(reader)
+
+        for available_datatype in line:
+            print(str(number) + ". " + available_datatype)
+            number += 1
+
+def graphing_method():
+
+
+    ontop = input("Do you want to graph the types of data on top of each other? (y / n)")
+
+    if (ontop[0] == "y"
+            or ontop[0] == "Y"
+            or ontop[0] == "t"
+            or ontop[0] == "T"):
+        ontop = True
+        return ontop
+    elif (ontop[0] == "n"
+            or ontop[0] == "N"
+            or ontop[0] == "f"
+            or ontop[0] == "F"):
+        ontop = False
+        return ontop
+    else:
+        print("Invalid input, try again!")
+
+
 
 def get_pozyx_data_two(file_name):
     """
@@ -19,25 +63,18 @@ def get_pozyx_data_two(file_name):
     :return name_one: this returns the name of the x-variable chosen
     :return name_two: this returns the name of the y-variable chosen
 
-    The function prints a list of all the available types of data and the user inputs which to use.
+    The user inputs which to use.
     The data is collected from the csv file and returned in the return statement along with the names of the types of data chosen
     """
 
-    path = "..\..\Data\\" + file_name
-
-    print("Available data types: \n 0. Index\n 1. Time\n 2. Difference\n 3. Hz\n 4. Pressure\n 5. Acceleration-X\n 6. Acceleration-Y\n" +
-        " 7. Acceleration-Z\n 8. Magnetic-X\n 9. Magnetic-Y\n 10. Magnetic-Z\n 11. Angular-Vel-X\n 12. Angular-Vel-Y\n 13. Angular-Vel-Z\n 14. Heading\n 15. Roll\n 16. Pitch\n"
-        " 17. Quaternion-X\n 18. Quaternion-Y\n 19. Quaternion-Z\n 20. Quaternion-W\n 21. Linear-Acceleration-X\n 22. Linear-Acceleration-Y\n 23. Linear-Acceleration-Z\n"
-        " 24. Gravity-X\n 25. Gravity-Y\n 26. Gravity-Z\n 27. Position-X\n 28. Position-Y\n 29. Position-Z\n")
-
     try:
         col_one = int(input("Which data type would you like to use for the X axis? (Default is time.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_one = 1
 
     try:
         col_two = int(input("Which data type would you like to use for the Y axis? (Default is X-Position.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_two = 27
 
     name_one = ""
@@ -186,7 +223,7 @@ def get_pozyx_data_two(file_name):
     return datatype, name_one, name_two
 
 
-def get_pozyx_data_three(name):
+def get_pozyx_data_three(file_name):
     """
     Function to get data for graphing two types of data over another.
 
@@ -196,31 +233,24 @@ def get_pozyx_data_three(name):
     :return name_two: this returns the name of the y-variable chosen
     :return name_three: this returns the name of the second y-variable chosen
 
-    The function prints a list of all the available types of data and the user inputs which to use.
+    The user inputs which to use.
     The data is collected from the csv file and returned in the return statement along with the names of the types of data chosen
     """
 
 
-    path = "..\..\Data\\Blazers\\" + name
-
-    print("Available data types: \n 0. Index\n 1. Time\n 2. Difference\n 3. Hz\n 4. Pressure\n 5. Acceleration-X\n 6. Acceleration-Y\n" +
-        " 7. Acceleration-Z\n 8. Magnetic-X\n 9. Magnetic-Y\n 10. Magnetic-Z\n 11. Angular-Vel-X\n 12. Angular-Vel-Y\n 13. Angular-Vel-Z\n 14. Heading\n 15. Roll\n 16. Pitch\n"
-        " 17. Quaternion-X\n 18. Quaternion-Y\n 19. Quaternion-Z\n 20. Quaternion-W\n 21. Linear-Acceleration-X\n 22. Linear-Acceleration-Y\n 23. Linear-Acceleration-Z\n"
-        " 24. Gravity-X\n 25. Gravity-Y\n 26. Gravity-Z\n 27. Position-X\n 28. Position-Y\n 29. Position-Z\n")
-
     try:
         col_one = int(input("Which data type would you like to use for the X axis? (Default is time.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_one = 1
 
     try:
         col_two = int(input("Which data type would you like to use for the Y axis? (Default is X-Position.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_two = 27
 
     try:
         col_three = int(input("Which data type would you like to use for the Y axis? (Default is Y-Position.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_three = 28
 
     name_one = ""
@@ -425,7 +455,7 @@ def get_pozyx_data_three(name):
 
     return datatype, name_one, name_two, name_three
 
-def get_pozyx_data_four(name):
+def get_pozyx_data_four(file_name):
     """
     Function to get data for graphing two types of data over another.
 
@@ -436,35 +466,29 @@ def get_pozyx_data_four(name):
     :return name_three: this returns the name of the second y-variable chosen
     :return name_four: this returns the name of the third y-variable chosen
 
-    The function prints a list of all the available types of data and the user inputs which to use.
+    The user inputs which to use.
     The data is collected from the csv file and returned in the return statement along with the names of the types of data chosen
     """
 
-    path = "..\..\Data\\Blazers\\" + name
-
-    print("Available data types: \n 0. Index\n 1. Time\n 2. Difference\n 3. Hz\n 4. Pressure\n 5. Acceleration-X\n 6. Acceleration-Y\n" +
-        " 7. Acceleration-Z\n 8. Magnetic-X\n 9. Magnetic-Y\n 10. Magnetic-Z\n 11. Angular-Vel-X\n 12. Angular-Vel-Y\n 13. Angular-Vel-Z\n 14. Heading\n 15. Roll\n 16. Pitch\n"
-        " 17. Quaternion-X\n 18. Quaternion-Y\n 19. Quaternion-Z\n 20. Quaternion-W\n 21. Linear-Acceleration-X\n 22. Linear-Acceleration-Y\n 23. Linear-Acceleration-Z\n"
-        " 24. Gravity-X\n 25. Gravity-Y\n 26. Gravity-Z\n 27. Position-X\n 28. Position-Y\n 29. Position-Z\n")
 
     try:
         col_one = int(input("Which data type would you like to use for the X axis? (Default is time.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_one = 1
 
     try:
         col_two = int(input("Which data type would you like to use for the Y axis? (Default is X-Position.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_two = 27
 
     try:
         col_three = int(input("Which data type would you like to use for the Y axis? (Default is Y-Position.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_three = 28
 
     try:
         col_four = int(input("Which data type would you like to use for the Y axis? (Default is Z-Position.)\n"))
-    except SyntaxError:
+    except ValueError:
         col_four = 29
 
 
@@ -746,23 +770,29 @@ def create_graph_two(data, name_one, name_two):
     y1 = data[name_two]
     deriv_data = data.diff(1,0)[name_two]
 
-    plt.subplot(2, 1, 1)
-    plt.plot(x, y1)
-    plt.legend( loc=2, prop={'size': 6})
-    plt.title(name_two + " & Derivative of " + name_two + " vs. " + name_one)
-    plt.ylabel(name_two)
+    if graphing_method == True:
+        """Figure out how to show which line is the deriv_data line"""
+        plt.plot(x, y1)
+        plt.plot(x, deriv_data)
+        plt.xlabel(name_one)
+        plt.legend()
+        plt.title(name_two + " & Derivative of " + name_two + " vs. " + name_one)
+        plt.legend()
 
-    plt.subplot(2, 1, 2)
-    plt.plot(x, deriv_data)
-    plt.legend( loc=2, prop={'size': 6})
-    plt.xlabel(name_one)
-    plt.ylabel("Derivative of " + name_two)
+    else:
+        plt.subplot(2, 1, 1)
+        plt.plot(x, y1)
+        plt.legend( loc=2, prop={'size': 6})
+        plt.title(name_two + " & Derivative of " + name_two + " vs. " + name_one)
+        plt.ylabel(name_two)
+
+        plt.subplot(2, 1, 2)
+        plt.plot(x, deriv_data)
+        plt.legend(loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
+        plt.ylabel("Derivative of " + name_two)
 
     plt.show()
-
-
-
-
 
 
 
@@ -778,13 +808,30 @@ def create_graph_three(data, name_one, name_two, name_three):
     x = data[name_one]
     y1 = data[name_two]
     y2 = data[name_three]
-    plt.plot(x, y1)
-    plt.plot(x, y2)
-    plt.xlabel(name_one)
-    plt.legend()
-    plt.title(name_two + " & " + name_three + " vs. " + name_one)
-    plt.legend()
+
+    if graphing_method == True:
+        plt.plot(x, y1)
+        plt.plot(x, y2)
+        plt.xlabel(name_one)
+        plt.legend()
+        plt.title(name_two + " & " + name_three + " vs. " + name_one)
+        plt.legend()
+
+    else:
+        plt.subplot(2, 1, 1)
+        plt.plot(x, y1)
+        plt.legend( loc=2, prop={'size': 6})
+        plt.title(name_two + " & " + name_three + " vs. " + name_one)
+        plt.ylabel(name_two)
+
+        plt.subplot(2, 1, 2)
+        plt.plot(x, y2)
+        plt.legend(loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
+        plt.ylabel(name_three)
+
     plt.show()
+
 
 def create_graph_four(data, name_one, name_two, name_three, name_four):
     """
@@ -801,16 +848,36 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
     y1 = data[name_two]
     y2 = data[name_three]
     y3 = data[name_four]
-    plt.plot(x, y1)
-    plt.plot(x, y2)
-    plt.plot(x, y3)
-    plt.xlabel(name_one)
-    plt.legend()
-    plt.title(name_two + " & " + name_three + " & " + name_four + " vs. " + name_one)
-    plt.legend()
+
+    if graphing_method == True:
+        plt.plot(x, y1)
+        plt.plot(x, y2)
+        plt.plot(x, y3)
+        plt.xlabel(name_one)
+        plt.legend()
+        plt.title(name_two + " & " + name_three + " & " + name_four + " vs. " + name_one)
+        plt.legend()
+
+    else:
+        plt.subplot(2, 1, 1)
+        plt.plot(x, y1)
+        plt.legend( loc=2, prop={'size': 6})
+        plt.title(name_two + " & " + name_three + " vs. " + name_one)
+        plt.ylabel(name_two)
+
+        plt.subplot(2, 1, 2)
+        plt.plot(x, y2)
+        plt.legend(loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
+        plt.ylabel(name_three)
+
+        plt.subplot(2, 1, 3)
+        plt.plot(x, y3)
+        plt.legend(loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
+        plt.ylabel(name_four)
+
     plt.show()
-
-
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
@@ -820,18 +887,27 @@ if __name__ == '__main__':
     file_name = input("Please enter the exact name of the file: ")
     file_name += ".csv"
 
+    path = "..\..\Data\\" + file_name
 
-    information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
-    if information == 2:
-        data, name_one, name_two = get_pozyx_data_two(file_name)
-        create_graph_two(data, name_one, name_two)
+    graphing_method = graphing_method()
 
-    elif information == 3:
-        data, name_one, name_two, name_three = get_pozyx_data_three(file_name)
-        create_graph_three(data, name_one, name_two, name_three)
+    try:
+        get_available_datatypes(path)
 
-    elif information == 4:
-        data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name)
-        create_graph_four(data, name_one, name_two, name_three, name_four)
-    else:
-        print("Invalid input.")
+        information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
+        if information == 2:
+            data, name_one, name_two = get_pozyx_data_two(file_name)
+            create_graph_two(data, name_one, name_two)
+
+        elif information == 3:
+            data, name_one, name_two, name_three = get_pozyx_data_three(file_name)
+            create_graph_three(data, name_one, name_two, name_three)
+
+        elif information == 4:
+            data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name)
+            create_graph_four(data, name_one, name_two, name_three, name_four)
+        else:
+            print("Invalid input.")
+
+    except TypeError:
+        graphing_method = graphing_method()
