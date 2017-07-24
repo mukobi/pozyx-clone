@@ -4,15 +4,17 @@ Notes:
 To view files in different folders the path string variable must be changed in the main function.
 The data files selected must be .csv format.
 The csv file must list at the top all of the types of data being read.
+The program still has trouble with graphing Position-X in relation to Position-Y.
 
+
+***
 The purpose of this program is to read data and create readily readable graphical information for users.
+***
 
-The program still has trouble with graphing Position-X in relation to Position-Y
 
 Improve/Bugs:
 For Pandas to work properly, the usecols should be a number, otherwise data is terrible.
 Possibly use mathematical functions to smooth the data for better analysis?
-Finish working on whether or not the lines will be graphed on top of each other.
 """
 def get_available_datatypes(path):
     """
@@ -32,8 +34,53 @@ def get_available_datatypes(path):
             print(str(number) + ". " + available_datatype)
             number += 1
 
-def graphing_method():
+def graph_derivatives():
+    """
+    """
+    graph_deriv = input("Do you want to graph the derivative graphs alongside the data? (y / n)")
 
+    if (graph_deriv[0] == "y"
+            or graph_deriv[0] == "Y"
+            or graph_deriv[0] == "t"
+            or graph_deriv[0] == "T"):
+        graph_deriv = True
+        return graph_deriv
+    elif (graph_deriv[0] == "n"
+            or graph_deriv[0] == "N"
+            or graph_deriv[0] == "f"
+            or graph_deriv[0] == "F"):
+        graph_deriv = False
+        return graph_deriv
+    else:
+        print("Invalid input, try again!")
+        graph_derivatives()
+
+def num_of_graphs():
+    #try:
+    information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
+    if information == 2:
+        data, name_one, name_two = get_pozyx_data_two(file_name)
+        create_graph_two(data, name_one, name_two)
+
+    elif information == 3:
+        data, name_one, name_two, name_three = get_pozyx_data_three(file_name)
+        create_graph_three(data, name_one, name_two, name_three)
+
+    elif information == 4:
+        data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name)
+        create_graph_four(data, name_one, name_two, name_three, name_four)
+    else:
+        print("Invalid input, try again!")
+        num_of_graphs()
+
+def graphing_method():
+    """
+    This function was created to determine whether the user wants to graph the data on top of each other or on separate graphs.
+
+    :return boolean ontop: ontop is returned to determine how the data will graph
+
+    Note: if graphing_method is true, then they will graph ontop of each other
+    """
 
     ontop = input("Do you want to graph the types of data on top of each other? (y / n)")
 
@@ -51,7 +98,7 @@ def graphing_method():
         return ontop
     else:
         print("Invalid input, try again!")
-
+        graphing_method()
 
 
 def get_pozyx_data_two(file_name):
@@ -768,18 +815,24 @@ def create_graph_two(data, name_one, name_two):
     """
     x = data[name_one]
     y1 = data[name_two]
-    deriv_data = data.diff(1,0)[name_two]
+    y1_deriv = data.diff(1,0)[name_two]
 
-    if graphing_method == True:
-        """Figure out how to show which line is the deriv_data line"""
-        plt.plot(x, y1)
-        plt.plot(x, deriv_data)
+    if graphing_method == True and graph_deriv == True:
+        plt.plot(x, y1, label = name_two)
+        plt.plot(x, y1_deriv, label = ("Derivative of " + name_two))
         plt.xlabel(name_one)
         plt.legend()
         plt.title(name_two + " & Derivative of " + name_two + " vs. " + name_one)
         plt.legend()
 
-    else:
+    elif graphing_method == True and graph_deriv == False:
+        plt.plot(x, y1)
+        plt.xlabel(name_one)
+        plt.legend()
+        plt.title(name_two + " vs. " + name_one)
+        plt.legend()
+
+    elif graphing_method == False and graph_deriv == True:
         plt.subplot(2, 1, 1)
         plt.plot(x, y1)
         plt.legend( loc=2, prop={'size': 6})
@@ -787,10 +840,17 @@ def create_graph_two(data, name_one, name_two):
         plt.ylabel(name_two)
 
         plt.subplot(2, 1, 2)
-        plt.plot(x, deriv_data)
+        plt.plot(x, y1_deriv, label = ("Derivative of " + name_two))
         plt.legend(loc=2, prop={'size': 6})
         plt.xlabel(name_one)
         plt.ylabel("Derivative of " + name_two)
+
+    elif graphing_method == False and graph_deriv == False:
+        plt.plot(x, y1)
+        plt.xlabel(name_one)
+        plt.legend()
+        plt.title(name_two + " vs. " + name_one)
+        plt.legend()
 
     plt.show()
 
@@ -808,27 +868,62 @@ def create_graph_three(data, name_one, name_two, name_three):
     x = data[name_one]
     y1 = data[name_two]
     y2 = data[name_three]
+    y1_deriv = data.diff(1,0)[name_two]
+    y2_deriv = data.diff(1,0)[name_three]
 
-    if graphing_method == True:
-        plt.plot(x, y1)
-        plt.plot(x, y2)
+    if graphing_method == True and graph_deriv == False:
+        plt.plot(x, y1, label = name_two)
+        plt.plot(x, y2, label = name_three)
         plt.xlabel(name_one)
         plt.legend()
         plt.title(name_two + " & " + name_three + " vs. " + name_one)
         plt.legend()
 
-    else:
+    elif graphing_method == True and graph_deriv == True:
+        plt.plot(x, y1, label = name_two)
+        plt.plot(x, y2, label = name_three)
+        plt.plot(x, y1_deriv, label = ("Derivative of " + name_two))
+        plt.plot(x, y2_deriv, label = ("Derivative of " + name_three))
+        plt.xlabel(name_one)
+        plt.legend()
+        plt.title(name_two + " & " + name_three + " vs. " + name_one)
+        plt.legend()
+
+    elif graphing_method == False and graph_deriv == False:
         plt.subplot(2, 1, 1)
-        plt.plot(x, y1)
+        plt.plot(x, y1, label = name_two)
         plt.legend( loc=2, prop={'size': 6})
         plt.title(name_two + " & " + name_three + " vs. " + name_one)
         plt.ylabel(name_two)
 
         plt.subplot(2, 1, 2)
-        plt.plot(x, y2)
+        plt.plot(x, y2, label = name_three)
         plt.legend(loc=2, prop={'size': 6})
         plt.xlabel(name_one)
         plt.ylabel(name_three)
+
+    elif graphing_method == False and graph_deriv == True:
+        plt.subplot(2, 2, 1)
+        plt.plot(x, y1, label = name_two)
+        plt.legend( loc=2, prop={'size': 6})
+        plt.title(name_two + " & " + name_three + " vs. " + name_one)
+        plt.ylabel(name_two)
+
+        plt.subplot(2, 2, 2)
+        plt.plot(x, y1_deriv, label = ("Derivative of " + name_two))
+        plt.legend( loc=2, prop={'size': 6})
+        plt.title("Derivative of " + name_two + " & " + name_three + " vs. " + name_one)
+
+        plt.subplot(2, 2, 3)
+        plt.plot(x, y2, label = name_three)
+        plt.legend(loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
+        plt.ylabel(name_three)
+
+        plt.subplot(2, 2, 4)
+        plt.plot(x, y2_deriv, label = ("Derivative of " + name_three))
+        plt.legend( loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
 
     plt.show()
 
@@ -848,8 +943,11 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
     y1 = data[name_two]
     y2 = data[name_three]
     y3 = data[name_four]
+    y1_deriv = data.diff(1,0)[name_two]
+    y2_deriv = data.diff(1,0)[name_three]
+    y3_deriv = data.diff(1,0)[name_four]
 
-    if graphing_method == True:
+    if graphing_method == True and graph_deriv == False:
         plt.plot(x, y1)
         plt.plot(x, y2)
         plt.plot(x, y3)
@@ -858,11 +956,23 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
         plt.title(name_two + " & " + name_three + " & " + name_four + " vs. " + name_one)
         plt.legend()
 
-    else:
+    elif graphing_method == True and graph_deriv == True:
+        plt.plot(x, y1)
+        plt.plot(x, y2)
+        plt.plot(x, y3)
+        plt.plot(x, y1_deriv, label = ("Derivative of " + name_two))
+        plt.plot(x, y2_deriv, label = ("Derivative of " + name_three))
+        plt.plot(x, y3_deriv, label = ("Derivative of " + name_four))
+        plt.xlabel(name_one)
+        plt.legend()
+        plt.title(name_two + " & " + name_three + " & " + name_four + " vs. " + name_one)
+        plt.legend()
+
+    elif graphing_method == False and graph_deriv == False:
         plt.subplot(3, 1, 1)
         plt.plot(x, y1)
         plt.legend( loc=2, prop={'size': 6})
-        plt.title(name_two + " & " + name_three + " vs. " + name_one)
+        plt.title(name_two + " & " + name_three + " & " + name_four + " vs. " + name_one)
         plt.ylabel(name_two)
 
         plt.subplot(3, 1, 2)
@@ -876,6 +986,38 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
         plt.legend(loc=2, prop={'size': 6})
         plt.xlabel(name_one)
         plt.ylabel(name_four)
+
+    elif graphing_method == False and graph_deriv == True:
+        plt.subplot(3, 2, 1)
+        plt.plot(x, y1)
+        plt.legend( loc=2, prop={'size': 6})
+        plt.title(name_two + " & " + name_three + " & " + name_four + " vs. " + name_one)
+        plt.ylabel(name_two)
+
+        plt.subplot(3, 2, 2)
+        plt.plot(x, y1_deriv, label = ("Derivative of" + name_two))
+        plt.legend( loc=2, prop={'size': 6})
+        plt.title("Derivative of " + name_two + " & " + name_three + " & " + name_four + " vs. " + name_one)
+
+        plt.subplot(3, 2, 3)
+        plt.plot(x, y2)
+        plt.legend(loc=2, prop={'size': 6})
+        plt.ylabel(name_three)
+
+        plt.subplot(3, 2, 4)
+        plt.plot(x, y2_deriv, label = ("Derivative of " + name_three))
+        plt.legend(loc=2, prop={'size': 6})
+
+        plt.subplot(3, 2, 5)
+        plt.plot(x, y3)
+        plt.legend(loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
+        plt.ylabel(name_four)
+
+        plt.subplot(3, 2, 6)
+        plt.plot(x, y3_deriv, label = ("Derivative of " + name_four))
+        plt.legend(loc=2, prop={'size': 6})
+        plt.xlabel(name_one)
 
     plt.show()
 
@@ -891,23 +1033,8 @@ if __name__ == '__main__':
 
     graphing_method = graphing_method()
 
-    try:
-        get_available_datatypes(path)
+    graph_deriv = graph_derivatives()
 
-        information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
-        if information == 2:
-            data, name_one, name_two = get_pozyx_data_two(file_name)
-            create_graph_two(data, name_one, name_two)
+    get_available_datatypes(path)
 
-        elif information == 3:
-            data, name_one, name_two, name_three = get_pozyx_data_three(file_name)
-            create_graph_three(data, name_one, name_two, name_three)
-
-        elif information == 4:
-            data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name)
-            create_graph_four(data, name_one, name_two, name_three, name_four)
-        else:
-            print("Invalid input.")
-
-    except TypeError:
-        graphing_method = graphing_method()
+    num_of_graphs()
