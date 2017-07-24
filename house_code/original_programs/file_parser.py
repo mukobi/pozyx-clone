@@ -36,6 +36,9 @@ def get_available_datatypes(path):
 
 def graph_derivatives():
     """
+    This function determines if the user wants to graph derivative graphs alongside the taken data.
+
+    :return boolean graph_deriv: graph_deriv is returned to determine to graph derivatives or not
     """
     graph_deriv = input("Do you want to graph the derivative graphs alongside the data? (y / n)")
 
@@ -56,7 +59,10 @@ def graph_derivatives():
         graph_derivatives()
 
 def num_of_graphs():
-    #try:
+    """
+    This functions determines whether the user wants to use multiple graphs or a singular graph for representation.
+    This function also is the final step and graphs all of the graphs to matplotlib.
+    """
     information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
     if information == 2:
         data, name_one, name_two = get_pozyx_data_two(file_name)
