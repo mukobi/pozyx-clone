@@ -33,7 +33,14 @@ from modules.user_input_config_functions import UserInputConfigFunctions as User
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
-
+from modules.data_averaging import DataAveraging as DataAveraging
+from modules.data_averaging import BinData as BinData
+import numpy as np
+from modules.real_time_plot import RealTimePlot
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from modules.data_functions import DataFunctions as DataFunctions
+from collections import deque
 
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
@@ -161,7 +168,7 @@ if  __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
 
     remote_id = 0x610c                 # remote device network ID
-    remote = True                  # whether to use a remote device
+    remote = False                  # whether to use a remote device
     if not remote:
         remote_id = None
 
@@ -196,6 +203,18 @@ if  __name__ == "__main__":
         logfile = open(filename, 'a')
         FileWriting.write_position_header_to_file(logfile)
 
+
+    bin_pos_x = BinData()
+    prev_bin_pos_x = 0
+
+    bin_time = BinData()
+    prev_bin_time = 0
+
+    fig,axes = plt.subplots()
+    display = RealTimePlot(axes)
+    display. animate(fig,lambda frame_index: ([], []))
+
+
     start = t.time()
     try:
         while True:
@@ -206,15 +225,40 @@ if  __name__ == "__main__":
 
             one_cycle_position = r.loop()    # the loop method of r prints data to the console and returns what is printed
 
+
+            BinData.add(bin_pos_x, one_cycle_position.x)         #creating a list of x position data points for calculation
+            binned_pos_x = BinData.return_data(bin_pos_x)         #getting that list
+
+            BinData.add(bin_time, elapsed)
+            binned_time = BinData.return_data(bin_time)
+
+            #####Finish the velocity function
+            #####Perhaps the median function may not work, so try out mean functions?
+            med_binned_pos_x = np.median(binned_pos_x)
+            med_prev_bin_pos_x = np.median(prev_bin_pos_x)
+            med_bin_time = np.median(binned_time)
+            med_prev_bin_time = np.median(prev_bin_time)
+
+            velocity = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, med_bin_time, med_prev_bin_time)
+            prev_bin_pos_x = binned_pos_x
+            prev_bin_time = binned_time
+
+
+            print(velocity)
+
+
             ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
             if to_use_file:
                 FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
 
             index = index + 1                                     # increment data index
 
+            display.add(t.time(), velocity)
+            plt.pause(0.0000000000000000000000001)
+
+
     except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
         pass
 
     if to_use_file:
         logfile.close()
-
