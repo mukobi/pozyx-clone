@@ -1,10 +1,16 @@
+import numpy as numpy
 class DataFunctions:
     @staticmethod
-    def error_handling():
+    def median(data_list):
         """
+        This function takes the median of a list of data.
 
+        :param list list: this is a list of numbers that the user provides for calculation
+        :return float median: this is the median of the data provided
         """
-        
+        median = numpy.median(data_list)
+        return median
+
     def find_total_distance(position, prev_pos, total_distance):
         """
         Function to determine the total distance travelled by the Pozyx device
@@ -21,6 +27,7 @@ class DataFunctions:
         Put in main to initialize variables,
         total_distance = 0
         prev_pos = 0
+
         Put in while loop to execute function and set prev_pos,
         total_distance = find_total_distance(pos, prev_pos, total_distance)
         prev_pos = pos
@@ -34,17 +41,22 @@ class DataFunctions:
             total_distance += temp_dist
         return total_distance, temp_dist
 
-    def find_velocity(temp_dist, time_difference):
+    def find_velocity(position, prev_pos, time, prev_time):
         """
-        Function to calculate the instantaneous velocity at a point
+        This is a function to simply calculate velocity.
 
-        :param float temp_dist: the distance between the previous and current data point
-        :param float time_difference: the difference in time between the last point and current point
-
-        :return velocity: returns the velocity value
+        :param integer position: this is the current position of the device
+        :param integer prev_pos: this is the previous position of the device
+        :param float time: this is the current time
+        :param float prev_time: this is the previous time
         """
-        velocity = (temp_dist / time_difference)
-        return velocity
+        if prev_pos == 0:
+            return 0
+        if (time - prev_time) == 0:
+            return 0
+        else:
+            velocity = (position - prev_pos) / (time - prev_time)
+            return velocity
 
     @staticmethod
     def str_set_length(number, length):
