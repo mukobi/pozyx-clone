@@ -167,8 +167,8 @@ class ReadyToLocalize(object):
 if  __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
 
-    remote_id = 0x610c                 # remote device network ID
-    remote = False                  # whether to use a remote device
+    remote_id = 0x6120                 # remote device network ID
+    remote = True                  # whether to use a remote device
     if not remote:
         remote_id = None
 
@@ -203,18 +203,38 @@ if  __name__ == "__main__":
         logfile = open(filename, 'a')
         FileWriting.write_position_header_to_file(logfile)
 
+    try:
+        bin_input = int(input("How many data points would you like to bin?\n"))
+    except ValueError:
+        print("Invalid input, bin size set to 10 by default.")
+        bin_input = 10
 
-    bin_pos_x = BinData()
+    bin_pos_x = BinData(bin_size = bin_input)
     prev_bin_pos_x = 0
 
-    bin_time = BinData()
+    bin_pos_y = BinData(bin_size = bin_input)
+    prev_bin_pos_y = 0
+
+    bin_pos_z = BinData(bin_size = bin_input)
+    prev_bin_pos_z = 0
+
+    bin_time = BinData(bin_size = bin_input)
     prev_bin_time = 0
 
+
     fig,axes = plt.subplots()
-    display = RealTimePlot(axes)
-    display. animate(fig,lambda frame_index: ([], []))
+    display_one = RealTimePlot(axes)
+    display_one. animate(fig,lambda frame_index: ([], []))
+    plt.ylabel("X Velocity")
 
+    fig,axes = plt.subplots()
+    display_two = RealTimePlot(axes)
+    display_two. animate(fig,lambda frame_index: ([], []))
+    plt.ylabel("Y Velocity")
 
+    med_prev_bin_pos_x = 0
+    med_prev_bin_pos_y = 0
+    med_prev_bin_pos_z = 0
     start = t.time()
     try:
         while True:
@@ -229,22 +249,49 @@ if  __name__ == "__main__":
             BinData.add(bin_pos_x, one_cycle_position.x)         #creating a list of x position data points for calculation
             binned_pos_x = BinData.return_data(bin_pos_x)         #getting that list
 
+            BinData.add(bin_pos_y, one_cycle_position.y)         #creating a list of x position data points for calculation
+            binned_pos_y = BinData.return_data(bin_pos_y)
+
+            BinData.add(bin_pos_z, one_cycle_position.z)         #creating a list of x position data points for calculation
+            binned_pos_z = BinData.return_data(bin_pos_z)
+
             BinData.add(bin_time, elapsed)
             binned_time = BinData.return_data(bin_time)
 
             #####Finish the velocity function
             #####Perhaps the median function may not work, so try out mean functions?
-            med_binned_pos_x = np.median(binned_pos_x)
-            med_prev_bin_pos_x = np.median(prev_bin_pos_x)
-            med_bin_time = np.median(binned_time)
-            med_prev_bin_time = np.median(prev_bin_time)
+            med_binned_pos_x = np.mean(binned_pos_x)
+            med_binned_pos_y = np.mean(binned_pos_y)
+            med_binned_pos_z = np.mean(binned_pos_z)
 
-            velocity = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, med_bin_time, med_prev_bin_time)
-            prev_bin_pos_x = binned_pos_x
+            #med_bin_time = np.median(binned_time)
+            #med_prev_bin_time = np.median(prev_bin_time)
+
+            if index > bin_input:
+                med_bin_time = ((binned_time[int(bin_input - 1)]- binned_time[0]) / int(bin_input - 1))
+
+            else:
+                med_bin_time = 0
+                med_prev_bin_time = 0
+
+
+            velocity_x = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, med_bin_time)    #Calculates x velocity
+            velocity_y = DataFunctions.find_velocity(med_binned_pos_y, med_prev_bin_pos_y, med_bin_time)    #Calculates x velocity
+            velocity_z = DataFunctions.find_velocity(med_binned_pos_z, med_prev_bin_pos_z, med_bin_time)    #Calculates x velocity
+
+            prev_bin_pos_x = binned_pos_x           #Updates the previous x position bin
+            med_prev_bin_pos_x = np.mean(prev_bin_pos_x)    #Calculates the mean of the previous x position data
+
+            prev_bin_pos_y = binned_pos_y           #Updates the previous x position bin
+            med_prev_bin_pos_y = np.mean(prev_bin_pos_y)    #Calculates the mean of the previous x position data
+
+            prev_bin_pos_z = binned_pos_z           #Updates the previous x position bin
+            med_prev_bin_pos_z = np.mean(prev_bin_pos_z)    #Calculates the mean of the previous x position data
+
             prev_bin_time = binned_time
 
 
-            print(velocity)
+
 
 
             ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
@@ -253,7 +300,8 @@ if  __name__ == "__main__":
 
             index = index + 1                                     # increment data index
 
-            display.add(t.time(), velocity)
+            display_one.add(t.time(), velocity_x)
+            display_two.add(t.time(), velocity_y)
             plt.pause(0.0000000000000000000000001)
 
 

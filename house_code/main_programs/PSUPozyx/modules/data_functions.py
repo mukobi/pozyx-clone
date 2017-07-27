@@ -41,7 +41,7 @@ class DataFunctions:
             total_distance += temp_dist
         return total_distance, temp_dist
 
-    def find_velocity(position, prev_pos, time, prev_time):
+    def find_velocity(position, prev_pos, time):
         """
         This is a function to simply calculate velocity.
 
@@ -52,10 +52,8 @@ class DataFunctions:
         """
         if prev_pos == 0:
             return 0
-        if (time - prev_time) == 0:
-            return 0
         else:
-            velocity = (position - prev_pos) / (time - prev_time)
+            velocity = (position - prev_pos) / (time)
             return velocity
 
     @staticmethod
