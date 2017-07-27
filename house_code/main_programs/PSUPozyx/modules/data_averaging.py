@@ -95,8 +95,8 @@ class BinData:
     Notes:
     For use, the object must be defined in the main function.
     """
-    def __init__(self, max_entries = 5):
-        self.num = deque(maxlen=max_entries)
+    def __init__(self, bin_size = 2):
+        self.num = deque(maxlen=bin_size)
 
     def add(self, new_data):
         """
