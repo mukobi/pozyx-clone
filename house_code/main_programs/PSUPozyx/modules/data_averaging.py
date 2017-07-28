@@ -22,6 +22,8 @@ class DataAveraging:
 
     def update_prev_points(pos, index):
         """
+        We are using deque objects instead of this function.
+
         This function will be used to update the variables that can be used for calculations.
         For this function to work, prev_pos must be set to 0 in main function.
 
@@ -95,7 +97,7 @@ class BinData:
     Notes:
     For use, the object must be defined in the main function.
     """
-    def __init__(self, bin_size = 2):
+    def __init__(self, bin_size = 5):
         self.num = deque(maxlen=bin_size)
 
     def add(self, new_data):

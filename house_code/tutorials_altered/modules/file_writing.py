@@ -124,3 +124,40 @@ class SensorAndPositionFileWriting:
                 output += "error,"
             output += "\n"
         file.write(output)
+
+class PositionFileWriting:
+    @staticmethod
+    def write_position_header_to_file(
+            file,
+            header="Index,Time,Difference,Hz,AveHz," \
+            "Position-X,Position-Y,Position-Z"):
+        """
+        Writes column headers for position data to a file
+
+        :param file: the file to write to
+        :param str header: The header labels, already set by default
+        """
+        file.write(header + '\n')
+
+    @staticmethod
+    def write_sensor_and_position_data_to_file(index, elapsed_time, time_difference,
+                                          file, position_data):
+        """
+        This function writes the position data to the file each cycle in the while loop.
+        """
+
+        hz = DataFunctions.convert_hertz(time_difference)
+        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
+        output = (str(index) + "," + str(elapsed_time) + ","
+                  + str(time_difference) + "," + str(hz) + ","
+                  + str(ave_hz) + ",")
+        try:
+            output += str(position_data.x) + ","
+                       + str(position_data.y) + ","
+                       + str(position_data.z) + ","
+                       + "\n")
+        except AttributeError:
+            for i in range(0,26):
+                output += "error,"
+            output += "\n"
+        file.write(output)
