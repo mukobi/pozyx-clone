@@ -83,10 +83,10 @@ class Orientation3D(object):
 
 if __name__ == '__main__':
     # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[0].device
+    serial_port = get_serial_ports()[2].device
 
     remote_id = 0x610c                    # remote device network ID
-    remote = True                         # whether to use a remote device
+    remote = False                         # whether to use a remote device
     if not remote:
         remote_id = None
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
    #network_port = 8888 
 
     pozyx = PozyxSerial(serial_port)
-    osc_udp_client = SimpleUDPClient(ip, network_port)
+   # osc_udp_client = SimpleUDPClient(ip, network_port)
     o = Orientation3D(pozyx, osc_udp_client, remote_id)
     o.setup()
     while True:
