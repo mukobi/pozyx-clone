@@ -140,7 +140,7 @@ class PositionFileWriting:
         file.write(header + '\n')
 
     @staticmethod
-    def write_sensor_and_position_data_to_file(index, elapsed_time, time_difference,
+    def write_position_data_to_file(index, elapsed_time, time_difference,
                                           file, position_data):
         """
         This function writes the position data to the file each cycle in the while loop.

@@ -14,7 +14,7 @@ from pypozyx import *
 from pypozyx.definitions.registers import POZYX_EUL_HEADING
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
-
+from modules.file_writing import PositionFileWriting as PositionFileWriting
 
 class MultitagPositioning(object):
     """Continuously performs multitag positioning"""
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
-        FileWriting.write_position_header_to_file(logfile)
+        PositionFileWriting.write_position_header_to_file(logfile)
 
     r.setup()
     start = t.time()
@@ -171,4 +171,4 @@ if __name__ == "__main__":
 
     ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
     if to_use_file:
-        FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
+        PositionFileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
