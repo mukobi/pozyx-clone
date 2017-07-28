@@ -97,7 +97,7 @@ if __name__ == '__main__':
     serial_port = Configuration.get_correct_serial_port()
 
     remote_id = 0x610c                    # remote device network ID
-    remote = True                        # whether to use a remote device
+    remote = False                        # whether to use a remote device
     if not remote:
         remote_id = None
 
