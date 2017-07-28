@@ -115,11 +115,11 @@ if __name__ == "__main__":
     remote = False                         # whether to use a remote device
     if not remote:
         remote_id = None
-        
+
     index = 0
     oldTime = 0
     newTime = 0
-    
+
     use_processing = True               # enable to send position data through OSC
     ip = "127.0.0.1"                       # IP for the OSC UDP
     network_port = 8888                    # network port for the OSC UDP
@@ -143,6 +143,22 @@ if __name__ == "__main__":
     pozyx = PozyxSerial(serial_port)
     r = MultitagPositioning(pozyx, osc_udp_client, tags, anchors,
                             algorithm, dimension, height, remote_id)
+
+    #Quickly made code to make the program write to a file on user input.
+    use_file = input("Do you want to write to a file? (y / n)\n")
+    if (use_file[0] == "T"
+            or use_file[0] == "t"
+            or use_file[0] == "y"
+            or use_file[0] == "Y"):
+        to_use_file = True
+        filename = input("What would you like to name your file?\n")
+        filename += ".csv"
+
+    logfile = None
+    if to_use_file:
+        logfile = open(filename, 'a')
+        FileWriting.write_position_header_to_file(logfile)
+
     r.setup()
     start = t.time()
     while True:
@@ -156,8 +172,3 @@ if __name__ == "__main__":
     ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
     if to_use_file:
         FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
-
-        print(timeDifference)
-        r.loop()
-
-
