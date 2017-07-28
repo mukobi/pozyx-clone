@@ -78,9 +78,10 @@ class ReadyToLocalize(object):
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
         if status == POZYX_SUCCESS:
             self.printPublishPosition(position)
-            return position
+            return position, status
         else:
             self.printPublishErrorCode("positioning")
+            return position, status
 
         return "unexpected error"
 
@@ -167,7 +168,7 @@ class ReadyToLocalize(object):
 if  __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
 
-    remote_id = 0x6120                 # remote device network ID
+
     remote = True                  # whether to use a remote device
     if not remote:
         remote_id = None
@@ -225,12 +226,12 @@ if  __name__ == "__main__":
     fig,axes = plt.subplots()
     display_one = RealTimePlot(axes)
     display_one. animate(fig,lambda frame_index: ([], []))
-    plt.ylabel("X Velocity")
+    plt.ylabel("First")
 
     fig,axes = plt.subplots()
     display_two = RealTimePlot(axes)
     display_two. animate(fig,lambda frame_index: ([], []))
-    plt.ylabel("Y Velocity")
+    plt.ylabel("Second")
 
     med_prev_bin_pos_x = 0
     med_prev_bin_pos_y = 0
@@ -243,27 +244,28 @@ if  __name__ == "__main__":
             newTime = elapsed                                     # newTime is the time of the current cycle.
             timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
 
-            one_cycle_position = r.loop()    # the loop method of r prints data to the console and returns what is printed
+            one_cycle_position, status = r.loop()    # the loop method of r prints data to the console and returns what is printed
 
 
             BinData.add(bin_pos_x, one_cycle_position.x)         #creating a list of x position data points for calculation
             binned_pos_x = BinData.return_data(bin_pos_x)         #getting that list
-
+            """
             BinData.add(bin_pos_y, one_cycle_position.y)         #creating a list of x position data points for calculation
             binned_pos_y = BinData.return_data(bin_pos_y)
 
             BinData.add(bin_pos_z, one_cycle_position.z)         #creating a list of x position data points for calculation
             binned_pos_z = BinData.return_data(bin_pos_z)
-
+            """
             BinData.add(bin_time, elapsed)
             binned_time = BinData.return_data(bin_time)
 
             #####Finish the velocity function
             #####Perhaps the median function may not work, so try out mean functions?
             med_binned_pos_x = np.mean(binned_pos_x)
+            """
             med_binned_pos_y = np.mean(binned_pos_y)
             med_binned_pos_z = np.mean(binned_pos_z)
-
+            """
             #med_bin_time = np.median(binned_time)
             #med_prev_bin_time = np.median(prev_bin_time)
 
@@ -276,18 +278,19 @@ if  __name__ == "__main__":
 
 
             velocity_x = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, med_bin_time)    #Calculates x velocity
+            """
             velocity_y = DataFunctions.find_velocity(med_binned_pos_y, med_prev_bin_pos_y, med_bin_time)    #Calculates x velocity
             velocity_z = DataFunctions.find_velocity(med_binned_pos_z, med_prev_bin_pos_z, med_bin_time)    #Calculates x velocity
-
+            """
             prev_bin_pos_x = binned_pos_x           #Updates the previous x position bin
             med_prev_bin_pos_x = np.mean(prev_bin_pos_x)    #Calculates the mean of the previous x position data
-
+            """
             prev_bin_pos_y = binned_pos_y           #Updates the previous x position bin
             med_prev_bin_pos_y = np.mean(prev_bin_pos_y)    #Calculates the mean of the previous x position data
 
             prev_bin_pos_z = binned_pos_z           #Updates the previous x position bin
             med_prev_bin_pos_z = np.mean(prev_bin_pos_z)    #Calculates the mean of the previous x position data
-
+            """
             prev_bin_time = binned_time
 
 
@@ -300,9 +303,10 @@ if  __name__ == "__main__":
 
             index = index + 1                                     # increment data index
 
-            display_one.add(t.time(), velocity_x)
-            display_two.add(t.time(), velocity_y)
-            plt.pause(0.0000000000000000000000001)
+            if status == POZYX_SUCCESS:
+                display_one.add(elapsed, one_cycle_position.x)
+                display_two.add(elapsed, velocity_x)
+                plt.pause(0.0000000000000000000000001)
 
 
     except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
