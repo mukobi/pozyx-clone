@@ -26,7 +26,12 @@ from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import SensorDataFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
-
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from modules.data_averaging import DataAveraging as DataAveraging
+from modules.data_averaging import BinData as BinData
+import numpy as np
+from modules.real_time_plot import RealTimePlot
 
 class Orientation3D(object):
     """Reads out all sensor data from either a local or remote Pozyx"""
@@ -91,8 +96,8 @@ if __name__ == '__main__':
     # shortcut to not have to find out the port yourself
     serial_port = Configuration.get_correct_serial_port()
 
-    remote_id = 0x6120                    # remote device network ID
-    remote = True                         # whether to use a remote device
+    remote_id = 0x610c                    # remote device network ID
+    remote = False                        # whether to use a remote device
     if not remote:
         remote_id = None
 
@@ -120,6 +125,10 @@ if __name__ == '__main__':
         logfile = open(filename, 'a')
         FileWriting.write_sensor_data_header_to_file(logfile)
 
+    fig,axes = plt.subplots()
+    display_two = RealTimePlot(axes)
+    display_two. animate(fig,lambda frame_index: ([], []))
+
     start = ConsoleLogging.get_time()
     try:
         while True:
@@ -131,6 +140,8 @@ if __name__ == '__main__':
 
             one_cycle_sensor_data = o.loop()
 
+
+
             formatted_data_dictionary = ConsoleLogging.format_sensor_data(
                 one_cycle_sensor_data, attributes_to_log)
             ConsoleLogging.log_sensor_data_to_console(index, elapsed, formatted_data_dictionary)
@@ -140,6 +151,9 @@ if __name__ == '__main__':
                     logfile, one_cycle_sensor_data)
             index += 1                      # increment data index
 
+            if Orientation3D.remote_id is not None or Orientation3D.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+                display_one.add(elapsed, one_cycle_sensor_data[6])
+                plt.pause(0.0000000000000000000000001)
     # this allows Windows users to exit the while loop by pressing ctrl+c
     except KeyboardInterrupt:
         pass
