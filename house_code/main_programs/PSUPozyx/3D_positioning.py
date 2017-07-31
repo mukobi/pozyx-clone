@@ -222,7 +222,8 @@ if  __name__ == "__main__":
     bin_time = BinData(bin_size = bin_input)
     prev_bin_time = 0
 
-
+    """
+    RealTimePlot
     fig,axes = plt.subplots()
     display_one = RealTimePlot(axes)
     display_one. animate(fig,lambda frame_index: ([], []))
@@ -232,6 +233,8 @@ if  __name__ == "__main__":
     display_two = RealTimePlot(axes)
     display_two. animate(fig,lambda frame_index: ([], []))
     plt.ylabel("Second")
+    """
+
 
     med_prev_bin_pos_x = 0
     med_prev_bin_pos_y = 0
@@ -303,11 +306,13 @@ if  __name__ == "__main__":
 
             index = index + 1                                     # increment data index
 
+            """
+            RealTimePlot
             if status == POZYX_SUCCESS:
                 display_one.add(elapsed, one_cycle_position.x)
                 display_two.add(elapsed, velocity_x)
                 plt.pause(0.0000000000000000000000001)
-
+            """
 
     except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
         pass
