@@ -33,6 +33,7 @@ from modules.data_averaging import BinData as BinData
 import numpy as np
 from modules.real_time_plot import RealTimePlot
 
+
 class Orientation3D(object):
     """Reads out all sensor data from either a local or remote Pozyx"""
 
@@ -140,8 +141,6 @@ if __name__ == '__main__':
 
             one_cycle_sensor_data = o.loop()
 
-
-
             formatted_data_dictionary = ConsoleLogging.format_sensor_data(
                 one_cycle_sensor_data, attributes_to_log)
             ConsoleLogging.log_sensor_data_to_console(index, elapsed, formatted_data_dictionary)
@@ -151,9 +150,14 @@ if __name__ == '__main__':
                     logfile, one_cycle_sensor_data)
             index += 1                      # increment data index
 
-            if Orientation3D.remote_id is not None or Orientation3D.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-                display_one.add(elapsed, one_cycle_sensor_data[6])
-                plt.pause(0.0000000000000000000000001)
+            ### Someone wrote this code below, but it very much doesn't work. display_one is undefined — maybe
+            ### whoever wrote this didn't finish it. Also, you cannot access .remote_id or .pozyx.checkForFlag from
+            ### Orientation3D because Orientation3D is a class. Perhaps you meant to reference the object create
+            ### above that is an instance of Orientation3D, using the object o. I.E. o.remote_id, o.pozyx.check...
+
+            # if Orientation3D.remote_id is not None or Orientation3D.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+            #     display_one.add(elapsed, one_cycle_sensor_data[6])
+            #     plt.pause(0.0000000000000000000000001)
     # this allows Windows users to exit the while loop by pressing ctrl+c
     except KeyboardInterrupt:
         pass
