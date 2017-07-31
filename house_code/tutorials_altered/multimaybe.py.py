@@ -15,6 +15,7 @@ from pypozyx.definitions.registers import POZYX_EUL_HEADING
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import PositionFileWriting as PositionFileWriting
+from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 
 class MultitagPositioning(object):
     """Continuously performs multitag positioning"""
@@ -44,8 +45,10 @@ class MultitagPositioning(object):
                 position, self.dimension, self.height, self.algorithm, remote_id=tag)
             if status == POZYX_SUCCESS:
                 self.printPublishPosition(position, tag)
+                return position
             else:
                 self.printPublishErrorCode("positioning", tag)
+                return position
 
     def printPublishPosition(self, position, network_id):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
@@ -109,7 +112,7 @@ class MultitagPositioning(object):
 
 if __name__ == "__main__":
     # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[1].device
+    serial_port = get_serial_ports()[0].device
 
     remote_id = 0x1000                     # remote device network ID
     remote = False                         # whether to use a remote device
@@ -167,8 +170,9 @@ if __name__ == "__main__":
         newTime = elapsed                                     # newTime is the time of the current cycle.
         timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
 
-    one_cycle_position = r.loop()    # the loop method of r prints data to the console and returns what is printed
+        one_cycle_position = r.loop()    # the loop method of r prints data to the console and returns what is printed
 
-    ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
-    if to_use_file:
-        PositionFileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
+        ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
+        if to_use_file:
+            PositionFileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
+        index += 1
