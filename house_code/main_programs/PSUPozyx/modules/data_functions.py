@@ -138,3 +138,12 @@ class DataFunctions:
         except ZeroDivisionError:
             average_hertz = 0
         return average_hertz
+
+    @staticmethod
+    def bin_input():
+        try:
+            bin_input = int(input("How many data points would you like to bin?\n"))
+        except ValueError:
+            print("Invalid input, bin size set to 10 by default.")
+            bin_input = 10
+        return bin_input
