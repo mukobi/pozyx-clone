@@ -204,10 +204,14 @@ if  __name__ == "__main__":
         logfile = open(filename, 'a')
         FileWriting.write_position_header_to_file(logfile)
 
-    bin_input = DataFunctions.bin_input()
+    try:
+        bin_input = int(input("How many data points would you like to bin?\n"))
+    except ValueError:
+        print("Invalid input, bin size set to 10 by default.")
+        bin_input = 10
 
-    bin_pos_x = BinData(bin_size = bin_input)   #Creating position deque objects to calculate velocity
-    prev_bin_pos_x = 0                          #Initializing the previous points
+    bin_pos_x = BinData(bin_size = bin_input)
+    prev_bin_pos_x = 0
 
     bin_pos_y = BinData(bin_size = bin_input)
     prev_bin_pos_y = 0
@@ -216,7 +220,7 @@ if  __name__ == "__main__":
     prev_bin_pos_z = 0
 
     bin_time = BinData(bin_size = bin_input)
-
+    prev_bin_time = 0
 
     """
     RealTimePlot
@@ -231,10 +235,10 @@ if  __name__ == "__main__":
     plt.ylabel("Second")
     """
 
-    med_prev_bin_pos_x = 0      #Initializing median calculation variables
+
+    med_prev_bin_pos_x = 0
     med_prev_bin_pos_y = 0
     med_prev_bin_pos_z = 0
-
     start = t.time()
     try:
         while True:
@@ -244,63 +248,66 @@ if  __name__ == "__main__":
             timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
 
             one_cycle_position, status = r.loop()    # the loop method of r prints data to the console and returns what is printed
-            #Status is used for error handling
+
 
             BinData.add(bin_pos_x, one_cycle_position.x)         #creating a list of x position data points for calculation
             binned_pos_x = BinData.return_data(bin_pos_x)         #getting that list
-
+            """
             BinData.add(bin_pos_y, one_cycle_position.y)         #creating a list of x position data points for calculation
             binned_pos_y = BinData.return_data(bin_pos_y)
 
             BinData.add(bin_pos_z, one_cycle_position.z)         #creating a list of x position data points for calculation
             binned_pos_z = BinData.return_data(bin_pos_z)
-
+            """
             BinData.add(bin_time, elapsed)
             binned_time = BinData.return_data(bin_time)
 
-
-            med_binned_pos_x = np.mean(binned_pos_x)        #Calculating the mean of the position data for smoothing
+            #####Finish the velocity function
+            #####Perhaps the median function may not work, so try out mean functions?
+            med_binned_pos_x = np.mean(binned_pos_x)
+            """
             med_binned_pos_y = np.mean(binned_pos_y)
             med_binned_pos_z = np.mean(binned_pos_z)
+            """
+            #med_bin_time = np.median(binned_time)
+            #med_prev_bin_time = np.median(prev_bin_time)
+
+            if index > bin_input:
+                med_bin_time = ((binned_time[int(bin_input - 1)]- binned_time[0]) / int(bin_input - 1))
+
+            else:
+                med_bin_time = 0
+                med_prev_bin_time = 0
 
 
-            if index > bin_input:   #Calculates the mean of the binned time data for velocity calculation
-                mean_bin_time = ((binned_time[int(bin_input - 1)]- binned_time[0]) / int(bin_input - 1))    #Unsure why but numpy doesn't seem to work for mean time
-
-            else:                   #Sets variable to zero until enough data is in for valid calculations
-                mean_bin_time = 0
-
-
-            velocity_x = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, mean_bin_time)    #Calculates x velocity
-            velocity_y = DataFunctions.find_velocity(med_binned_pos_y, med_prev_bin_pos_y, mean_bin_time)    #Calculates x velocity
-            velocity_z = DataFunctions.find_velocity(med_binned_pos_z, med_prev_bin_pos_z, mean_bin_time)    #Calculates x velocity
-
+            velocity_x = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, med_bin_time)    #Calculates x velocity
+            """
+            velocity_y = DataFunctions.find_velocity(med_binned_pos_y, med_prev_bin_pos_y, med_bin_time)    #Calculates x velocity
+            velocity_z = DataFunctions.find_velocity(med_binned_pos_z, med_prev_bin_pos_z, med_bin_time)    #Calculates x velocity
+            """
             prev_bin_pos_x = binned_pos_x           #Updates the previous x position bin
             med_prev_bin_pos_x = np.mean(prev_bin_pos_x)    #Calculates the mean of the previous x position data
-
+            """
             prev_bin_pos_y = binned_pos_y           #Updates the previous x position bin
             med_prev_bin_pos_y = np.mean(prev_bin_pos_y)    #Calculates the mean of the previous x position data
 
             prev_bin_pos_z = binned_pos_z           #Updates the previous x position bin
             med_prev_bin_pos_z = np.mean(prev_bin_pos_z)    #Calculates the mean of the previous x position data
+            """
+            prev_bin_time = binned_time
 
 
 
 
 
-
-
-            ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
-            if to_use_file:             # writes the data returned from the loop method to the file
-                if index > bin_input:   #Accounts for the time it takes to get accurate velocity calculations
-                    FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, velocity_x, velocity_y, velocity_z)
-                else:                   #Returns 0 for velocity until it provides complete calculations
-                    FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, 0, 0, 0)
+            ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
+            if to_use_file:
+                FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
 
             index = index + 1                                     # increment data index
 
             """
-            #RealTimePlotting which significantly decreases Hz
+            RealTimePlot
             if status == POZYX_SUCCESS:
                 display_one.add(elapsed, one_cycle_position.x)
                 display_two.add(elapsed, velocity_x)
