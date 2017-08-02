@@ -28,7 +28,10 @@ from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
-
+from modules.data_functions import DataFunctions as DataFunctions
+from collections import deque
+from modules.data_averaging import BinData as BinData
+import numpy as np
 
 class Orientation3D(object):
     """Reads out all sensor data from either a local or remote Pozyx"""
@@ -176,7 +179,7 @@ class Orientation3D(object):
             if self.osc_udp_client is not None:
                 self.osc_udp_client.send_message("/error", [operation, 0, -1])
             # should only happen when not being able to communicate with a remote Pozyx.
-        
+
 
 if __name__ == '__main__':
     serial_port = Configuration.get_correct_serial_port()
@@ -219,6 +222,24 @@ if __name__ == '__main__':
         logfile = open(filename, 'a')
         FileWriting.write_sensor_and_position_header_to_file(logfile)
 
+
+    bin_input = DataFunctions.bin_input()
+
+    bin_pos_x = BinData(bin_size = bin_input)   #Creating position deque objects to calculate velocity
+    prev_bin_pos_x = 0                          #Initializing the previous points
+
+    bin_pos_y = BinData(bin_size = bin_input)
+    prev_bin_pos_y = 0
+
+    bin_pos_z = BinData(bin_size = bin_input)
+    prev_bin_pos_z = 0
+
+    bin_time = BinData(bin_size = bin_input)
+
+    med_prev_bin_pos_x = 0      #Initializing median calculation variables
+    med_prev_bin_pos_y = 0
+    med_prev_bin_pos_z = 0
+
     start = ConsoleLogging.get_time()
     try:
         while True:
@@ -234,16 +255,31 @@ if __name__ == '__main__':
             if type(loop_results) == tuple:
                 one_cycle_sensor_data, one_cycle_position = loop_results
 
+
+                #Updates and returns the new bins
+                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position)
+                #Returns the median of the position bins
+                med_binned_pos_x, med_binned_pos_y, med_binned_pos_z = Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
+                #returns the mean of the time bin
+                mean_bin_time = Velocity.time_mean_calculation(index, bin_input, binned_time)
+                #Calculates the directional velocities
+                velocity_x = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, mean_bin_time)    #Calculates x velocity
+                velocity_y = DataFunctions.find_velocity(med_binned_pos_y, med_prev_bin_pos_y, mean_bin_time)    #Calculates x velocity
+                velocity_z = DataFunctions.find_velocity(med_binned_pos_z, med_prev_bin_pos_z, mean_bin_time)    #Calculates x velocity
+                #gets the medians of the previous position bins for calculations next loop
+                med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
+
+
                 formatted_data_dictionary = ConsoleLogging.format_sensor_data(
                     one_cycle_sensor_data, attributes_to_log)
 
                 ConsoleLogging.log_position_and_sensor_data_to_console(
-                    index, elapsed, formatted_data_dictionary, one_cycle_position)
+                    index, elapsed, formatted_data_dictionary, one_cycle_position, velocity_x, velocity_y, velocity_z)
 
                 if to_use_file:
                     FileWriting.write_sensor_and_position_data_to_file(
                         index, elapsed, time_difference,
-                        logfile, one_cycle_sensor_data, one_cycle_position)
+                        logfile, one_cycle_sensor_data, one_cycle_position, velocity_x, velocity_y, velocity_z)
             # if the loop didn't return a tuple, it returned an error string
             else:
                 error_string = loop_results

@@ -96,6 +96,12 @@ class BinData:
 
     Notes:
     For use, the object must be defined in the main function.
+
+    All the imports needed are:
+    from modules.data_functions import DataFunctions as DataFunctions
+    from collections import deque
+    from modules.data_averaging import BinData as BinData
+    import numpy as np
     """
     def __init__(self, bin_size = 5):
         self.num = deque(maxlen=bin_size)
