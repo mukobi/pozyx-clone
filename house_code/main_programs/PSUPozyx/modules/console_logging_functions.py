@@ -108,7 +108,7 @@ class ConsoleLoggingFunctions:
         print(output)
 
     @staticmethod
-    def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position):
+    def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position, velocity_x, velocity_y, velocity_z):
         """
         Prints a line of data to the console
 
@@ -142,6 +142,9 @@ class ConsoleLoggingFunctions:
             output += (" | Pos: " + "X: " + str(position.x)
                        + " Y: " + str(position.y)
                        + " Z: " + str(position.z))
+            output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity_x, 6)
+                           + " Y: " + DataFunctions.str_set_length(velocity_y, 6)
+                           + " Z: " + DataFunctions.str_set_length(velocity_z, 6))
         print(output)
 
     @staticmethod

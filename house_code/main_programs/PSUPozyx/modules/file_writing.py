@@ -74,7 +74,8 @@ class SensorAndPositionFileWriting:
                     "Quaternion-X,Quaternion-Y,Quaternion-Z,Quaternion-W,"
                     "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
                     "Gravity-X,Gravity-Y,Gravity-Z,"
-                    "Position-X,Position-Y,Position-Z")):
+                    "Position-X,Position-Y,Position-Z"
+                    "Velocity-X,Velocity-Y,Velocity-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -153,6 +154,9 @@ class SensorAndPositionFileWriting:
                        + str(position_data.x) + ","
                        + str(position_data.y) + ","
                        + str(position_data.z) + ","
+                       + str(velocity_x) + ","
+                       + str(velocity_y) + ","
+                       + str(velocity_z) + ","
                        + "\n")
         except AttributeError:
             for i in range(0, 26):
