@@ -35,13 +35,15 @@ from modules.console_logging_functions import ConsoleLoggingFunctions as Console
 from modules.configuration import Configuration as Configuration
 from modules.data_averaging import BinData as BinData
 import numpy as np
-from modules.real_time_plot import RealTimePlot
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
-
+"""
+#RealTimePlotting
+from modules.real_time_plot import RealTimePlot
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+"""
 
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
@@ -191,8 +193,8 @@ if  __name__ == "__main__":
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
 
-    # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
-    algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
+    algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
+    #algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
     dimension = POZYX_3D               # positioning dimension
     height = 1000                      # height of device, required in 2.5D positioning
 
@@ -207,18 +209,13 @@ if  __name__ == "__main__":
 
 
     """
-    RealTimePlot
+    #RealTimePlotting
     fig,axes = plt.subplots()
     display_one = RealTimePlot(axes)
     display_one. animate(fig,lambda frame_index: ([], []))
-    plt.ylabel("First")
-
-    fig,axes = plt.subplots()
-    display_two = RealTimePlot(axes)
-    display_two. animate(fig,lambda frame_index: ([], []))
-    plt.ylabel("Second")
+    plt.ylabel("Z Position")
+    #To add more subplots, copy this code and change the object name
     """
-
 
     bin_input = DataFunctions.bin_input()
 
@@ -275,8 +272,7 @@ if  __name__ == "__main__":
             """
             #RealTimePlotting which significantly decreases Hz
             if status == POZYX_SUCCESS:
-                display_one.add(elapsed, one_cycle_position.x)
-                display_two.add(elapsed, velocity_x)
+                display_one.add(elapsed, one_cycle_position.z)
                 plt.pause(0.0000000000000000000000001)
             """
 

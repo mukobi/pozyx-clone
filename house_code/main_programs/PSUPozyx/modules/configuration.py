@@ -1,6 +1,6 @@
 from pypozyx import *
 
-MASTER_PROPS_LOCATION = "../Configurations/MASTER_ACTIVE_CONFIG.properties"
+MASTER_PROPS_LOCATION = "Configurations/MASTER_ACTIVE_CONFIG.properties"
 
 
 class Configuration:
