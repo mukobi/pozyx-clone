@@ -193,8 +193,8 @@ if  __name__ == "__main__":
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
 
-    algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
-    #algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
+    #algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
+    algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
     dimension = POZYX_3D               # positioning dimension
     height = 1000                      # height of device, required in 2.5D positioning
 
