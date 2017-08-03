@@ -108,7 +108,6 @@ class ConsoleLoggingFunctions:
         print(output)
 
     @staticmethod
-<<<<<<< HEAD
     def log_multitag_position_to_console(index, elapsed, position_array):
         """
         Prints a line of data to the console
@@ -132,10 +131,7 @@ class ConsoleLoggingFunctions:
         print(output)
 
     @staticmethod
-    def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position):
-=======
     def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position, velocity_x, velocity_y, velocity_z):
->>>>>>> 1982eb115410db98ac321a0a8cc2f109f3f774cc
         """
         Prints a line of data to the console
 
