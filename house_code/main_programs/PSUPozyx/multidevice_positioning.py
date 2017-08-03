@@ -122,7 +122,7 @@ class MultitagPositioning(object):
 
 if __name__ == "__main__":
     # shortcut to not have to find out the port yourself
-    serial_port = get_serial_ports()[0].device
+    serial_port = Configuration.get_correct_serial_port()
 
     remote_id = 0x1000                     # remote device network ID
     remote = False                         # whether to use a remote device
