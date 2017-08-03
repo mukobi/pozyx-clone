@@ -64,7 +64,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="console_logging_functions.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="console_logging_functions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/console_logging_functions.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1385">
@@ -74,11 +74,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="multidevice_positioning.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="multidevice_positioning.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/multidevice_positioning.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="623">
+              <caret line="154" column="73" lean-forward="true" selection-start-line="154" selection-start-column="73" selection-end-line="154" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="configuration.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/configuration.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="612">
+              <caret line="39" column="80" lean-forward="true" selection-start-line="39" selection-start-column="80" selection-end-line="39" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -131,6 +141,8 @@
         <option value="$PROJECT_DIR$/src/psupozyx/Main.java" />
         <option value="$PROJECT_DIR$/src/psupozyx/layout_main.fxml" />
         <option value="$PROJECT_DIR$/modules/console_logging_functions.py" />
+        <option value="$PROJECT_DIR$/multidevice_positioning.py" />
+        <option value="$PROJECT_DIR$/modules/configuration.py" />
       </list>
     </option>
   </component>
@@ -190,6 +202,34 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="PSUPozyx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSUPozyx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSUPozyx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSUPozyx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSUPozyx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Configurations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -415,14 +455,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3570">
-          <caret line="210" column="42" lean-forward="false" selection-start-line="210" selection-start-column="42" selection-end-line="210" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -760,14 +792,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/multidevice_positioning.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FilenameFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -788,6 +812,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1385">
           <caret line="138" column="68" lean-forward="true" selection-start-line="138" selection-start-column="68" selection-end-line="138" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/configuration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="39" column="80" lean-forward="true" selection-start-line="39" selection-start-column="80" selection-end-line="39" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/multidevice_positioning.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="154" column="73" lean-forward="true" selection-start-line="154" selection-start-column="73" selection-end-line="154" selection-end-column="73" />
           <folding />
         </state>
       </provider>
