@@ -38,12 +38,12 @@ import numpy as np
 from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
-"""
+
 #RealTimePlotting
 from modules.real_time_plot import RealTimePlot
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-"""
+
 
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
@@ -208,14 +208,14 @@ if  __name__ == "__main__":
         FileWriting.write_position_header_to_file(logfile)
 
 
-    """
+
     #RealTimePlotting
     fig,axes = plt.subplots()
     display_one = RealTimePlot(axes)
     display_one. animate(fig,lambda frame_index: ([], []))
     plt.ylabel("Z Position")
     #To add more subplots, copy this code and change the object name
-    """
+
 
     bin_input = DataFunctions.bin_input()
 
@@ -247,15 +247,25 @@ if  __name__ == "__main__":
 
             #Updates and returns the new bins
             binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position)
-            #Returns the median of the position bins
-            med_binned_pos_x, med_binned_pos_y, med_binned_pos_z = Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
+            #Returns the means of the position bins
+            #med_binned_pos_x, med_binned_pos_y, med_binned_pos_z = Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
             #returns the mean of the time bin
-            mean_bin_time = Velocity.time_mean_calculation(index, bin_input, binned_time)
-            #Calculates the directional velocities
-            velocity_x = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, mean_bin_time)    #Calculates x velocity
-            velocity_y = DataFunctions.find_velocity(med_binned_pos_y, med_prev_bin_pos_y, mean_bin_time)    #Calculates x velocity
-            velocity_z = DataFunctions.find_velocity(med_binned_pos_z, med_prev_bin_pos_z, mean_bin_time)    #Calculates x velocity
+
+            
+
+
+            #Can equal either simple or linreg
+            velocity_method = 'simple'
+            #velocity_method = 'linreg'
+
+            #Calculates the directional velocities, set the method using method argument
+            velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, med_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
+            velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, med_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
+            velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, med_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
             #gets the medians of the previous position bins for calculations next loop
+
+
+            #Gets the means of the previous data for calculations
             med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
 
 
@@ -269,12 +279,12 @@ if  __name__ == "__main__":
 
             index = index + 1                                     # increment data index
 
-            """
+
             #RealTimePlotting which significantly decreases Hz
             if status == POZYX_SUCCESS:
-                display_one.add(elapsed, one_cycle_position.z)
+                display_one.add(elapsed, velocity_x)
                 plt.pause(0.0000000000000000000000001)
-            """
+
 
     except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
         pass
