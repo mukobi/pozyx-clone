@@ -113,7 +113,12 @@ class BinData:
         :param self: the object being used for this class
         :param float new_data: the data to be inserted into the list
         """
-        self.num.append(new_data)
+        import numpy as np
+
+        if new_data == 0:
+            new_data = np.nan
+        else:
+            self.num.append(new_data)
 
     def return_data(self):
         """
