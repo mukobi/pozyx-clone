@@ -41,21 +41,6 @@ class DataFunctions:
             total_distance += temp_dist
         return total_distance, temp_dist
 
-    def find_velocity(position, prev_pos, time):
-        """
-        This is a function to simply calculate velocity.
-
-        :param integer position: this is the current position of the device
-        :param integer prev_pos: this is the previous position of the device
-        :param float time: this is the current time
-        :param float prev_time: this is the previous time
-        """
-        if prev_pos == 0:
-            return 0
-        else:
-            velocity = (position - prev_pos) / (time)
-            return velocity
-
     @staticmethod
     def str_set_length(number, length):
         """
@@ -171,19 +156,46 @@ class Velocity:
         return binned_pos_x, binned_pos_y, binned_pos_z, binned_time
 
     @staticmethod
-    def position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z):
+    def linreg_velocity(bin_pos, bin_time):
+        """
+        This function uses linear regression over the binned data to get the linear slope, which is the calculated velocity.
+
+        :param bin_pos: this is the position to use for velocity calculation
+        :param bin_time: this is the binned time used in calculation
+        :return float coeff: this is the slope of the calculated linear regression
+        """
+        from collections import deque
         import numpy as np
 
-        med_binned_pos_x = np.mean(binned_pos_x)        #Calculating the mean of the position data for smoothing
-        med_binned_pos_y = np.mean(binned_pos_y)
-        med_binned_pos_z = np.mean(binned_pos_z)
+        try:
+            coeff = np.polyfit(bin_pos, bin_time, 1)
+        except ValueError:
+            num_of_nans = bin_pos.count(np.nan)
+            if num_of_nans >= int(len(bin_pos) - 1):
+                coeff = [np.nan, np.nan]
+            else:
+                fix = np.isfinite(bin_pos)
+                coeff = np.polyfit(bin_pos[fix], bin_time, 1)
+        return coeff[1]
 
-        return med_binned_pos_x, med_binned_pos_y, med_binned_pos_z
+    @staticmethod
+    def position_mean_calculation(binned_pos):
+        import numpy as np
+
+        med_binned_pos = np.nanmean(binned_pos)        #Calculating the mean of the position data for smoothing
+
+        return med_binned_pos
 
     @staticmethod
     def time_mean_calculation(index, bin_input, binned_time):
+        """
+        Explain function
+        """
+
+        import numpy as np
+
         if index > bin_input:   #Calculates the mean of the binned time data for velocity calculation
-            mean_bin_time = ((binned_time[int(bin_input - 1)]- binned_time[0]) / int(bin_input - 1))    #Numpy does not function for mean time
+            mean_bin_time = np.nanmean(binned_time)
         else:                   #Sets variable to zero until enough data is in for valid calculations
             mean_bin_time = 0
 
@@ -203,3 +215,47 @@ class Velocity:
         med_prev_bin_pos_z = np.mean(prev_bin_pos_z)    #Calculates the mean of the previous x position data
 
         return med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z
+
+    @staticmethod
+    def simple_velocity(position, prev_pos, time):
+        """
+        This is a function to simply calculate velocity.
+
+        :param integer position: this is the current position of the device
+        :param integer prev_pos: this is the previous position of the device
+        :param float time: this is the current time
+        :param float prev_time: this is the previous time
+        """
+        if prev_pos == 0:
+            return 0
+        else:
+            velocity = (position - prev_pos) / (time)
+            return velocity
+
+    @staticmethod
+    def find_velocity(index, bin_input, position, med_prev_pos, time, method = 'simple'):
+        """
+        This is a function to determine which method of finding the velocity to use.
+        Note: Default is simple
+
+        :param integer position: this is the current position of the device
+        :param integer prev_pos: this is the previous position of the device
+        :param float time: this is the current time
+        :param float prev_time: this is the previous time
+        """
+        from modules.data_functions import DataFunctions as DataFunctions
+        from modules.data_functions import Velocity as Velocity
+        import numpy as np
+
+
+        if (int(len(position)) == bin_input) and (len(position) == len(time)):
+            if method == 'simple':
+                med_position = Velocity.position_mean_calculation(position)
+                mean_bin_time = Velocity.time_mean_calculation(index, bin_input, time)
+
+                velocity = Velocity.simple_velocity(med_position, med_prev_pos, mean_bin_time)
+            elif method == 'linreg':
+                velocity = Velocity.linreg_velocity(position, time)
+            return velocity
+        else:
+            return np.nan
