@@ -1,32 +1,42 @@
 package psupozyx;
 
-import javafx.event.ActionEvent;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.*;
+//import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
+import static java.lang.String.valueOf;
+
 public class Controller {
-    @FXML
-    private GridPane grid_pane_stage;
-    private Stage stage = (Stage) (grid_pane_stage != null ? grid_pane_stage.getScene().getWindow() : null);
+//    @FXML
+//    private GridPane grid_pane_stage;
+    private Stage stage = (Stage) null;
 
     @FXML
     private Label m_status_display;
     // interface fields
     @FXML
-    private CheckBox m_use_mobile_device;
+    private ChoiceBox<String> m_number_mobile_devices;
+
     @FXML
-    private TextField m_mobile_device_id;
+    private TextField m_mobile_device_1_id;
+    @FXML
+    private TextField m_mobile_device_2_id;
+    @FXML
+    private TextField m_mobile_device_3_id;
+    @FXML
+    private TextField m_mobile_device_4_id;
+    @FXML
+    private TextField m_mobile_device_5_id;
+    @FXML
+    private TextField m_mobile_device_6_id;
 
     @FXML
     private TextField m_a1_id;
@@ -87,8 +97,14 @@ public class Controller {
     private CheckBox m_use_processing;
 
     // field data variables
-    private String use_remote;
-    private String remote_id;
+    private String number_mobile_devices;
+    private String remote_1_id;
+    private String remote_2_id;
+    private String remote_3_id;
+    private String remote_4_id;
+    private String remote_5_id;
+    private String remote_6_id;
+
     private String anchor1_id;
     private String anchor1_x;
     private String anchor1_y;
@@ -125,10 +141,18 @@ public class Controller {
     public void initialize() {
         osName = System.getProperty("os.name");
         load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
+
+        refreshDisabledMobileIds("0");
+        m_number_mobile_devices.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldStr, String newStr) {
+                refreshDisabledMobileIds(newStr);
+            }
+        });
     }
 
     @FXML
-    private void handleLoadButtonAction(ActionEvent event) {
+    private void handleLoadButtonAction() {
         update_variables_from_gui();
         FileChooser fileChooser = new FileChooser();
         configureFileChooser(fileChooser);
@@ -140,7 +164,7 @@ public class Controller {
     }
 
     @FXML
-    private void handleSaveTemplateButtonAction(ActionEvent event) {
+    private void handleSaveTemplateButtonAction() {
         update_variables_from_gui();
 
         FileChooser fileChooser = new FileChooser();
@@ -161,7 +185,7 @@ public class Controller {
     }
 
     @FXML
-    private void handleLaunchPositioning(ActionEvent event) {
+    private void handleLaunchPositioning() {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
@@ -183,7 +207,7 @@ public class Controller {
         }
     }
     @FXML
-    private void handleLaunchMotionData(ActionEvent event) {
+    private void handleLaunchMotionData() {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
@@ -206,7 +230,7 @@ public class Controller {
         }
     }
     @FXML
-    private void handleLaunchPositioningAndMotionData(ActionEvent event) {
+    private void handleLaunchPositioningAndMotionData() {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
@@ -230,8 +254,14 @@ public class Controller {
     }
 
     private void update_variables_from_gui() {
-        use_remote = String.valueOf(m_use_mobile_device.isSelected());
-        remote_id = m_mobile_device_id.getText();
+        number_mobile_devices = m_number_mobile_devices.getValue();
+        remote_1_id = m_mobile_device_1_id.getText();
+        remote_2_id = m_mobile_device_2_id.getText();
+        remote_3_id = m_mobile_device_3_id.getText();
+        remote_4_id = m_mobile_device_4_id.getText();
+        remote_5_id = m_mobile_device_5_id.getText();
+        remote_6_id = m_mobile_device_6_id.getText();
+
         anchor1_id = m_a1_id.getText();
         anchor1_x = m_a1_x.getText();
         anchor1_y = m_a1_y.getText();
@@ -249,18 +279,18 @@ public class Controller {
         anchor4_y = m_a4_y.getText();
         anchor4_z = m_a4_z.getText();
 
-        log_pressure = String.valueOf(m_log_pressure.isSelected());
-        log_acceleration = String.valueOf(m_log_acceleration.isSelected());
-        log_magnetic = String.valueOf(m_log_magnetic.isSelected());
-        log_angular_velocity = String.valueOf(m_log_angular_velocity.isSelected());
-        log_euler_angles = String.valueOf(m_log_euler_angles.isSelected());
-        log_quaternion = String.valueOf(m_log_quaternion.isSelected());
-        log_linear_acceleration = String.valueOf(m_log_linear_acceleration.isSelected());
-        log_gravity = String.valueOf(m_log_gravity.isSelected());
+        log_pressure = valueOf(m_log_pressure.isSelected());
+        log_acceleration = valueOf(m_log_acceleration.isSelected());
+        log_magnetic = valueOf(m_log_magnetic.isSelected());
+        log_angular_velocity = valueOf(m_log_angular_velocity.isSelected());
+        log_euler_angles = valueOf(m_log_euler_angles.isSelected());
+        log_quaternion = valueOf(m_log_quaternion.isSelected());
+        log_linear_acceleration = valueOf(m_log_linear_acceleration.isSelected());
+        log_gravity = valueOf(m_log_gravity.isSelected());
 
-        use_file = String.valueOf(m_use_file.isSelected());
+        use_file = valueOf(m_use_file.isSelected());
         filename = m_filename.getText();
-        use_processing = String.valueOf(m_use_processing.isSelected());
+        use_processing = valueOf(m_use_processing.isSelected());
     }
 
     private void save_properties_to_file(String file) {
@@ -274,8 +304,14 @@ public class Controller {
             output = new FileOutputStream(file);
 
             // set the properties value
-            props.setProperty("use_remote", use_remote);
-            props.setProperty("remote_id", remote_id);
+            props.setProperty("number_remotes", number_mobile_devices);
+            props.setProperty("remote_1_id", remote_1_id);
+            props.setProperty("remote_2_id", remote_2_id);
+            props.setProperty("remote_3_id", remote_3_id);
+            props.setProperty("remote_4_id", remote_4_id);
+            props.setProperty("remote_5_id", remote_5_id);
+            props.setProperty("remote_6_id", remote_6_id);
+
             props.setProperty("anchor_1_id", anchor1_id);
             props.setProperty("anchor_1_x", anchor1_x);
             props.setProperty("anchor_1_y", anchor1_y);
@@ -334,8 +370,14 @@ public class Controller {
             FileInputStream stream = new FileInputStream(loadPath);
             prop.load(stream);
             //get the property value and print it out
-            m_use_mobile_device.setSelected(Boolean.valueOf(prop.getProperty("use_mobile_device", "false")));
-            m_mobile_device_id.setText(prop.getProperty("remote_id", ""));
+            m_number_mobile_devices.setValue((String) prop.getProperty("number_remotes", "0"));
+            m_mobile_device_1_id.setText(prop.getProperty("remote_1_id", ""));
+            m_mobile_device_2_id.setText(prop.getProperty("remote_2_id", ""));
+            m_mobile_device_3_id.setText(prop.getProperty("remote_3_id", ""));
+            m_mobile_device_4_id.setText(prop.getProperty("remote_4_id", ""));
+            m_mobile_device_5_id.setText(prop.getProperty("remote_5_id", ""));
+            m_mobile_device_6_id.setText(prop.getProperty("remote_6_id", ""));
+
             m_a1_id.setText(prop.getProperty("anchor_1_id", ""));
             m_a1_x.setText(prop.getProperty("anchor_1_x", ""));
             m_a1_y.setText(prop.getProperty("anchor_1_y", ""));
@@ -352,6 +394,7 @@ public class Controller {
             m_a4_x.setText(prop.getProperty("anchor_4_x", ""));
             m_a4_y.setText(prop.getProperty("anchor_4_y", ""));
             m_a4_z.setText(prop.getProperty("anchor_4_z", ""));
+
             m_log_pressure.setSelected(Boolean.valueOf(prop.getProperty("log_pressure", "false")));
             m_log_acceleration.setSelected(Boolean.valueOf(prop.getProperty("log_acceleration", "false")));
             m_log_magnetic.setSelected(Boolean.valueOf(prop.getProperty("log_magnetic", "false")));
@@ -372,6 +415,57 @@ public class Controller {
             ex.printStackTrace();
         }
     }
+
+    private void refreshDisabledMobileIds(String newStr) {
+        m_mobile_device_1_id.setDisable(true);
+        m_mobile_device_2_id.setDisable(true);
+        m_mobile_device_3_id.setDisable(true);
+        m_mobile_device_4_id.setDisable(true);
+        m_mobile_device_5_id.setDisable(true);
+        m_mobile_device_6_id.setDisable(true);
+
+        number_mobile_devices = m_number_mobile_devices.getValue();
+
+        System.out.println(number_mobile_devices);
+        System.out.println(newStr);
+        switch (number_mobile_devices) {
+            case "1":
+                m_mobile_device_1_id.setDisable(false);
+                break;
+            case "2":
+                m_mobile_device_1_id.setDisable(false);
+                m_mobile_device_2_id.setDisable(false);
+                break;
+            case "3":
+                m_mobile_device_1_id.setDisable(false);
+                m_mobile_device_2_id.setDisable(false);
+                m_mobile_device_3_id.setDisable(false);
+                break;
+            case "4":
+                m_mobile_device_1_id.setDisable(false);
+                m_mobile_device_2_id.setDisable(false);
+                m_mobile_device_3_id.setDisable(false);
+                m_mobile_device_2_id.setDisable(false);
+                break;
+            case "5":
+                m_mobile_device_1_id.setDisable(false);
+                m_mobile_device_2_id.setDisable(false);
+                m_mobile_device_3_id.setDisable(false);
+                m_mobile_device_4_id.setDisable(false);
+                m_mobile_device_5_id.setDisable(false);
+                break;
+            case "6":
+                m_mobile_device_1_id.setDisable(false);
+                m_mobile_device_2_id.setDisable(false);
+                m_mobile_device_3_id.setDisable(false);
+                m_mobile_device_4_id.setDisable(false);
+                m_mobile_device_5_id.setDisable(false);
+                m_mobile_device_6_id.setDisable(false);
+                break;
+        }
+
+    }
+
 
     private static void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Save Settings Template");
