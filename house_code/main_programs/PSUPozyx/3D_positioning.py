@@ -38,12 +38,12 @@ import numpy as np
 from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
-
+"""
 #RealTimePlotting
 from modules.real_time_plot import RealTimePlot
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+"""
 
 class ReadyToLocalize(object):
     """Continuously calls the Pozyx positioning function and prints its position."""
@@ -202,37 +202,42 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
 
+    use_velocity = False
+
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
-        FileWriting.write_position_header_to_file(logfile)
+        if use_velocity:
+            FileWriting.write_position_and_velocity_header_to_file(logfile)
+        else:
+            FileWriting.write_position_header_to_file(logfile)
 
 
-
+    """
     #RealTimePlotting
     fig,axes = plt.subplots()
     display_one = RealTimePlot(axes)
     display_one. animate(fig,lambda frame_index: ([], []))
     plt.ylabel("Z Position")
     #To add more subplots, copy this code and change the object name
+    """
+    if use_velocity:
+        bin_input = DataFunctions.bin_input()
 
+        bin_pos_x = BinData(bin_size = bin_input)   #Creating position deque objects to calculate velocity
+        prev_bin_pos_x = 0                          #Initializing the previous points
 
-    bin_input = DataFunctions.bin_input()
+        bin_pos_y = BinData(bin_size = bin_input)
+        prev_bin_pos_y = 0
 
-    bin_pos_x = BinData(bin_size = bin_input)   #Creating position deque objects to calculate velocity
-    prev_bin_pos_x = 0                          #Initializing the previous points
+        bin_pos_z = BinData(bin_size = bin_input)
+        prev_bin_pos_z = 0
 
-    bin_pos_y = BinData(bin_size = bin_input)
-    prev_bin_pos_y = 0
+        bin_time = BinData(bin_size = bin_input)
 
-    bin_pos_z = BinData(bin_size = bin_input)
-    prev_bin_pos_z = 0
-
-    bin_time = BinData(bin_size = bin_input)
-
-    med_prev_bin_pos_x = 0      #Initializing median calculation variables
-    med_prev_bin_pos_y = 0
-    med_prev_bin_pos_z = 0
+        med_prev_bin_pos_x = 0      #Initializing median calculation variables
+        med_prev_bin_pos_y = 0
+        med_prev_bin_pos_z = 0
 
     start = t.time()
     try:
@@ -245,46 +250,51 @@ if  __name__ == "__main__":
             one_cycle_position, status = r.loop()    # the loop method of r prints data to the console and returns what is printed
             #Status is used for error handling
 
-            #Updates and returns the new bins
-            binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position)
-            #Returns the means of the position bins
-            #med_binned_pos_x, med_binned_pos_y, med_binned_pos_z = Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
-            #returns the mean of the time bin
+            if use_velocity:
+                #Updates and returns the new bins
+                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position)
+                #Returns the means of the position bins
+                #med_binned_pos_x, med_binned_pos_y, med_binned_pos_z = Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
+                #returns the mean of the time bin
 
-            
+                #Can equal either simple or linreg
+                velocity_method = 'simple'
+                #velocity_method = 'linreg'
 
+                #Calculates the directional velocities, set the method using method argument
+                velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, med_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
+                velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, med_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
+                velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, med_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
+                #gets the medians of the previous position bins for calculations next loop
 
-            #Can equal either simple or linreg
-            velocity_method = 'simple'
-            #velocity_method = 'linreg'
-
-            #Calculates the directional velocities, set the method using method argument
-            velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, med_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
-            velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, med_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
-            velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, med_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
-            #gets the medians of the previous position bins for calculations next loop
-
-
-            #Gets the means of the previous data for calculations
-            med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
+                #Gets the means of the previous data for calculations
+                med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
 
 
             #Logs the data to console
-            ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
+            if use_velocity:
+                ConsoleLogging.log_position_and_velocity_to_console(index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
+            else:
+                ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
+
+
             if to_use_file:             # writes the data returned from the loop method to the file
-                if index > bin_input:   #Accounts for the time it takes to get accurate velocity calculations
-                    FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, velocity_x, velocity_y, velocity_z)
-                else:                   #Returns 0 for velocity until it provides complete calculations
-                    FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, 0, 0, 0)
+                if use_velocity:
+                    if index > bin_input:   #Accounts for the time it takes to get accurate velocity calculations
+                        FileWriting.write_position_and_velocity_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, velocity_x, velocity_y, velocity_z)
+                    else:                   #Returns 0 for velocity until it provides complete calculations
+                        FileWriting.write_position_and_velocity_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, 0, 0, 0)
+                else:
+                    FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)
 
             index = index + 1                                     # increment data index
 
-
+            """
             #RealTimePlotting which significantly decreases Hz
             if status == POZYX_SUCCESS:
                 display_one.add(elapsed, velocity_x)
                 plt.pause(0.0000000000000000000000001)
-
+            """
 
     except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
         pass
