@@ -126,6 +126,11 @@ class DataFunctions:
 
     @staticmethod
     def bin_input():
+        """
+        This function determines the amount of data points that the user would like to bin.
+
+        :return integer bin_input: the number of data points the user will bin.
+        """
         try:
             bin_input = int(input("How many data points would you like to bin?\n"))
         except ValueError:
@@ -139,6 +144,18 @@ class Velocity:
     """
     @staticmethod
     def update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position):
+        """
+        This function updates the position and time bins used for calculation
+
+        :param object bin_pos_x: this is the object storing x position data
+        :param object bin_pos_y: this is the object storing y position data
+        :param object bin_pos_z: this is the object storing z position data
+
+        :return list binned_pos_x: the list of x position data
+        :return list binned_pos_y: the list of y position data
+        :return list binned_pos_z: the list of z position data
+        :return list binned_time: the list of previous time data
+        """
         from modules.data_averaging import BinData as BinData
 
         BinData.add(bin_pos_x, one_cycle_position.x)         #creating a list of x position data points for calculation
@@ -163,6 +180,10 @@ class Velocity:
         :param bin_pos: this is the position to use for velocity calculation
         :param bin_time: this is the binned time used in calculation
         :return float coeff: this is the slope of the calculated linear regression
+
+        Notes:
+        This calculation method returns miniscule velocity data that is only positive.
+        For now, usage of only the simple method is encouraged.
         """
         from collections import deque
         import numpy as np
@@ -180,6 +201,14 @@ class Velocity:
 
     @staticmethod
     def position_mean_calculation(binned_pos):
+        """
+        This function calculates the mean of the binned position data
+
+        :param list binned_pos: this is the list of the position data for calculation
+        :return med_binned_pos: this is the mean of the position data
+
+        Note: the mean function is preferable to median functionality due to error handling with numpy nans
+        """
         import numpy as np
 
         med_binned_pos = np.nanmean(binned_pos)        #Calculating the mean of the position data for smoothing
@@ -189,7 +218,13 @@ class Velocity:
     @staticmethod
     def time_mean_calculation(index, bin_input, binned_time):
         """
-        Explain function
+        Calculates the mean time of the timestamp data
+
+        :param index: the data line
+        :param bin_input: the number of data points to be binned
+        :param binned_time: the type of time data to use for mean calculation
+
+        Note: use the time difference for simple velocity calculation, not the total elapsed time
         """
 
         import numpy as np
@@ -203,6 +238,14 @@ class Velocity:
 
     @staticmethod
     def update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z):
+        """
+        This function updates the bins for previous position bins and returns them at the end of the loop.
+
+        :param binned_pos_x: the x position data already used in calculation
+        :param binned_pos_y: the y position data already used in calculation
+        :param binned_pos_z: the z position data already used in calculation
+        """
+
         import numpy as np
 
         prev_bin_pos_x = binned_pos_x           #Updates the previous x position bin
@@ -226,6 +269,7 @@ class Velocity:
         :param float time: this is the current time
         :param float prev_time: this is the previous time
         """
+
         if prev_pos == 0:
             return 0
         else:
@@ -236,14 +280,16 @@ class Velocity:
     def find_velocity(index, bin_input, position, med_prev_pos, time, method = 'simple'):
         """
         This is a function to determine which method of finding the velocity to use.
-        Note: Default is simple
 
         :param integer position: this is the current position of the device
         :param integer prev_pos: this is the previous position of the device
         :param float time: this is the current time
         :param float prev_time: this is the previous time
+
+        Notes: Default is simple.
+        The function returns 'nan' from numpy if it takes an error message.
+        For improvement, we can add functionality to wait a while after receiving an error message.
         """
-        from modules.data_functions import DataFunctions as DataFunctions
         from modules.data_functions import Velocity as Velocity
         import numpy as np
 
@@ -251,9 +297,12 @@ class Velocity:
         if (int(len(position)) == bin_input) and (len(position) == len(time)):
             if method == 'simple':
                 med_position = Velocity.position_mean_calculation(position)
+
+                #the time mean calculation takes the total elapsed time over delta position which causes bad data
                 mean_bin_time = Velocity.time_mean_calculation(index, bin_input, time)
 
                 velocity = Velocity.simple_velocity(med_position, med_prev_pos, mean_bin_time)
+
             elif method == 'linreg':
                 velocity = Velocity.linreg_velocity(position, time)
             return velocity
