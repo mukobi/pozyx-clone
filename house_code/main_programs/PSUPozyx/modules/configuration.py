@@ -9,7 +9,11 @@ class Configuration:
     def get_properties():
         P = dict(line.strip().split('=') for line in open(MASTER_PROPS_LOCATION)
                  if not line.startswith('#') and not line.startswith('\n'))
-        use_remote = P["use_remote"] == "true"
+        number_remote_devices = P["number_remotes"]
+        
+        use_remote = false
+        if number_remote_devices == "0": use_remote = false
+        elif number_remote_devices == "1": use_remote = true
         remote_id = int(P["remote_id"], 16)
         if not use_remote:
             remote_id = None
