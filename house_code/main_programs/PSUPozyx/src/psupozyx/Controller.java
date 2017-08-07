@@ -1,8 +1,5 @@
 package psupozyx;
 
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 //import javafx.scene.layout.GridPane;
@@ -10,6 +7,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import static java.lang.String.valueOf;
@@ -37,6 +35,9 @@ public class Controller {
     private TextField m_mobile_device_5_id;
     @FXML
     private TextField m_mobile_device_6_id;
+
+    @FXML
+    private ChoiceBox<String> m_number_anchors;
 
     @FXML
     private TextField m_a1_id;
@@ -70,6 +71,38 @@ public class Controller {
     private TextField m_a4_y;
     @FXML
     private TextField m_a4_z;
+    @FXML
+    private TextField m_a5_id;
+    @FXML
+    private TextField m_a5_x;
+    @FXML
+    private TextField m_a5_y;
+    @FXML
+    private TextField m_a5_z;
+    @FXML
+    private TextField m_a6_id;
+    @FXML
+    private TextField m_a6_x;
+    @FXML
+    private TextField m_a6_y;
+    @FXML
+    private TextField m_a6_z;
+    @FXML
+    private TextField m_a7_id;
+    @FXML
+    private TextField m_a7_x;
+    @FXML
+    private TextField m_a7_y;
+    @FXML
+    private TextField m_a7_z;
+    @FXML
+    private TextField m_a8_id;
+    @FXML
+    private TextField m_a8_x;
+    @FXML
+    private TextField m_a8_y;
+    @FXML
+    private TextField m_a8_z;
 
     @FXML
     private CheckBox m_log_pressure;
@@ -105,6 +138,7 @@ public class Controller {
     private String remote_5_id;
     private String remote_6_id;
 
+    private String number_anchors;
     private String anchor1_id;
     private String anchor1_x;
     private String anchor1_y;
@@ -121,6 +155,22 @@ public class Controller {
     private String anchor4_x;
     private String anchor4_y;
     private String anchor4_z;
+    private String anchor5_id;
+    private String anchor5_x;
+    private String anchor5_y;
+    private String anchor5_z;
+    private String anchor6_id;
+    private String anchor6_x;
+    private String anchor6_y;
+    private String anchor6_z;
+    private String anchor7_id;
+    private String anchor7_x;
+    private String anchor7_y;
+    private String anchor7_z;
+    private String anchor8_id;
+    private String anchor8_x;
+    private String anchor8_y;
+    private String anchor8_z;
 
     private String log_pressure;
     private String log_acceleration;
@@ -143,12 +193,12 @@ public class Controller {
         load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
 
         refreshDisabledMobileIds("0");
-        m_number_mobile_devices.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldStr, String newStr) {
-                refreshDisabledMobileIds(newStr);
-            }
-        });
+        m_number_mobile_devices.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldStr, newStr) -> refreshDisabledMobileIds(newStr));
+
+        refreshDisabledAnchors("4");
+        m_number_anchors.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldStr, newStr) -> refreshDisabledAnchors(newStr));
     }
 
     @FXML
@@ -262,6 +312,7 @@ public class Controller {
         remote_5_id = m_mobile_device_5_id.getText();
         remote_6_id = m_mobile_device_6_id.getText();
 
+        number_anchors = m_number_anchors.getValue();
         anchor1_id = m_a1_id.getText();
         anchor1_x = m_a1_x.getText();
         anchor1_y = m_a1_y.getText();
@@ -278,6 +329,22 @@ public class Controller {
         anchor4_x = m_a4_x.getText();
         anchor4_y = m_a4_y.getText();
         anchor4_z = m_a4_z.getText();
+        anchor5_id = m_a5_id.getText();
+        anchor5_x = m_a5_x.getText();
+        anchor5_y = m_a5_y.getText();
+        anchor5_z = m_a5_z.getText();
+        anchor6_id = m_a6_id.getText();
+        anchor6_x = m_a6_x.getText();
+        anchor6_y = m_a6_y.getText();
+        anchor6_z = m_a6_z.getText();
+        anchor7_id = m_a7_id.getText();
+        anchor7_x = m_a7_x.getText();
+        anchor7_y = m_a7_y.getText();
+        anchor7_z = m_a7_z.getText();
+        anchor8_id = m_a8_id.getText();
+        anchor8_x = m_a8_x.getText();
+        anchor8_y = m_a8_y.getText();
+        anchor8_z = m_a8_z.getText();
 
         log_pressure = valueOf(m_log_pressure.isSelected());
         log_acceleration = valueOf(m_log_acceleration.isSelected());
@@ -312,6 +379,7 @@ public class Controller {
             props.setProperty("remote_5_id", remote_5_id);
             props.setProperty("remote_6_id", remote_6_id);
 
+            props.setProperty("number_anchors", number_anchors);
             props.setProperty("anchor_1_id", anchor1_id);
             props.setProperty("anchor_1_x", anchor1_x);
             props.setProperty("anchor_1_y", anchor1_y);
@@ -328,6 +396,22 @@ public class Controller {
             props.setProperty("anchor_4_x", anchor4_x);
             props.setProperty("anchor_4_y", anchor4_y);
             props.setProperty("anchor_4_z", anchor4_z);
+            props.setProperty("anchor_5_id", anchor5_id);
+            props.setProperty("anchor_5_x", anchor5_x);
+            props.setProperty("anchor_5_y", anchor5_y);
+            props.setProperty("anchor_5_z", anchor5_z);
+            props.setProperty("anchor_6_id", anchor6_id);
+            props.setProperty("anchor_6_x", anchor6_x);
+            props.setProperty("anchor_6_y", anchor6_y);
+            props.setProperty("anchor_6_z", anchor6_z);
+            props.setProperty("anchor_7_id", anchor7_id);
+            props.setProperty("anchor_7_x", anchor7_x);
+            props.setProperty("anchor_7_y", anchor7_y);
+            props.setProperty("anchor_7_z", anchor7_z);
+            props.setProperty("anchor_8_id", anchor8_id);
+            props.setProperty("anchor_8_x", anchor8_x);
+            props.setProperty("anchor_8_y", anchor8_y);
+            props.setProperty("anchor_8_z", anchor8_z);
 
             props.setProperty("log_pressure", log_pressure);
             props.setProperty("log_acceleration", log_acceleration);
@@ -370,7 +454,7 @@ public class Controller {
             FileInputStream stream = new FileInputStream(loadPath);
             prop.load(stream);
             //get the property value and print it out
-            m_number_mobile_devices.setValue((String) prop.getProperty("number_remotes", "0"));
+            m_number_mobile_devices.setValue(prop.getProperty("number_remotes", "0"));
             m_mobile_device_1_id.setText(prop.getProperty("remote_1_id", ""));
             m_mobile_device_2_id.setText(prop.getProperty("remote_2_id", ""));
             m_mobile_device_3_id.setText(prop.getProperty("remote_3_id", ""));
@@ -378,22 +462,39 @@ public class Controller {
             m_mobile_device_5_id.setText(prop.getProperty("remote_5_id", ""));
             m_mobile_device_6_id.setText(prop.getProperty("remote_6_id", ""));
 
+            m_number_anchors.setValue(prop.getProperty("number_anchors", "4"));
             m_a1_id.setText(prop.getProperty("anchor_1_id", ""));
-            m_a1_x.setText(prop.getProperty("anchor_1_x", ""));
-            m_a1_y.setText(prop.getProperty("anchor_1_y", ""));
-            m_a1_z.setText(prop.getProperty("anchor_1_z", ""));
+            m_a1_x.setText (prop.getProperty("anchor_1_x", ""));
+            m_a1_y.setText (prop.getProperty("anchor_1_y", ""));
+            m_a1_z.setText (prop.getProperty("anchor_1_z", ""));
             m_a2_id.setText(prop.getProperty("anchor_2_id", ""));
-            m_a2_x.setText(prop.getProperty("anchor_2_x", ""));
-            m_a2_y.setText(prop.getProperty("anchor_2_y", ""));
-            m_a2_z.setText(prop.getProperty("anchor_2_z", ""));
+            m_a2_x.setText (prop.getProperty("anchor_2_x", ""));
+            m_a2_y.setText (prop.getProperty("anchor_2_y", ""));
+            m_a2_z.setText (prop.getProperty("anchor_2_z", ""));
             m_a3_id.setText(prop.getProperty("anchor_3_id", ""));
-            m_a3_x.setText(prop.getProperty("anchor_3_x", ""));
-            m_a3_y.setText(prop.getProperty("anchor_3_y", ""));
-            m_a3_z.setText(prop.getProperty("anchor_3_z", ""));
+            m_a3_x.setText (prop.getProperty("anchor_3_x", ""));
+            m_a3_y.setText (prop.getProperty("anchor_3_y", ""));
+            m_a3_z.setText (prop.getProperty("anchor_3_z", ""));
             m_a4_id.setText(prop.getProperty("anchor_4_id", ""));
-            m_a4_x.setText(prop.getProperty("anchor_4_x", ""));
-            m_a4_y.setText(prop.getProperty("anchor_4_y", ""));
-            m_a4_z.setText(prop.getProperty("anchor_4_z", ""));
+            m_a4_x.setText (prop.getProperty("anchor_4_x", ""));
+            m_a4_y.setText (prop.getProperty("anchor_4_y", ""));
+            m_a4_z.setText (prop.getProperty("anchor_4_z", ""));
+            m_a5_id.setText(prop.getProperty("anchor_5_id", ""));
+            m_a5_x.setText (prop.getProperty("anchor_5_x", ""));
+            m_a5_y.setText (prop.getProperty("anchor_5_y", ""));
+            m_a5_z.setText (prop.getProperty("anchor_5_z", ""));
+            m_a6_id.setText(prop.getProperty("anchor_6_id", ""));
+            m_a6_x.setText (prop.getProperty("anchor_6_x", ""));
+            m_a6_y.setText (prop.getProperty("anchor_6_y", ""));
+            m_a6_z.setText (prop.getProperty("anchor_6_z", ""));
+            m_a7_id.setText(prop.getProperty("anchor_7_id", ""));
+            m_a7_x.setText (prop.getProperty("anchor_7_x", ""));
+            m_a7_y.setText (prop.getProperty("anchor_7_y", ""));
+            m_a7_z.setText (prop.getProperty("anchor_7_z", ""));
+            m_a8_id.setText(prop.getProperty("anchor_8_id", ""));
+            m_a8_x.setText (prop.getProperty("anchor_8_x", ""));
+            m_a8_y.setText (prop.getProperty("anchor_8_y", ""));
+            m_a8_z.setText (prop.getProperty("anchor_8_z", ""));
 
             m_log_pressure.setSelected(Boolean.valueOf(prop.getProperty("log_pressure", "false")));
             m_log_acceleration.setSelected(Boolean.valueOf(prop.getProperty("log_acceleration", "false")));
@@ -464,6 +565,49 @@ public class Controller {
                 break;
         }
 
+    }
+
+    private void refreshDisabledAnchors(String newStr) {
+        TextField[] anchor_5 = {m_a5_id, m_a5_x, m_a5_y, m_a5_z};
+        TextField[] anchor_6 = {m_a6_id, m_a6_x, m_a6_y, m_a6_z};
+        TextField[] anchor_7 = {m_a7_id, m_a7_x, m_a7_y, m_a7_z};
+        TextField[] anchor_8 = {m_a8_id, m_a8_x, m_a8_y, m_a8_z};
+
+        for (int i = 0; i < 4; i++) {
+            anchor_5[i].setDisable(true);
+            anchor_6[i].setDisable(true);
+            anchor_7[i].setDisable(true);
+            anchor_8[i].setDisable(true);
+        }
+
+        number_anchors = m_number_anchors.getValue();
+
+        System.out.println(number_anchors);
+        System.out.println(newStr);
+        for (int i = 0; i < 4; i++) {
+            switch (number_anchors) {
+                case "4":
+                    break;
+                case "5":
+                    anchor_5[i].setDisable(false);
+                    break;
+                case "6":
+                    anchor_5[i].setDisable(false);
+                    anchor_6[i].setDisable(false);
+                    break;
+                case "7":
+                    anchor_5[i].setDisable(false);
+                    anchor_6[i].setDisable(false);
+                    anchor_7[i].setDisable(false);
+                    break;
+                case "8":
+                    anchor_5[i].setDisable(false);
+                    anchor_6[i].setDisable(false);
+                    anchor_7[i].setDisable(false);
+                    anchor_8[i].setDisable(false);
+                    break;
+            }
+        }
     }
 
 
