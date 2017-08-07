@@ -10,10 +10,10 @@ class Configuration:
         P = dict(line.strip().split('=') for line in open(MASTER_PROPS_LOCATION)
                  if not line.startswith('#') and not line.startswith('\n'))
         number_remote_devices = P["number_remotes"]
-        
-        use_remote = false
-        if number_remote_devices == "0": use_remote = false
-        elif number_remote_devices == "1": use_remote = true
+
+        use_remote = False
+        if number_remote_devices == "0": use_remote = False
+        elif number_remote_devices == "1": use_remote = True
         remote_id = int(P["remote_id"], 16)
         if not use_remote:
             remote_id = None
