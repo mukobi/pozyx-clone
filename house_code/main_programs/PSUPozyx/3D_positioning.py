@@ -202,7 +202,7 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
 
-    use_velocity = False
+    use_velocity = True
 
     logfile = None
     if to_use_file:
@@ -218,7 +218,7 @@ if  __name__ == "__main__":
     fig,axes = plt.subplots()
     display_one = RealTimePlot(axes)
     display_one. animate(fig,lambda frame_index: ([], []))
-    plt.ylabel("Z Position")
+    plt.ylabel("X Velocity")
     #To add more subplots, copy this code and change the object name
     """
     if use_velocity:
@@ -252,7 +252,7 @@ if  __name__ == "__main__":
 
             if use_velocity:
                 #Updates and returns the new bins
-                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position)
+                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, timeDifference, one_cycle_position)
                 #Returns the means of the position bins
                 #med_binned_pos_x, med_binned_pos_y, med_binned_pos_z = Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
                 #returns the mean of the time bin
