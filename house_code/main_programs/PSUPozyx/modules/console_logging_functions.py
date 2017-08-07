@@ -75,7 +75,35 @@ class ConsoleLoggingFunctions:
         print(output)
 
     @staticmethod
-    def log_position_to_console(index, elapsed, position, velocity_x, velocity_y, velocity_z):
+    def log_position_to_console(index, elapsed, position):
+        """
+        Prints a line of data to the console
+
+        :param int index: data index
+        :param float elapsed: elapsed time since the program started
+        :param position: position data
+        """
+        output = str(index)
+        output += " Time: "
+        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz: "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        output += ave_hertz_str
+
+        # if the data passed was an error string
+        if type(position) == str:
+            output += position
+        else:
+            output += (" | Pos: " + "X: " + str(position.x)
+                       + " Y: " + str(position.y)
+                       + " Z: " + str(position.z))
+
+        print(output)
+
+    @staticmethod
+    def log_position_and_velocity_to_console(index, elapsed, position, velocity_x, velocity_y, velocity_z):
         """
         Prints a line of data to the console
 
@@ -131,7 +159,45 @@ class ConsoleLoggingFunctions:
         print(output)
 
     @staticmethod
-    def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position, velocity_x, velocity_y, velocity_z):
+    def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position):
+        """
+        Prints a line of data to the console
+
+        :param int index: data index
+        :param float elapsed: elapsed time since the program started
+        :param dict data_dictionary: a dictionary where the keys are the
+            labels for each data type to log (e.g. acceleration, magnetic)
+            and the values are lists of labels and values (for example,
+            ['x', 2, 'y', 3, 'z', 5] )
+        :param position: position data from device
+        """
+        output = str(index)
+        output += " Time: "
+        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz: "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        output += ave_hertz_str
+
+        # if the data passed was an error string
+        if type(data_dictionary) == str:
+            output += data_dictionary
+        elif type(position) == str:
+            output += position
+        else:
+            for key in data_dictionary:
+                output += " | " + key
+                for item in data_dictionary[key]:
+                    output += " " + str(item)
+            output += (" | Pos: " + "X: " + str(position.x)
+                       + " Y: " + str(position.y)
+                       + " Z: " + str(position.z))
+        
+        print(output)
+
+    @staticmethod
+    def log_position_and_velocity_and_sensor_data_to_console(index, elapsed, data_dictionary, position, velocity_x, velocity_y, velocity_z):
         """
         Prints a line of data to the console
 
