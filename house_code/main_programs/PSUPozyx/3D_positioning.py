@@ -4,9 +4,10 @@ The Pozyx ready to localize tutorial (c) Pozyx Labs
 Please read the tutorial that accompanies this sketch:
 https://www.pozyx.io/Documentation/Tutorials/ready_to_localize/Python
 
-This tutorial requires at least the contents of the Pozyx Ready to Localize kit. It demonstrates the positioning capabilities
-of the Pozyx device both locally and remotely. Follow the steps to correctly set up your environment in the link, change the
-parameters and upload this sketch. Watch the coordinates change as you move your device around!
+This tutorial requires at least the contents of the Pozyx Ready to Localize kit. It demonstrates the
+positioning capabilities of the Pozyx device both locally and remotely. Follow the steps to correctly
+set up your environment in the link, change the parameters and upload this sketch. Watch the
+coordinates change as you move your device around!
 """
 from time import sleep
 from pypozyx import *
@@ -104,31 +105,31 @@ class ReadyToLocalize(object):
 
     def set_anchors_manual(self):
         """Adds the manually measured anchors to the Pozyx's device list one for one."""
-        status = self.pozyx.clearDevices(self.remote_id)
+        manual_status = self.pozyx.clearDevices(self.remote_id)
         for anchor in self.anchors:
-            status &= self.pozyx.addDevice(anchor, self.remote_id)
+            manual_status &= self.pozyx.addDevice(anchor, self.remote_id)
         if len(anchors) > 4:
-            status &= self.pozyx.setSelectionOfAnchors(POZYX_ANCHOR_SEL_AUTO, len(anchors))
-        return status
+            manual_status &= self.pozyx.setSelectionOfAnchors(POZYX_ANCHOR_SEL_AUTO, len(anchors))
+        return manual_status
 
     def print_publish_configuration_result(self):
         """Prints and potentially publishes the anchor configuration result in a human-readable way."""
         list_size = SingleRegister()
 
-        status = self.pozyx.getDeviceListSize(list_size, self.remote_id)
+        result_status = self.pozyx.getDeviceListSize(list_size, self.remote_id)
         print("List size: {0}".format(list_size[0]))
         if list_size[0] != len(self.anchors):
             self.print_publish_error_code("configuration")
             return
         device_list = DeviceList(list_size=list_size[0])
-        status = self.pozyx.getDeviceIds(device_list, self.remote_id)
+        result_status = self.pozyx.getDeviceIds(device_list, self.remote_id)
         print("Calibration result:")
         print("Anchors found: {0}".format(list_size[0]))
         print("Anchor IDs: ", device_list)
 
         for i in range(list_size[0]):
             anchor_coordinates = Coordinates()
-            status = self.pozyx.getDeviceCoordinates(
+            result_status = self.pozyx.getDeviceCoordinates(
                 device_list[i], anchor_coordinates, self.remote_id)
             print("ANCHOR,0x%0.4x, %s" % (device_list[i], str(anchor_coordinates)))
             if self.osc_udp_client is not None:
@@ -136,14 +137,16 @@ class ReadyToLocalize(object):
                     "/anchor", [device_list[i], int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
                 sleep(0.025)
 
-    def printPublishAnchorConfiguration(self):
+    def print_publish_anchor_configuration(self):
         """Prints and potentially publishes the anchor configuration"""
         for anchor in self.anchors:
             print("ANCHOR,0x%0.4x,%s" % (anchor.network_id, str(anchor.coordinates)))
             if self.osc_udp_client is not None:
                 self.osc_udp_client.send_message(
-                    "/anchor", [anchor.network_id, int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
-                    # "/anchor", [anchor.network_id, int(anchor.coordinates.x), int(anchor.coordinates.y), int(anchor.coordinates.z)])
+                    "/anchor", [anchor.network_id, int(anchor_coordinates.x),
+                                int(anchor_coordinates.y), int(anchor_coordinates.z)])
+                    # "/anchor", [anchor.network_id, int(anchor.coordinates.x),
+                    #             int(anchor.coordinates.y), int(anchor.coordinates.z)])
                 sleep(0.025)
 
 
@@ -198,6 +201,9 @@ if __name__ == "__main__":
     plt.ylabel("X Velocity")
     #To add more subplots, copy this code and change the object name
     """
+    bin_pos_x, bin_pos_y, bin_pos_z, bin_time = None, None, None, None
+    med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = None, None, None
+
     if use_velocity:
         bin_input = DataFunctions.bin_input()
 
@@ -219,7 +225,7 @@ if __name__ == "__main__":
     start = t.time()
     try:
         while True:
-            elapsed=(t.time()-start)
+            elapsed = (t.time() - start)
             oldTime = newTime
             newTime = elapsed
             timeDifference = newTime - oldTime
@@ -230,7 +236,8 @@ if __name__ == "__main__":
 
             if use_velocity:
                 # Updates and returns the new bins
-                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, timeDifference, one_cycle_position)
+                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(
+                    bin_pos_x, bin_pos_y, bin_pos_z, bin_time, timeDifference, one_cycle_position)
                 # Returns the means of the position bins
                 # med_binned_pos_x, med_binned_pos_y, med_binned_pos_z =
                 #   Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
@@ -242,19 +249,21 @@ if __name__ == "__main__":
 
                 # Calculates the directional velocities, set the method using method argument
                 velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, med_prev_bin_pos_x,
-                                                    binned_time, method = velocity_method)    # Calculates x velocity
+                                                    binned_time, method=velocity_method)    # Calculates x velocity
                 velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, med_prev_bin_pos_y,
-                                                    binned_time, method = velocity_method)    # Calculates y velocity
+                                                    binned_time, method=velocity_method)    # Calculates y velocity
                 velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, med_prev_bin_pos_z,
-                                                    binned_time, method = velocity_method)    # Calculates z velocity
+                                                    binned_time, method=velocity_method)    # Calculates z velocity
                 # gets the medians of the previous position bins for calculations next loop
 
                 # Gets the means of the previous data for calculations
-                med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
+                med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = Velocity.update_previous_bins(
+                    binned_pos_x, binned_pos_y, binned_pos_z)
 
             # Logs the data to console
             if use_velocity:
-                ConsoleLogging.log_position_and_velocity_to_console(index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
+                ConsoleLogging.log_position_and_velocity_to_console(
+                    index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
             else:
                 ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
 
