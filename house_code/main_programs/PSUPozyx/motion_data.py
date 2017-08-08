@@ -12,7 +12,8 @@ This demo reads the following sensor data:
 - magnetic field strength
 - angular velocity
 - the heading, roll and pitch
-- the quaternion rotation describing the 3D orientation of the device. This can be used to transform from the body coordinate system to the world coordinate system.
+- the quaternion rotation describing the 3D orientation of the device. This can be used
+    to transform from the body coordinate system to the world coordinate system.
 - the linear acceleration (the acceleration excluding gravity)
 - the gravitational vector
 
@@ -27,20 +28,22 @@ from modules.file_writing import SensorDataFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from modules.data_averaging import DataAveraging as DataAveraging
-from modules.data_averaging import BinData as BinData
-import numpy as np
+# import matplotlib.animation as animation
+# from modules.data_averaging import DataAveraging as DataAveraging
+# from modules.data_averaging import BinData as BinData
+# import numpy as np
 from modules.real_time_plot import RealTimePlot
+
 
 class Orientation3D(object):
     """Reads out all sensor data from either a local or remote Pozyx"""
 
-    def __init__(self, pozyx, osc_udp_client, remote_id=None):
-        self.pozyx = pozyx
-        self.remote_id = remote_id
-
-        self.osc_udp_client = osc_udp_client
+    def __init__(self, my_pozyx, my_osc_udp_client, my_remote_id=None):
+        self.pozyx = my_pozyx
+        self.remote_id = my_remote_id
+        self.osc_udp_client = my_osc_udp_client
+        self.current_time = None
+        self.msg_builder = None
 
     def setup(self):
         """There is no specific setup functionality"""
@@ -54,37 +57,37 @@ class Orientation3D(object):
             status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
             status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
             if status == POZYX_SUCCESS:
-                self.publishSensorData(sensor_data, calibration_status)
+                self.publish_sensor_data(sensor_data, calibration_status)
                 return sensor_data
 
         return "Error, no data to print for this line"
 
-    def publishSensorData(self, sensor_data, calibration_status):
+    def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
         self.msg_builder = OscMessageBuilder("/sensordata")
         self.msg_builder.add_arg(int(1000 * (time() - self.current_time)))
-        current_time = time()
-        self.addSensorData(sensor_data)
-        self.addCalibrationStatus(calibration_status)
+        # current_time = time()
+        self.add_sensor_data(sensor_data)
+        self.add_calibration_status(calibration_status)
         self.osc_udp_client.send(self.msg_builder.build())
 
-    def addSensorData(self, sensor_data):
+    def add_sensor_data(self, sensor_data):
         """Adds the sensor data to the OSC message"""
         self.msg_builder.add_arg(sensor_data.pressure)
-        self.addComponentsOSC(sensor_data.acceleration)
-        self.addComponentsOSC(sensor_data.magnetic)
-        self.addComponentsOSC(sensor_data.angular_vel)
-        self.addComponentsOSC(sensor_data.euler_angles)
-        self.addComponentsOSC(sensor_data.quaternion)
-        self.addComponentsOSC(sensor_data.linear_acceleration)
-        self.addComponentsOSC(sensor_data.gravity_vector)
+        self.add_components_osc(sensor_data.acceleration)
+        self.add_components_osc(sensor_data.magnetic)
+        self.add_components_osc(sensor_data.angular_vel)
+        self.add_components_osc(sensor_data.euler_angles)
+        self.add_components_osc(sensor_data.quaternion)
+        self.add_components_osc(sensor_data.linear_acceleration)
+        self.add_components_osc(sensor_data.gravity_vector)
 
-    def addComponentsOSC(self, component):
+    def add_components_osc(self, component):
         """Adds a sensor data component to the OSC message"""
         for data in component.data:
             self.msg_builder.add_arg(float(data))
 
-    def addCalibrationStatus(self, calibration_status):
+    def add_calibration_status(self, calibration_status):
         """Adds the calibration status data to the OSC message"""
         self.msg_builder.add_arg(calibration_status[0] & 0x03)
         self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
@@ -125,9 +128,9 @@ if __name__ == '__main__':
         logfile = open(filename, 'a')
         FileWriting.write_sensor_data_header_to_file(logfile)
 
-    fig,axes = plt.subplots()
+    fig, axes = plt.subplots()
     display_two = RealTimePlot(axes)
-    display_two. animate(fig,lambda frame_index: ([], []))
+    display_two.animate(fig, lambda frame_index: ([], []))
 
     start = ConsoleLogging.get_time()
     try:
@@ -140,8 +143,6 @@ if __name__ == '__main__':
 
             one_cycle_sensor_data = o.loop()
 
-
-
             formatted_data_dictionary = ConsoleLogging.format_sensor_data(
                 one_cycle_sensor_data, attributes_to_log)
             ConsoleLogging.log_sensor_data_to_console(index, elapsed, formatted_data_dictionary)
@@ -151,9 +152,11 @@ if __name__ == '__main__':
                     logfile, one_cycle_sensor_data)
             index += 1                      # increment data index
 
-            if Orientation3D.remote_id is not None or Orientation3D.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-                display_one.add(elapsed, one_cycle_sensor_data[6])
-                plt.pause(0.0000000000000000000000001)
+            # ***unfinished?***
+            # if(Orientation3D.remote_id is not None or
+            #    Orientation3D.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS):
+            #     display_one.add(elapsed, one_cycle_sensor_data[6])
+            #     plt.pause(0.0000000000000000000000001)
     # this allows Windows users to exit the while loop by pressing ctrl+c
     except KeyboardInterrupt:
         pass
