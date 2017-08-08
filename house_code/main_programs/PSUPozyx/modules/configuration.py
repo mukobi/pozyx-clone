@@ -1,4 +1,5 @@
 from pypozyx import *
+import os
 
 MASTER_PROPS_LOCATION = "Configurations/MASTER_ACTIVE_CONFIG.properties"
 
@@ -76,6 +77,8 @@ class Configuration:
         filename = P["filename"]
         if not filename.endswith(".csv"):
             filename += ".csv"
+        pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+        data_file = pozyx_folder + "/Data/" + filename
         use_processing = P["use_processing"] == "true"
         anchors = [DeviceCoordinates(anchor_1_id, 1, Coordinates(anchor_1_x, anchor_1_y, anchor_1_z)),
                    DeviceCoordinates(anchor_2_id, 1, Coordinates(anchor_2_x, anchor_2_y, anchor_2_z)),
@@ -87,7 +90,7 @@ class Configuration:
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
 
-        return use_remote, remote_id, anchors, attributes_to_log, use_file, filename, use_processing
+        return use_remote, remote_id, anchors, attributes_to_log, use_file, data_file, use_processing
 
     @staticmethod
     def get_correct_serial_port():
