@@ -12,14 +12,23 @@ class Configuration:
                  if not line.startswith('#') and not line.startswith('\n'))
         number_remote_devices = int(P["number_remotes"])
 
-        use_remote = False
+        remote_id = None
+        tags = []
         if number_remote_devices == 0:
             use_remote = False
         else:
             use_remote = True
-        remote_id = int(P["remote_1_id"], 16)
+            remote_id = int(P["remote_1_id"], 16)
         if not use_remote:
             remote_id = None
+            remote_1_id = int(P["remote_1_id"], 16)
+            remote_2_id = int(P["remote_2_id"], 16)
+            remote_3_id = int(P["remote_3_id"], 16)
+            remote_4_id = int(P["remote_4_id"], 16)
+            remote_5_id = int(P["remote_5_id"], 16)
+            remote_6_id = int(P["remote_6_id"], 16)
+            tags = [remote_1_id, remote_2_id, remote_3_id,
+                    remote_4_id, remote_5_id, remote_6_id]
 
         number_anchors = int(P["number_anchors"])
         anchor_1_id = int(P["anchor_1_id"], 16)
@@ -90,7 +99,7 @@ class Configuration:
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
 
-        return use_remote, remote_id, anchors, attributes_to_log, use_file, data_file, use_processing
+        return use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file, use_processing
 
     @staticmethod
     def get_correct_serial_port():
