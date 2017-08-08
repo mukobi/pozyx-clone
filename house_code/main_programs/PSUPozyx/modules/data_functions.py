@@ -11,35 +11,50 @@ class DataFunctions:
         median = numpy.median(data_list)
         return median
 
-    def find_total_distance(position, prev_pos, total_distance):
+    @staticmethod
+    def find_total_distance(__pos_x, __pos_y, __pos_z, prev_pos_x, prev_pos_y, prev_pos_z, velocity_x, velocity_y, velocity_z, total_distance):
         """
         Function to determine the total distance travelled by the Pozyx device
 
-        :param array position: the position of the Pozyx tag
-        :param array prev_pos: the previous position for computation
-        :param float total_distance: the saved value of the total distance travelled
+        :param float pos_*: the current x, y or z position data based on mean calculation
+        :param float prev_pos_*: the previous x, y or z position stored from last loop
+        :param float velocity_*: the calculated x, y or z velocity
+        :param float total_distance: the variable storing the total distance travelled
 
-        :return total_distance: returns total_distance for calculation
+        :return float total_distance: updates the total distance travelled
+        :return float total_velocity: the velocity of all directions combined for use in velocity_bins function
 
-
-        Uses temp_dist to calculate the distance travelled from point to point
-
-        Put in main to initialize variables,
-        total_distance = 0
-        prev_pos = 0
-
-        Put in while loop to execute function and set prev_pos,
-        total_distance = find_total_distance(pos, prev_pos, total_distance)
-        prev_pos = pos
+        Notes:
+        The baseline velocity for adding to the total distance was roughly determined based on one test of 75 seconds of
+        taking data with a still device to see what the maximum possible velocity could be.
         """
         from math import sqrt
-        if prev_pos != 0:
-            temp_dist = sqrt((position.x - prev_pos.x)**2 + (position.y - prev_pos.y)**2 +(position.z - prev_pos.z)**2)
-            total_distance += temp_dist
-        else:
-            temp_dist = sqrt(position.x**2 + position.y**2 + position.z**2)
-            total_distance += temp_dist
-        return total_distance, temp_dist
+        total_velocity = (velocity_x + velocity_y + velocity_z)
+
+        pos_x = Velocity.position_mean_calculation(__pos_x)
+        pos_y = Velocity.position_mean_calculation(__pos_y)
+        pos_z = Velocity.position_mean_calculation(__pos_z)
+
+        if total_velocity > 2500:
+            total_distance += sqrt((pos_x - prev_pos_x)**2 + (pos_x - prev_pos_x)**2 + (pos_x - prev_pos_x)**2)
+
+        return total_distance, total_velocity
+
+    @staticmethod
+    def velocity_bins(total_velocity, time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500, timeDifference):
+        """
+        Function to determine how long the device has been at different velocity intervals.
+        """
+        if total_velocity > 2500 and total_velocity <= 4500:
+            time_between_2500_and_4500 += timeDifference
+        elif total_velocity > 4500 and total_velocity <= 6500:
+            time_between_4500_and_6500 += timeDifference
+        elif total_velocity > 6500 and total_velocity <= 8500:
+            time_between_6500_and_8500 += timeDifference
+        elif total_velocity > 8500:
+            time_above_8500 += timeDifference
+
+        return time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500
 
     @staticmethod
     def str_set_length(number, length):
@@ -205,15 +220,15 @@ class Velocity:
         This function calculates the mean of the binned position data
 
         :param list binned_pos: this is the list of the position data for calculation
-        :return med_binned_pos: this is the mean of the position data
+        :return mean_binned_pos: this is the mean of the position data
 
         Note: the mean function is preferable to median functionality due to error handling with numpy nans
         """
         import numpy as np
 
-        med_binned_pos = np.nanmean(binned_pos)        #Calculating the mean of the position data for smoothing
+        mean_binned_pos = np.nanmean(binned_pos)        #Calculating the mean of the position data for smoothing
 
-        return med_binned_pos
+        return mean_binned_pos
 
     @staticmethod
     def time_mean_calculation(index, bin_input, binned_time):
@@ -249,15 +264,15 @@ class Velocity:
         import numpy as np
 
         prev_bin_pos_x = binned_pos_x           #Updates the previous x position bin
-        med_prev_bin_pos_x = np.mean(prev_bin_pos_x)    #Calculates the mean of the previous x position data
+        mean_prev_bin_pos_x = np.mean(prev_bin_pos_x)    #Calculates the mean of the previous x position data
 
         prev_bin_pos_y = binned_pos_y           #Updates the previous x position bin
-        med_prev_bin_pos_y = np.mean(prev_bin_pos_y)    #Calculates the mean of the previous x position data
+        mean_prev_bin_pos_y = np.mean(prev_bin_pos_y)    #Calculates the mean of the previous x position data
 
         prev_bin_pos_z = binned_pos_z           #Updates the previous x position bin
-        med_prev_bin_pos_z = np.mean(prev_bin_pos_z)    #Calculates the mean of the previous x position data
+        mean_prev_bin_pos_z = np.mean(prev_bin_pos_z)    #Calculates the mean of the previous x position data
 
-        return med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z
+        return mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z
 
     @staticmethod
     def simple_velocity(position, prev_pos, time):
@@ -277,7 +292,7 @@ class Velocity:
             return velocity
 
     @staticmethod
-    def find_velocity(index, bin_input, position, med_prev_pos, time, method = 'simple'):
+    def find_velocity(index, bin_input, position, mean_prev_pos, time, method = 'simple'):
         """
         This is a function to determine which method of finding the velocity to use.
 
@@ -296,12 +311,12 @@ class Velocity:
 
         if (int(len(position)) == bin_input) and (len(position) == len(time)):
             if method == 'simple':
-                med_position = Velocity.position_mean_calculation(position)
+                mean_position = Velocity.position_mean_calculation(position)
 
                 #the time mean calculation takes the total elapsed time over delta position which causes bad data
                 mean_bin_time = Velocity.time_mean_calculation(index, bin_input, time)
 
-                velocity = Velocity.simple_velocity(med_position, med_prev_pos, mean_bin_time)
+                velocity = Velocity.simple_velocity(mean_position, mean_prev_pos, mean_bin_time)
 
             elif method == 'linreg':
                 velocity = Velocity.linreg_velocity(position, time)
