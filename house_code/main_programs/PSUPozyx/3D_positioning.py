@@ -166,11 +166,8 @@ class ReadyToLocalize(object):
                 sleep(0.025)
 
 
-
-
 if  __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
-
 
     remote = True                  # whether to use a remote device
     if not remote:
@@ -193,7 +190,7 @@ if  __name__ == "__main__":
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
 
-    #algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
+    # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
     dimension = POZYX_3D               # positioning dimension
     height = 1000                      # height of device, required in 2.5D positioning
@@ -212,7 +209,6 @@ if  __name__ == "__main__":
         else:
             FileWriting.write_position_header_to_file(logfile)
 
-
     """
     #RealTimePlotting
     fig,axes = plt.subplots()
@@ -224,8 +220,8 @@ if  __name__ == "__main__":
     if use_velocity:
         bin_input = DataFunctions.bin_input()
 
-        bin_pos_x = BinData(bin_size = bin_input)   #Creating position deque objects to calculate velocity
-        prev_bin_pos_x = 0                          #Initializing the previous points
+        bin_pos_x = BinData(bin_size = bin_input)   # Creating position deque objects to calculate velocity
+        prev_bin_pos_x = 0                          # Initializing the previous points
 
         bin_pos_y = BinData(bin_size = bin_input)
         prev_bin_pos_y = 0
@@ -235,12 +231,12 @@ if  __name__ == "__main__":
 
         bin_time = BinData(bin_size = bin_input)
 
-        mean_prev_bin_pos_x = 0      #Initializing mean calculation variables
+        mean_prev_bin_pos_x = 0      # Initializing mean calculation variables
         mean_prev_bin_pos_y = 0
         mean_prev_bin_pos_z = 0
 
-        total_distance = 0             #Initializing total distance
-        time_between_2500_and_4500 = 0              #Initializing different bins for velocity intervals
+        total_distance = 0             # Initializing total distance
+        time_between_2500_and_4500 = 0              # Initializing different bins for velocity intervals
         time_between_4500_and_6500 = 0
         time_between_6500_and_8500 = 0
         time_above_8500 = 0
@@ -248,52 +244,54 @@ if  __name__ == "__main__":
     start = t.time()
     try:
         while True:
-            elapsed=(t.time()-start)                              # elapsed time since the program started
-            oldTime = newTime                                     # oldTime is the time of previous cycle. It is set to newTime here since newTime has not been updated and still is the old cycle
-            newTime = elapsed                                     # newTime is the time of the current cycle.
-            timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
+            elapsed=(t.time()-start)
+            oldTime = newTime
+            newTime = elapsed
+            timeDifference = newTime - oldTime
 
-            one_cycle_position, status = r.loop()    # the loop method of r prints data to the console and returns what is printed
-            #Status is used for error handling
+            # Status is used for error handling
+            one_cycle_position, status = r.loop()
 
             if use_velocity:
-                #Updates and returns the new bins
+                # Updates and returns the new bins
                 binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
                     bin_time, timeDifference, one_cycle_position)
 
-                #Can equal either simple or linreg
+                # Can equal either simple or linreg
                 velocity_method = 'simple'
-                #velocity_method = 'linreg'
+                # velocity_method = 'linreg'
 
-                #Calculates the directional velocities, set the method using method argument
+                # Calculates the directional velocities, set the method using method argument
                 velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
                 velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, mean_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
                 velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, mean_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
 
-                #Gets the total distance travelled and the velocity of x, y and z combined
+                # Gets the total distance travelled and the velocity of x, y and z combined
                 total_distance, total_velocity = DataFunctions.find_total_distance(binned_pos_x, binned_pos_y, binned_pos_z,
                     mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z, velocity_x, velocity_y, velocity_z, total_distance)
-                #Gets the velocity bins and updates them based on velocity data
+                # Gets the velocity bins and updates them based on velocity data
                 time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500 = DataFunctions.velocity_bins(total_velocity,
                     time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500, timeDifference)
 
-                #Gets the means of the previous data for calculations
+                # Gets the means of the previous data for calculations
                 mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
 
-
-            #Logs the data to console
+            # Logs the data to console
             if use_velocity:
                 ConsoleLogging.log_position_and_velocity_to_console(index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
             else:
                 ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
 
-
             if to_use_file:             # writes the data returned from the loop method to the file
                 if use_velocity:
-                    if index > bin_input:   #Accounts for the time it takes to get accurate velocity calculations
-                        FileWriting.write_position_and_velocity_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, velocity_x, velocity_y, velocity_z)
-                    else:                   #Returns 0 for velocity until it provides complete calculations
-                        FileWriting.write_position_and_velocity_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position, 0, 0, 0)
+                    if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
+                        FileWriting.write_position_and_velocity_data_to_file(
+                            index, elapsed, timeDifference, logfile, one_cycle_position,
+                            velocity_x, velocity_y, velocity_z)
+                    else:                   # Returns 0 for velocity until it provides complete calculations
+                        FileWriting.write_position_and_velocity_data_to_file(
+                            index, elapsed, timeDifference, logfile, one_cycle_position,
+                            0, 0, 0)
                 else:
                     FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)
 
