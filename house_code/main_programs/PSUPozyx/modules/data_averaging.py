@@ -90,6 +90,8 @@ class DataAveraging:
             return prev_pos, prev_second, prev_third, prev_fourth, prev_fifth
 
 from collections import deque           #deque is a useful data storing tool
+
+
 class BinData:
     """
     This class is used for taking previous data points and making them available, in a list, for calculation.
