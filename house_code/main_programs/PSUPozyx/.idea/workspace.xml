@@ -69,8 +69,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="333" column="88" lean-forward="false" selection-start-line="333" selection-start-column="88" selection-end-line="333" selection-end-column="88" />
+            <state relative-caret-position="206">
+              <caret line="317" column="27" lean-forward="false" selection-start-line="317" selection-start-column="27" selection-end-line="317" selection-end-column="27" />
               <folding>
                 <element signature="method#handleLaunchPositioningAndMotionData#0;class#Controller#0" expanded="false" />
                 <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
@@ -167,7 +167,7 @@
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
@@ -478,7 +478,7 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="1" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -873,8 +873,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="333" column="88" lean-forward="false" selection-start-line="333" selection-start-column="88" selection-end-line="333" selection-end-column="88" />
+        <state relative-caret-position="206">
+          <caret line="317" column="27" lean-forward="false" selection-start-line="317" selection-start-column="27" selection-end-line="317" selection-end-column="27" />
           <folding>
             <element signature="method#handleLaunchPositioningAndMotionData#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
