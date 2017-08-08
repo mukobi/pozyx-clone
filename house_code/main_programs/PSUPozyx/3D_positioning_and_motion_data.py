@@ -34,6 +34,7 @@ from modules.data_averaging import BinData as BinData
 import numpy as np
 from modules.data_functions import Velocity as Velocity
 
+
 class Orientation3D(object):
     """Reads out all sensor data from either a local or remote Pozyx"""
 
@@ -41,12 +42,13 @@ class Orientation3D(object):
                  dimension=POZYX_3D, height=1000, remote_id=None):
         self.pozyx = pozyx
         self.osc_udp_client = osc_udp_client
-
+        self.msg_builder = None
         self.anchors = anchors
         self.algorithm = algorithm
         self.dimension = dimension
         self.height = height
         self.remote_id = remote_id
+        self.current_time = None
 
     def setup(self):
         """There is no specific setup functionality"""
@@ -63,8 +65,8 @@ class Orientation3D(object):
         print()
         print("START Ranging: ")
         self.pozyx.clearDevices(self.remote_id)
-        self.setAnchorsManual()
-        self.printPublishConfigurationResult()
+        self.set_anchors_manual()
+        self.print_publish_configuration_result()
 
     def loop(self):
         """Gets new IMU sensor data"""
@@ -81,7 +83,7 @@ class Orientation3D(object):
                     position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
                 if status == POZYX_SUCCESS:
                     # self.print_publish_position(position)
-                    self.publishSensorData(sensor_data, calibration_status)
+                    self.publish_sensor_data(sensor_data, calibration_status)
                     return sensor_data, position
                 else:
                     pass
@@ -89,39 +91,39 @@ class Orientation3D(object):
         # return sensor_data, position
         return "Error with positioning, check anchor configuration."
 
-    def publishSensorData(self, sensor_data, calibration_status):
+    def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
         self.msg_builder = OscMessageBuilder("/sensordata")
         self.msg_builder.add_arg(int(1000 * (time() - self.current_time)))
-        current_time = time()
-        self.addSensorData(sensor_data)
-        self.addCalibrationStatus(calibration_status)
+        # current_time = time()
+        self.add_sensor_data(sensor_data)
+        self.add_calibration_status(calibration_status)
         self.osc_udp_client.send(self.msg_builder.build())
 
-    def addSensorData(self, sensor_data):
+    def add_sensor_data(self, sensor_data):
         """Adds the sensor data to the OSC message"""
         self.msg_builder.add_arg(sensor_data.pressure)
-        self.addComponentsOSC(sensor_data.acceleration)
-        self.addComponentsOSC(sensor_data.magnetic)
-        self.addComponentsOSC(sensor_data.angular_vel)
-        self.addComponentsOSC(sensor_data.euler_angles)
-        self.addComponentsOSC(sensor_data.quaternion)
-        self.addComponentsOSC(sensor_data.linear_acceleration)
-        self.addComponentsOSC(sensor_data.gravity_vector)
+        self.add_components_osc(sensor_data.acceleration)
+        self.add_components_osc(sensor_data.magnetic)
+        self.add_components_osc(sensor_data.angular_vel)
+        self.add_components_osc(sensor_data.euler_angles)
+        self.add_components_osc(sensor_data.quaternion)
+        self.add_components_osc(sensor_data.linear_acceleration)
+        self.add_components_osc(sensor_data.gravity_vector)
 
-    def addComponentsOSC(self, component):
+    def add_components_osc(self, component):
         """Adds a sensor data component to the OSC message"""
         for data in component.data:
             self.msg_builder.add_arg(float(data))
 
-    def addCalibrationStatus(self, calibration_status):
+    def add_calibration_status(self, calibration_status):
         """Adds the calibration status data to the OSC message"""
         self.msg_builder.add_arg(calibration_status[0] & 0x03)
         self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
         self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
         self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
 
-    def setAnchorsManual(self):
+    def set_anchors_manual(self):
         """Adds the manually measured anchors to the Pozyx's device list one for one."""
         status = self.pozyx.clearDevices(self.remote_id)
         for anchor in self.anchors:
@@ -130,14 +132,14 @@ class Orientation3D(object):
             status &= self.pozyx.setSelectionOfAnchors(POZYX_ANCHOR_SEL_AUTO, len(anchors))
         return status
 
-    def printPublishConfigurationResult(self):
+    def print_publish_configuration_result(self):
         """Prints and potentially publishes the anchor configuration result in a human-readable way."""
         list_size = SingleRegister()
 
         status = self.pozyx.getDeviceListSize(list_size, self.remote_id)
         print("List size: {0}".format(list_size[0]))
         if list_size[0] != len(self.anchors):
-            self.printPublishErrorCode("configuration")
+            self.print_publish_error_code("configuration")
             return
         device_list = DeviceList(list_size=list_size[0])
         status = self.pozyx.getDeviceIds(device_list, self.remote_id)
@@ -152,11 +154,11 @@ class Orientation3D(object):
             print("ANCHOR,0x%0.4x, %s" % (device_list[i], str(anchor_coordinates)))
             if self.osc_udp_client is not None:
                 self.osc_udp_client.send_message(
-                    "/anchor", [device_list[i], int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
+                    "/anchor", [device_list[i],
+                                int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
                 sleep(0.025)
 
-
-    def printPublishErrorCode(self, operation):
+    def print_publish_error_code(self, operation):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
         error_code = SingleRegister()
         network_id = self.remote_id
@@ -231,23 +233,23 @@ if __name__ == '__main__':
     if use_velocity:
         bin_input = DataFunctions.bin_input()
 
-        bin_pos_x = BinData(bin_size = bin_input)   #Creating position deque objects to calculate velocity
-        prev_bin_pos_x = 0                          #Initializing the previous points
+        bin_pos_x = BinData(bin_size=bin_input)   # Creating position deque objects to calculate velocity
+        prev_bin_pos_x = 0                          # Initializing the previous points
 
-        bin_pos_y = BinData(bin_size = bin_input)
+        bin_pos_y = BinData(bin_size=bin_input)
         prev_bin_pos_y = 0
 
-        bin_pos_z = BinData(bin_size = bin_input)
+        bin_pos_z = BinData(bin_size=bin_input)
         prev_bin_pos_z = 0
 
-        bin_time = BinData(bin_size = bin_input)
+        bin_time = BinData(bin_size=bin_input)
 
-        mean_prev_bin_pos_x = 0      #Initializing mean calculation variables
+        mean_prev_bin_pos_x = 0      # Initializing mean calculation variables
         mean_prev_bin_pos_y = 0
         mean_prev_bin_pos_z = 0
 
-        total_distance = 0             #Initializing total distance
-        time_between_2500_and_4500 = 0              #Initializing different bins for velocity intervals
+        total_distance = 0             # Initializing total distance
+        time_between_2500_and_4500 = 0              # Initializing different bins for velocity intervals
         time_between_4500_and_6500 = 0
         time_between_6500_and_8500 = 0
         time_above_8500 = 0
