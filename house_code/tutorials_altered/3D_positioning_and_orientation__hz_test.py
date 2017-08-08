@@ -78,12 +78,12 @@ class Orientation3D(object):
                 status = self.pozyx.doPositioning(
                     position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
                 if status == POZYX_SUCCESS:
-                    # self.printPublishPosition(position)
+                    # self.print_publish_position(position)
                     self.publishSensorData(sensor_data, calibration_status)
                     return sensor_data, position
                 else:
                     pass
-                    # self.printPublishErrorCode("positioning")
+                    # self.print_publish_error_code("positioning")
 
         return "Error, no data to print for this line"
 
