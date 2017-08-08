@@ -7,6 +7,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -279,6 +280,23 @@ public class Controller {
                     }
                 }
         }
+        if(use_processing.equals("true")) {
+            m_status_display.setText("Starting Processing");
+            try {
+                File this_file = new File(
+                        Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+                File house_dir = this_file.getParentFile().getParentFile();
+                if(house_dir.toString().endsWith("main_programs")) {
+                    house_dir = house_dir.getParentFile();
+                }
+                File parent = new File(house_dir.toString() +
+                        "\\processing\\pozyx_ready_to_localize_PSU\\application.windows64\\");
+                String executable = parent.toString() + "\\pozyx_ready_to_localize_PSU.exe";
+                Runtime.getRuntime().exec(executable, null, parent);
+            } catch (URISyntaxException | IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     @FXML
     private void handleLaunchMotionData() {
@@ -300,6 +318,23 @@ public class Controller {
                 System.out.println(pr.exitValue());
             } catch (Exception err) {
                 err.printStackTrace();
+            }
+        }
+        if(use_processing.equals("true")) {
+            m_status_display.setText("Starting Processing");
+            try {
+                File this_file = new File(
+                        Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+                File house_dir = this_file.getParentFile().getParentFile();
+                if(house_dir.toString().endsWith("main_programs")) {
+                    house_dir = house_dir.getParentFile();
+                }
+                File parent = new File(house_dir.toString() +
+                        "\\processing\\pozyx_orientation3D_PSU\\application.windows64\\");
+                String executable = parent.toString() + "\\pozyx_orientation3D_PSU.exe";
+                Runtime.getRuntime().exec(executable, null, parent);
+            } catch (URISyntaxException | IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -551,8 +586,6 @@ public class Controller {
 
         number_mobile_devices = m_number_mobile_devices.getValue();
 
-        System.out.println(number_mobile_devices);
-        System.out.println(newStr);
         switch (number_mobile_devices) {
             case "1":
                 m_mobile_device_1_id.setDisable(false);
@@ -606,8 +639,6 @@ public class Controller {
 
         number_anchors = m_number_anchors.getValue();
 
-        System.out.println(number_anchors);
-        System.out.println(newStr);
         for (int i = 0; i < 4; i++) {
             switch (number_anchors) {
                 case "4":
