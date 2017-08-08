@@ -69,8 +69,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="53">
-              <caret line="317" column="27" lean-forward="false" selection-start-line="317" selection-start-column="27" selection-end-line="317" selection-end-column="27" />
+            <state relative-caret-position="546">
+              <caret line="578" column="39" lean-forward="false" selection-start-line="578" selection-start-column="39" selection-end-line="578" selection-end-column="39" />
               <folding>
                 <element signature="method#handleLaunchPositioningAndMotionData#0;class#Controller#0" expanded="false" />
                 <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
@@ -873,8 +873,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/psupozyx/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="53">
-          <caret line="317" column="27" lean-forward="false" selection-start-line="317" selection-start-column="27" selection-end-line="317" selection-end-column="27" />
+        <state relative-caret-position="546">
+          <caret line="578" column="39" lean-forward="false" selection-start-line="578" selection-start-column="39" selection-end-line="578" selection-end-column="39" />
           <folding>
             <element signature="method#handleLaunchPositioningAndMotionData#0;class#Controller#0" expanded="false" />
             <element signature="method#update_variables_from_gui#0;class#Controller#0" expanded="false" />
