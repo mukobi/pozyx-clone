@@ -32,6 +32,7 @@ from modules.data_functions import DataFunctions as DataFunctions
 from collections import deque
 from modules.data_averaging import BinData as BinData
 import numpy as np
+from modules.data_functions import Velocity as Velocity
 
 class Orientation3D(object):
     """Reads out all sensor data from either a local or remote Pozyx"""
@@ -217,7 +218,7 @@ if __name__ == '__main__':
     o = Orientation3D(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     o.setup()
 
-    use_velocity = False
+    use_velocity = True
 
     logfile = None
     if to_use_file:
@@ -241,9 +242,15 @@ if __name__ == '__main__':
 
         bin_time = BinData(bin_size = bin_input)
 
-        med_prev_bin_pos_x = 0      #Initializing median calculation variables
-        med_prev_bin_pos_y = 0
-        med_prev_bin_pos_z = 0
+        mean_prev_bin_pos_x = 0      #Initializing mean calculation variables
+        mean_prev_bin_pos_y = 0
+        mean_prev_bin_pos_z = 0
+
+        total_distance = 0             #Initializing total distance
+        time_between_2500_and_4500 = 0              #Initializing different bins for velocity intervals
+        time_between_4500_and_6500 = 0
+        time_between_6500_and_8500 = 0
+        time_above_8500 = 0
 
     start = ConsoleLogging.get_time()
     try:
@@ -262,17 +269,27 @@ if __name__ == '__main__':
 
                 if use_velocity:
                     #Updates and returns the new bins
-                    binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position)
-                    #Returns the median of the position bins
-                    med_binned_pos_x, med_binned_pos_y, med_binned_pos_z = Velocity.position_mean_calculation(binned_pos_x, binned_pos_y, binned_pos_z)
-                    #returns the mean of the time bin
-                    mean_bin_time = Velocity.time_mean_calculation(index, bin_input, binned_time)
-                    #Calculates the directional velocities
-                    velocity_x = DataFunctions.find_velocity(med_binned_pos_x, med_prev_bin_pos_x, mean_bin_time)    #Calculates x velocity
-                    velocity_y = DataFunctions.find_velocity(med_binned_pos_y, med_prev_bin_pos_y, mean_bin_time)    #Calculates x velocity
-                    velocity_z = DataFunctions.find_velocity(med_binned_pos_z, med_prev_bin_pos_z, mean_bin_time)    #Calculates x velocity
-                    #gets the medians of the previous position bins for calculations next loop
-                    med_prev_bin_pos_x, med_prev_bin_pos_y, med_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
+                    binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
+                        bin_time, time_difference, one_cycle_position)
+
+                    #Can equal either simple or linreg
+                    velocity_method = 'simple'
+                    #velocity_method = 'linreg'
+
+                    #Calculates the directional velocities, set the method using method argument
+                    velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
+                    velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, mean_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
+                    velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, mean_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
+
+                    #Gets the total distance travelled and the velocity of x, y and z combined
+                    total_distance, total_velocity = DataFunctions.find_total_distance(binned_pos_x, binned_pos_y, binned_pos_z,
+                        mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z, velocity_x, velocity_y, velocity_z, total_distance)
+                    #Gets the velocity bins and updates them based on velocity data
+                    time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500 = DataFunctions.velocity_bins(total_velocity,
+                        time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500, time_difference)
+
+                    #Gets the means of the previous data for calculations
+                    mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
 
 
                 formatted_data_dictionary = ConsoleLogging.format_sensor_data(
