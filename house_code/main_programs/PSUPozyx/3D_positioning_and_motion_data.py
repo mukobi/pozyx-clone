@@ -198,7 +198,7 @@ if __name__ == '__main__':
     filename = None
 
     # import properties from saved properties file
-    (remote, remote_id, anchors, attributes_to_log, to_use_file,
+    (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties()
 
     if not remote:

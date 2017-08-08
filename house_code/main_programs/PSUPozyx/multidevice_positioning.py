@@ -136,15 +136,15 @@ if __name__ == "__main__":
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
 
-    # import properties from saved properties file
-    # configuration.py and GUI need update for multitag
-    (remote, remote_id, anchors, attributes_to_log, to_use_file,
-     filename, use_processing) = Configuration.get_properties()
-
     # edit tags for remote tags
     tags = [0x610c, 0x6103]
     # tags = [0x6055, 0x607a]        # remote tags
     # necessary data for calibration
+
+    # import properties from saved properties file
+    # configuration.py and GUI need update for multitag
+    (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
+     filename, use_processing) = Configuration.get_properties()
 
     # ***uncomment and edit for manual anchors***
     # anchors = [DeviceCoordinates(0x6863, 1, Coordinates(0, 4760, 1030)),
