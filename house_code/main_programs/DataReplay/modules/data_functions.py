@@ -77,6 +77,9 @@ class DataFunctions:
         strSetLength(23.22, 7) --> 23.2200
         """
         num_string = str(number)
+        # add decimal place if nonexistent
+        if "." not in num_string:
+            num_string += "."
         while len(num_string) < length:
             num_string += "0"
         while len(num_string) > length:
