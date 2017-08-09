@@ -158,7 +158,7 @@ if __name__ == '__main__':
             # if Orientation3D.remote_id is not None or Orientation3D.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
             #     display_one.add(elapsed, one_cycle_sensor_data[6])
             #     plt.pause(0.0000000000000000000000001)
-    # this allows Windows users to exit the while loop by pressing ctrl+c
+    # this allows Windows users to exit the while iterate_file by pressing ctrl+c
     except KeyboardInterrupt:
         pass
 

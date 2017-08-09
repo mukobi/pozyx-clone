@@ -224,7 +224,7 @@ if __name__ == '__main__':
                 o.write_rotation_and_sensor_data_to_file(index, elapsed, time_difference, logfile, one_cycle_sensor_data, total_rotations, current_rotation_speed)
             index += 1                      # increment data index
 
-    # this allows Windows users to exit the while loop by pressing ctrl+c
+    # this allows Windows users to exit the while iterate_file by pressing ctrl+c
     except KeyboardInterrupt:
         pass
 

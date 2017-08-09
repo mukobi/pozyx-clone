@@ -17,7 +17,7 @@ This program will create a new program with the title 'localize log YYYY-MM-DD H
 on Windows) the file created will be made in the working directory of your command prompt, not necessarily this program's location.
 
 Open the file corresponding to when you ran the program to see the data that was collected. To abort, close the terminal or stop the
-loop (ctrl+c on Windows).
+iterate_file (ctrl+c on Windows).
 
 The anchor setup is for Room 14 of the PSU SB1.
 """
@@ -247,7 +247,7 @@ if  __name__ == "__main__":
             newTime = elapsed                                     # newTime is the time of the current cycle.
             timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
 
-            one_cycle_position, status = r.loop()    # the loop method of r prints data to the console and returns what is printed
+            one_cycle_position, status = r.loop()    # the iterate_file method of r prints data to the console and returns what is printed
 
 
             BinData.add(bin_pos_x, one_cycle_position.x)         #creating a list of x position data points for calculation
@@ -302,7 +302,7 @@ if  __name__ == "__main__":
 
             ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
             if to_use_file:
-                FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
+                FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the iterate_file method to the file
 
             index = index + 1                                     # increment data index
 
@@ -314,7 +314,7 @@ if  __name__ == "__main__":
                 plt.pause(0.0000000000000000000000001)
             """
 
-    except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
+    except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
         pass
 
     if to_use_file:
