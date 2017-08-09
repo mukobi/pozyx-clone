@@ -43,6 +43,10 @@ class FileReading:
             return 0
 
     @staticmethod
+    def get_time_difference_index(header_list):
+        return header_list.index("Difference")
+
+    @staticmethod
     def get_timestamp_indices(header_list):
         try:
             i_index = header_list.index("Index")
