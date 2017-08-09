@@ -19,6 +19,12 @@ class DataReplay:
             print(header_list)
             data_file_type = FileReading.determine_data_file_type(header_list)
 
+            attributes_to_log = None
+            if data_file_type >= 2:
+                # has motion data in the data file
+                attributes_to_log = UserInput.get_multiple_attributes_to_log()
+                print(attributes_to_log)
+
             print(DataParsing.build_data_file_type_string(data_file_type))
             for line in f:
                 data_list = FileReading.get_data_list(line)
@@ -26,13 +32,15 @@ class DataReplay:
                 timestamp = DataParsing.build_timestamp_info(
                     i_index, i_time, i_avehz, data_list)
                 output += timestamp
-                output += DataParsing.build_rest_of_data(data_file_type, header_list, data_list)
+                output += DataParsing.build_rest_of_data(data_file_type, header_list, data_list, attributes_to_log)
                 print(output)
 
 
 if __name__ == "__main__":
     file = "C:\\Users\\gabri\\Documents\\GitHub\\Pozyx\\Data\\pressure_test_srtc_2.csv"
     file = UserInput.get_file_to_replay()
+
+    replay_speed = 1
 
     osc_udp_client = None
     replay = DataReplay(file, osc_udp_client)
