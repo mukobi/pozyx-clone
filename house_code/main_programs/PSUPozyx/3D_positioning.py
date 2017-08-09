@@ -9,19 +9,6 @@ of the Pozyx device both locally and remotely. Follow the steps to correctly set
 parameters and upload this sketch. Watch the coordinates change as you move your device around!
 """
 
-
-"""
-PSU Rm14 Notes:
-This is a version of ready_to_localize designed to both print the data it collects in the console and log it externally to a file.
-This program will create a new program with the title 'localize log YYYY-MM-DD HH-MM-SS' each time it is run. Please note (at least
-on Windows) the file created will be made in the working directory of your command prompt, not necessarily this program's location.
-
-Open the file corresponding to when you ran the program to see the data that was collected. To abort, close the terminal or stop the
-loop (ctrl+c on Windows).
-
-The anchor setup is for Room 14 of the PSU SB1.
-"""
-
 from time import sleep
 from datetime import datetime #for creating the file with date and time in title
 
@@ -85,8 +72,6 @@ class ReadyToLocalize(object):
         else:
             self.printPublishErrorCode("positioning")
             return position, status
-
-        return "unexpected error"
 
     def printPublishPosition(self, position):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
@@ -282,7 +267,7 @@ if  __name__ == "__main__":
             else:
                 ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
 
-            if to_use_file:             # writes the data returned from the loop method to the file
+            if to_use_file:             # writes the data returned from the iterate_file method to the file
                 if use_velocity:
                     if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
                         FileWriting.write_position_and_velocity_data_to_file(
@@ -304,7 +289,7 @@ if  __name__ == "__main__":
                 plt.pause(0.0000000000000000000000001)
             """
 
-    except KeyboardInterrupt:  # this allows Windows users to exit the while loop by pressing ctrl+c
+    except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
         pass
 
     if to_use_file:

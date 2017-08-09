@@ -210,5 +210,5 @@ if  __name__ == "__main__":
             index = index + 1
 
             
-    except KeyboardInterrupt:  #this allows Windows users to exit the while loop by pressing ctrl+c
+    except KeyboardInterrupt:  #this allows Windows users to exit the while iterate_file by pressing ctrl+c
         pass

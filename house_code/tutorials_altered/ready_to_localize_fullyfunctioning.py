@@ -234,5 +234,5 @@ if __name__ == "__main__":
 
 
         index += 1
-        #firstplane, secondplace, thirdplane, status = r.loop()
+        #firstplane, secondplace, thirdplane, status = r.iterate_file()
         #print(firstplane)

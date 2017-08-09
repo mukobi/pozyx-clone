@@ -238,7 +238,7 @@ if __name__ == '__main__':
             current_cycle_time = elapsed
             time_difference = current_cycle_time - previous_cycle_time
 
-            # store loop returns as a tuple or an error message
+            # store iterate_file returns as a tuple or an error message
             loop_results = o.loop()
 
             if type(loop_results) == tuple:
@@ -255,13 +255,13 @@ if __name__ == '__main__':
                     FileWriting.write_sensor_and_position_data_to_file(
                         index, elapsed, time_difference,
                         logfile, one_cycle_sensor_data, one_cycle_position)
-            # if the loop didn't return a tuple, it returned an error string
+            # if the iterate_file didn't return a tuple, it returned an error string
             else:
                 error_string = loop_results
                 ConsoleLogging.print_data_error_message(index, elapsed, error_string)
             index += 1                      # increment data index
 
-    # this allows Windows users to exit the while loop by pressing ctrl+c
+    # this allows Windows users to exit the while iterate_file by pressing ctrl+c
     except KeyboardInterrupt:
         pass
 

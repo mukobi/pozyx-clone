@@ -12,7 +12,7 @@ def write_to_file(single_line_output, filename):
     Put in main to get name of file,
     filename = input("Please enter a filename: ")
     filename = filename + ".txt"
-    Put in while loop to write data to file,
+    Put in while iterate_file to write data to file,
     write_to_file(singleLineOutput, filename)
     """
     if filename == "":
