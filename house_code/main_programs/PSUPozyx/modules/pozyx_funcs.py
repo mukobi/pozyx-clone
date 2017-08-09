@@ -1,4 +1,8 @@
-
+"""
+WARNING
+This module is deprecated, unused, outdated, and a bad idea.
+Please refer to other problems.
+"""
 
 def write_to_file(single_line_output, filename):
     """
