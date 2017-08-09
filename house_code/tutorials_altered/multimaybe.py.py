@@ -170,9 +170,9 @@ if __name__ == "__main__":
         newTime = elapsed                                     # newTime is the time of the current cycle.
         timeDifference = newTime - oldTime                    # timeDifference is the differece in time between each subsequent cycle
 
-        one_cycle_position = r.loop()    # the loop method of r prints data to the console and returns what is printed
+        one_cycle_position = r.loop()    # the iterate_file method of r prints data to the console and returns what is printed
 
         ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
         if to_use_file:
-            PositionFileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the loop method to the file
+            PositionFileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)              # writes the data returned from the iterate_file method to the file
         index += 1

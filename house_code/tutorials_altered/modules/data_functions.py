@@ -21,7 +21,7 @@ class DataFunctions:
         Put in main to initialize variables,
         total_distance = 0
         prev_pos = 0
-        Put in while loop to execute function and set prev_pos,
+        Put in while iterate_file to execute function and set prev_pos,
         total_distance = find_total_distance(pos, prev_pos, total_distance)
         prev_pos = pos
         """

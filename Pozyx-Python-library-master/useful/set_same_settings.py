@@ -143,7 +143,7 @@ class SetSameUWBSettings:
         else:
             print("Discovery failed, found %i devices" % list_size[0])
             # tries to discover the devices again until status is success and a device list is returned
-            # beware not to get stuck in endless loop.
+            # beware not to get stuck in endless iterate_file.
             return self.discover_devices()
 
     def change_settings(self, device_ids):
