@@ -103,10 +103,10 @@ class DataFunctions:
         since every row will have the same number of data points.
         """
         str_number = str(number)
-        if 'e' not in str_number:
+        if 'E' not in str_number:
             return str_number
-        everything_to_the_e = str_number[0:str_number.find('e')]
-        everything_after_e = str_number[str_number.find('e'):]
+        everything_to_the_e = str_number[0:str_number.find('E')]
+        everything_after_e = str_number[str_number.find('E'):]
         new_everything_to_the_e = self.str_set_length(everything_to_the_e, length)
         return new_everything_to_the_e + everything_after_e
 
