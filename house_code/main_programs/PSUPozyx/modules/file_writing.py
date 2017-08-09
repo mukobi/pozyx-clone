@@ -108,8 +108,8 @@ class SensorAndPositionFileWriting:
     @staticmethod
     def write_position_header_to_file(
             file,
-            header="Index,Time,Difference,Hz,AveHz," \
-                   "Position-X,Position-Y,Position-Z,"):
+            header=("Index,Time,Difference,Hz,AveHz,"
+                    "Position-X,Position-Y,Position-Z,")):
         """
         Writes column headers for all of the sensor data to a file
 
