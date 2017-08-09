@@ -6,6 +6,7 @@ The data files selected must be .csv format.
 The csv file must list at the top all of the types of data being read.
 The program still has trouble with graphing Position-X in relation to Position-Y.
 
+Make sure to use files that do not have appended data at the end, because the strings of the headers will screw up the parser.
 
 ***
 The purpose of this program is to read data and create readily readable graphical information for users.
@@ -28,11 +29,13 @@ def get_available_datatypes(path):
     import csv
     with open(path, "r") as f:
         reader = csv.reader(f)
-        line = next(reader)
+        datatypes = next(reader)         #Creates a list of the column headers
 
-        for available_datatype in line:
+        for available_datatype in datatypes:
             print(str(number) + ". " + available_datatype)
             number += 1
+
+    return datatypes
 
 def graph_derivatives():
     """
@@ -58,22 +61,22 @@ def graph_derivatives():
         print("Invalid input, try again!")
         graph_derivatives()
 
-def num_of_graphs():
+def num_of_graphs(datatypes):
     """
     This functions determines whether the user wants to use multiple graphs or a singular graph for representation.
     This function also is the final step and graphs all of the graphs to matplotlib.
     """
     information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
     if information == 2:
-        data, name_one, name_two = get_pozyx_data_two(file_name)
+        data, name_one, name_two = get_pozyx_data_two(file_name, datatypes)
         create_graph_two(data, name_one, name_two)
 
     elif information == 3:
-        data, name_one, name_two, name_three = get_pozyx_data_three(file_name)
+        data, name_one, name_two, name_three = get_pozyx_data_three(file_name, datatypes)
         create_graph_three(data, name_one, name_two, name_three)
 
     elif information == 4:
-        data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name)
+        data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name, datatypes)
         create_graph_four(data, name_one, name_two, name_three, name_four)
     else:
         print("Invalid input, try again!")
@@ -107,11 +110,13 @@ def graphing_method():
         graphing_method()
 
 
-def get_pozyx_data_two(file_name):
+def get_pozyx_data_two(file_name, datatypes):
     """
     Function to get data for graphing one type of data over another.
 
     :param string file_name: the name of the file that will be used for parsing
+    :param list datatypes: the list of the types of data the file has available
+
     :return datatype: this returns the dataframe of all the data that will be used for graphing
     :return name_one: this returns the name of the x-variable chosen
     :return name_two: this returns the name of the y-variable chosen
@@ -123,12 +128,12 @@ def get_pozyx_data_two(file_name):
     try:
         col_one = int(input("Which data type would you like to use for the X axis? (Default is time.)\n"))
     except ValueError:
-        col_one = 1
+        name_one = datatypes['Time']
 
     try:
         col_two = int(input("Which data type would you like to use for the Y axis? (Default is X-Position.)\n"))
     except ValueError:
-        col_two = 27
+        name_two = datatypes['X-Position']
 
     name_one = ""
     name_two = ""
@@ -137,150 +142,157 @@ def get_pozyx_data_two(file_name):
     These if statements set the appropriate colums to the right names.
     If the user does not input an integer between 0 and 29, then the X-Axis defaults to time.
     """
-    if col_one == 0:
-        name_one = "Index"
-    elif col_one == 1:
-        name_one = "Time"
-    elif col_one == 2:
-        name_one = "Difference"
-    elif col_one == 3:
-        name_one = "Hz"
-    elif col_one == 4:
-        name_one = "Pressure"
-    elif col_one == 5:
-        name_one = "Acceleration-X"
-    elif col_one == 6:
-        name_one = "Acceleration-Y"
-    elif col_one == 7:
-        name_one = "Acceleration-Z"
-    elif col_one == 8:
-        name_one = "Magnetic-X"
-    elif col_one == 9:
-        name_one = "Magnetic-Y"
-    elif col_one == 10:
-        name_one = "Magnetic-Z"
-    elif col_one == 11:
-        name_one = "Angular-Vel-X"
-    elif col_one == 12:
-        name_one = "Angular-Vel-Y"
-    elif col_one == 13:
-        name_one = "Angular-Vel-Z"
-    elif col_one == 14:
-        name_one = "Heading"
-    elif col_one == 15:
-        name_one = "Roll"
-    elif col_one == 16:
-        name_one = "Pitch"
-    elif col_one == 17:
-        name_one = "Quaternion-X"
-    elif col_one == 18:
-        name_one = "Quaternion-Y"
-    elif col_one == 19:
-        name_one = "Quaternion-Z"
-    elif col_one == 20:
-        name_one = "Quaternion-W"
-    elif col_one == 21:
-        name_one = "Linear-Acceleration-X"
-    elif col_one == 22:
-        name_one = "Linear-Acceleration-Y"
-    elif col_one == 23:
-        name_one = "Linear-Acceleration-Z"
-    elif col_one == 24:
-        name_one = "Gravity-X"
-    elif col_one == 25:
-        name_one = "Gravity-Y"
-    elif col_one == 26:
-        name_one = "Gravity-Z"
-    elif col_one == 27:
-        name_one = "Position-X"
-    elif col_one == 28:
-        name_one = "Position-Y"
-    elif col_one == 29:
-        name_one = "Position-Z"
-    else:
+    try:
+        if col_one == 0:
+            name_one = datatypes[0]
+        elif col_one == 1:
+            name_one = datatypes[1]
+        elif col_one == 2:
+            name_one = datatypes[2]
+        elif col_one == 3:
+            name_one = datatypes[3]
+        elif col_one == 4:
+            name_one = datatypes[4]
+        elif col_one == 5:
+            name_one = datatypes[5]
+        elif col_one == 6:
+            name_one = datatypes[6]
+        elif col_one == 7:
+            name_one = datatypes[7]
+        elif col_one == 8:
+            name_one = datatypes[8]
+        elif col_one == 9:
+            name_one = datatypes[9]
+        elif col_one == 10:
+            name_one = datatypes[10]
+        elif col_one == 11:
+            name_one = datatypes[11]
+        elif col_one == 12:
+            name_one = datatypes[12]
+        elif col_one == 13:
+            name_one = datatypes[13]
+        elif col_one == 14:
+            name_one = datatypes[14]
+        elif col_one == 15:
+            name_one = datatypes[15]
+        elif col_one == 16:
+            name_one = datatypes[16]
+        elif col_one == 17:
+            name_one = datatypes[17]
+        elif col_one == 18:
+            name_one = datatypes[18]
+        elif col_one == 19:
+            name_one = datatypes[19]
+        elif col_one == 20:
+            name_one = datatypes[20]
+        elif col_one == 21:
+            name_one = datatypes[21]
+        elif col_one == 22:
+            name_one = datatypes[22]
+        elif col_one == 23:
+            name_one = datatypes[23]
+        elif col_one == 24:
+            name_one = datatypes[24]
+        elif col_one == 25:
+            name_one = datatypes[25]
+        elif col_one == 26:
+            name_one = datatypes[26]
+        elif col_one == 27:
+            name_one = datatypes[27]
+        elif col_one == 28:
+            name_one = datatypes[28]
+        elif col_one == 29:
+            name_one = datatypes[29]
+        else:
+            name_one = "Time"
+    except IndexError:
         name_one = "Time"
 
-    if col_two == 0:
-        name_two = "Index"
-    elif col_two == 1:
+    try:
+        if col_two == 0:
+            name_two = datatypes[0]
+        elif col_two == 1:
+            name_two = datatypes[1]
+        elif col_two == 2:
+            name_two = datatypes[2]
+        elif col_two == 3:
+            name_two = datatypes[3]
+        elif col_two == 4:
+            name_two = datatypes[4]
+        elif col_two == 5:
+            name_two = datatypes[5]
+        elif col_two == 6:
+            name_two = datatypes[6]
+        elif col_two == 7:
+            name_two = datatypes[7]
+        elif col_two == 8:
+            name_two = datatypes[8]
+        elif col_two == 9:
+            name_two = datatypes[9]
+        elif col_two == 10:
+            name_two = datatypes[10]
+        elif col_two == 11:
+            name_two = datatypes[11]
+        elif col_two == 12:
+            name_two = datatypes[12]
+        elif col_two == 13:
+            name_two = datatypes[13]
+        elif col_two == 14:
+            name_two = datatypes[14]
+        elif col_two == 15:
+            name_two = datatypes[15]
+        elif col_two == 16:
+            name_two = datatypes[16]
+        elif col_two == 17:
+            name_two = datatypes[17]
+        elif col_two == 18:
+            name_two = datatypes[18]
+        elif col_two == 19:
+            name_two = datatypes[19]
+        elif col_two == 20:
+            name_two = datatypes[20]
+        elif col_two == 21:
+            name_two = datatypes[21]
+        elif col_two == 22:
+            name_two = datatypes[22]
+        elif col_two == 23:
+            name_two = datatypes[23]
+        elif col_two == 24:
+            name_two = datatypes[24]
+        elif col_two == 25:
+            name_two = datatypes[25]
+        elif col_two == 26:
+            name_two = datatypes[26]
+        elif col_two == 27:
+            name_two = datatypes[27]
+        elif col_two == 28:
+            name_two = datatypes[28]
+        elif col_two == 29:
+            name_two = datatypes[29]
+        else:
+            name_two = "Time"
+    except IndexError:
         name_two = "Time"
-    elif col_two == 2:
-        name_two = "Difference"
-    elif col_two == 3:
-        name_two = "Hz"
-    elif col_two == 4:
-        name_two = "Pressure"
-    elif col_two == 5:
-        name_two = "Acceleration-X"
-    elif col_two == 6:
-        name_two = "Acceleration-Y"
-    elif col_two == 7:
-        name_two = "Acceleration-Z"
-    elif col_two == 8:
-        name_two = "Magnetic-X"
-    elif col_two == 9:
-        name_two = "Magnetic-Y"
-    elif col_two == 10:
-        name_two = "Magnetic-Z"
-    elif col_two == 11:
-        name_two = "Angular-Vel-X"
-    elif col_two == 12:
-        name_two = "Angular-Vel-Y"
-    elif col_two == 13:
-        name_two = "Angular-Vel-Z"
-    elif col_two == 14:
-        name_two = "Heading"
-    elif col_two == 15:
-        name_two = "Roll"
-    elif col_two == 16:
-        name_two = "Pitch"
-    elif col_two == 17:
-        name_two = "Quaternion-X"
-    elif col_two == 18:
-        name_two = "Quaternion-Y"
-    elif col_two == 19:
-        name_two = "Quaternion-Z"
-    elif col_two == 20:
-        name_two = "Quaternion-W"
-    elif col_two == 21:
-        name_two = "Linear-Acceleration-X"
-    elif col_two == 22:
-        name_two = "Linear-Acceleration-Y"
-    elif col_two == 23:
-        name_two = "Linear-Acceleration-Z"
-    elif col_two == 24:
-        name_two = "Gravity-X"
-    elif col_two == 25:
-        name_two = "Gravity-Y"
-    elif col_two == 26:
-        name_two = "Gravity-Z"
-    elif col_two == 27:
-        name_two = "Position-X"
-    elif col_two == 28:
-        name_two = "Position-Y"
-    elif col_two == 29:
-        name_two = "Position-Z"
-    else:
-        name_two = "Position-X"
-
 
     """
     This line stores the data in a structure to be used for graphing.
 
     Due to unknown error, we must add one to col_two to get the correct data points.
     """
-    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two + 1], names = [name_one, name_two])
+    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two], names = [name_one, name_two])
 
 
 
     return datatype, name_one, name_two
 
 
-def get_pozyx_data_three(file_name):
+def get_pozyx_data_three(file_name, datatypes):
     """
     Function to get data for graphing two types of data over another.
 
     :param string file_name: the name of the file that will be used for parsing
+    :param list datatypes: the list of the types of data the file has available
+
     :return datatype: this returns the dataframe of all the data that will be used for graphing
     :return name_one: this returns the name of the x-variable chosen
     :return name_two: this returns the name of the y-variable chosen
@@ -311,208 +323,219 @@ def get_pozyx_data_three(file_name):
     name_three = ""
 
 
-    if col_one == 0:
-        name_one = "Index"
-    elif col_one == 1:
+    try:
+        if col_one == 0:
+            name_one = datatypes[0]
+        elif col_one == 1:
+            name_one = datatypes[1]
+        elif col_one == 2:
+            name_one = datatypes[2]
+        elif col_one == 3:
+            name_one = datatypes[3]
+        elif col_one == 4:
+            name_one = datatypes[4]
+        elif col_one == 5:
+            name_one = datatypes[5]
+        elif col_one == 6:
+            name_one = datatypes[6]
+        elif col_one == 7:
+            name_one = datatypes[7]
+        elif col_one == 8:
+            name_one = datatypes[8]
+        elif col_one == 9:
+            name_one = datatypes[9]
+        elif col_one == 10:
+            name_one = datatypes[10]
+        elif col_one == 11:
+            name_one = datatypes[11]
+        elif col_one == 12:
+            name_one = datatypes[12]
+        elif col_one == 13:
+            name_one = datatypes[13]
+        elif col_one == 14:
+            name_one = datatypes[14]
+        elif col_one == 15:
+            name_one = datatypes[15]
+        elif col_one == 16:
+            name_one = datatypes[16]
+        elif col_one == 17:
+            name_one = datatypes[17]
+        elif col_one == 18:
+            name_one = datatypes[18]
+        elif col_one == 19:
+            name_one = datatypes[19]
+        elif col_one == 20:
+            name_one = datatypes[20]
+        elif col_one == 21:
+            name_one = datatypes[21]
+        elif col_one == 22:
+            name_one = datatypes[22]
+        elif col_one == 23:
+            name_one = datatypes[23]
+        elif col_one == 24:
+            name_one = datatypes[24]
+        elif col_one == 25:
+            name_one = datatypes[25]
+        elif col_one == 26:
+            name_one = datatypes[26]
+        elif col_one == 27:
+            name_one = datatypes[27]
+        elif col_one == 28:
+            name_one = datatypes[28]
+        elif col_one == 29:
+            name_one = datatypes[29]
+        else:
+            name_one = "Time"
+    except IndexError:
         name_one = "Time"
-    elif col_one == 2:
-        name_one = "Difference"
-    elif col_one == 3:
-        name_one = "Hz"
-    elif col_one == 4:
-        name_one = "Pressure"
-    elif col_one == 5:
-        name_one = "Acceleration-X"
-    elif col_one == 6:
-        name_one = "Acceleration-Y"
-    elif col_one == 7:
-        name_one = "Acceleration-Z"
-    elif col_one == 8:
-        name_one = "Magnetic-X"
-    elif col_one == 9:
-        name_one = "Magnetic-Y"
-    elif col_one == 10:
-        name_one = "Magnetic-Z"
-    elif col_one == 11:
-        name_one = "Angular-Vel-X"
-    elif col_one == 12:
-        name_one = "Angular-Vel-Y"
-    elif col_one == 13:
-        name_one = "Angular-Vel-Z"
-    elif col_one == 14:
-        name_one = "Heading"
-    elif col_one == 15:
-        name_one = "Roll"
-    elif col_one == 16:
-        name_one = "Pitch"
-    elif col_one == 17:
-        name_one = "Quaternion-X"
-    elif col_one == 18:
-        name_one = "Quaternion-Y"
-    elif col_one == 19:
-        name_one = "Quaternion-Z"
-    elif col_one == 20:
-        name_one = "Quaternion-W"
-    elif col_one == 21:
-        name_one = "Linear-Acceleration-X"
-    elif col_one == 22:
-        name_one = "Linear-Acceleration-Y"
-    elif col_one == 23:
-        name_one = "Linear-Acceleration-Z"
-    elif col_one == 24:
-        name_one = "Gravity-X"
-    elif col_one == 25:
-        name_one = "Gravity-Y"
-    elif col_one == 26:
-        name_one = "Gravity-Z"
-    elif col_one == 27:
-        name_one = "Position-X"
-    elif col_one == 28:
-        name_one = "Position-Y"
-    elif col_one == 29:
-        name_one = "Position-Z"
-    else:
-        name_one = "Time"
 
-    if col_two == 0:
-        name_two = "Index"
-    elif col_two == 1:
-        name_two = "Time"
-    elif col_two == 2:
-        name_two = "Difference"
-    elif col_two == 3:
-        name_two = "Hz"
-    elif col_two == 4:
-        name_two = "Pressure"
-    elif col_two == 5:
-        name_two = "Acceleration-X"
-    elif col_two == 6:
-        name_two = "Acceleration-Y"
-    elif col_two == 7:
-        name_two = "Acceleration-Z"
-    elif col_two == 8:
-        name_two = "Magnetic-X"
-    elif col_two == 9:
-        name_two = "Magnetic-Y"
-    elif col_two == 10:
-        name_two = "Magnetic-Z"
-    elif col_two == 11:
-        name_two = "Angular-Vel-X"
-    elif col_two == 12:
-        name_two = "Angular-Vel-Y"
-    elif col_two == 13:
-        name_two = "Angular-Vel-Z"
-    elif col_two == 14:
-        name_two = "Heading"
-    elif col_two == 15:
-        name_two = "Roll"
-    elif col_two == 16:
-        name_two = "Pitch"
-    elif col_two == 17:
-        name_two = "Quaternion-X"
-    elif col_two == 18:
-        name_two = "Quaternion-Y"
-    elif col_two == 19:
-        name_two = "Quaternion-Z"
-    elif col_two == 20:
-        name_two = "Quaternion-W"
-    elif col_two == 21:
-        name_two = "Linear-Acceleration-X"
-    elif col_two == 22:
-        name_two = "Linear-Acceleration-Y"
-    elif col_two == 23:
-        name_two = "Linear-Acceleration-Z"
-    elif col_two == 24:
-        name_two = "Gravity-X"
-    elif col_two == 25:
-        name_two = "Gravity-Y"
-    elif col_two == 26:
-        name_two = "Gravity-Z"
-    elif col_two == 27:
-        name_two = "Position-X"
-    elif col_two == 28:
-        name_two = "Position-Y"
-    elif col_two == 29:
-        name_two = "Position-Z"
-    else:
+    try:
+        if col_two == 0:
+            name_two = datatypes[0]
+        elif col_two == 1:
+            name_two = datatypes[1]
+        elif col_two == 2:
+            name_two = datatypes[2]
+        elif col_two == 3:
+            name_two = datatypes[3]
+        elif col_two == 4:
+            name_two = datatypes[4]
+        elif col_two == 5:
+            name_two = datatypes[5]
+        elif col_two == 6:
+            name_two = datatypes[6]
+        elif col_two == 7:
+            name_two = datatypes[7]
+        elif col_two == 8:
+            name_two = datatypes[8]
+        elif col_two == 9:
+            name_two = datatypes[9]
+        elif col_two == 10:
+            name_two = datatypes[10]
+        elif col_two == 11:
+            name_two = datatypes[11]
+        elif col_two == 12:
+            name_two = datatypes[12]
+        elif col_two == 13:
+            name_two = datatypes[13]
+        elif col_two == 14:
+            name_two = datatypes[14]
+        elif col_two == 15:
+            name_two = datatypes[15]
+        elif col_two == 16:
+            name_two = datatypes[16]
+        elif col_two == 17:
+            name_two = datatypes[17]
+        elif col_two == 18:
+            name_two = datatypes[18]
+        elif col_two == 19:
+            name_two = datatypes[19]
+        elif col_two == 20:
+            name_two = datatypes[20]
+        elif col_two == 21:
+            name_two = datatypes[21]
+        elif col_two == 22:
+            name_two = datatypes[22]
+        elif col_two == 23:
+            name_two = datatypes[23]
+        elif col_two == 24:
+            name_two = datatypes[24]
+        elif col_two == 25:
+            name_two = datatypes[25]
+        elif col_two == 26:
+            name_two = datatypes[26]
+        elif col_two == 27:
+            name_two = datatypes[27]
+        elif col_two == 28:
+            name_two = datatypes[28]
+        elif col_two == 29:
+            name_two = datatypes[29]
+        else:
+            name_two = "Position-X"
+    except IndexError:
         name_two = "Position-X"
 
-    if col_three == 0:
-        name_three = "Index"
-    elif col_three == 1:
-        name_three = "Time"
-    elif col_three == 2:
-        name_three = "Difference"
-    elif col_three == 3:
-        name_three = "Hz"
-    elif col_three == 4:
-        name_three = "Pressure"
-    elif col_three == 5:
-        name_three = "Acceleration-X"
-    elif col_three == 6:
-        name_three = "Acceleration-Y"
-    elif col_three == 7:
-        name_three = "Acceleration-Z"
-    elif col_three == 8:
-        name_three = "Magnetic-X"
-    elif col_three == 9:
-        name_three = "Magnetic-Y"
-    elif col_three == 10:
-        name_three = "Magnetic-Z"
-    elif col_three == 11:
-        name_three = "Angular-Vel-X"
-    elif col_three == 12:
-        name_three = "Angular-Vel-Y"
-    elif col_three == 13:
-        name_three = "Angular-Vel-Z"
-    elif col_three == 14:
-        name_three = "Heading"
-    elif col_three == 15:
-        name_three = "Roll"
-    elif col_three == 16:
-        name_three = "Pitch"
-    elif col_three == 17:
-        name_three = "Quaternion-X"
-    elif col_three == 18:
-        name_three = "Quaternion-Y"
-    elif col_three == 19:
-        name_three = "Quaternion-Z"
-    elif col_three == 20:
-        name_three = "Quaternion-W"
-    elif col_three == 21:
-        name_three = "Linear-Acceleration-X"
-    elif col_three == 22:
-        name_three = "Linear-Acceleration-Y"
-    elif col_three == 23:
-        name_three = "Linear-Acceleration-Z"
-    elif col_three == 24:
-        name_three = "Gravity-X"
-    elif col_three == 25:
-        name_three = "Gravity-Y"
-    elif col_three == 26:
-        name_three = "Gravity-Z"
-    elif col_three == 27:
-        name_three = "Position-X"
-    elif col_three == 28:
-        name_three = "Position-Y"
-    elif col_three == 29:
-        name_three = "Position-Z"
-    else:
+    try:
+        if col_three == 0:
+            name_three = datatypes[0]
+        elif col_three == 1:
+            name_three = datatypes[1]
+        elif col_three == 2:
+            name_three = datatypes[2]
+        elif col_three == 3:
+            name_three = datatypes[3]
+        elif col_three == 4:
+            name_three = datatypes[4]
+        elif col_three == 5:
+            name_three = datatypes[5]
+        elif col_three == 6:
+            name_three = datatypes[6]
+        elif col_three == 7:
+            name_three = datatypes[7]
+        elif col_three == 8:
+            name_three = datatypes[8]
+        elif col_three == 9:
+            name_three = datatypes[9]
+        elif col_three == 10:
+            name_three = datatypes[10]
+        elif col_three == 11:
+            name_three = datatypes[11]
+        elif col_three == 12:
+            name_three = datatypes[12]
+        elif col_three == 13:
+            name_three = datatypes[13]
+        elif col_three == 14:
+            name_three = datatypes[14]
+        elif col_three == 15:
+            name_three = datatypes[15]
+        elif col_three == 16:
+            name_three = datatypes[16]
+        elif col_three == 17:
+            name_three = datatypes[17]
+        elif col_three == 18:
+            name_three = datatypes[18]
+        elif col_three == 19:
+            name_three = datatypes[19]
+        elif col_three == 20:
+            name_three = datatypes[20]
+        elif col_three == 21:
+            name_three = datatypes[21]
+        elif col_three == 22:
+            name_three = datatypes[22]
+        elif col_three == 23:
+            name_three = datatypes[23]
+        elif col_three == 24:
+            name_three = datatypes[24]
+        elif col_three == 25:
+            name_three = datatypes[25]
+        elif col_three == 26:
+            name_three = datatypes[26]
+        elif col_three == 27:
+            name_three = datatypes[27]
+        elif col_three == 28:
+            name_three = datatypes[28]
+        elif col_three == 29:
+            name_three = datatypes[29]
+        else:
+            name_three = "Position-Y"
+    except IndexError:
         name_three = "Position-Y"
 
 
 
-    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two + 1, col_three + 1], names = [name_one, name_two, name_three])
+    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two, col_three], names = [name_one, name_two, name_three])
 
 
 
     return datatype, name_one, name_two, name_three
 
-def get_pozyx_data_four(file_name):
+def get_pozyx_data_four(file_name, datatypes):
     """
     Function to get data for graphing two types of data over another.
 
     :param string file_name: the name of the file that will be used for parsing
+    :param list datatypes: the list of the types of data the file has available
+
     :return datatype: this returns the dataframe of all the data that will be used for graphing
     :return name_one: this returns the name of the x-variable chosen
     :return name_two: this returns the name of the y-variable chosen
@@ -550,259 +573,273 @@ def get_pozyx_data_four(file_name):
     name_three = ""
     name_four = ""
 
-    if col_one == 0:
-        name_one = "Index"
-    elif col_one == 1:
+    try:
+        if col_one == 0:
+            name_one = datatypes[0]
+        elif col_one == 1:
+            name_one = datatypes[1]
+        elif col_one == 2:
+            name_one = datatypes[2]
+        elif col_one == 3:
+            name_one = datatypes[3]
+        elif col_one == 4:
+            name_one = datatypes[4]
+        elif col_one == 5:
+            name_one = datatypes[5]
+        elif col_one == 6:
+            name_one = datatypes[6]
+        elif col_one == 7:
+            name_one = datatypes[7]
+        elif col_one == 8:
+            name_one = datatypes[8]
+        elif col_one == 9:
+            name_one = datatypes[9]
+        elif col_one == 10:
+            name_one = datatypes[10]
+        elif col_one == 11:
+            name_one = datatypes[11]
+        elif col_one == 12:
+            name_one = datatypes[12]
+        elif col_one == 13:
+            name_one = datatypes[13]
+        elif col_one == 14:
+            name_one = datatypes[14]
+        elif col_one == 15:
+            name_one = datatypes[15]
+        elif col_one == 16:
+            name_one = datatypes[16]
+        elif col_one == 17:
+            name_one = datatypes[17]
+        elif col_one == 18:
+            name_one = datatypes[18]
+        elif col_one == 19:
+            name_one = datatypes[19]
+        elif col_one == 20:
+            name_one = datatypes[20]
+        elif col_one == 21:
+            name_one = datatypes[21]
+        elif col_one == 22:
+            name_one = datatypes[22]
+        elif col_one == 23:
+            name_one = datatypes[23]
+        elif col_one == 24:
+            name_one = datatypes[24]
+        elif col_one == 25:
+            name_one = datatypes[25]
+        elif col_one == 26:
+            name_one = datatypes[26]
+        elif col_one == 27:
+            name_one = datatypes[27]
+        elif col_one == 28:
+            name_one = datatypes[28]
+        elif col_one == 29:
+            name_one = datatypes[29]
+        else:
+            name_one = "Time"
+    except IndexError:
         name_one = "Time"
-    elif col_one == 2:
-        name_one = "Difference"
-    elif col_one == 3:
-        name_one = "Hz"
-    elif col_one == 4:
-        name_one = "Pressure"
-    elif col_one == 5:
-        name_one = "Acceleration-X"
-    elif col_one == 6:
-        name_one = "Acceleration-Y"
-    elif col_one == 7:
-        name_one = "Acceleration-Z"
-    elif col_one == 8:
-        name_one = "Magnetic-X"
-    elif col_one == 9:
-        name_one = "Magnetic-Y"
-    elif col_one == 10:
-        name_one = "Magnetic-Z"
-    elif col_one == 11:
-        name_one = "Angular-Vel-X"
-    elif col_one == 12:
-        name_one = "Angular-Vel-Y"
-    elif col_one == 13:
-        name_one = "Angular-Vel-Z"
-    elif col_one == 14:
-        name_one = "Heading"
-    elif col_one == 15:
-        name_one = "Roll"
-    elif col_one == 16:
-        name_one = "Pitch"
-    elif col_one == 17:
-        name_one = "Quaternion-X"
-    elif col_one == 18:
-        name_one = "Quaternion-Y"
-    elif col_one == 19:
-        name_one = "Quaternion-Z"
-    elif col_one == 20:
-        name_one = "Quaternion-W"
-    elif col_one == 21:
-        name_one = "Linear-Acceleration-X"
-    elif col_one == 22:
-        name_one = "Linear-Acceleration-Y"
-    elif col_one == 23:
-        name_one = "Linear-Acceleration-Z"
-    elif col_one == 24:
-        name_one = "Gravity-X"
-    elif col_one == 25:
-        name_one = "Gravity-Y"
-    elif col_one == 26:
-        name_one = "Gravity-Z"
-    elif col_one == 27:
-        name_one = "Position-X"
-    elif col_one == 28:
-        name_one = "Position-Y"
-    elif col_one == 29:
-        name_one = "Position-Z"
-    else:
-        name_one = "Time"
 
-    if col_two == 0:
-        name_two = "Index"
-    elif col_two == 1:
-        name_two = "Time"
-    elif col_two == 2:
-        name_two = "Difference"
-    elif col_two == 3:
-        name_two = "Hz"
-    elif col_two == 4:
-        name_two = "Pressure"
-    elif col_two == 5:
-        name_two = "Acceleration-X"
-    elif col_two == 6:
-        name_two = "Acceleration-Y"
-    elif col_two == 7:
-        name_two = "Acceleration-Z"
-    elif col_two == 8:
-        name_two = "Magnetic-X"
-    elif col_two == 9:
-        name_two = "Magnetic-Y"
-    elif col_two == 10:
-        name_two = "Magnetic-Z"
-    elif col_two == 11:
-        name_two = "Angular-Vel-X"
-    elif col_two == 12:
-        name_two = "Angular-Vel-Y"
-    elif col_two == 13:
-        name_two = "Angular-Vel-Z"
-    elif col_two == 14:
-        name_two = "Heading"
-    elif col_two == 15:
-        name_two = "Roll"
-    elif col_two == 16:
-        name_two = "Pitch"
-    elif col_two == 17:
-        name_two = "Quaternion-X"
-    elif col_two == 18:
-        name_two = "Quaternion-Y"
-    elif col_two == 19:
-        name_two = "Quaternion-Z"
-    elif col_two == 20:
-        name_two = "Quaternion-W"
-    elif col_two == 21:
-        name_two = "Linear-Acceleration-X"
-    elif col_two == 22:
-        name_two = "Linear-Acceleration-Y"
-    elif col_two == 23:
-        name_two = "Linear-Acceleration-Z"
-    elif col_two == 24:
-        name_two = "Gravity-X"
-    elif col_two == 25:
-        name_two = "Gravity-Y"
-    elif col_two == 26:
-        name_two = "Gravity-Z"
-    elif col_two == 27:
-        name_two = "Position-X"
-    elif col_two == 28:
-        name_two = "Position-Y"
-    elif col_two == 29:
-        name_two = "Position-Z"
-    else:
+    try:
+        if col_two == 0:
+            name_two = datatypes[0]
+        elif col_two == 1:
+            name_two = datatypes[1]
+        elif col_two == 2:
+            name_two = datatypes[2]
+        elif col_two == 3:
+            name_two = datatypes[3]
+        elif col_two == 4:
+            name_two = datatypes[4]
+        elif col_two == 5:
+            name_two = datatypes[5]
+        elif col_two == 6:
+            name_two = datatypes[6]
+        elif col_two == 7:
+            name_two = datatypes[7]
+        elif col_two == 8:
+            name_two = datatypes[8]
+        elif col_two == 9:
+            name_two = datatypes[9]
+        elif col_two == 10:
+            name_two = datatypes[10]
+        elif col_two == 11:
+            name_two = datatypes[11]
+        elif col_two == 12:
+            name_two = datatypes[12]
+        elif col_two == 13:
+            name_two = datatypes[13]
+        elif col_two == 14:
+            name_two = datatypes[14]
+        elif col_two == 15:
+            name_two = datatypes[15]
+        elif col_two == 16:
+            name_two = datatypes[16]
+        elif col_two == 17:
+            name_two = datatypes[17]
+        elif col_two == 18:
+            name_two = datatypes[18]
+        elif col_two == 19:
+            name_two = datatypes[19]
+        elif col_two == 20:
+            name_two = datatypes[20]
+        elif col_two == 21:
+            name_two = datatypes[21]
+        elif col_two == 22:
+            name_two = datatypes[22]
+        elif col_two == 23:
+            name_two = datatypes[23]
+        elif col_two == 24:
+            name_two = datatypes[24]
+        elif col_two == 25:
+            name_two = datatypes[25]
+        elif col_two == 26:
+            name_two = datatypes[26]
+        elif col_two == 27:
+            name_two = datatypes[27]
+        elif col_two == 28:
+            name_two = datatypes[28]
+        elif col_two == 29:
+            name_two = datatypes[29]
+        else:
+            name_two = "Position-X"
+    except IndexError:
         name_two = "Position-X"
 
-    if col_three == 0:
-        name_three = "Index"
-    elif col_three == 1:
-        name_three = "Time"
-    elif col_three == 2:
-        name_three = "Difference"
-    elif col_three == 3:
-        name_three = "Hz"
-    elif col_three == 4:
-        name_three = "Pressure"
-    elif col_three == 5:
-        name_three = "Acceleration-X"
-    elif col_three == 6:
-        name_three = "Acceleration-Y"
-    elif col_three == 7:
-        name_three = "Acceleration-Z"
-    elif col_three == 8:
-        name_three = "Magnetic-X"
-    elif col_three == 9:
-        name_three = "Magnetic-Y"
-    elif col_three == 10:
-        name_three = "Magnetic-Z"
-    elif col_three == 11:
-        name_three = "Angular-Vel-X"
-    elif col_three == 12:
-        name_three = "Angular-Vel-Y"
-    elif col_three == 13:
-        name_three = "Angular-Vel-Z"
-    elif col_three == 14:
-        name_three = "Heading"
-    elif col_three == 15:
-        name_three = "Roll"
-    elif col_three == 16:
-        name_three = "Pitch"
-    elif col_three == 17:
-        name_three = "Quaternion-X"
-    elif col_three == 18:
-        name_three = "Quaternion-Y"
-    elif col_three == 19:
-        name_three = "Quaternion-Z"
-    elif col_three == 20:
-        name_three = "Quaternion-W"
-    elif col_three == 21:
-        name_three = "Linear-Acceleration-X"
-    elif col_three == 22:
-        name_three = "Linear-Acceleration-Y"
-    elif col_three == 23:
-        name_three = "Linear-Acceleration-Z"
-    elif col_three == 24:
-        name_three = "Gravity-X"
-    elif col_three == 25:
-        name_three = "Gravity-Y"
-    elif col_three == 26:
-        name_three = "Gravity-Z"
-    elif col_three == 27:
-        name_three = "Position-X"
-    elif col_three == 28:
-        name_three = "Position-Y"
-    elif col_three == 29:
-        name_three = "Position-Z"
-    else:
+    try:
+        if col_three == 0:
+            name_three = datatypes[0]
+        elif col_three == 1:
+            name_three = datatypes[1]
+        elif col_three == 2:
+            name_three = datatypes[2]
+        elif col_three == 3:
+            name_three = datatypes[3]
+        elif col_three == 4:
+            name_three = datatypes[4]
+        elif col_three == 5:
+            name_three = datatypes[5]
+        elif col_three == 6:
+            name_three = datatypes[6]
+        elif col_three == 7:
+            name_three = datatypes[7]
+        elif col_three == 8:
+            name_three = datatypes[8]
+        elif col_three == 9:
+            name_three = datatypes[9]
+        elif col_three == 10:
+            name_three = datatypes[10]
+        elif col_three == 11:
+            name_three = datatypes[11]
+        elif col_three == 12:
+            name_three = datatypes[12]
+        elif col_three == 13:
+            name_three = datatypes[13]
+        elif col_three == 14:
+            name_three = datatypes[14]
+        elif col_three == 15:
+            name_three = datatypes[15]
+        elif col_three == 16:
+            name_three = datatypes[16]
+        elif col_three == 17:
+            name_three = datatypes[17]
+        elif col_three == 18:
+            name_three = datatypes[18]
+        elif col_three == 19:
+            name_three = datatypes[19]
+        elif col_three == 20:
+            name_three = datatypes[20]
+        elif col_three == 21:
+            name_three = datatypes[21]
+        elif col_three == 22:
+            name_three = datatypes[22]
+        elif col_three == 23:
+            name_three = datatypes[23]
+        elif col_three == 24:
+            name_three = datatypes[24]
+        elif col_three == 25:
+            name_three = datatypes[25]
+        elif col_three == 26:
+            name_three = datatypes[26]
+        elif col_three == 27:
+            name_three = datatypes[27]
+        elif col_three == 28:
+            name_three = datatypes[28]
+        elif col_three == 29:
+            name_three = datatypes[29]
+        else:
+            name_three = "Position-Y"
+    except IndexError:
         name_three = "Position-Y"
 
-    if col_four == 0:
-        name_four = "Index"
-    elif col_four == 1:
-        name_four = "Time"
-    elif col_four == 2:
-        name_four = "Difference"
-    elif col_four == 3:
-        name_four = "Hz"
-    elif col_four == 4:
-        name_four = "Pressure"
-    elif col_four == 5:
-        name_four = "Acceleration-X"
-    elif col_four == 6:
-        name_four = "Acceleration-Y"
-    elif col_four == 7:
-        name_four = "Acceleration-Z"
-    elif col_four == 8:
-        name_four = "Magnetic-X"
-    elif col_four == 9:
-        name_four = "Magnetic-Y"
-    elif col_four == 10:
-        name_four = "Magnetic-Z"
-    elif col_four == 11:
-        name_four = "Angular-Vel-X"
-    elif col_four == 12:
-        name_four = "Angular-Vel-Y"
-    elif col_four == 13:
-        name_four = "Angular-Vel-Z"
-    elif col_four == 14:
-        name_four = "Heading"
-    elif col_four == 15:
-        name_four = "Roll"
-    elif col_four == 16:
-        name_four = "Pitch"
-    elif col_four == 17:
-        name_four = "Quaternion-X"
-    elif col_four == 18:
-        name_four = "Quaternion-Y"
-    elif col_four == 19:
-        name_four = "Quaternion-Z"
-    elif col_four == 20:
-        name_four = "Quaternion-W"
-    elif col_four == 21:
-        name_four = "Linear-Acceleration-X"
-    elif col_four == 22:
-        name_four = "Linear-Acceleration-Y"
-    elif col_four == 23:
-        name_four = "Linear-Acceleration-Z"
-    elif col_four == 24:
-        name_four = "Gravity-X"
-    elif col_four == 25:
-        name_four = "Gravity-Y"
-    elif col_four == 26:
-        name_four = "Gravity-Z"
-    elif col_four == 27:
-        name_four = "Position-X"
-    elif col_four == 28:
-        name_four = "Position-Y"
-    elif col_four == 29:
-        name_four = "Position-Z"
-    else:
+
+    try:
+        if col_four == 0:
+            name_four = datatypes[0]
+        elif col_four == 1:
+            name_four = datatypes[1]
+        elif col_four == 2:
+            name_four = datatypes[2]
+        elif col_four == 3:
+            name_four = datatypes[3]
+        elif col_four == 4:
+            name_four = datatypes[4]
+        elif col_four == 5:
+            name_four = datatypes[5]
+        elif col_four == 6:
+            name_four = datatypes[6]
+        elif col_four == 7:
+            name_four = datatypes[7]
+        elif col_four == 8:
+            name_four = datatypes[8]
+        elif col_four == 9:
+            name_four = datatypes[9]
+        elif col_four == 10:
+            name_four = datatypes[10]
+        elif col_four == 11:
+            name_four = datatypes[11]
+        elif col_four == 12:
+            name_four = datatypes[12]
+        elif col_four == 13:
+            name_four = datatypes[13]
+        elif col_four == 14:
+            name_four = datatypes[14]
+        elif col_four == 15:
+            name_four = datatypes[15]
+        elif col_four == 16:
+            name_four = datatypes[16]
+        elif col_four == 17:
+            name_four = datatypes[17]
+        elif col_four == 18:
+            name_four = datatypes[18]
+        elif col_four == 19:
+            name_four = datatypes[19]
+        elif col_four == 20:
+            name_four = datatypes[20]
+        elif col_four == 21:
+            name_four = datatypes[21]
+        elif col_four == 22:
+            name_four = datatypes[22]
+        elif col_four == 23:
+            name_four = datatypes[23]
+        elif col_four == 24:
+            name_four = datatypes[24]
+        elif col_four == 25:
+            name_four = datatypes[25]
+        elif col_four == 26:
+            name_four = datatypes[26]
+        elif col_four == 27:
+            name_four = datatypes[27]
+        elif col_four == 28:
+            name_four = datatypes[28]
+        elif col_four == 29:
+            name_four = datatypes[29]
+        else:
+            name_four = "Position-Z"
+    except IndexError:
         name_four = "Position-Z"
 
-    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two + 1, col_three + 1, col_four + 1], names = [name_one, name_two, name_three, name_four])
+
+    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two, col_three, col_four], names = [name_one, name_two, name_three, name_four])
 
 
 
@@ -874,6 +911,7 @@ def create_graph_three(data, name_one, name_two, name_three):
     x = data[name_one]
     y1 = data[name_two]
     y2 = data[name_three]
+
     y1_deriv = data.diff(1,0)[name_two]
     y2_deriv = data.diff(1,0)[name_three]
 
@@ -1037,10 +1075,10 @@ if __name__ == '__main__':
 
     path = "..\..\Data\\" + file_name
 
-    graphing_method = graphing_method()
+    graphing_method = graphing_method()         #Determines if the user wants data on top of each other
 
-    graph_deriv = graph_derivatives()
+    graph_deriv = graph_derivatives()           #Determines if user wants derivatives with graphs
 
-    get_available_datatypes(path)
+    datatypes = get_available_datatypes(path)   #Prints and gets the available types of data for graphing
 
-    num_of_graphs()
+    num_of_graphs(datatypes)
