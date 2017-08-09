@@ -113,7 +113,11 @@ class DataParsing:
 
     @staticmethod
     def build_multidevice_positioning_and_motion_data(header_list, data_list, attributes_to_log):
-        pass
+        raise NotImplementedError
+
+    @staticmethod
+    def get_time_difference(i_difference, data_list):
+        return data_list[i_difference]
 
 
 class ConsoleLoggingFunctionsOLD:
