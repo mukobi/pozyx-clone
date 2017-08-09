@@ -57,5 +57,8 @@ class FileReading:
     @staticmethod
     def get_data_list(line):
         numbers = line.split(",")
-        numbers = numbers[:-1]
+        if numbers[-1] is "\n":
+            numbers = numbers[:-1]
+        if numbers[-1][-1:] is "\n":
+            numbers[-1] = numbers[-1][:-1]
         return numbers

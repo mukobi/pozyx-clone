@@ -1,8 +1,3 @@
-Index,Time,Difference,Hz,AveHz,Position-X,Position-Y,Position-Z
-0,0.0,0.0,0,0,2760,1823,1266,
-Index,Time,Difference,Hz,AveHz,Position-X,Position-Y,Position-Z
-Index,Time,Difference,Hz,AveHz,Position-X,Position-Y,Position-Z
-Index,Time,Difference,Hz,AveHz,Position-X,Position-Y,Position-Z
 Index,Time,Difference,Hz,AveHz,Pressure,Acceleration-X,Acceleration-Y,Acceleration-Z,Magnetic-X,Magnetic-Y,Magnetic-Z,Angular-Vel-X,Angular-Vel-Y,Angular-Vel-Z,Heading,Roll,Pitch,Quaternion-X,Quaternion-Y,Quaternion-Z,Quaternion-W,Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,Gravity-X,Gravity-Y,Gravity-Z,
 0,0.0,0.0,0,0,2.6675519705915316e-38,-39.0,81.0,961.0,-7.5625,30.375,-34.5625,0.1875,-0.0625,-0.125,15.9375,-2.3125,-4.5,0.0419921875,0.0146484375,-0.1385498046875,0.9893798828125,0.0,3.0,-15.0,-39.0,77.0,976.0,
 1,0.015624046325683594,0.015624046325683594,64.00390648843313,64.00390648843313,2.6675519705915316e-38,-33.0,79.0,963.0,-7.5625,30.375,-34.5625,0.0625,0.0625,0.0625,15.9375,-2.3125,-4.5,0.0419921875,0.0146484375,-0.1385498046875,0.9893798828125,5.0,1.0,-13.0,-39.0,77.0,976.0,

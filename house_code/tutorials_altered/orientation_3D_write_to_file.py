@@ -26,7 +26,7 @@ from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_writing import SensorDataFileWriting as FileWriting
-from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
+from modules.data_parsing import ConsoleLoggingFunctions as ConsoleLogging
 import time as t
 
 
