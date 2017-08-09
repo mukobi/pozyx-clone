@@ -144,7 +144,7 @@ class PositionFileWriting:
     def write_position_data_to_file(index, elapsed_time, time_difference,
                                     file, position_data):
         """
-        This function writes the position data to the file each cycle in the while loop.
+        This function writes the position data to the file each cycle in the while iterate_file.
         """
 
         hz = DataFunctions.convert_hertz(time_difference)

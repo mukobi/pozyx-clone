@@ -121,9 +121,9 @@ class SensorAndPositionFileWriting:
     @staticmethod
     def write_position_and_velocity_header_to_file(
             file,
-            header="Index,Time,Difference,Hz,AveHz," \
-                   "Position-X,Position-Y,Position-Z," \
-                   "Velocity-X,Velocity-Y,Velocity-Z"):
+            header=("Index,Time,Difference,Hz,AveHz,"
+                    "Position-X,Position-Y,Position-Z,"
+                    "Velocity-X,Velocity-Y,Velocity-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -213,7 +213,6 @@ class SensorAndPositionFileWriting:
             output += "\n"
         file.write(output)
 
-
     @staticmethod
     def write_sensor_and_position_and_velocity_data_to_file(index, elapsed_time, time_difference,
                                                file, sensor_data, position_data, velocity_x, velocity_y, velocity_z):
@@ -278,7 +277,7 @@ class PositionFileWriting:
     def write_position_data_to_file(index, elapsed_time, time_difference,
                                     file, position_data):
         """
-        This function writes the position data to the file each cycle in the while loop.
+        This function writes the position data to the file each cycle in the while iterate_file.
         """
 
         hz = DataFunctions.convert_hertz(time_difference)

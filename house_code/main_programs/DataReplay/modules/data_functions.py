@@ -1,4 +1,6 @@
 import numpy as numpy
+
+
 class DataFunctions:
     @staticmethod
     def median(data_list):
