@@ -11,7 +11,7 @@ class DataParsing:
         avehz = data_list[i_avehz]
         return (str(index)
                 + " Time " + DataFunctions.str_set_length(time, 10)
-                + " Hz " + DataFunctions.str_set_length(avehz, 5) + " | ")
+                + " Hz " + DataFunctions.str_set_length(avehz, 5))
 
     @staticmethod
     def build_data_file_type_string(data_type):
@@ -51,25 +51,68 @@ class DataParsing:
         posx = data_list[i_posx]
         posy = data_list[i_posy]
         posz = data_list[i_posz]
-        output += ("X " + str(posx)
+        output += (" | Position"
+                   + " X " + str(posx)
                    + " Y " + str(posy)
                    + " Z " + str(posz))
         return output
 
-    @classmethod
-    def build_multidevice_positioning_data(cls, header_list, data_list):
-        pass
+    @staticmethod
+    def build_multidevice_positioning_data(header_list, data_list):
+        raise NotImplementedError
 
-    @classmethod
-    def build_motion_data(cls, header_list, data_list, attributes_to_log):
-        pass
+    @staticmethod
+    def build_motion_data(header_list, data_list, attributes_to_log):
+        output = ""
+        for attribute in attributes_to_log:
+            if attribute == "pressure":
+                output += "| Pressure " + DataFunctions.exp_notation_str_set_length(
+                    DataFunctions, data_list[header_list.index("Pressure")], 8)
+            elif attribute == "acceleration":
+                output += (" | Acceleration"
+                           + " X " + DataFunctions.str_set_length(data_list[header_list.index("Acceleration-X")], 8)
+                           + " Y " + DataFunctions.str_set_length(data_list[header_list.index("Acceleration-Y")], 8)
+                           + " Z " + DataFunctions.str_set_length(data_list[header_list.index("Acceleration-Z")], 8))
+            elif attribute == "magnetic":
+                output += (" | Magnetic"
+                           + " X " + DataFunctions.str_set_length(data_list[header_list.index("Magnetic-X")], 8)
+                           + " Y " + DataFunctions.str_set_length(data_list[header_list.index("Magnetic-Y")], 8)
+                           + " Z " + DataFunctions.str_set_length(data_list[header_list.index("Magnetic-Z")], 8))
+            elif attribute == "angular velocity":
+                output += (" | Angular Velocity"
+                           + " X " + DataFunctions.str_set_length(data_list[header_list.index("Angular-Vel-X")], 8)
+                           + " Y " + DataFunctions.str_set_length(data_list[header_list.index("Angular-Vel-Y")], 8)
+                           + " Z " + DataFunctions.str_set_length(data_list[header_list.index("Angular-Vel-Z")], 8))
+            elif attribute == "euler angles":
+                output += (" | Angles"
+                           + " Heading " + DataFunctions.str_set_length(data_list[header_list.index("Heading")], 8)
+                           + " Roll " + DataFunctions.str_set_length(data_list[header_list.index("Roll")], 8)
+                           + " Pitch " + DataFunctions.str_set_length(data_list[header_list.index("Pitch")], 8))
+            elif attribute == "quaternion":
+                output += (" | Quaternion"
+                           + " X " + DataFunctions.str_set_length(data_list[header_list.index("Quaternion-X")], 8)
+                           + " Y " + DataFunctions.str_set_length(data_list[header_list.index("Quaternion-Y")], 8)
+                           + " Z " + DataFunctions.str_set_length(data_list[header_list.index("Quaternion-Z")], 8)
+                           + " W " + DataFunctions.str_set_length(data_list[header_list.index("Quaternion-W")], 8))
+            elif attribute == "linear acceleration":
+                output += (" | Linear Acc"
+                           + " X " + DataFunctions.str_set_length(data_list[header_list.index("Linear-Acceleration-X")], 8)
+                           + " Y " + DataFunctions.str_set_length(data_list[header_list.index("Linear-Acceleration-Y")], 8)
+                           + " Z " + DataFunctions.str_set_length(data_list[header_list.index("Linear-Acceleration-Z")], 8))
+            elif attribute == "gravity":
+                output += (" | Gravity"
+                           + " X " + DataFunctions.str_set_length(data_list[header_list.index("Gravity-X")], 8)
+                           + " Y " + DataFunctions.str_set_length(data_list[header_list.index("Gravity-Y")], 8)
+                           + " Z " + DataFunctions.str_set_length(data_list[header_list.index("Gravity-Z")], 8))
+        return output
 
-    @classmethod
-    def build_positioning_and_motion_data(cls, header_list, data_list, attributes_to_log):
-        pass
+    @staticmethod
+    def build_positioning_and_motion_data(header_list, data_list, attributes_to_log):
+        return (DataParsing.build_motion_data(header_list, data_list, attributes_to_log)
+                + DataParsing.build_positioning_data(header_list, data_list))
 
-    @classmethod
-    def build_multidevice_positioning_and_motion_data(cls, header_list, data_list, attributes_to_log):
+    @staticmethod
+    def build_multidevice_positioning_and_motion_data(header_list, data_list, attributes_to_log):
         pass
 
 
