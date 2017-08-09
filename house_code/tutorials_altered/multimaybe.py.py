@@ -15,7 +15,7 @@ from pypozyx.definitions.registers import POZYX_EUL_HEADING
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import PositionFileWriting as PositionFileWriting
-from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
+from modules.data_parsing import ConsoleLoggingFunctions as ConsoleLogging
 
 class MultitagPositioning(object):
     """Continuously performs multitag positioning"""

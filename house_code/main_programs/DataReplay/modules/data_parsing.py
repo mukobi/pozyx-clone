@@ -3,15 +3,15 @@ from .data_functions import DataFunctions as DataFunctions
 from definitions import definitions
 
 
-class ConsoleLogging:
+class DataParsing:
     @staticmethod
     def build_timestamp_info(i_index, i_time, i_avehz, data_list):
         index = data_list[i_index]
         time = data_list[i_time]
         avehz = data_list[i_avehz]
         return (str(index)
-                + " Time: " + DataFunctions.str_set_length(time, 10)
-                + " Hz: " + DataFunctions.str_set_length(avehz, 5) + " ")
+                + " Time " + DataFunctions.str_set_length(time, 10)
+                + " Hz " + DataFunctions.str_set_length(avehz, 5) + " | ")
 
     @staticmethod
     def build_data_file_type_string(data_type):
@@ -26,6 +26,51 @@ class ConsoleLogging:
         if data_type is definitions.DATA_TYPE_MULTIDEVICE_POSITIONING_AND_MOTION_DATA:
             return "Multi-Device Positioning and Motion Data"
         return "Unknown data file type"
+
+    @staticmethod
+    def build_rest_of_data(data_type, header_list, data_list, attributes_to_log=None):
+        if attributes_to_log is None:
+            attributes_to_log = []
+        if data_type is definitions.DATA_TYPE_POSITIONING:
+            return DataParsing.build_positioning_data(header_list, data_list)
+        if data_type is definitions.DATA_TYPE_MULTIDEVICE_POSITIONING:
+            return DataParsing.build_multidevice_positioning_data(header_list, data_list)
+        if data_type is definitions.DATA_TYPE_MOTION_DATA:
+            return DataParsing.build_motion_data(header_list, data_list, attributes_to_log)
+        if data_type is definitions.DATA_TYPE_POSITIONING_AND_MOTION_DATA:
+            return DataParsing.build_positioning_and_motion_data(header_list, data_list, attributes_to_log)
+        if data_type is definitions.DATA_TYPE_MULTIDEVICE_POSITIONING_AND_MOTION_DATA:
+            return DataParsing.build_multidevice_positioning_and_motion_data(header_list, data_list, attributes_to_log)
+
+    @staticmethod
+    def build_positioning_data(header_list, data_list):
+        output = ""
+        i_posx = header_list.index("Position-X")
+        i_posy = header_list.index("Position-Y")
+        i_posz = header_list.index("Position-Z")
+        posx = data_list[i_posx]
+        posy = data_list[i_posy]
+        posz = data_list[i_posz]
+        output += ("X " + str(posx)
+                   + " Y " + str(posy)
+                   + " Z " + str(posz))
+        return output
+
+    @classmethod
+    def build_multidevice_positioning_data(cls, header_list, data_list):
+        pass
+
+    @classmethod
+    def build_motion_data(cls, header_list, data_list, attributes_to_log):
+        pass
+
+    @classmethod
+    def build_positioning_and_motion_data(cls, header_list, data_list, attributes_to_log):
+        pass
+
+    @classmethod
+    def build_multidevice_positioning_and_motion_data(cls, header_list, data_list, attributes_to_log):
+        pass
 
 
 class ConsoleLoggingFunctionsOLD:

@@ -3,7 +3,8 @@ from pythonosc.udp_client import SimpleUDPClient
 import time
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_reading import FileReading
-from modules.console_logging_functions import ConsoleLogging
+from modules.data_parsing import DataParsing
+
 
 class DataReplay:
     def __init__(self, my_file, my_osc_udp_client):
@@ -11,20 +12,22 @@ class DataReplay:
         self.osc_udp_client = my_osc_udp_client
 
     def iterate_file(self):
-        with open(self.file) as f:
+        with open(self.file, 'r') as f:
             header_list = FileReading.get_header_list(f)
             i_index, i_time, i_difference, i_hz, i_avehz = FileReading.get_timestamp_indices(header_list)
-
             print(self.file)
             print(header_list)
             data_file_type = FileReading.determine_data_file_type(header_list)
-            print(ConsoleLogging.build_data_file_type_string(data_file_type))
+
+            print(DataParsing.build_data_file_type_string(data_file_type))
             for line in f:
                 data_list = FileReading.get_data_list(line)
-
-                timestamp = ConsoleLogging.build_timestamp_info(
+                output = ""
+                timestamp = DataParsing.build_timestamp_info(
                     i_index, i_time, i_avehz, data_list)
-                # print(timestamp)
+                output += timestamp
+                output += DataParsing.build_rest_of_data(data_file_type, header_list, data_list)
+                print(output)
 
 
 if __name__ == "__main__":
