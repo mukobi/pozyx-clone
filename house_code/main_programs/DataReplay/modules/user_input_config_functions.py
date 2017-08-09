@@ -169,5 +169,6 @@ class UserInputConfigFunctions():
     def get_file_to_replay(
             prompt="Give the path to the file you want to replay.\n"):
         file = input(prompt)
+        # allows whitespace in file names
         file = file.strip('"')
         return file

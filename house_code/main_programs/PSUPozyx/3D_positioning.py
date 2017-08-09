@@ -18,7 +18,7 @@ from pythonosc.udp_client import SimpleUDPClient
 import time as t
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
-from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
+from modules.data_parsing import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
 from modules.data_averaging import BinData as BinData
 import numpy as np
