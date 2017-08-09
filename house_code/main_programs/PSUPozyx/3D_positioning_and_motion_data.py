@@ -26,7 +26,7 @@ from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
-from modules.data_parsing import ConsoleLoggingFunctions as ConsoleLogging
+from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
 from modules.data_functions import DataFunctions as DataFunctions
 from collections import deque
