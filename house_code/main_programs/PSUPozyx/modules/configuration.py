@@ -13,15 +13,14 @@ class Configuration:
                  if not line.startswith('#') and not line.startswith('\n'))
         number_remote_devices = int(P["number_remotes"])
 
-        remote_id = None
+        # remote_id = None
         tags = []
         if number_remote_devices == 0:
             use_remote = False
+            remote_id = None
         else:
             use_remote = True
             remote_id = int(P["remote_1_id"], 16)
-        if not use_remote:
-            remote_id = None
             remote_1_id = int(P["remote_1_id"], 16)
             remote_2_id = int(P["remote_2_id"], 16)
             remote_3_id = int(P["remote_3_id"], 16)

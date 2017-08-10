@@ -74,7 +74,7 @@ class SensorAndPositionFileWriting:
                     "Quaternion-X,Quaternion-Y,Quaternion-Z,Quaternion-W,"
                     "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
                     "Gravity-X,Gravity-Y,Gravity-Z,"
-                    "Position-X,Position-Y,Position-Z")):
+                    "Position-X,Position-Y,Position-Z,")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -96,7 +96,7 @@ class SensorAndPositionFileWriting:
                     "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
                     "Gravity-X,Gravity-Y,Gravity-Z,"
                     "Position-X,Position-Y,Position-Z"
-                    "Velocity-X,Velocity-Y,Velocity-Z")):
+                    "Velocity-X,Velocity-Y,Velocity-Z,")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -295,3 +295,44 @@ class PositionFileWriting:
                 output += "error,"
             output += "\n"
         file.write(output)
+
+
+class MultiDevicePositionFileWriting:
+    @staticmethod
+    def write_multidevice_position_header_to_file(
+            file, tags,
+            header_start="Index,Time,Difference,Hz,AveHz,"):
+        """
+        Writes column headers for all of the sensor data to a file
+
+        :param list tags: the tags that will be measured
+        :param str header_start: The start of the header labels, already set by default
+        :param file: the file to write to
+        """
+        header = header_start
+        print(tags)
+        for tag in tags:
+            header += hex(tag) + "-X,"
+            header += hex(tag) + "-Y,"
+            header += hex(tag) + "-Z,"
+        file.write(header + '\n')
+
+    @staticmethod
+    def write_multidevice_position_data_to_file(index, elapsed_time, time_difference,
+                                    file, position_array):
+        """
+        This function writes the position data to the file each cycle in the while iterate_file.
+        """
+
+        hz = DataFunctions.convert_hertz(time_difference)
+        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
+        output = (str(index) + "," + str(elapsed_time) + ","
+                  + str(time_difference) + "," + str(hz) + ","
+                  + str(ave_hz) + ",")
+        try:
+            for element in position_array:
+                if element[0:2] != "0x":
+                    output += element
+            file.write(output)
+        except AttributeError:
+            pass
