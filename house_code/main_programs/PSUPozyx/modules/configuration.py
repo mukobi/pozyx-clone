@@ -48,22 +48,34 @@ class Configuration:
         anchor_4_x = int(float(P["anchor_4_x"]) * 1000)
         anchor_4_y = int(float(P["anchor_4_y"]) * 1000)
         anchor_4_z = int(float(P["anchor_4_z"]) * 1000)
-        anchor_5_id = int(P["anchor_5_id"], 16)
-        anchor_5_x = int(float(P["anchor_5_x"]) * 1000)
-        anchor_5_y = int(float(P["anchor_5_y"]) * 1000)
-        anchor_5_z = int(float(P["anchor_5_z"]) * 1000)
-        anchor_6_id = int(P["anchor_6_id"], 16)
-        anchor_6_x = int(float(P["anchor_6_x"]) * 1000)
-        anchor_6_y = int(float(P["anchor_6_y"]) * 1000)
-        anchor_6_z = int(float(P["anchor_6_z"]) * 1000)
-        anchor_7_id = int(P["anchor_7_id"], 16)
-        anchor_7_x = int(float(P["anchor_7_x"]) * 1000)
-        anchor_7_y = int(float(P["anchor_7_y"]) * 1000)
-        anchor_7_z = int(float(P["anchor_7_z"]) * 1000)
-        anchor_8_id = int(P["anchor_8_id"], 16)
-        anchor_8_x = int(float(P["anchor_8_x"]) * 1000)
-        anchor_8_y = int(float(P["anchor_8_y"]) * 1000)
-        anchor_8_z = int(float(P["anchor_8_z"]) * 1000)
+        try:
+            anchor_5_id = int(P["anchor_5_id"], 16)
+            anchor_5_x = int(float(P["anchor_5_x"]) * 1000)
+            anchor_5_y = int(float(P["anchor_5_y"]) * 1000)
+            anchor_5_z = int(float(P["anchor_5_z"]) * 1000)
+        except ValueError:
+            anchor_5_id , anchor_5_x, anchor_5_y, anchor_5_z = 0, 0, 0, 0
+        try:
+            anchor_6_id = int(P["anchor_6_id"], 16)
+            anchor_6_x = int(float(P["anchor_6_x"]) * 1000)
+            anchor_6_y = int(float(P["anchor_6_y"]) * 1000)
+            anchor_6_z = int(float(P["anchor_6_z"]) * 1000)
+        except ValueError:
+            anchor_6_id , anchor_6_x, anchor_6_y, anchor_6_z = 0, 0, 0, 0
+        try:
+            anchor_7_id = int(P["anchor_7_id"], 16)
+            anchor_7_x = int(float(P["anchor_7_x"]) * 1000)
+            anchor_7_y = int(float(P["anchor_7_y"]) * 1000)
+            anchor_7_z = int(float(P["anchor_7_z"]) * 1000)
+        except ValueError:
+            anchor_7_id, anchor_7_x, anchor_7_y, anchor_7_z = 0, 0, 0, 0
+        try:
+            anchor_8_id = int(P["anchor_8_id"], 16)
+            anchor_8_x = int(float(P["anchor_8_x"]) * 1000)
+            anchor_8_y = int(float(P["anchor_8_y"]) * 1000)
+            anchor_8_z = int(float(P["anchor_8_z"]) * 1000)
+        except ValueError:
+            anchor_8_id, anchor_8_x, anchor_8_y, anchor_8_z = 0, 0, 0, 0
 
         attributes_to_log = []
         if P["log_pressure"] == "true":
