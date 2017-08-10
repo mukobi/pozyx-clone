@@ -11,24 +11,29 @@ class FileReading:
 
     @staticmethod
     def determine_data_file_type(header_list):
-        position = True
+        position = False
         motion_data = True
         multidevice = True
         try:
             header_list.index("Pressure")
+            motion_data = True
         except ValueError:
             # no sensor data
             motion_data = False
-        try:
-            header_list.index("ID")
-        except ValueError:
+        if any("0x" in element[:2] and "-X" in element[-2:] for element in header_list):
+            multidevice = True
+            position = False
+        else:
             # no multidevice
             multidevice = False
             try:
                 header_list.index("Position-X")
+                position = True
+                multidevice = False
             except ValueError:
                 # multidevice or positioning
                 position = False
+                multidevice = False
         if motion_data and position:
             return definitions.DATA_TYPE_POSITIONING_AND_MOTION_DATA
         elif multidevice and position:
@@ -40,7 +45,7 @@ class FileReading:
         elif motion_data and not position and not multidevice:
             return definitions.DATA_TYPE_MOTION_DATA
         else:
-            return 0
+            return definitions.DATA_TYPE_DATA_IDENTIFICATION_ERROR
 
     @staticmethod
     def get_time_difference_index(header_list):

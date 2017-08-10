@@ -59,7 +59,15 @@ class DataParsing:
 
     @staticmethod
     def build_multidevice_positioning_data(header_list, data_list):
-        raise NotImplementedError
+        output = ""
+        for idx, tag in enumerate(header_list):
+            if tag[:2] == "0x" and tag[-2:] == "-X":
+                output += (" | " + tag[0:6] + " "
+                           + data_list[idx + 0] + " "   # X
+                           + data_list[idx + 1] + " "   # Y
+                           + data_list[idx + 2] + " ")  # Z
+
+        return output
 
     @staticmethod
     def build_motion_data(header_list, data_list, attributes_to_log):
