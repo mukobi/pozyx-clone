@@ -52,6 +52,8 @@ class Orientation3D(object):
     def loop(self):
         """Gets new IMU sensor data"""
         sensor_data = SensorData()
+        # override data format in pozyx library that results in bad pressure
+        sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
         calibration_status = SingleRegister()
         if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
             status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
