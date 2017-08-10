@@ -30,17 +30,13 @@ from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
-from modules.file_writing import SensorAndPositionFileWriting as FileWriting
-from modules.data_parsing import ConsoleLoggingFunctions as ConsoleLogging
-
-
 
 
 #this function takes a number and rounds it off/adds zeros to return a string of the number with a set character length
 #this is to make it easier to read the data from the console since every row will have the same number of data points
 def strSetLength(number, length):
-    numString = str(number);
-    numLength = len(numString);
+    numString = str(number)
+    numLength = len(numString)
     while len(numString) < length:
         numString += "0"
     while len(numString) > length:
