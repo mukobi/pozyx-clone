@@ -18,6 +18,7 @@ from pypozyx import *
 from pythonosc.udp_client import SimpleUDPClient
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
+from modules.file_writing import MultiDevicePositionFileWriting as FileWriting
 
 
 class MultitagPositioning(object):
@@ -169,9 +170,25 @@ if __name__ == "__main__":
     index = 0
     previous_cycle_time = 0
     current_cycle_time = 0
-    start_time = ConsoleLogging.get_time()
+
+    logfile = None
+    if to_use_file:
+        logfile = open(filename, 'a')
+        FileWriting.write_multidevice_position_header_to_file(logfile, tags)
+
+    start = ConsoleLogging.get_time()
     while True:
-        elapsed_time = ConsoleLogging.get_elapsed_time(ConsoleLogging, start_time)
+        elapsed = ConsoleLogging.get_elapsed_time(ConsoleLogging, start)
+        previous_cycle_time = current_cycle_time
+        current_cycle_time = elapsed
+        time_difference = current_cycle_time - previous_cycle_time
+
         position_array = r.loop()
-        ConsoleLogging.log_multitag_position_to_console(index, elapsed_time, position_array)
+        ConsoleLogging.log_multitag_position_to_console(index, elapsed, position_array)
+
+        if to_use_file:
+            FileWriting.write_multidevice_position_data_to_file(
+                index, elapsed, time_difference, logfile, position_array)
+
         index += 1
+
