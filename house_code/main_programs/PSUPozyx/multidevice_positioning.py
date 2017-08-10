@@ -158,7 +158,7 @@ if __name__ == "__main__":
     #            DeviceCoordinates(0x607c, 1, Coordinates(0, 0, 1730)),
     #            DeviceCoordinates(0x6134, 1, Coordinates(7600, 0, 2400))]
 
-    algorithm = POZYX_POS_ALG_UWB_ONLY     # positioning algorithm to use
+    algorithm = POZYX_POS_ALG_TRACKING     # positioning algorithm to use
     dimension = POZYX_3D                   # positioning dimension
     height = 1000                          # height of device, required in 2.5D positioning
 
