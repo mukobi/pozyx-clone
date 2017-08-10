@@ -330,9 +330,10 @@ class MultiDevicePositionFileWriting:
                   + str(time_difference) + "," + str(hz) + ","
                   + str(ave_hz) + ",")
         try:
-            for element in position_array:
-                if element[0:2] != "0x":
+            for idx, element in enumerate(position_array):
+                # only print position data, not tags since they are in header
+                if idx % 4 != 0:
                     output += str(element) + ","
-            file.write(output)
+            file.write(output + "\n")
         except AttributeError:
             pass
