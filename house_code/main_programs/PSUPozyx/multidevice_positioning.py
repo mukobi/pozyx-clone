@@ -194,4 +194,3 @@ if __name__ == "__main__":
                 index, elapsed, time_difference, logfile, position_array)
 
         index += 1
-

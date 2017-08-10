@@ -27,9 +27,7 @@ class DataReplay:
 
             i_index, i_time, i_difference, i_hz, i_avehz = FileReading.get_timestamp_indices(header_list)
 
-            current_time = 0.0
             previous_time = 0.0
-            replay_difference = 0.0
 
             print(DataParsing.build_data_file_type_string(data_file_type))
             for line in f:
@@ -58,7 +56,7 @@ if __name__ == "__main__":
     # change the speed of how the data is read in data seconds per second
     # I.e. 2 is 2x speed. Set to 0 for as fast as possible
 
-    replay_speed = 15
+    replay_speed = 1
 
     osc_udp_client = None
     replay = DataReplay(file, osc_udp_client, replay_speed)
