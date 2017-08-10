@@ -184,7 +184,8 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
 
-    use_velocity = True
+    use_velocity = False
+    # use_velocity = True
 
     logfile = None
     if to_use_file:
