@@ -145,17 +145,26 @@ class ConsoleLoggingFunctions:
         :param position_array: position data with tags in array
         """
         output = str(index)
-        output += " Time: "
+        output += " Time "
         elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
         output += elapsed_time_str
-        output += " Hz: "
+        output += " Hz "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
         ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
         output += ave_hertz_str
 
         output += " | "
-        for element in position_array:
-            output += str(element) + " "
+
+        for idx, element in enumerate(position_array):
+            i = position_array.index(element)
+            val = idx % 4
+            mod = idx % 4 != 0
+            nmod = i % 4
+            nval = i % 4 != 0
+            if idx % 4 == 0:
+                output += hex(element) + " "
+            elif idx % 4 != 0:
+                output += str(element) + " "
         print(output)
 
     @staticmethod
