@@ -117,6 +117,8 @@ if __name__ == '__main__':
     if not remote:
         remote_id = None
 
+    use_processing = True
+
     ip = "127.0.0.1"
     network_port = 8888
 

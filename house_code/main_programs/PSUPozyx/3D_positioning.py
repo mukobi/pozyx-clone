@@ -177,8 +177,8 @@ if  __name__ == "__main__":
 
     # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
     algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
-    dimension = POZYX_3D               # positioning dimension
-    height = 1000                      # height of device, required in 2.5D positioning
+    dimension = POZYX_3D         # positioning dimension
+    height = 100000                      # height of device, required in 2.5D positioning
 
     pozyx = PozyxSerial(serial_port)
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)

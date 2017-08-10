@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # list of IDs to set UWB settings for. example devices = [0x6001, 0x6002,
     # 0x6799]
     #devices = [0x605d, 0x6020, 0x604f, 0x6129, 0x614e, 0x610c]
-    devices = [0x6110,0x6104]
+    devices = []
 
     # pozyx
     pozyx = PozyxSerial(get_serial_ports()[0].device)
