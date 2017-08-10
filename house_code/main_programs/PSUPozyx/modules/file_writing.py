@@ -318,8 +318,8 @@ class MultiDevicePositionFileWriting:
         file.write(header + '\n')
 
     @staticmethod
-    def write_multidevice_position_data_to_file(index, elapsed_time, time_difference,
-                                    file, position_array):
+    def write_multidevice_position_data_to_file(
+            index, elapsed_time, time_difference, file, position_array):
         """
         This function writes the position data to the file each cycle in the while iterate_file.
         """
@@ -332,7 +332,7 @@ class MultiDevicePositionFileWriting:
         try:
             for element in position_array:
                 if element[0:2] != "0x":
-                    output += element
+                    output += str(element) + ","
             file.write(output)
         except AttributeError:
             pass
