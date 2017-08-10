@@ -121,7 +121,8 @@ class DataParsing:
 
     @staticmethod
     def build_multidevice_positioning_and_motion_data(header_list, data_list, attributes_to_log):
-        raise NotImplementedError
+        return (DataParsing.build_motion_data(header_list, data_list, attributes_to_log)
+                + DataParsing.build_multidevice_positioning_data(header_list, data_list))
 
     @staticmethod
     def get_time_difference(i_difference, data_list):
