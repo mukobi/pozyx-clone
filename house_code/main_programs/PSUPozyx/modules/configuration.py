@@ -29,6 +29,7 @@ class Configuration:
             remote_6_id = int(P["remote_6_id"], 16)
             tags = [remote_1_id, remote_2_id, remote_3_id,
                     remote_4_id, remote_5_id, remote_6_id]
+            tags = tags[:number_remote_devices]
 
         number_anchors = int(P["number_anchors"])
         anchor_1_id = int(P["anchor_1_id"], 16)

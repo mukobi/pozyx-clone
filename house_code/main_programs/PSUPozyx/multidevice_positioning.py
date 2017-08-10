@@ -60,7 +60,9 @@ class MultitagPositioning(object):
                 coordinate_array.append(position.z)
             else:
                 self.print_publish_error_code("positioning", tag)
-                coordinate_array.append(position)
+                coordinate_array.append(position.x)
+                coordinate_array.append(position.y)
+                coordinate_array.append(position.z)
         # [0x6001, 244, 255, 65, 0x6002, 7677, 7656, 543, 0x6003, ... ]
         return coordinate_array
 
@@ -184,6 +186,7 @@ if __name__ == "__main__":
         time_difference = current_cycle_time - previous_cycle_time
 
         position_array = r.loop()
+
         ConsoleLogging.log_multitag_position_to_console(index, elapsed, position_array)
 
         if to_use_file:
