@@ -33,7 +33,7 @@ class DataReplay:
 
             print(DataParsing.build_data_file_type_string(data_file_type))
 
-
+            start_time = time.time()
             for line in f:
                 data_list = FileReading.get_data_list(line)
                 output = ""
@@ -49,8 +49,7 @@ class DataReplay:
 
                 previous_time = Utilities.wait_for_time_difference(
                     replay_speed, i_difference, data_list, previous_time)
-
-
+            print("\nRendered Time: " + str(time.time() - start_time))
 
 if __name__ == "__main__":
     #################################################################
@@ -80,6 +79,5 @@ if __name__ == "__main__":
         osc_udp_client = SimpleUDPClient(ip, network_port)
     replay = DataReplay(file, osc_udp_client, replay_speed)
 
-    start = time.time()
+
     replay.iterate_file()
-    print("\nRendered Time: " + str(time.time() - start))
