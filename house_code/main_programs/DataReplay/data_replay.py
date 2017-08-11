@@ -4,7 +4,8 @@ import time
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_reading import FileReading
 from modules.data_parsing import DataParsing
-
+from modules.replay_osc_message_sending import ReplayOscMessageSending
+from modules.utilities import Utilities
 
 class DataReplay:
     def __init__(self, my_file, my_osc_udp_client, my_replay_speed):
@@ -25,40 +26,60 @@ class DataReplay:
                 attributes_to_log = UserInput.get_multiple_attributes_to_log()
                 print(attributes_to_log)
 
-            i_index, i_time, i_difference, i_hz, i_avehz = FileReading.get_timestamp_indices(header_list)
+            i_index, i_time, i_difference, i_hz, i_avehz = \
+                FileReading.get_timestamp_indices(header_list)
 
             previous_time = 0.0
 
             print(DataParsing.build_data_file_type_string(data_file_type))
+
+
             for line in f:
                 data_list = FileReading.get_data_list(line)
                 output = ""
                 timestamp = DataParsing.build_timestamp_info(
                     i_index, i_time, i_avehz, data_list)
                 output += timestamp
-                output += DataParsing.build_rest_of_data(data_file_type, header_list, data_list, attributes_to_log)
+                output += DataParsing.build_rest_of_data(
+                    data_file_type, header_list, data_list, attributes_to_log)
                 print(output)
 
-                if self.replay_speed:
-                    data_difference = float(DataParsing.get_time_difference(i_difference, data_list))
-                    while True:
-                        current_time = time.time()
-                        replay_difference = current_time - previous_time
-                        if (replay_difference * self.replay_speed) >= data_difference:
-                            break
-                    previous_time = current_time
+                ReplayOscMessageSending.send_message(
+                    data_file_type, header_list, data_list, osc_udp_client)
+
+                previous_time = Utilities.wait_for_time_difference(
+                    replay_speed, i_difference, data_list, previous_time)
+
 
 
 if __name__ == "__main__":
-    file = "C:\\Users\\gabri\\Documents\\GitHub\\Pozyx\\Data\\pressure_test_srtc_2.csv"
-    file = UserInput.get_file_to_replay()
+    #################################################################
+    # start of configuration
 
     # change the speed of how the data is read in data seconds per second
     # I.e. 2 is 2x speed. Set to 0 for as fast as possible
 
-    replay_speed = 1
+    # replay_speed = 4
 
+    # whether to send data to Processing
+    use_processing = True
+
+    # end of configuration
+    #################################################################
+
+    ip = "127.0.0.1"
+    network_port = 8888
     osc_udp_client = None
+
+    file = "C:\\Users\\gabri\\Documents\\GitHub\\Pozyx\\Data\\pressure_test_srtc_2.csv"
+    file = UserInput.get_file_to_replay()
+
+    replay_speed = UserInput.get_speed()
+
+    if use_processing:
+        osc_udp_client = SimpleUDPClient(ip, network_port)
     replay = DataReplay(file, osc_udp_client, replay_speed)
 
+    start = time.time()
     replay.iterate_file()
+    print("\nRendered Time: " + str(time.time() - start))
