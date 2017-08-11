@@ -71,6 +71,7 @@ class ReadyToLocalize(object):
             return position, status
         else:
             self.printPublishErrorCode("positioning")
+            position.x, position.y, position.z = "error", "error", "error"
             return position, status
 
     def printPublishPosition(self, position):
