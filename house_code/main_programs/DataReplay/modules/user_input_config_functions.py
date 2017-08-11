@@ -40,5 +40,5 @@ class UserInputConfigFunctions():
         str_speed = input(prompt)
         if str_speed == '':
             # enter was pressed
-            return 1
-        return int(str_speed)
+            return 1.0
+        return float(str_speed)
