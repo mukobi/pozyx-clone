@@ -17,25 +17,60 @@ Improve/Bugs:
 For Pandas to work properly, the usecols should be a number, otherwise data is terrible.
 Possibly use mathematical functions to smooth the data for better analysis?
 """
-def get_available_datatypes(path):
+def get_file_name():
+    """
+    This function gets the name of the file to be used from the user.
+
+    :return string path: this is the path of the .csv file to be read
+
+    Note: all csv files must be in the Data folder, otherwise the code must be changed.
+    """
+
+    file_name = input("Please enter the exact name of the file: ")      #Gets the name of the file.
+    if (len(file_name) > 0):
+        if file_name[(len(file_name) - 4):] == '.csv':      #Checks to see if user included .csv at the end of the name
+            pass                                        #If the user included it, pass
+        else:
+            file_name += ".csv"                         #Otherwise put it in
+
+        path = "..\..\Data\\" + file_name
+
+        return path, file_name
+    else:
+        print("Try again.\n")
+        return get_file_name()
+
+def get_available_datatypes(path, file_name):
     """
     This function reads the csv file and prints the names of all the available datatypes the user can use.
 
     :param string path: this is the string of the path to the csv file
     """
-    print("These are the available datatypes for use: ")
     number = 0
 
     import csv
-    with open(path, "r") as f:
-        reader = csv.reader(f)
-        datatypes = next(reader)         #Creates a list of the column headers
+    try:
+        with open(path, "r") as f:
+            reader = csv.reader(f)
+            datatypes = next(reader)         #Creates a list of the column headers
 
-        for available_datatype in datatypes:
-            print(str(number) + ". " + available_datatype)
-            number += 1
+            print("These are the available datatypes for use: ")
 
-    return datatypes
+            for available_datatype in datatypes:
+                print(str(number) + ". " + available_datatype)
+                number += 1
+
+            return datatypes, file_name
+    except FileNotFoundError:
+        print("\nThe file you entered was not found in the data file directory.\n" \
+            "\nCheck to make sure the file is in the Data folder and that you entered the name correctly.\n" \
+            "Try again.\n")
+        #Gets the new path for trying again.
+        path, file_name = get_file_name()
+        #Restarts the function
+        get_available_datatypes(path, file_name)
+
+
 
 def graph_derivatives():
     """
@@ -45,19 +80,23 @@ def graph_derivatives():
     """
     graph_deriv = input("Do you want to graph the derivative graphs alongside the data? (y / n)")
 
-    if (graph_deriv[0] == "y"
-            or graph_deriv[0] == "Y"
-            or graph_deriv[0] == "t"
-            or graph_deriv[0] == "T"):
-        graph_deriv = True
-        return graph_deriv
-    elif (graph_deriv[0] == "n"
-            or graph_deriv[0] == "N"
-            or graph_deriv[0] == "f"
-            or graph_deriv[0] == "F"):
-        graph_deriv = False
-        return graph_deriv
-    else:
+    try:
+        if (graph_deriv[0] == "y"
+                or graph_deriv[0] == "Y"
+                or graph_deriv[0] == "t"
+                or graph_deriv[0] == "T"):
+            graph_deriv = True
+            return graph_deriv
+        elif (graph_deriv[0] == "n"
+                or graph_deriv[0] == "N"
+                or graph_deriv[0] == "f"
+                or graph_deriv[0] == "F"):
+            graph_deriv = False
+            return graph_deriv
+        else:
+            print("Invalid input, try again!")
+            graph_derivatives()
+    except IndexError:
         print("Invalid input, try again!")
         graph_derivatives()
 
@@ -65,22 +104,30 @@ def num_of_graphs(datatypes):
     """
     This functions determines whether the user wants to use multiple graphs or a singular graph for representation.
     This function also is the final step and graphs all of the graphs to matplotlib.
+
+    :param list datatypes: the list of the names of available data for graphing
     """
-    information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
-    if information == 2:
-        data, name_one, name_two = get_pozyx_data_two(file_name, datatypes)
-        create_graph_two(data, name_one, name_two)
+    try:
+        information = int(input("How many types of data would you like to graph? (2, 3 or 4)\n"))
 
-    elif information == 3:
-        data, name_one, name_two, name_three = get_pozyx_data_three(file_name, datatypes)
-        create_graph_three(data, name_one, name_two, name_three)
+        if information == 2:
+            data, name_one, name_two = get_pozyx_data_two(file_name, datatypes)
+            create_graph_two(data, name_one, name_two)
 
-    elif information == 4:
-        data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name, datatypes)
-        create_graph_four(data, name_one, name_two, name_three, name_four)
-    else:
+        elif information == 3:
+            data, name_one, name_two, name_three = get_pozyx_data_three(file_name, datatypes)
+            create_graph_three(data, name_one, name_two, name_three)
+
+        elif information == 4:
+            data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name, datatypes)
+            create_graph_four(data, name_one, name_two, name_three, name_four)
+        else:
+            print("Invalid input, try again!")
+            num_of_graphs(datatypes)
+
+    except ValueError:
         print("Invalid input, try again!")
-        num_of_graphs()
+        num_of_graphs(datatypes)
 
 def graphing_method():
     """
@@ -93,22 +140,25 @@ def graphing_method():
 
     ontop = input("Do you want to graph the types of data on top of each other? (y / n)")
 
-    if (ontop[0] == "y"
-            or ontop[0] == "Y"
-            or ontop[0] == "t"
-            or ontop[0] == "T"):
-        ontop = True
-        return ontop
-    elif (ontop[0] == "n"
-            or ontop[0] == "N"
-            or ontop[0] == "f"
-            or ontop[0] == "F"):
-        ontop = False
-        return ontop
-    else:
+    try:
+        if (ontop[0] == "y"
+                or ontop[0] == "Y"
+                or ontop[0] == "t"
+                or ontop[0] == "T"):
+            ontop = True
+            return ontop
+        elif (ontop[0] == "n"
+                or ontop[0] == "N"
+                or ontop[0] == "f"
+                or ontop[0] == "F"):
+            ontop = False
+            return ontop
+        else:
+            print("Invalid input, try again!")
+            graphing_method()
+    except IndexError:
         print("Invalid input, try again!")
         graphing_method()
-
 
 def get_pozyx_data_two(file_name, datatypes):
     """
@@ -128,12 +178,16 @@ def get_pozyx_data_two(file_name, datatypes):
     try:
         col_one = int(input("Which data type would you like to use for the X axis? (Default is time.)\n"))
     except ValueError:
-        name_one = datatypes['Time']
+        col_one = datatypes.index('Time')
 
     try:
         col_two = int(input("Which data type would you like to use for the Y axis? (Default is X-Position.)\n"))
     except ValueError:
-        name_two = datatypes['X-Position']
+        try:
+            col_two = datatypes.index("Position-X")
+        except ValueError:
+            print("Default set failed, set to X-Acceleration")
+            col_two = datatypes.index("Acceleration-X")
 
     name_one = ""
     name_two = ""
@@ -279,7 +333,7 @@ def get_pozyx_data_two(file_name, datatypes):
 
     Due to unknown error, we must add one to col_two to get the correct data points.
     """
-    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two], names = [name_one, name_two])
+    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two], names = [name_one, name_two], na_values = 'error')
 
 
 
@@ -306,17 +360,26 @@ def get_pozyx_data_three(file_name, datatypes):
     try:
         col_one = int(input("Which data type would you like to use for the X axis? (Default is time.)\n"))
     except ValueError:
-        col_one = 1
+        col_one = datatypes.index("Time")
 
     try:
         col_two = int(input("Which data type would you like to use for the Y axis? (Default is X-Position.)\n"))
     except ValueError:
-        col_two = 27
+        try:
+            col_two = datatypes.index("Position-X")
+        except ValueError:
+            print("Default set failed, set to X-Acceleration")
+            col_two = datatypes.index("Acceleration-X")
 
     try:
         col_three = int(input("Which data type would you like to use for the Y axis? (Default is Y-Position.)\n"))
     except ValueError:
-        col_three = 28
+        try:
+            col_three = datatypes.index("Position-Y")
+        except ValueError:
+            print("Default set failed, set to Y-Acceleration")
+            col_three = datatypes.index("Acceleration-Y")
+
 
     name_one = ""
     name_two = ""
@@ -523,7 +586,7 @@ def get_pozyx_data_three(file_name, datatypes):
 
 
 
-    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two, col_three], names = [name_one, name_two, name_three])
+    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two, col_three], names = [name_one, name_two, name_three], na_values = 'error')
 
 
 
@@ -550,22 +613,35 @@ def get_pozyx_data_four(file_name, datatypes):
     try:
         col_one = int(input("Which data type would you like to use for the X axis? (Default is time.)\n"))
     except ValueError:
-        col_one = 1
+        col_one = datatypes.index("Time")
+
 
     try:
         col_two = int(input("Which data type would you like to use for the Y axis? (Default is X-Position.)\n"))
     except ValueError:
-        col_two = 27
+        try:
+            col_two = datatypes.index("Position-X")
+        except ValueError:
+            print("Default set failed, set to X-Acceleration")
+            col_two = datatypes.index("Acceleration-X")
 
     try:
         col_three = int(input("Which data type would you like to use for the Y axis? (Default is Y-Position.)\n"))
     except ValueError:
-        col_three = 28
+        try:
+            col_three = datatypes.index("Position-Y")
+        except ValueError:
+            print("Default set failed, set to Y-Acceleration")
+            col_three = datatypes.index("Acceleration-Y")
 
     try:
         col_four = int(input("Which data type would you like to use for the Y axis? (Default is Z-Position.)\n"))
     except ValueError:
-        col_four = 29
+        try:
+            col_four = datatypes.index("Position-Z")
+        except ValueError:
+            print("Default set failed, set to Z-Acceleration")
+            col_four = datatypes.index("Acceleration-Z")
 
 
     name_one = ""
@@ -839,7 +915,7 @@ def get_pozyx_data_four(file_name, datatypes):
         name_four = "Position-Z"
 
 
-    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two, col_three, col_four], names = [name_one, name_two, name_three, name_four])
+    datatype = pandas.read_csv(path, delimiter = ',', header = 0, usecols = [col_one, col_two, col_three, col_four], names = [name_one, name_two, name_three, name_four], na_values = 'error')
 
 
 
@@ -858,7 +934,14 @@ def create_graph_two(data, name_one, name_two):
     """
     x = data[name_one]
     y1 = data[name_two]
-    y1_deriv = data.diff(1,0)[name_two]
+    try:
+        y1_deriv = data.diff(1,0)[name_two]
+    except TypeError:
+        print("\nThe data contains is contains non-numeric values.\n\n"  \
+                "Either edit the file to only contain numeric values after the header or\n" \
+                "try using another file.")
+        import sys
+        sys.exit()
 
     if graphing_method == True and graph_deriv == True:
         plt.plot(x, y1, label = name_two)
@@ -912,8 +995,15 @@ def create_graph_three(data, name_one, name_two, name_three):
     y1 = data[name_two]
     y2 = data[name_three]
 
-    y1_deriv = data.diff(1,0)[name_two]
-    y2_deriv = data.diff(1,0)[name_three]
+    try:
+        y1_deriv = data.diff(1,0)[name_two]
+        y2_deriv = data.diff(1,0)[name_three]
+    except TypeError:
+        print("\nThe data contains is contains non-numeric values.\n\n"  \
+                "Either edit the file to only contain numeric values after the header or\n" \
+                "try using another file.")
+        import sys
+        sys.exit()
 
     if graphing_method == True and graph_deriv == False:
         plt.plot(x, y1, label = name_two)
@@ -987,9 +1077,17 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
     y1 = data[name_two]
     y2 = data[name_three]
     y3 = data[name_four]
-    y1_deriv = data.diff(1,0)[name_two]
-    y2_deriv = data.diff(1,0)[name_three]
-    y3_deriv = data.diff(1,0)[name_four]
+
+    try:
+        y1_deriv = data.diff(1,0)[name_two]
+        y2_deriv = data.diff(1,0)[name_three]
+        y3_deriv = data.diff(1,0)[name_four]
+    except TypeError:
+        print("\nThe data contains is contains non-numeric values.\n\n"  \
+                "Either edit the file to only contain numeric values after the header or\n" \
+                "try using another file.")
+        import sys
+        sys.exit()
 
     if graphing_method == True and graph_deriv == False:
         plt.plot(x, y1)
@@ -1070,15 +1168,12 @@ if __name__ == '__main__':
     import pandas as pandas
 
 
-    file_name = input("Please enter the exact name of the file: ")
-    file_name += ".csv"
-
-    path = "..\..\Data\\" + file_name
-
     graphing_method = graphing_method()         #Determines if the user wants data on top of each other
 
     graph_deriv = graph_derivatives()           #Determines if user wants derivatives with graphs
 
-    datatypes = get_available_datatypes(path)   #Prints and gets the available types of data for graphing
+    path, file_name = get_file_name()           #Gets the name of the file to be used and creates the path
+
+    datatypes, file_name = get_available_datatypes(path, file_name)   #Prints and gets the available types of data for graphing
 
     num_of_graphs(datatypes)

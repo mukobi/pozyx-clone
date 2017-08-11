@@ -12,7 +12,7 @@ class SensorDataFileWriting:
                                                  "Heading,Roll,Pitch,"
                                                  "Quaternion-X,Quaternion-Y,Quaternion-Z,Quaternion-W,"
                                                  "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
-                                                 "Gravity-X,Gravity-Y,Gravity-Z,")):
+                                                 "Gravity-X,Gravity-Y,Gravity-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -74,7 +74,7 @@ class SensorAndPositionFileWriting:
                     "Quaternion-X,Quaternion-Y,Quaternion-Z,Quaternion-W,"
                     "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
                     "Gravity-X,Gravity-Y,Gravity-Z,"
-                    "Position-X,Position-Y,Position-Z,")):
+                    "Position-X,Position-Y,Position-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -96,7 +96,7 @@ class SensorAndPositionFileWriting:
                     "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
                     "Gravity-X,Gravity-Y,Gravity-Z,"
                     "Position-X,Position-Y,Position-Z"
-                    "Velocity-X,Velocity-Y,Velocity-Z,")):
+                    "Velocity-X,Velocity-Y,Velocity-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -109,7 +109,7 @@ class SensorAndPositionFileWriting:
     def write_position_header_to_file(
             file,
             header=("Index,Time,Difference,Hz,AveHz,"
-                    "Position-X,Position-Y,Position-Z,")):
+                    "Position-X,Position-Y,Position-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
