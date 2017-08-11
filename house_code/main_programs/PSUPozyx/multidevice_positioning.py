@@ -60,9 +60,9 @@ class MultitagPositioning(object):
                 coordinate_array.append(position.z)
             else:
                 self.print_publish_error_code("positioning", tag)
-                coordinate_array.append(position.x)
-                coordinate_array.append(position.y)
-                coordinate_array.append(position.z)
+                coordinate_array.append("error")
+                coordinate_array.append("error")
+                coordinate_array.append("error")
         # [0x6001, 244, 255, 65, 0x6002, 7677, 7656, 543, 0x6003, ... ]
         return coordinate_array
 
