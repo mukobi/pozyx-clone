@@ -78,7 +78,7 @@ def graph_derivatives():
 
     :return boolean graph_deriv: graph_deriv is returned to determine to graph derivatives or not
     """
-    graph_deriv = input("Do you want to graph the derivative graphs alongside the data? (y / n)")
+    graph_deriv = input("Do you want to also graph derivatives? (y / n)")
 
     try:
         if (graph_deriv[0] == "y"
@@ -1130,7 +1130,7 @@ def create_graph_three(data, name_one, name_two, name_three):
         import sys
         sys.exit()
 
-    if graph_derivs == False:
+    if graph_deriv == False:
         if regular_ontop == False:
             plt.subplot(2, 1, 1)
             plt.plot(x, y1, label = name_two)
@@ -1159,7 +1159,7 @@ def create_graph_three(data, name_one, name_two, name_three):
             plt.plot(x, y1, label = name_two)
             plt.plot(x, y2, label = name_two)
             plt.legend( loc=2, prop={'size': 6})
-            plt.title(name_two + " " + name_three " vs. " + name_one)
+            plt.title(name_two + " " + name_three + " vs. " + name_one)
 
             plt.subplot(2, 2, 3)
             plt.plot(x, y1_deriv, label = ("Derivative of", name_two))
@@ -1177,7 +1177,7 @@ def create_graph_three(data, name_one, name_two, name_three):
             plt.plot(x, y1, label = name_two)
             plt.plot(x, y2, label = name_two)
             plt.legend( loc=2, prop={'size': 6})
-            plt.title(name_two + " " + name_three " vs. " + name_one)
+            plt.title(name_two + " " + name_three + " vs. " + name_one)
 
             plt.subplot(2, 1, 2)
             plt.plot(x, y1_deriv, label = name_two)
@@ -1248,13 +1248,13 @@ def create_graph_three(data, name_one, name_two, name_three):
             plt.plot(x, y1, label = name_two)
             plt.plot(x, y1_deriv, label = ("Derivative of " + name_two))
             plt.legend( loc=2, prop={'size': 6})
-            plt.title(name_two + " & " + "Derivative of " + name_two " vs. " + name_one)
+            plt.title(name_two + " & " + "Derivative of " + name_two + " vs. " + name_one)
 
             plt.subplot(2, 1, 2)
             plt.plot(x, y2, label = name_three)
             plt.plot(x, y2_deriv, label = ("Derivative of " + name_three))
             plt.legend( loc=2, prop={'size': 6})
-            plt.title(name_three + " & " + "Derivative of " + name_three " vs. " + name_one)
+            plt.title(name_three + " & " + "Derivative of " + name_three + " vs. " + name_one)
             plt.xlabel(name_one)
 
     """
@@ -1343,7 +1343,7 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
         sys.exit()
 
 
-    if graph_derivs == False:
+    if graph_deriv == False:
         #Graphs the original data separate, or on their own graphs
         if regular_ontop == False:
             plt.subplot(3, 1, 1)
@@ -1492,7 +1492,7 @@ def create_graph_four(data, name_one, name_two, name_three, name_four):
             plt.plot(x, y1, label = name_two)
             plt.plot(x, y1_deriv, label = ("Derivative of " + name_two))
             plt.legend( loc=2, prop={'size': 6})
-            plt.title(name_two + " & " + "Derivative of " + name_two " vs. " + name_one)
+            plt.title(name_two + " & " + "Derivative of " + name_two + " vs. " + name_one)
             plt.ylabel(name_two + " & " + "Derivative of " + name_two)
 
             plt.subplot(3, 1, 2)
