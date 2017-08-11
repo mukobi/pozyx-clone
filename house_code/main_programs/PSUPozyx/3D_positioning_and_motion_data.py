@@ -86,6 +86,7 @@ class Orientation3D(object):
                 if status == POZYX_SUCCESS:
                     # self.print_publish_position(position)
                     self.publish_sensor_data(sensor_data, calibration_status)
+                    position.x, position.y, position.z = "error", "error", "error"
                     return sensor_data, position
                 else:
                     pass
