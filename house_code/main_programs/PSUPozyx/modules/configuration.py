@@ -1,5 +1,6 @@
 from pypozyx import *
 import os
+from sys import platform
 
 MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
 
@@ -8,7 +9,10 @@ class Configuration:
 
     @staticmethod
     def get_properties():
-        configurations_file = os.path.dirname(os.path.dirname(__file__)) + "\\Configurations\\" + MASTER_CONFIG_NAME
+        if platform == "darwin" or platform == 'linux':
+            configurations_file = os.path.dirname(os.path.dirname(__file__)) + "/Configurations/" + MASTER_CONFIG_NAME
+        else:
+            configurations_file = os.path.dirname(os.path.dirname(__file__)) + "\\Configurations\\" + MASTER_CONFIG_NAME
         P = dict(line.strip().split('=') for line in open(configurations_file)
                  if not line.startswith('#') and not line.startswith('\n'))
         number_remote_devices = int(P["number_remotes"])
