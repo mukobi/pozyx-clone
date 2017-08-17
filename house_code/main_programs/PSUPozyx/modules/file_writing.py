@@ -56,7 +56,7 @@ class SensorDataFileWriting:
                        + "\n")
         except AttributeError:
             for i in range(0, 23):
-                output += "error,"
+                output += "nan,"
             output += "\n"
         file.write(output)
 
@@ -146,7 +146,7 @@ class SensorAndPositionFileWriting:
                        + str(position_data.z) + "," + "\n")
         except AttributeError:
             for i in range(0, 11):
-                output += "error,"
+                output += "nan,"
             output += "\n"
         file.write(output)
 
@@ -167,7 +167,7 @@ class SensorAndPositionFileWriting:
                        + str(velocity_z) + "," + "\n")
         except AttributeError:
             for i in range(0, 11):
-                output += "error,"
+                output += "nan,"
             output += "\n"
         file.write(output)
 
@@ -209,7 +209,7 @@ class SensorAndPositionFileWriting:
                        + "\n")
         except AttributeError:
             for i in range(0, 26):
-                output += "error,"
+                output += "nan,"
             output += "\n"
         file.write(output)
 
@@ -254,7 +254,7 @@ class SensorAndPositionFileWriting:
                        + "\n")
         except AttributeError:
             for i in range(0, 26):
-                output += "error,"
+                output += "nan,"
             output += "\n"
         file.write(output)
 
@@ -292,7 +292,7 @@ class PositionFileWriting:
                        + "\n")
         except AttributeError:
             for i in range(0, 26):
-                output += "error,"
+                output += "nan,"
             output += "\n"
         file.write(output)
 
