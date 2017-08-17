@@ -30,7 +30,7 @@ class DataFunctions:
         """
         from math import sqrt
         total_velocity = (velocity_x + velocity_y + velocity_z)
-
+        #Getting TypeError: cannot perform reduce with flexible type
         pos_x = Velocity.position_mean_calculation(__pos_x)
         pos_y = Velocity.position_mean_calculation(__pos_y)
         pos_z = Velocity.position_mean_calculation(__pos_z)

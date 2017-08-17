@@ -185,8 +185,8 @@ if  __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
 
-    use_velocity = False
-    # use_velocity = True
+    #use_velocity = False
+    use_velocity = True
 
     logfile = None
     if to_use_file:
@@ -239,7 +239,12 @@ if  __name__ == "__main__":
             # Status is used for error handling
             one_cycle_position, status = r.loop()
 
-            if use_velocity:
+            if use_velocity and status == POZYX_FAILURE:
+                velocity_x = np.nan
+                velocity_y = np.nan
+                velocity_z = np.nan
+
+            elif use_velocity and status == POZYX_SUCCESS:
                 # Updates and returns the new bins
                 binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
                     bin_time, timeDifference, one_cycle_position)
@@ -263,13 +268,14 @@ if  __name__ == "__main__":
                 # Gets the means of the previous data for calculations
                 mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
 
+
             # Logs the data to console
             if use_velocity:
                 ConsoleLogging.log_position_and_velocity_to_console(index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
             else:
                 ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
 
-            if to_use_file:             # writes the data returned from the iterate_file method to the file
+            if to_use_file and status == POZYX_SUCCESS:             # writes the data returned from the iterate_file method to the file
                 if use_velocity:
                     if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
                         FileWriting.write_position_and_velocity_data_to_file(
@@ -278,7 +284,7 @@ if  __name__ == "__main__":
                     else:                   # Returns 0 for velocity until it provides complete calculations
                         FileWriting.write_position_and_velocity_data_to_file(
                             index, elapsed, timeDifference, logfile, one_cycle_position,
-                            0, 0, 0)
+                            np.nan, np.nan, np.nan)
                 else:
                     FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)
 

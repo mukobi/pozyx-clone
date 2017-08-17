@@ -141,4 +141,5 @@ class Configuration:
                                 port = get_serial_ports()[0].device
                             except IndexError:
                                 pass
+                                
         return port
