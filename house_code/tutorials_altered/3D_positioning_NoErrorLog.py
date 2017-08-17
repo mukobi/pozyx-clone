@@ -205,13 +205,22 @@ if  __name__ == "__main__":
     #To add more subplots, copy this code and change the object name
     """
     if use_velocity:
-        bin_input = DataFunctions.bin_input()       #Determines how many points the user wants to bin
+        bin_input = DataFunctions.bin_input()
 
-        #Creates the deque binning objects
-        bin_pos_x, bin_pos_y, bin_pos_z, prev_bin_pos_x, prev_bin_pos_y, prev_bin_pos_z, bin_time = Velocity.initialize_bins3D(bin_input)
+        bin_pos_x = BinData(bin_size = bin_input)   # Creating position deque objects to calculate velocity
+        prev_bin_pos_x = 0                          # Initializing the previous points
 
-        #Initializing mean calculation variables
-        mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.initialize_mean_prev_bins3D()
+        bin_pos_y = BinData(bin_size = bin_input)
+        prev_bin_pos_y = 0
+
+        bin_pos_z = BinData(bin_size = bin_input)
+        prev_bin_pos_z = 0
+
+        bin_time = BinData(bin_size = bin_input)
+
+        mean_prev_bin_pos_x = 0      # Initializing mean calculation variables
+        mean_prev_bin_pos_y = 0
+        mean_prev_bin_pos_z = 0
 
         total_distance = 0             # Initializing total distance
         time_between_2500_and_4500 = 0              # Initializing different bins for velocity intervals
@@ -230,7 +239,12 @@ if  __name__ == "__main__":
             # Status is used for error handling
             one_cycle_position, status = r.loop()
 
-            if use_velocity:
+            if use_velocity and status == POZYX_FAILURE:
+                velocity_x = np.nan
+                velocity_y = np.nan
+                velocity_z = np.nan
+
+            elif use_velocity and status == POZYX_SUCCESS:
                 # Updates and returns the new bins
                 binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
                     bin_time, timeDifference, one_cycle_position)
@@ -240,8 +254,9 @@ if  __name__ == "__main__":
                 # velocity_method = 'linreg'
 
                 # Calculates the directional velocities, set the method using method argument
-                velocity_x, velocity_y, velocity_z = Velocity.find_velocity3D(status, index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
-                    binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method)
+                velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
+                velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, mean_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
+                velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, mean_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
 
                 # Gets the total distance travelled and the velocity of x, y and z combined
                 total_distance, total_velocity = DataFunctions.find_total_distance(binned_pos_x, binned_pos_y, binned_pos_z,
@@ -260,7 +275,7 @@ if  __name__ == "__main__":
             else:
                 ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
 
-            if to_use_file and status == POZYX_SUCCESS:             # writes the data returned from the iterate_file method to the file
+            if to_use_file:             # writes the data returned from the iterate_file method to the file
                 if use_velocity:
                     if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
                         FileWriting.write_position_and_velocity_data_to_file(
