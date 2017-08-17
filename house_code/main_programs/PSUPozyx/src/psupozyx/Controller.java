@@ -251,7 +251,8 @@ public class Controller {
                     }
                 } else {
                     try {
-                        String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_positioning.py"};
+                        //String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_positioning.py"};
+                        String[] cmd = new String[]{"python 3D_positioning.py"};
                         Process pr = Runtime.getRuntime().exec(cmd);
                         pr.waitFor();
                         System.out.println(pr.exitValue());
