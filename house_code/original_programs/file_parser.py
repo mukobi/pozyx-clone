@@ -17,6 +17,57 @@ Improve/Bugs:
 For Pandas to work properly, the usecols should be a number, otherwise data is terrible.
 Possibly use mathematical functions to smooth the data for better analysis?
 """
+def get_velocity_intervals():
+    """
+    This function is to determine whether the user wants a histogram of velocity intervals
+    """
+    velocity_available = False
+    if any("Velocity" in strings for strings in datatypes):
+        velocity_available = True
+
+
+    if velocity_available == True:
+        vel_hist = input("Do you want a histogram of the velocity intervals? (y / n)\n")
+
+        try:
+            if (vel_hist[0] == "y"
+                    or vel_hist[0] == "Y"
+                    or vel_hist[0] == "t"
+                    or vel_hist[0] == "T"):
+                vel_hist = True
+                return vel_hist
+            elif (vel_hist[0] == "n"
+                    or vel_hist[0] == "N"
+                    or vel_hist[0] == "f"
+                    or vel_hist[0] == "F"):
+                vel_hist = False
+                return vel_hist
+            else:
+                print("Invalid input, try again!")
+                get_velocity_intervals()
+        except IndexError:
+            print("Invalid input, try again!")
+            get_velocity_intervals()
+
+def velocity_histograms(data, name_one):
+    """
+    This function is to create histograms of the velocity intervals.
+
+    :param pandas dataframe data: this is the dataframe of all the data
+    """
+    import numpy as np
+    import matplotlib.pyplot as plt
+    #Loop through the data to make it all positive
+    data = data.abs()
+
+    bins = np.linspace(0, 10000)        #Sets the min and max of bins and automatically spaces the bins evenly
+
+    y_limit = data[name_one][(len(data) - 1)]
+
+    plt.hist(data['Velocity-X'], range=(0, 10000))
+    #################Get the histogram to show time instead of frequency!!!!!!!!!!
+    plt.show()
+
 def get_file_name():
     """
     This function gets the name of the file to be used from the user.
@@ -114,13 +165,23 @@ def num_of_graphs(datatypes):
             data, name_one, name_two = get_pozyx_data_two(file_name, datatypes)
             create_graph_two(data, name_one, name_two)
 
+            if velocity_histogram == True: #Checks to graph the histograms of velocity
+                velocity_histograms(data, name_one)
+
         elif information == 3:
             data, name_one, name_two, name_three = get_pozyx_data_three(file_name, datatypes)
             create_graph_three(data, name_one, name_two, name_three)
 
+            if velocity_histogram == True:  #Checks to graph the histograms of velocity
+                velocity_histograms(data, name_one)
+
         elif information == 4:
             data, name_one, name_two, name_three, name_four = get_pozyx_data_four(file_name, datatypes)
             create_graph_four(data, name_one, name_two, name_three, name_four)
+
+            if velocity_histogram == True:  #Checks to graph the histograms of velocity
+                velocity_histograms(data, name_one)
+
         else:
             print("Invalid input, try again!")
             num_of_graphs(datatypes)
@@ -1599,5 +1660,7 @@ if __name__ == '__main__':
     path, file_name = get_file_name()           #Gets the name of the file to be used and creates the path
 
     datatypes, file_name = get_available_datatypes(path, file_name)   #Prints and gets the available types of data for graphing
+
+    velocity_histogram = get_velocity_intervals()                       #Determines if user wants velocity histograms
 
     num_of_graphs(datatypes)
