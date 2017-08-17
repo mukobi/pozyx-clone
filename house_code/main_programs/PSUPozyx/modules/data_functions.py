@@ -326,3 +326,45 @@ class Velocity:
             return velocity
         else:
             return np.nan
+
+    def initialize_bins3D(bin_input):
+        """
+        """
+        from .data_averaging import BinData
+        bin_pos_x = BinData(bin_size = bin_input)   # Creating position deque objects to calculate velocity
+        prev_bin_pos_x = 0                          # Initializing the previous points
+
+        bin_pos_y = BinData(bin_size = bin_input)
+        prev_bin_pos_y = 0
+
+        bin_pos_z = BinData(bin_size = bin_input)
+        prev_bin_pos_z = 0
+
+        bin_time = BinData(bin_size = bin_input)
+
+        return bin_pos_x, bin_pos_y, bin_pos_z, prev_bin_pos_x, prev_bin_pos_y, prev_bin_pos_z, bin_time
+
+    def initialize_mean_prev_bins3D():
+        """
+        """
+        mean_prev_bin_pos_x = 0
+        mean_prev_bin_pos_y = 0
+        mean_prev_bin_pos_z = 0
+
+        return mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z
+
+    def find_velocity3D(status, index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
+        binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method):
+        import numpy as np
+
+        if status == 0x1:
+            velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
+            velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, mean_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
+            velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, mean_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
+
+        else:
+            velocity_x = np.nan
+            velocity_y = np.nan
+            velocity_z = np.nan
+
+        return velocity_x, velocity_y, velocity_z
