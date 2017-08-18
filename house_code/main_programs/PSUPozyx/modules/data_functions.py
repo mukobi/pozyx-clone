@@ -12,7 +12,7 @@ class DataFunctions:
         return median
 
     @staticmethod
-    def find_total_distance(status, __pos_x, __pos_y, __pos_z, prev_pos_x, prev_pos_y, prev_pos_z, velocity_x, velocity_y, velocity_z, total_distance):
+    def find_total_distance(__pos_x, __pos_y, __pos_z, prev_pos_x, prev_pos_y, prev_pos_z, velocity_x, velocity_y, velocity_z, total_distance):
         """
         Function to determine the total distance travelled by the Pozyx device
 
