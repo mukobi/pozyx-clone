@@ -318,10 +318,49 @@ class MultiDevicePositionFileWriting:
         file.write(header + '\n')
 
     @staticmethod
+    def write_multidevice_1D_header_to_file(
+            file, tags,
+            header_start="Index,Time,Difference,Hz,AveHz,"):
+        """
+        Writes column headers for 1D data to a file
+
+        :param list tags: the tags that will be measured
+        :param str header_start: The start of the header labels, already set by default
+        :param file: the file to write to
+        """
+        header = header_start
+        print(tags)
+        for tag in tags:
+            header += hex(tag) + ","
+
+        file.write(header + '\n')
+
+    @staticmethod
     def write_multidevice_position_data_to_file(
             index, elapsed_time, time_difference, file, position_array):
         """
         This function writes the position data to the file each cycle in the while iterate_file.
+        """
+
+        hz = DataFunctions.convert_hertz(time_difference)
+        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
+        output = (str(index) + "," + str(elapsed_time) + ","
+                  + str(time_difference) + "," + str(hz) + ","
+                  + str(ave_hz) + ",")
+        try:
+            for idx, element in enumerate(position_array):
+                # only print position data, not tags since they are in header
+                if idx % 4 != 0:
+                    output += str(element) + ","
+            file.write(output + "\n")
+        except AttributeError:
+            pass
+
+    @staticmethod
+    def write_multidevice_1D_data_to_file(
+            index, elapsed_time, time_difference, file, position_array):
+        """
+        This function writes 1D data to the file each cycle in the while iterate_file.
         """
 
         hz = DataFunctions.convert_hertz(time_difference)
