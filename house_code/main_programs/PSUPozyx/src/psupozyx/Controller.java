@@ -236,6 +236,30 @@ public class Controller {
     }
 
     @FXML
+    private void handleLaunchRanging() {
+        saveSettingsForUse();
+        if (osName.startsWith("Windows")) {
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python 1D_ranging.py");
+                p.waitFor();
+            }
+            catch (Exception err) {
+                err.printStackTrace();
+            }
+        }
+        else {
+            try {
+                String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_positioning.py"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                pr.waitFor(); System.out.println(pr.exitValue());
+            }
+            catch (Exception err) {
+                err.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
     private void handleLaunchPositioning() {
         saveSettingsForUse();
         switch(number_mobile_devices) {
