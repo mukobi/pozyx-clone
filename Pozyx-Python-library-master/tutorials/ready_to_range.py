@@ -70,12 +70,12 @@ class ReadyToRange(object):
 if __name__ == "__main__":
     port = get_serial_ports()[0].device                # COM port of the Pozyx device
 
-    remote_id = 0x6112           # the network ID of the remote device
+    remote_id = 0x6030           # the network ID of the remote device
     remote = False               # whether to use the given remote device for ranging
     if not remote:
         remote_id = None
 
-    destination_id = 0x6129      # network ID of the ranging destination
+    destination_id = 0x6829      # network ID of the ranging destination
     range_step_mm = 500	         # distance that separates the amount of LEDs lighting up.
 
     Index = 0
