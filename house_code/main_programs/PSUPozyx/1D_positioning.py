@@ -69,7 +69,7 @@ class ReadyToRange(object):
     def loop(self):
         """Performs ranging and sets the LEDs accordingly"""
         device_range = DeviceRange()
-        #import pdb; pdb.set_trace()
+
         status = self.pozyx.doRanging(self.destination_id, device_range, self.remote_id)
 
         if status == POZYX_SUCCESS:

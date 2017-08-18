@@ -77,6 +77,7 @@ class Orientation3D(object):
         position = Coordinates()
         calibration_status = SingleRegister()
         if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+            global status
             status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
             status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
             if status == POZYX_SUCCESS:
@@ -93,6 +94,7 @@ class Orientation3D(object):
                     # self.print_publish_error_code("positioning")
         # return sensor_data, position
         return "Error with positioning, check anchor configuration."
+        return status
 
     def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
