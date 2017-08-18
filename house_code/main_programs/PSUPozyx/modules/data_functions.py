@@ -29,6 +29,7 @@ class DataFunctions:
         taking data with a still device to see what the maximum possible velocity could be.
         """
         from math import sqrt
+
         total_velocity = (velocity_x + velocity_y + velocity_z)
         #Getting TypeError: cannot perform reduce with flexible type
         pos_x = Velocity.position_mean_calculation(__pos_x)
@@ -39,6 +40,7 @@ class DataFunctions:
             total_distance += sqrt((pos_x - prev_pos_x)**2 + (pos_x - prev_pos_x)**2 + (pos_x - prev_pos_x)**2)
 
         return total_distance, total_velocity
+
 
     @staticmethod
     def velocity_bins(total_velocity, time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500, timeDifference):
@@ -277,6 +279,7 @@ class Velocity:
 
         return mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z
 
+
     @staticmethod
     def simple_velocity(position, prev_pos, time):
         """
@@ -287,11 +290,15 @@ class Velocity:
         :param float time: this is the current time
         :param float prev_time: this is the previous time
         """
+        import numpy as np
 
         if prev_pos == 0:
             return 0
         else:
-            velocity = (position - prev_pos) / (time)
+            try:
+                velocity = (position - prev_pos) / (time)
+            except ZeroDivisionError:
+                velocity = np.nan
             return velocity
 
     @staticmethod
@@ -353,18 +360,13 @@ class Velocity:
 
         return mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z
 
-    def find_velocity3D(status, index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
+    def find_velocity3D(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
         binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method):
         import numpy as np
 
-        if status == 0x1:
-            velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
-            velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, mean_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
-            velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, mean_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
+        velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
+        velocity_y = Velocity.find_velocity(index, bin_input, binned_pos_y, mean_prev_bin_pos_y, binned_time, method = velocity_method)    #Calculates y velocity
+        velocity_z = Velocity.find_velocity(index, bin_input, binned_pos_z, mean_prev_bin_pos_z, binned_time, method = velocity_method)    #Calculates z velocity
 
-        else:
-            velocity_x = np.nan
-            velocity_y = np.nan
-            velocity_z = np.nan
 
         return velocity_x, velocity_y, velocity_z
