@@ -240,7 +240,7 @@ if  __name__ == "__main__":
                 # velocity_method = 'linreg'
 
                 # Calculates the directional velocities, set the method using method argument
-                velocity_x, velocity_y, velocity_z = Velocity.find_velocity3D(status, index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
+                velocity_x, velocity_y, velocity_z = Velocity.find_velocity3D(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
                     binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method)
 
                 # Gets the total distance travelled and the velocity of x, y and z combined
@@ -251,7 +251,7 @@ if  __name__ == "__main__":
                     time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500, timeDifference)
 
                 # Gets the means of the previous data for calculations
-                mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.update_previous_bins(status, binned_pos_x, binned_pos_y, binned_pos_z)
+                mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
 
 
             # Logs the data to console

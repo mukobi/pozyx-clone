@@ -274,7 +274,7 @@ if __name__ == '__main__':
             if type(loop_results) == tuple:
                 one_cycle_sensor_data, one_cycle_position = loop_results
 
-                if use_velocity:
+                if use_velocity and status == POZYX_SUCCESS:
                     #Updates and returns the new bins
                     binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
                         bin_time, time_difference, one_cycle_position)
