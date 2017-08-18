@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane fx:id="grid_pane_stage" alignment="CENTER" hgap="10.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="psupozyx.Controller">
+  <children>
+    <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+      <items>
+        <AnchorPane maxWidth="274.0" minHeight="0.0" minWidth="274.0" prefHeight="768.0" prefWidth="274.0" style="-fx-background-color: white;">
+          <children>
+            <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="126.0" spacing="50.0">
+              <children>
+                <VBox id="VBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Button mnemonicParsing="false" onAction="#handleLaunchPositioning" prefHeight="50.0" prefWidth="250.0" text="3D Positioning">
+                      <font>
+                        <Font size="18.0" fx:id="x3" />
+                      </font>
+                    </Button>
+                    <Label alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="110.0" prefWidth="250.0" text="Collects data on the position of a device in 3 dimensions. Requires the use of 4 or more anchors with their coordinates configured in the settings at the right." wrapText="true">
+                      <font>
+                        <Font size="14.0" fx:id="x2" />
+                      </font>
+                    </Label>
+                  </children>
+                </VBox>
+                <VBox id="VBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchMotionData" prefHeight="50.0" prefWidth="250.0" text="Motion Data" />
+                    <Label alignment="TOP_LEFT" font="$x2" prefHeight="110.0" prefWidth="250.0" text="Collects data from the different sensors onboard a device, including acceleration, orientation, angular velocity, gravity, pressure, temperature, linear acceleration, and magnetic fields." wrapText="true" />
+                  </children>
+                </VBox>
+                <VBox id="VBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" prefHeight="50.0" prefWidth="250.0" text="Positioning and Motion Data" textOverrun="ELLIPSIS" wrapText="true" />
+                    <Label alignment="TOP_LEFT" font="$x2" prefHeight="110.0" prefWidth="250.0" text="Combines the 3D Positioning and Motion Data functionality to collect data from a devices sensors and collect data on its position simultaneously. " wrapText="true" />
+                  </children>
+                </VBox>
+              </children>
+            </VBox>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefWidth="-1.0" text="Available Programs" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+              <font>
+                <Font name="System Bold" size="24.0" fx:id="x1" />
+              </font>
+              <textFill>
+                <Color blue="0.063" green="0.498" red="0.416" fx:id="x4" />
+              </textFill>
+            </Label>
+          </children>
+        </AnchorPane>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="768.0" minWidth="750.0" prefHeight="768.0" prefWidth="750.0" style="-fx-background-color: #6a7f10;">
+          <children>
+            <Label id="changeLabel" alignment="CENTER" font="$x1" text="Configuration Settings" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+            <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="99.0" spacing="50.0" />
+            <Label font="$x3" layoutY="54.0" text="Mobile Devices" textFill="WHITE" AnchorPane.leftAnchor="21.0" />
+            <Label font="$x3" layoutX="21.0" layoutY="165.0" text="Anchors" textFill="WHITE" />
+            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="197.0" spacing="10.0">
+              <children>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Anchor 1 ID:" textFill="WHITE" />
+                    <TextField id="a1_id" fx:id="m_a1_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a2_id" fx:id="m_a1_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a1_y" fx:id="m_a1_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a1_z" fx:id="m_a1_z" prefWidth="96.0" promptText="0" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Anchor 2 ID:" textFill="WHITE" />
+                    <TextField id="a2_id" fx:id="m_a2_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a2_x" fx:id="m_a2_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a2_y" fx:id="m_a2_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a2_z" fx:id="m_a2_z" prefWidth="96.0" promptText="0" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Anchor 3 ID:" textFill="WHITE" />
+                    <TextField id="a3_id" fx:id="m_a3_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a3_x" fx:id="m_a3_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a3_y" fx:id="m_a3_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a3_z" fx:id="m_a3_z" prefWidth="96.0" promptText="0" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" prefHeight="22.0" text="Anchor 4 ID:" textFill="WHITE" />
+                    <TextField id="a4_id" fx:id="m_a4_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a4_x" fx:id="m_a4_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a4_y" fx:id="m_a4_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a4_z" fx:id="m_a4_z" prefWidth="95.9998779296875" promptText="0" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" prefHeight="22.0" text="Anchor 5 ID:" textFill="WHITE" />
+                    <TextField id="a4_id" fx:id="m_a5_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a4_x" fx:id="m_a5_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a4_y" fx:id="m_a5_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a4_z" fx:id="m_a5_z" prefWidth="95.9998779296875" promptText="0" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" prefHeight="22.0" text="Anchor 6 ID:" textFill="WHITE" />
+                    <TextField id="a4_id" fx:id="m_a6_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a4_x" fx:id="m_a6_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a4_y" fx:id="m_a6_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a4_z" fx:id="m_a6_z" prefWidth="95.9998779296875" promptText="0" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" prefHeight="22.0" text="Anchor 7 ID:" textFill="WHITE" />
+                    <TextField id="a4_id" fx:id="m_a7_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a4_x" fx:id="m_a7_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a4_y" fx:id="m_a7_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a4_z" fx:id="m_a7_z" prefWidth="95.9998779296875" promptText="0" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" prefHeight="22.0" text="Anchor 8 ID:" textFill="WHITE" />
+                    <TextField id="a4_id" fx:id="m_a8_id" prefWidth="100.0" promptText="0x0000" />
+                    <Label font="$x2" text="X (m):" textFill="WHITE" />
+                    <TextField id="a4_x" fx:id="m_a8_x" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Y (m):" textFill="WHITE" />
+                    <TextField id="a4_y" fx:id="m_a8_y" prefWidth="96.0" promptText="0" />
+                    <Label font="$x2" text="Z (m):" textFill="WHITE" />
+                    <TextField id="a4_z" fx:id="m_a8_z" prefWidth="95.9998779296875" promptText="0" />
+                  </children>
+                </HBox>
+              </children>
+            </VBox>
+            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="493.0" spacing="20.0">
+              <children>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <CheckBox id="log_pressure" fx:id="m_log_pressure" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Pressure" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox id="log_acceleration" fx:id="m_log_acceleration" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Acceleration" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox id="log_magnetic" fx:id="m_log_magnetic" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Magnetic" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox id="log_angular_velocity" fx:id="m_log_angular_velocity" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Angular Velocity" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <CheckBox id="log_euler_angles" fx:id="m_log_euler_angles" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Euler Angles" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox id="log_quaternion" fx:id="m_log_quaternion" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Quaternion" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox id="log_linear_acceleration" fx:id="m_log_linear_acceleration" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Linear Acceleration" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                    <CheckBox id="log_gravity" fx:id="m_log_gravity" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Gravity" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                  </children>
+                </HBox>
+              </children>
+            </VBox>
+            <Label font="$x3" layoutX="21.0" layoutY="464.0" text="Sensor Data " textFill="WHITE" />
+            <Label font="$x3" layoutX="21.0" layoutY="558.0" text="File Writing" textFill="WHITE" />
+            <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="589.0" spacing="30.0">
+              <children>
+                <CheckBox id="write_data_to_file" fx:id="m_use_file" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Write Data to File" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Filename:" textFill="WHITE" />
+                    <TextField id="filename" fx:id="m_filename" prefWidth="200.0" promptText="filename" />
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="10.0" />
+              </children>
+            </HBox>
+            <Group id="Group" layoutX="521.0" layoutY="601.0" />
+            <Label font="$x3" layoutX="21.0" layoutY="627.0" text="Graphing" textFill="WHITE" />
+            <CheckBox id="use_processing" fx:id="m_use_processing" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" layoutX="56.0" layoutY="660.0" mnemonicParsing="false" text="Output Data Graphically Using Processing" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+            <HBox id="HBox" alignment="CENTER" layoutY="702.0" prefWidth="800.0" spacing="30.0" AnchorPane.leftAnchor="9.0">
+              <children>
+                <Button mnemonicParsing="false" onAction="#handleLoadButtonAction" prefHeight="50.0" prefWidth="150.0" style="&#10;" text="Load Settings" textFill="BLACK">
+                  <font>
+                    <Font size="16.0" fx:id="x5" />
+                  </font>
+                </Button>
+                <Button font="$x5" mnemonicParsing="false" onAction="#handleSaveTemplateButtonAction" prefHeight="50.0" prefWidth="150.0" style="&#10;" text="Save Settings" textFill="BLACK" wrapText="true" />
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Status:" textFill="WHITE" />
+                    <Label fx:id="m_status_display" font="$x2" prefWidth="220.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
+                  </children>
+                </HBox>
+              </children>
+            </HBox>
+            <HBox id="HBox" alignment="CENTER" layoutX="508.0" layoutY="663.0" prefHeight="32.0" spacing="5.0" />
+            <HBox id="HBox" alignment="CENTER" layoutX="190.0" layoutY="55.0" spacing="5.0">
+              <children>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                  <children>
+                    <Label font="$x2" text="Number of Mobile Devices" textFill="WHITE">
+                      <graphic>
+                        <ChoiceBox id="m_number_remotes" fx:id="m_number_mobile_devices" prefWidth="50.0" value="0">
+                          <items>
+                            <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="0" />
+                              <String fx:value="1" />
+                              <String fx:value="2" />
+                              <String fx:value="3" />
+                              <String fx:value="4" />
+                              <String fx:value="5" />
+                              <String fx:value="6" />
+                            </FXCollections>
+                          </items>
+                        </ChoiceBox>
+                      </graphic>
+                    </Label>
+                  </children>
+                </HBox>
+              </children>
+            </HBox>
+            <VBox id="VBox" alignment="CENTER" layoutX="62.0" layoutY="94.0" spacing="10.0">
+              <children>
+                <HBox id="HBox" alignment="CENTER" spacing="40.0">
+                  <children>
+                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <Label font="$x2" text="Device 1 ID:" textFill="WHITE" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_1_id" disable="false" prefWidth="100.0" promptText="0x0000" />
+                      </children>
+                    </HBox>
+                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <Label font="$x2" text="Device 2 ID:" textFill="WHITE" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_2_id" prefWidth="100.0" promptText="0x0000" />
+                      </children>
+                    </HBox>
+                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <Label font="$x2" text="Device 3 ID:" textFill="WHITE" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_3_id" prefWidth="100.0" promptText="0x0000" />
+                      </children>
+                    </HBox>
+                  </children>
+                </HBox>
+                <HBox id="HBox" alignment="CENTER" spacing="40.0">
+                  <children>
+                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <Label font="$x2" text="Device 4 ID:" textFill="WHITE" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_4_id" prefWidth="100.0" promptText="0x0000" />
+                      </children>
+                    </HBox>
+                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <Label font="$x2" text="Device 5 ID:" textFill="WHITE" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_5_id" prefWidth="100.0" promptText="0x0000" />
+                      </children>
+                    </HBox>
+                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <Label font="$x2" text="Device 6 ID:" textFill="WHITE" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_6_id" prefWidth="100.0" promptText="0x0000" />
+                      </children>
+                    </HBox>
+                  </children>
+                </HBox>
+              </children>
+            </VBox>
+            <HBox id="HBox" alignment="CENTER" layoutX="357.0" layoutY="129.0" spacing="5.0" />
+            <HBox id="HBox" alignment="CENTER" layoutX="190.0" layoutY="162.0" spacing="5.0">
+              <children>
+                <HBox id="HBox" alignment="CENTER" spacing="5.0" />
+              </children>
+            </HBox>
+            <Label font="$x2" layoutX="190.0" layoutY="167.0" text="Number of Anchors" textFill="WHITE">
+              <graphic>
+                <ChoiceBox fx:id="m_number_anchors" prefWidth="50.0" value="4">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="4" />
+                      <String fx:value="5" />
+                      <String fx:value="6" />
+                      <String fx:value="7" />
+                      <String fx:value="8" />
+                    </FXCollections>
+                  </items>
+                </ChoiceBox>
+              </graphic>
+            </Label>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </children>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+</GridPane>

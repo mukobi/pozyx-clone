@@ -244,7 +244,7 @@ public class Controller {
                 // single or local positioning
                 if (osName.startsWith("Windows")) {
                     try {
-                        Process p = Runtime.getRuntime().exec("cmd /c start python 3D_positioning.py");
+                        Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python 3D_positioning.py");
                         p.waitFor();
                     } catch (Exception err) {
                         err.printStackTrace();
@@ -265,7 +265,7 @@ public class Controller {
                 // multidevice positioning
                 if (osName.startsWith("Windows")) {
                     try {
-                        Process p = Runtime.getRuntime().exec("cmd /c start python multidevice_positioning.py");
+                        Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python multidevice_positioning.py");
                         p.waitFor();
                     } catch (Exception err) {
                         err.printStackTrace();
@@ -304,7 +304,7 @@ public class Controller {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
-                Process p = Runtime.getRuntime().exec("cmd /c start python motion_data.py");
+                Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python motion_data.py");
                 p.waitFor();
                 System.out.println(p.exitValue());
             } catch (Exception err) {
@@ -344,7 +344,7 @@ public class Controller {
         saveSettingsForUse();
         if(osName.startsWith("Windows")) {
             try {
-                Process p = Runtime.getRuntime().exec("cmd /c start python 3D_positioning_and_motion_data.py");
+                Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python 3D_positioning_and_motion_data.py");
                 p.waitFor();
                 System.out.println(p.exitValue());
             } catch (Exception err) {
