@@ -168,6 +168,38 @@ class ConsoleLoggingFunctions:
         print(output)
 
     @staticmethod
+    def log_multitag_1D_to_console(index, elapsed, position_array):
+        """
+        Prints a line of data to the console
+
+        :param int index: data index
+        :param float elapsed: elapsed time since the program started
+        :param position_array: position data with tags in array
+        """
+        output = str(index)
+        output += " Time "
+        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        output += ave_hertz_str
+
+        output += " | "
+
+        for idx, element in enumerate(position_array):
+            i = position_array.index(element)
+            val = idx % 2
+            mod = idx % 2 != 0
+            nmod = i % 2
+            nval = i % 2 != 0
+            if idx % 2 == 0:
+                output += hex(element) + " "
+            elif idx % 2 != 0:
+                output += str(element) + " "
+        print(output)
+
+    @staticmethod
     def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position):
         """
         Prints a line of data to the console
@@ -202,7 +234,7 @@ class ConsoleLoggingFunctions:
             output += (" | Pos: " + "X: " + str(position.x)
                        + " Y: " + str(position.y)
                        + " Z: " + str(position.z))
-        
+
         print(output)
 
     @staticmethod

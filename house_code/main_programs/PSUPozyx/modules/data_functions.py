@@ -336,6 +336,13 @@ class Velocity:
 
     def initialize_bins3D(bin_input):
         """
+        Function to create the deque objects that are needed for easily binning the data.
+
+        :param integer bin_input: the size of the bins
+
+        :return object bin_pos_*: each object that will bin the data to calculate velocity
+        :return integer prev_bin_*: the initialized previous bins that will be used
+        :return object bin_time: the object for binning time
         """
         from .data_averaging import BinData
         bin_pos_x = BinData(bin_size = bin_input)   # Creating position deque objects to calculate velocity
@@ -353,6 +360,11 @@ class Velocity:
 
     def initialize_mean_prev_bins3D():
         """
+        Initializing the mena previous bins for use.
+
+        :return mean_prev_bin_pos_*: these are meant to be the means of the bins of previous data taken by Pozyx
+
+        Note: the class ignores the functions until it gets data other than a 0
         """
         mean_prev_bin_pos_x = 0
         mean_prev_bin_pos_y = 0
@@ -362,6 +374,19 @@ class Velocity:
 
     def find_velocity3D(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
         binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method):
+        """
+        This function simply reduces the 3D code to three lines that calculate the velocity by calling on the find_velocity function.
+
+        :param integer index: the index
+        :param integer bin_input: the size of the bin
+        :param float binned_pos_*: the current binned position for each direction
+        :param integer mean_prev_bin_pos_*: the mean of the previos bin of data
+        :param float binned_time: the bin of time data to get the mean time
+        :param string velocity_method: this is the method for calculating velocity
+
+        :return float velocity_*: this returns each of the X, Y, and Z velocities
+        """
+
         import numpy as np
 
         velocity_x = Velocity.find_velocity(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_time, method = velocity_method)    #Calculates x velocity
