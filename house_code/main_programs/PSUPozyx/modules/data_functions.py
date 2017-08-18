@@ -257,7 +257,7 @@ class Velocity:
         return mean_bin_time
 
     @staticmethod
-    def update_previous_bins(status, binned_pos_x, binned_pos_y, binned_pos_z):
+    def update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z):
         """
         This function updates the bins for previous position bins and returns them at the end of the iterate_file.
 
@@ -360,7 +360,7 @@ class Velocity:
 
         return mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z
 
-    def find_velocity3D(status, index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
+    def find_velocity3D(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
         binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method):
         import numpy as np
 
