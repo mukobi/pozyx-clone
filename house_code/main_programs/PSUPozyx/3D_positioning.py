@@ -244,7 +244,7 @@ if  __name__ == "__main__":
                     binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method)
 
                 # Gets the total distance travelled and the velocity of x, y and z combined
-                total_distance, total_velocity = DataFunctions.find_total_distance(status, binned_pos_x, binned_pos_y, binned_pos_z,
+                total_distance, total_velocity = DataFunctions.find_total_distance(binned_pos_x, binned_pos_y, binned_pos_z,
                     mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z, velocity_x, velocity_y, velocity_z, total_distance)
                 # Gets the velocity bins and updates them based on velocity data
                 time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500 = DataFunctions.velocity_bins(total_velocity,
