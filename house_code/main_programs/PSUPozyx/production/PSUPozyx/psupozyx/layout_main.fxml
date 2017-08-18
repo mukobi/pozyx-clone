@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<GridPane fx:id="grid_pane_stage" alignment="CENTER" hgap="10.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="psupozyx.Controller">
+<GridPane fx:id="grid_pane_stage" alignment="CENTER" hgap="10.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.Controller">
   <children>
     <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
       <items>
         <AnchorPane maxWidth="274.0" minHeight="0.0" minWidth="274.0" prefHeight="768.0" prefWidth="274.0" style="-fx-background-color: white;">
           <children>
-            <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="126.0" spacing="50.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="75.0" spacing="10.0">
               <children>
+                        <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#handleLaunchRanging" prefHeight="50.0" prefWidth="250.0" text="1D Ranging">
+                                 <font>
+                                    <Font size="18.0" fx:id="x31" />
+                                 </font>
+                              </Button>
+                              <Label alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="110.0" prefWidth="250.0" text="Collects data on the range of a device. That is, calculates how far away a remote device is from a local device." wrapText="true">
+                                 <font>
+                                    <Font size="14.0" fx:id="x21" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
                   <children>
                     <Button mnemonicParsing="false" onAction="#handleLaunchPositioning" prefHeight="50.0" prefWidth="250.0" text="3D Positioning">
