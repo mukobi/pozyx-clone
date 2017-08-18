@@ -230,7 +230,7 @@ if  __name__ == "__main__":
             # Status is used for error handling
             one_cycle_position, status = r.loop()
 
-            if use_velocity:
+            if use_velocity and status == POZYX_SUCCESS:
                 # Updates and returns the new bins
                 binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
                     bin_time, timeDifference, one_cycle_position)
@@ -260,7 +260,7 @@ if  __name__ == "__main__":
             else:
                 ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
 
-            if to_use_file and status == POZYX_SUCCESS:             # writes the data returned from the iterate_file method to the file
+            if to_use_file:             # writes the data returned from the iterate_file method to the file
                 if use_velocity:
                     if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
                         FileWriting.write_position_and_velocity_data_to_file(
