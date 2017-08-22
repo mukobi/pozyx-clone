@@ -99,3 +99,5 @@ ENV/
 
 # Config
 .idea/
+.idea/misc.xml
+.idea/Pozyx.iml
