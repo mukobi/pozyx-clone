@@ -64,6 +64,7 @@ class ReadyToLocalize(object):
     def loop(self):
         """Performs positioning and displays/exports the results."""
         position = Coordinates()
+<<<<<<< HEAD
         status = self.pozyx.doPositioning(
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
         if status == POZYX_SUCCESS:
@@ -109,6 +110,62 @@ class ReadyToLocalize(object):
             # should only happen when not being able to communicate with a remote Pozyx.
 
     def setAnchorsManual(self):
+=======
+        calibration_status = SingleRegister()
+        if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+            global status
+            status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
+            status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
+            if status == POZYX_SUCCESS:
+                # check position status
+                status = self.pozyx.doPositioning(
+                    position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
+                if status == POZYX_SUCCESS:
+                    # self.print_publish_position(position)
+                    self.publish_sensor_data(sensor_data, calibration_status)
+                    position.x, position.y, position.z = "error", "error", "error"
+                    return sensor_data, position
+                else:
+                    pass
+                    # self.print_publish_error_code("positioning")
+        # return sensor_data, position
+        return "Error with positioning, check anchor configuration."
+        return status
+
+    def publish_sensor_data(self, sensor_data, calibration_status):
+        """Makes the OSC sensor data package and publishes it"""
+        self.msg_builder = OscMessageBuilder("/sensordata")
+        self.msg_builder.add_arg(int(1000 * (time() - self.current_time)))
+        # current_time = time()
+        self.add_sensor_data(sensor_data)
+        self.add_calibration_status(calibration_status)
+        self.osc_udp_client.send(self.msg_builder.build())
+
+    def add_sensor_data(self, sensor_data):
+        """Adds the sensor data to the OSC message"""
+        self.msg_builder.add_arg(sensor_data.pressure)
+        self.add_components_osc(sensor_data.acceleration)
+        self.add_components_osc(sensor_data.magnetic)
+        self.add_components_osc(sensor_data.angular_vel)
+        self.add_components_osc(sensor_data.euler_angles)
+        self.add_components_osc(sensor_data.quaternion)
+        self.add_components_osc(sensor_data.linear_acceleration)
+        self.add_components_osc(sensor_data.gravity_vector)
+
+    def add_components_osc(self, component):
+        """Adds a sensor data component to the OSC message"""
+        for data in component.data:
+            self.msg_builder.add_arg(float(data))
+
+    def add_calibration_status(self, calibration_status):
+        """Adds the calibration status data to the OSC message"""
+        self.msg_builder.add_arg(calibration_status[0] & 0x03)
+        self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
+        self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
+        self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
+
+    def set_anchors_manual(self):
+>>>>>>> development
         """Adds the manually measured anchors to the Pozyx's device list one for one."""
         status = self.pozyx.clearDevices(self.remote_id)
         for anchor in self.anchors:
@@ -230,10 +287,20 @@ if  __name__ == "__main__":
             # Status is used for error handling
             one_cycle_position, status = r.loop()
 
+<<<<<<< HEAD
             if use_velocity and status == POZYX_SUCCESS:
                 # Updates and returns the new bins
                 binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
                     bin_time, timeDifference, one_cycle_position)
+=======
+            if type(loop_results) == tuple:
+                one_cycle_sensor_data, one_cycle_position = loop_results
+
+                if use_velocity and status == POZYX_SUCCESS:
+                    #Updates and returns the new bins
+                    binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
+                        bin_time, time_difference, one_cycle_position)
+>>>>>>> development
 
                 # Can equal either simple or linreg
                 velocity_method = 'simple'
