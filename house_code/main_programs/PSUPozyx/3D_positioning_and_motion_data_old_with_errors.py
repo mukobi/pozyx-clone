@@ -57,13 +57,14 @@ class ReadyToLocalize(object):
         print()
         print("START Ranging: ")
         self.pozyx.clearDevices(self.remote_id)
-        # self.setAnchorsManual() # a bunch of errors
+        self.setAnchorsManual()
         self.printPublishConfigurationResult()
         network_id = self.remote_id
 
     def loop(self):
         """Performs positioning and displays/exports the results."""
         position = Coordinates()
+<<<<<<< HEAD
         status = self.pozyx.doPositioning(
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
         if status == POZYX_SUCCESS:
@@ -109,6 +110,7 @@ class ReadyToLocalize(object):
             # should only happen when not being able to communicate with a remote Pozyx.
 
     def setAnchorsManual(self):
+=======
         calibration_status = SingleRegister()
         if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
             global status
@@ -128,7 +130,7 @@ class ReadyToLocalize(object):
                     # self.print_publish_error_code("positioning")
         # return sensor_data, position
         return "Error with positioning, check anchor configuration."
-        # return status
+        return status
 
     def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
@@ -163,6 +165,7 @@ class ReadyToLocalize(object):
         self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
 
     def set_anchors_manual(self):
+>>>>>>> development
         """Adds the manually measured anchors to the Pozyx's device list one for one."""
         status = self.pozyx.clearDevices(self.remote_id)
         for anchor in self.anchors:
@@ -207,13 +210,6 @@ class ReadyToLocalize(object):
 
 
 if  __name__ == "__main__":
-    raise NotImplementedError("\n\nThis file is really messed up. Sensor data isn't collected in the current "
-                              "implementation, and there are a bunch of errors. It looks unfinished. Someone "
-                              "needs to take a look at it to see if they can manage to piece back together "
-                              "whatever was supposed to happen or else roll it back to a previous stable version.")
-
-
-
     serial_port = Configuration.get_correct_serial_port()
 
     remote = True                  # whether to use a remote device
@@ -289,22 +285,22 @@ if  __name__ == "__main__":
             timeDifference = newTime - oldTime
 
             # Status is used for error handling
-            loop_results = r.loop()
+            one_cycle_position, status = r.loop()
 
-# <<<<<<< HEAD
-#             if use_velocity and status == POZYX_SUCCESS:
-#                 # Updates and returns the new bins
-#                 binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
-#                     bin_time, timeDifference, one_cycle_position)
-# =======
+<<<<<<< HEAD
+            if use_velocity and status == POZYX_SUCCESS:
+                # Updates and returns the new bins
+                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
+                    bin_time, timeDifference, one_cycle_position)
+=======
             if type(loop_results) == tuple:
                 one_cycle_sensor_data, one_cycle_position = loop_results
 
-                if use_velocity: # and status == POZYX_SUCCESS:
+                if use_velocity and status == POZYX_SUCCESS:
                     #Updates and returns the new bins
                     binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
                         bin_time, time_difference, one_cycle_position)
-# >>>>>>> development
+>>>>>>> development
 
                 # Can equal either simple or linreg
                 velocity_method = 'simple'
