@@ -48,8 +48,12 @@ class ReadyToRange(object):
         """Performs ranging and sets the LEDs accordingly"""
         device_range = DeviceRange()
         status = self.pozyx.doRanging(self.destination_id, device_range, self.remote_id)
+<<<<<<< HEAD
 		
         if (status == POZYX_SUCCESS and device_range.RSS != 0):
+=======
+        if status == POZYX_SUCCESS and self.timestamp != 0:
+>>>>>>> development
             print(Index, "," , device_range)
         else:
             pass
@@ -69,12 +73,20 @@ class ReadyToRange(object):
 if __name__ == "__main__":
     port = get_serial_ports()[0].device                # COM port of the Pozyx device
 
+<<<<<<< HEAD
     remote_id = 0x6829           # the network ID of the remote device
+=======
+    remote_id = 0x6112           # the network ID of the remote device
+>>>>>>> development
     remote = False               # whether to use the given remote device for ranging
     if not remote:
         remote_id = None
 
+<<<<<<< HEAD
     destination_id = 0x6030      # network ID of the ranging destination
+=======
+    destination_id = 0x6129      # network ID of the ranging destination
+>>>>>>> development
     range_step_mm = 500	         # distance that separates the amount of LEDs lighting up.
 
     Index = 0
@@ -88,4 +100,7 @@ if __name__ == "__main__":
     while True:
         r.loop(Index = Index)
         Index = Index +1
+<<<<<<< HEAD
         
+=======
+>>>>>>> development
