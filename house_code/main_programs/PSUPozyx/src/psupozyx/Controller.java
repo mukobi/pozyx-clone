@@ -1,21 +1,25 @@
 package psupozyx;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 //import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import static java.lang.String.valueOf;
 
-public class Controller {
-//    @FXML
-//    private GridPane grid_pane_stage;
+public class Controller implements Initializable {
+
     private Stage stage = (Stage) null;
 
     @FXML
@@ -187,21 +191,6 @@ public class Controller {
     private String use_processing;
 
 
-    private String osName;
-
-    public void initialize() {
-        osName = System.getProperty("os.name");
-        load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
-
-        refreshDisabledMobileIds("0");
-        m_number_mobile_devices.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldStr, newStr) -> refreshDisabledMobileIds(newStr));
-
-        refreshDisabledAnchors("4");
-        m_number_anchors.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldStr, newStr) -> refreshDisabledAnchors(newStr));
-    }
-
     @FXML
     private void handleLoadButtonAction() {
         update_variables_from_gui();
@@ -238,25 +227,7 @@ public class Controller {
     @FXML
     private void handleLaunchRanging() {
         saveSettingsForUse();
-        if (osName.startsWith("Windows")) {
-            try {
-                Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python 1D_ranging.py");
-                p.waitFor();
-            }
-            catch (Exception err) {
-                err.printStackTrace();
-            }
-        }
-        else {
-            try {
-                String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_positioning.py"};
-                Process pr = Runtime.getRuntime().exec(cmd);
-                pr.waitFor(); System.out.println(pr.exitValue());
-            }
-            catch (Exception err) {
-                err.printStackTrace();
-            }
-        }
+        launchConsoleLogging("1D_ranging.py");
     }
 
     @FXML
@@ -265,45 +236,11 @@ public class Controller {
         switch(number_mobile_devices) {
             case "0":
             case "1":
-                // single or local positioning
-                if (osName.startsWith("Windows")) {
-                    try {
-                        Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python 3D_positioning.py");
-                        p.waitFor();
-                    } catch (Exception err) {
-                        err.printStackTrace();
-                    }
-                } else {
-                    try {
-                        //String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_positioning.py"};
-                        String[] cmd = new String[]{"python 3D_positioning.py"};
-                        Process pr = Runtime.getRuntime().exec(cmd);
-                        pr.waitFor();
-                        System.out.println(pr.exitValue());
-                    } catch (Exception err) {
-                        err.printStackTrace();
-                    }
-                }
+                launchConsoleLogging("3D_positioning.py");
                 break;
             default:
-                // multidevice positioning
-                if (osName.startsWith("Windows")) {
-                    try {
-                        Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python multidevice_positioning.py");
-                        p.waitFor();
-                    } catch (Exception err) {
-                        err.printStackTrace();
-                    }
-                } else {
-                    try {
-                        String[] cmd = new String[]{"/bin/sh", "-c", "python multidevice_positioning.py"};
-                        Process pr = Runtime.getRuntime().exec(cmd);
-                        pr.waitFor();
-                        System.out.println(pr.exitValue());
-                    } catch (Exception err) {
-                        err.printStackTrace();
-                    }
-                }
+                launchConsoleLogging("multidevice_positioning.py");
+                break;
         }
         if(use_processing.equals("true")) {
             m_status_display.setText("Starting Processing");
@@ -326,25 +263,7 @@ public class Controller {
     @FXML
     private void handleLaunchMotionData() {
         saveSettingsForUse();
-        if(osName.startsWith("Windows")) {
-            try {
-                Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python motion_data.py");
-                p.waitFor();
-                System.out.println(p.exitValue());
-            } catch (Exception err) {
-                err.printStackTrace();
-            }
-        }
-        else {
-            try {
-                String[] cmd = new String[]{"/bin/sh", "-c", "python motion_data.py"};
-                Process pr = Runtime.getRuntime().exec(cmd);
-                pr.waitFor();
-                System.out.println(pr.exitValue());
-            } catch (Exception err) {
-                err.printStackTrace();
-            }
-        }
+        launchConsoleLogging("motion_data.py");
         if(use_processing.equals("true")) {
             m_status_display.setText("Starting Processing");
             try {
@@ -366,25 +285,7 @@ public class Controller {
     @FXML
     private void handleLaunchPositioningAndMotionData() {
         saveSettingsForUse();
-        if(osName.startsWith("Windows")) {
-            try {
-                Process p = Runtime.getRuntime().exec("cmd /c start cmd /k python 3D_positioning_and_motion_data.py");
-                p.waitFor();
-                System.out.println(p.exitValue());
-            } catch (Exception err) {
-                err.printStackTrace();
-            }
-        }
-        else {
-            try {
-                String[] cmd = new String[]{"/bin/sh", "-c", "python 3D_position_and_motion_data.py"};
-                Process pr = Runtime.getRuntime().exec(cmd);
-                pr.waitFor();
-                System.out.println(pr.exitValue());
-            } catch (Exception err) {
-                err.printStackTrace();
-            }
-        }
+        launchConsoleLogging("3D_positioning_and_motion_data.py");
     }
 
     private void update_variables_from_gui() {
@@ -601,7 +502,7 @@ public class Controller {
         }
     }
 
-    private void refreshDisabledMobileIds(String newStr) {
+    private void refreshDisabledMobileIds() {
         m_mobile_device_1_id.setDisable(true);
         m_mobile_device_2_id.setDisable(true);
         m_mobile_device_3_id.setDisable(true);
@@ -649,7 +550,7 @@ public class Controller {
 
     }
 
-    private void refreshDisabledAnchors(String newStr) {
+    private void refreshDisabledAnchors() {
         TextField[] anchor_5 = {m_a5_id, m_a5_x, m_a5_y, m_a5_z};
         TextField[] anchor_6 = {m_a6_id, m_a6_x, m_a6_y, m_a6_z};
         TextField[] anchor_7 = {m_a7_id, m_a7_x, m_a7_y, m_a7_z};
@@ -699,6 +600,76 @@ public class Controller {
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Properties", "*.properties")
         );
+    }
+
+    private void launchConsoleLogging(String py_script_name) {
+        try {
+            stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("console_window.fxml"));
+            Parent root1 = (Parent) loader.load();
+            stage.setTitle("Console Output");
+            stage.setScene(new Scene(root1));
+            stage.setMaximized(true);
+            stage.initOwner(m_status_display.getScene().getWindow());
+            stage.initStyle(StageStyle.DECORATED);
+            ConsoleWindow console_controller = loader.getController();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    System.out.println("Stage is closing");
+                    console_controller.terminateProcess();
+                }
+            });
+            stage.show();
+
+            console_controller.launchPyScript(py_script_name);
+//            Stage console_stage = new Stage();
+//            console_stage.setTitle("Console Output");
+//            console_stage.setScene(new Scene(root1));
+//            console_stage.setMaximized(true);
+//            console_stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//                @Override
+//                public void handle(final WindowEvent arg0) {
+//                    console_stage.close();
+//                }
+//            });
+//            console_stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+//        stage = new Stage();
+//        try {
+//            Parent root = FXMLLoader.load(getClass().getResource("/psupozyx/console_window.fxml"));
+//            stage.setScene(new Scene(root));
+//            stage.setTitle("Console Output");
+//            stage.setMaximized(true);
+//            stage.initModality(Modality.WINDOW_MODAL);
+//            stage.initOwner(m_status_display.getScene().getWindow());
+//            stage.setOnCloseRequest((WindowEvent event1) -> {
+//                System.out.println("closed");
+//                stage.close();
+//            });
+//            stage.showAndWait();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
+
+        refreshDisabledMobileIds();
+        m_number_mobile_devices.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldStr, newStr) -> refreshDisabledMobileIds());
+
+        refreshDisabledAnchors();
+        m_number_anchors.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldStr, newStr) -> refreshDisabledAnchors());
     }
 }
 
