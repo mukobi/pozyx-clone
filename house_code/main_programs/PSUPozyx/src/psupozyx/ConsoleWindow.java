@@ -3,6 +3,7 @@ package psupozyx;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import sun.rmi.log.LogOutputStream;
@@ -15,12 +16,11 @@ import java.util.ResourceBundle;
 
 public class ConsoleWindow implements Initializable {
     @FXML
-    private TextArea console;
+    private Label console;
 
     private Process pr;
 
     void launchPyScript(String py_script_name) {
-        console.setText("Waiting for script to collect data...\n");
         console.setText("");
         new Thread(() -> {
             try {
@@ -37,7 +37,7 @@ public class ConsoleWindow implements Initializable {
                 int timePos;
                 float pyElapsedTime;
 
-                double delayTime = 0.0;
+                double delayTime = 3.0;
 
                 long newTime;
                 long nanodifference;
@@ -99,11 +99,14 @@ public class ConsoleWindow implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        console.setText("Waiting for script to collect data...\n");
     }
 
 
-    public void terminateProcess() {
-        pr.destroy();
+    void terminateProcess() {
+        if (pr != null) {
+            pr.destroy();
+        }
     }
 
 }

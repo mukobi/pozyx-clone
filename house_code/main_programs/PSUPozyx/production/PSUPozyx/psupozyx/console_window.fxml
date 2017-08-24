@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <?import javafx.stage.Screen?>
-<?import javafx.scene.control.TextArea?>
-<AnchorPane prefWidth="${screen.visualBounds.width}"
-            prefHeight="${screen.visualBounds.height}" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.ConsoleWindow">
+<AnchorPane prefHeight="${screen.visualBounds.height}" prefWidth="${screen.visualBounds.width}" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.ConsoleWindow">
     <fx:define>
-        <Screen fx:factory="getPrimary" fx:id="screen"/>
+        <Screen fx:id="screen" fx:factory="getPrimary" />
     </fx:define>
    <children>
-      <TextArea fx:id="console" editable="false" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" >
-      </TextArea>
+      <Label fx:id="console" alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      </Label>
    </children>
 </AnchorPane>
