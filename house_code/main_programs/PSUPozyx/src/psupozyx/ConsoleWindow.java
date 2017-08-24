@@ -17,6 +17,8 @@ public class ConsoleWindow implements Initializable {
     @FXML
     private TextArea console;
 
+    private Process pr;
+
     void launchPyScript(String py_script_name) {
         console.setText("Waiting for script to collect data...\n");
         console.setText("");
@@ -26,7 +28,7 @@ public class ConsoleWindow implements Initializable {
 
                 ps.redirectErrorStream(true);
 
-                Process pr = ps.start();
+                pr = ps.start();
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()), 16);
                 String line;
@@ -35,12 +37,13 @@ public class ConsoleWindow implements Initializable {
                 int timePos;
                 float pyElapsedTime;
 
-                double delayTime = 3.0;
+                double delayTime = 0.0;
 
                 long newTime;
                 long nanodifference;
                 long oldTime = System.nanoTime();
                 float secondDif;
+
 
                 // read python script output
                 while ((line = in.readLine()) != null) {
@@ -56,7 +59,7 @@ public class ConsoleWindow implements Initializable {
                         newTime = System.nanoTime();
                         nanodifference = newTime - oldTime;
                         secondDif = (float) (nanodifference / 1000000000.0);
-                        Thread.sleep(5);
+                        // Thread.sleep(5);
                         while (secondDif < (pyElapsedTime + delayTime)) {
                             newTime = System.nanoTime();
                             nanodifference = newTime - oldTime;
@@ -69,9 +72,14 @@ public class ConsoleWindow implements Initializable {
                     }
 
 
+
                     // add input line to the top of the textarea
                     // if I comment this out, no errors
-                    console.setText(line + '\n' + console.getText());
+
+                    final String finalLine = line;
+                    javafx.application.Platform.runLater( () -> console.setText(finalLine + '\n' + console.getText()));
+
+
 
                     // for debugging
                     System.out.println(String.valueOf(line));
@@ -85,9 +93,17 @@ public class ConsoleWindow implements Initializable {
                 e.printStackTrace();
             }
         }).start();
+
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
+
+
+    public void terminateProcess() {
+        pr.destroy();
+    }
+
 }
