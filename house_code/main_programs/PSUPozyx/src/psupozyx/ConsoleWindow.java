@@ -73,8 +73,7 @@ public class ConsoleWindow implements Initializable {
 
 
 
-                    // add input line to the top of the textarea
-                    // if I comment this out, no errors
+                    // add input line to the top of the console Label
 
                     final String finalLine = line;
                     javafx.application.Platform.runLater( () -> console.setText(finalLine + '\n' + console.getText()));
@@ -85,7 +84,6 @@ public class ConsoleWindow implements Initializable {
                     System.out.println(String.valueOf(line));
                 }
                 pr.waitFor();
-                System.out.println("ok!");
 
                 in.close();
 
@@ -93,8 +91,6 @@ public class ConsoleWindow implements Initializable {
                 e.printStackTrace();
             }
         }).start();
-
-
     }
 
     @Override
