@@ -606,54 +606,23 @@ public class Controller implements Initializable {
         try {
             stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("console_window.fxml"));
-            Parent root1 = (Parent) loader.load();
+            Parent root1 = loader.load();
             stage.setTitle("Console Output");
             stage.setScene(new Scene(root1));
             stage.setMaximized(true);
             stage.initOwner(m_status_display.getScene().getWindow());
             stage.initStyle(StageStyle.DECORATED);
             ConsoleWindow console_controller = loader.getController();
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    System.out.println("Stage is closing");
-                    console_controller.terminateProcess();
-                }
+            stage.setOnCloseRequest(we -> {
+                console_controller.terminateProcess();
             });
             stage.show();
 
             console_controller.launchPyScript(py_script_name);
-//            Stage console_stage = new Stage();
-//            console_stage.setTitle("Console Output");
-//            console_stage.setScene(new Scene(root1));
-//            console_stage.setMaximized(true);
-//            console_stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//                @Override
-//                public void handle(final WindowEvent arg0) {
-//                    console_stage.close();
-//                }
-//            });
-//            console_stage.showAndWait();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-//        stage = new Stage();
-//        try {
-//            Parent root = FXMLLoader.load(getClass().getResource("/psupozyx/console_window.fxml"));
-//            stage.setScene(new Scene(root));
-//            stage.setTitle("Console Output");
-//            stage.setMaximized(true);
-//            stage.initModality(Modality.WINDOW_MODAL);
-//            stage.initOwner(m_status_display.getScene().getWindow());
-//            stage.setOnCloseRequest((WindowEvent event1) -> {
-//                System.out.println("closed");
-//                stage.close();
-//            });
-//            stage.showAndWait();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
 
