@@ -10,6 +10,7 @@ import sun.rmi.log.LogOutputStream;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,19 +20,23 @@ public class ConsoleWindow implements Initializable {
     private Label console;
 
     private Process pr;
+    
+    private static final int CHARACTERDISPLAYBUFFER = 30000;
 
     void launchPyScript(String py_script_name) {
-        console.setText("");
         new Thread(() -> {
             try {
-                ProcessBuilder ps=new ProcessBuilder("python", py_script_name);
+                console.setText("");
+                ProcessBuilder ps=new ProcessBuilder("python", "-u", py_script_name);
 
                 ps.redirectErrorStream(true);
 
                 pr = ps.start();
+                InputStream inputStream = pr.getInputStream();
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()), 16);
+                BufferedReader in = new BufferedReader(new InputStreamReader(inputStream), 2048);
                 String line;
+                String pooledOutput;
 
 
                 int timePos;
@@ -48,7 +53,7 @@ public class ConsoleWindow implements Initializable {
                 // read python script output
                 while ((line = in.readLine()) != null) {
 
-
+                    /*
                     // if the line has time information
                     if (line.contains(" Time: ")) {
                         // is a data line
@@ -70,13 +75,17 @@ public class ConsoleWindow implements Initializable {
                     } else {
                         Thread.sleep(30);
                     }
+                    */
 
-
-
+                    //Thread.sleep(10);
                     // add input line to the top of the console Label
 
-                    final String finalLine = line;
-                    javafx.application.Platform.runLater( () -> console.setText(finalLine + '\n' + console.getText()));
+                    pooledOutput = line + '\n' + console.getText();
+                    if(pooledOutput.length() >= CHARACTERDISPLAYBUFFER) {
+                        pooledOutput = pooledOutput.substring(0, CHARACTERDISPLAYBUFFER);
+                    }
+                    final String finalOutput = pooledOutput;
+                    javafx.application.Platform.runLater( () -> console.setText(finalOutput));
 
 
 
@@ -95,7 +104,6 @@ public class ConsoleWindow implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        console.setText("Waiting for script to collect data...\n");
     }
 
 
