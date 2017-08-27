@@ -1,5 +1,7 @@
 package psupozyx;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,8 +24,6 @@ public class Controller implements Initializable {
 
     private Stage stage = (Stage) null;
 
-    @FXML
-    private Label m_status_display;
     // interface fields
     @FXML
     private ChoiceBox<String> m_number_mobile_devices;
@@ -213,7 +213,6 @@ public class Controller implements Initializable {
         if (templateFile != null) {
             String templatePath = templateFile.getAbsolutePath();
             save_properties_to_file(templatePath);
-            m_status_display.setText("Saved settings to template.");
         }
 
     }
@@ -221,7 +220,6 @@ public class Controller implements Initializable {
     private void saveSettingsForUse() {
         update_variables_from_gui();
         save_properties_to_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
-        m_status_display.setText("Saved active settings for use.");
     }
 
     @FXML
@@ -243,7 +241,6 @@ public class Controller implements Initializable {
                 break;
         }
         if(use_processing.equals("true")) {
-            m_status_display.setText("Starting Processing");
             try {
                 File this_file = new File(
                         Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
@@ -265,7 +262,6 @@ public class Controller implements Initializable {
         saveSettingsForUse();
         launchConsoleLogging("motion_data.py");
         if(use_processing.equals("true")) {
-            m_status_display.setText("Starting Processing");
             try {
                 File this_file = new File(
                         Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
@@ -430,7 +426,6 @@ public class Controller implements Initializable {
 
     private void load_properties_from_file(String loadPath) {
         if(!loadPath.endsWith(".properties")) {
-            m_status_display.setText("Invalid file, cannot read properties");
             return;
         }
         Properties prop = new Properties();
@@ -494,8 +489,6 @@ public class Controller implements Initializable {
             m_use_processing.setSelected(Boolean.valueOf(prop.getProperty("use_processing", "")));
 
             update_variables_from_gui();
-
-            m_status_display.setText("Loaded settings from template.");
         }
         catch (IOException ex) {
             ex.printStackTrace();
@@ -610,7 +603,7 @@ public class Controller implements Initializable {
             stage.setTitle("Console Output");
             stage.setScene(new Scene(root1));
             stage.setMaximized(true);
-            stage.initOwner(m_status_display.getScene().getWindow());
+            stage.initOwner(m_a1_id.getScene().getWindow());
             stage.initStyle(StageStyle.DECORATED);
             ConsoleWindow console_controller = loader.getController();
             stage.setOnCloseRequest(we -> {
@@ -639,6 +632,10 @@ public class Controller implements Initializable {
         refreshDisabledAnchors();
         m_number_anchors.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldStr, newStr) -> refreshDisabledAnchors());
+    }
+
+    public void handleQuit(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
 
