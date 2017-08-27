@@ -2,7 +2,6 @@ package psupozyx;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -598,7 +597,7 @@ public class Controller implements Initializable {
     private void launchConsoleLogging(String py_script_name) {
         try {
             stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("console_window.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/console_window.fxml"));
             Parent root1 = loader.load();
             stage.setTitle("Console Output");
             stage.setScene(new Scene(root1));
@@ -636,6 +635,11 @@ public class Controller implements Initializable {
 
     public void handleQuit(ActionEvent actionEvent) {
         Platform.exit();
+    }
+
+    public void handleConfigureUwbSettings(ActionEvent actionEvent) {
+        Main main = new Main();
+        main.changeStage("/psupozyx/fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 1024, 768);
     }
 }
 
