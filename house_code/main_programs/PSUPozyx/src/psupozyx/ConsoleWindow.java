@@ -38,47 +38,8 @@ public class ConsoleWindow implements Initializable {
                 String line;
                 String pooledOutput;
 
-
-                int timePos;
-                float pyElapsedTime;
-
-                double delayTime = 3.0;
-
-                long newTime;
-                long nanodifference;
-                long oldTime = System.nanoTime();
-                float secondDif;
-
-
                 // read python script output
                 while ((line = in.readLine()) != null) {
-
-                    /*
-                    // if the line has time information
-                    if (line.contains(" Time: ")) {
-                        // is a data line
-                        timePos = line.indexOf("Time:");
-                        pyElapsedTime = 1 * Float.parseFloat((line.substring(timePos + 6, timePos + 16)));
-
-
-                        newTime = System.nanoTime();
-                        nanodifference = newTime - oldTime;
-                        secondDif = (float) (nanodifference / 1000000000.0);
-                        // Thread.sleep(5);
-                        while (secondDif < (pyElapsedTime + delayTime)) {
-                            newTime = System.nanoTime();
-                            nanodifference = newTime - oldTime;
-                            secondDif = (float) (nanodifference / 1000000000.0);
-                            Thread.sleep(5);
-                        }
-
-                    } else {
-                        Thread.sleep(30);
-                    }
-                    */
-
-                    //Thread.sleep(10);
-                    // add input line to the top of the console Label
 
                     pooledOutput = line + '\n' + console.getText();
                     if(pooledOutput.length() >= CHARACTERDISPLAYBUFFER) {
@@ -86,11 +47,6 @@ public class ConsoleWindow implements Initializable {
                     }
                     final String finalOutput = pooledOutput;
                     javafx.application.Platform.runLater( () -> console.setText(finalOutput));
-
-
-
-                    // for debugging
-                    System.out.println(String.valueOf(line));
                 }
                 pr.waitFor();
 
@@ -112,5 +68,4 @@ public class ConsoleWindow implements Initializable {
             pr.destroy();
         }
     }
-
 }
