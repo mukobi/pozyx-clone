@@ -225,6 +225,8 @@
                                                 <String fx:value="23.0" />
                                                 <String fx:value="23.5" />
                                                 <String fx:value="24.0" />
+                                                <String fx:value="24.5" />
+                                                <String fx:value="25.0" />
                                                 <String fx:value="25.5" />
                                                 <String fx:value="26.0" />
                                                 <String fx:value="27.5" />
@@ -288,10 +290,10 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Run">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleLaunchRanging" text="1D Ranging" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleLaunchPositioning" text="3D Positioning" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleLaunchMotionData" text="Motion Data" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" text="3D Positioning and Motion Data" />
+              <MenuItem mnemonicParsing="false" text="1D Ranging" />
+                  <MenuItem mnemonicParsing="false" text="3D Positioning" />
+                  <MenuItem mnemonicParsing="false" text="Motion Data" />
+                  <MenuItem mnemonicParsing="false" text="3D Positioning and Motion Data" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Analyze">
