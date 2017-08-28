@@ -639,7 +639,7 @@ public class Controller implements Initializable {
 
     public void handleConfigureUwbSettings(ActionEvent actionEvent) {
         Main main = new Main();
-        main.changeStage("/psupozyx/fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 1024, 768);
+        main.openStage("/psupozyx/fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 1024, 768);
     }
 }
 
