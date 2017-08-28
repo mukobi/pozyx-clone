@@ -11,7 +11,7 @@
     <fx:define>
         <Screen fx:id="screen" fx:factory="getPrimary"/>
     </fx:define>
-    <Label text="Waiting to collect data..." fx:id="console" alignment="TOP_CENTER" textOverrun="CLIP"
+    <Label fx:id="console" alignment="TOP_CENTER" textOverrun="CLIP"
            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
            AnchorPane.topAnchor="0.0">
         <font>
