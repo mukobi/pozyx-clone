@@ -1,5 +1,6 @@
 package psupozyx;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,11 +24,15 @@ public class ConsoleWindow implements Initializable {
     
     private static final int CHARACTERDISPLAYBUFFER = 30000;
 
-    void launchPyScript(String py_script_name) {
+    void launchPyScript(String startMessage, String... pythonCommand) {
+        if (startMessage != null) {
+            console.setText(startMessage);
+        }
         new Thread(() -> {
             try {
-                console.setText("");
-                ProcessBuilder ps=new ProcessBuilder("python", "-u", py_script_name);
+
+
+                ProcessBuilder ps=new ProcessBuilder(pythonCommand);
 
                 ps.redirectErrorStream(true);
 
@@ -61,7 +66,6 @@ public class ConsoleWindow implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
-
 
     void terminateProcess() {
         if (pr != null) {
