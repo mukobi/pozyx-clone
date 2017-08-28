@@ -24,7 +24,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    public void changeStage(String fxmlPath, String title, int width, int height) {
+    void openStage(String fxmlPath, String title, int width, int height) {
         try {
             root = FXMLLoader.load(getClass().getResource(fxmlPath));
         } catch (IOException e) {
