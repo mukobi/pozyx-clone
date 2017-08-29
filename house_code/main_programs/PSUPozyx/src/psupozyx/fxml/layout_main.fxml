@@ -2,11 +2,15 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,19 +22,19 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="grid_pane_stage" alignment="CENTER" hgap="10.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.Controller">
+<GridPane fx:id="grid_pane_stage" alignment="CENTER" hgap="10.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.Controller">
   <children>
-    <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+    <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="743.0" maxWidth="1024.0" minHeight="743.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="743.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
       <items>
-        <AnchorPane maxWidth="274.0" minHeight="0.0" minWidth="274.0" prefHeight="768.0" prefWidth="274.0" style="-fx-background-color: white;">
+        <AnchorPane maxWidth="274.0" minHeight="743.0" minWidth="274.0" prefHeight="743.0" prefWidth="274.0" style="-fx-background-color: white;">
           <children>
-            <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="75.0" spacing="10.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="75.0" spacing="5.0">
               <children>
                         <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#handleLaunchRanging" prefHeight="50.0" prefWidth="250.0" text="1D Ranging">
                                  <font>
-                                    <Font size="18.0" fx:id="x31" />
+                                    <Font size="15.0" fx:id="x31" />
                                  </font>
                               </Button>
                               <Label alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="110.0" prefWidth="250.0" text="Collects data on the range of a device. That is, calculates how far away a remote device is from a local device." wrapText="true">
@@ -44,7 +48,7 @@
                   <children>
                     <Button mnemonicParsing="false" onAction="#handleLaunchPositioning" prefHeight="50.0" prefWidth="250.0" text="3D Positioning">
                       <font>
-                        <Font size="18.0" fx:id="x3" />
+                        <Font size="15.0" fx:id="x3" />
                       </font>
                     </Button>
                     <Label alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="110.0" prefWidth="250.0" text="Collects data on the position of a device in 3 dimensions. Requires the use of 4 or more anchors with their coordinates configured in the settings at the right." wrapText="true">
@@ -56,13 +60,19 @@
                 </VBox>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchMotionData" prefHeight="50.0" prefWidth="250.0" text="Motion Data" />
+                    <Button mnemonicParsing="false" onAction="#handleLaunchMotionData" prefHeight="50.0" prefWidth="250.0" text="Motion Data">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Button>
                     <Label alignment="TOP_LEFT" font="$x2" prefHeight="110.0" prefWidth="250.0" text="Collects data from the different sensors onboard a device, including acceleration, orientation, angular velocity, gravity, pressure, temperature, linear acceleration, and magnetic fields." wrapText="true" />
                   </children>
                 </VBox>
                 <VBox id="VBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <Button font="$x3" mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" prefHeight="50.0" prefWidth="250.0" text="Positioning and Motion Data" textOverrun="ELLIPSIS" wrapText="true" />
+                    <Button mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" prefHeight="50.0" prefWidth="250.0" text="3D Positioning and Motion Data" textOverrun="ELLIPSIS" wrapText="true">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Button>
                     <Label alignment="TOP_LEFT" font="$x2" prefHeight="110.0" prefWidth="250.0" text="Combines the 3D Positioning and Motion Data functionality to collect data from a devices sensors and collect data on its position simultaneously. " wrapText="true" />
                   </children>
                 </VBox>
@@ -78,13 +88,13 @@
             </Label>
           </children>
         </AnchorPane>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="768.0" minWidth="750.0" prefHeight="768.0" prefWidth="750.0" style="-fx-background-color: #6a7f10;">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="743.0" minWidth="750.0" prefHeight="743.0" prefWidth="750.0" style="-fx-background-color: #6a7f10;">
           <children>
             <Label id="changeLabel" alignment="CENTER" font="$x1" text="Configuration Settings" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
             <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="99.0" spacing="50.0" />
-            <Label font="$x3" layoutY="54.0" text="Mobile Devices" textFill="WHITE" AnchorPane.leftAnchor="21.0" />
-            <Label font="$x3" layoutX="21.0" layoutY="165.0" text="Anchors" textFill="WHITE" />
-            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="197.0" spacing="10.0">
+            <Label font="$x3" layoutX="19.0" layoutY="95.0" text="Mobile Devices" textFill="WHITE" AnchorPane.leftAnchor="19.0" />
+            <Label font="$x3" layoutX="21.0" layoutY="223.0" text="Anchors" textFill="WHITE" />
+            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="255.0" spacing="10.0">
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
@@ -184,7 +194,7 @@
                 </HBox>
               </children>
             </VBox>
-            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="493.0" spacing="20.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="592.0" spacing="20.0">
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
@@ -204,9 +214,9 @@
                 </HBox>
               </children>
             </VBox>
-            <Label font="$x3" layoutX="21.0" layoutY="464.0" text="Sensor Data " textFill="WHITE" />
-            <Label font="$x3" layoutX="21.0" layoutY="558.0" text="File Writing" textFill="WHITE" />
-            <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="589.0" spacing="30.0">
+            <Label font="$x3" layoutX="21.0" layoutY="563.0" text="Sensor Data " textFill="WHITE" />
+            <Label font="$x3" layoutX="21.0" layoutY="666.0" text="Output" textFill="WHITE" />
+            <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="697.0" spacing="30.0">
               <children>
                 <CheckBox id="write_data_to_file" fx:id="m_use_file" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Write Data to File" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
@@ -215,30 +225,14 @@
                     <TextField id="filename" fx:id="m_filename" prefWidth="200.0" promptText="filename" />
                   </children>
                 </HBox>
+                  <CheckBox id="use_processing" fx:id="m_use_processing" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Show Real-Time Visualization" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
                 <HBox id="HBox" alignment="CENTER" spacing="10.0" />
               </children>
             </HBox>
             <Group id="Group" layoutX="521.0" layoutY="601.0" />
-            <Label font="$x3" layoutX="21.0" layoutY="627.0" text="Graphing" textFill="WHITE" />
-            <CheckBox id="use_processing" fx:id="m_use_processing" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" layoutX="56.0" layoutY="660.0" mnemonicParsing="false" text="Output Data Graphically Using Processing" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
-            <HBox id="HBox" alignment="CENTER" layoutY="702.0" prefWidth="800.0" spacing="30.0" AnchorPane.leftAnchor="9.0">
-              <children>
-                <Button mnemonicParsing="false" onAction="#handleLoadButtonAction" prefHeight="50.0" prefWidth="150.0" style="&#10;" text="Load Settings" textFill="BLACK">
-                  <font>
-                    <Font size="16.0" fx:id="x5" />
-                  </font>
-                </Button>
-                <Button font="$x5" mnemonicParsing="false" onAction="#handleSaveTemplateButtonAction" prefHeight="50.0" prefWidth="150.0" style="&#10;" text="Save Settings" textFill="BLACK" wrapText="true" />
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
-                  <children>
-                    <Label font="$x2" text="Status:" textFill="WHITE" />
-                    <Label fx:id="m_status_display" font="$x2" prefWidth="220.0" style="-fx-background-color: white;&#10;-fx-padding: 5px;&#10;-fx-border-color: black;&#10;-fx-border-width: 3px;" text="Nothing to show yet" textFill="BLACK" wrapText="true" />
-                  </children>
-                </HBox>
-              </children>
-            </HBox>
+            <HBox id="HBox" alignment="CENTER" layoutY="702.0" prefWidth="800.0" spacing="30.0" AnchorPane.leftAnchor="9.0" />
             <HBox id="HBox" alignment="CENTER" layoutX="508.0" layoutY="663.0" prefHeight="32.0" spacing="5.0" />
-            <HBox id="HBox" alignment="CENTER" layoutX="190.0" layoutY="55.0" spacing="5.0">
+            <HBox id="HBox" alignment="CENTER" layoutX="190.0" layoutY="95.0" spacing="5.0">
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
@@ -263,7 +257,7 @@
                 </HBox>
               </children>
             </HBox>
-            <VBox id="VBox" alignment="CENTER" layoutX="62.0" layoutY="94.0" spacing="10.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="62.0" layoutY="129.0" spacing="10.0">
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="40.0">
                   <children>
@@ -317,7 +311,7 @@
                 <HBox id="HBox" alignment="CENTER" spacing="5.0" />
               </children>
             </HBox>
-            <Label font="$x2" layoutX="190.0" layoutY="167.0" text="Number of Anchors" textFill="WHITE">
+            <Label font="$x2" layoutX="190.0" layoutY="223.0" text="Number of Anchors" textFill="WHITE">
               <graphic>
                 <ChoiceBox fx:id="m_number_anchors" prefWidth="50.0" value="4">
                   <items>
@@ -335,7 +329,46 @@
           </children>
         </AnchorPane>
       </items>
+         <GridPane.margin>
+            <Insets top="25.0" />
+         </GridPane.margin>
     </SplitPane>
+      <MenuBar GridPane.valignment="TOP">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#handleLoadButtonAction" text="Load Settings" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveTemplateButtonAction" text="Save Settings" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Setup">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Configure UWB Settings" onAction="#handleConfigureUwbSettings" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Run">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#handleLaunchRanging" text="1D Ranging" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLaunchPositioning" text="3D Positioning" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLaunchMotionData" text="Motion Data" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" text="3D Positioning and Motion Data" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Analyze">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Replay Data" />
+                  <MenuItem mnemonicParsing="false" text="Graph Data" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Pozyx Help" />
+                  <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
   </children>
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
