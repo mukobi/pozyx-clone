@@ -136,6 +136,62 @@ class ConsoleLoggingFunctions:
         print(output)
 
     @staticmethod
+    def log_position_to_console_1d(index, elapsed, position):
+        """
+        Prints a line of data to the console
+
+        :param int index: data index
+        :param float elapsed: elapsed time since the program started
+        :param position: position data
+        """
+        output = str(index)
+        output += " Time: "
+        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz: "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        output += ave_hertz_str
+
+        # if the data passed was an error string
+        if type(position) == str:
+            output += position
+        else:
+            output += (" | Pos: " + "X: " + str(position.distance))
+
+        print(output)
+
+    @staticmethod
+    def log_position_and_velocity_to_console_1d(index, elapsed, position, velocity):
+        """
+        Prints a line of data to the console
+
+        :param int index: data index
+        :param float elapsed: elapsed time since the program started
+        :param position: position data
+        """
+        output = str(index)
+        output += " Time: "
+        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz: "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        output += ave_hertz_str
+
+        # if the data passed was an error string
+        if type(position) == str:
+            output += position
+        else:
+            output += (" | Pos: " + "X: " + str(position.distance))
+
+        output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity, 7))
+
+
+        print(output)
+
+
+    @staticmethod
     def log_multitag_position_to_console(index, elapsed, position_array):
         """
         Prints a line of data to the console
