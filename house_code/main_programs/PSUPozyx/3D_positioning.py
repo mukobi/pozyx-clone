@@ -167,6 +167,8 @@ if  __name__ == "__main__":
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties()
 
+    use_processing = True
+
     if not remote:
         remote_id = None
 
