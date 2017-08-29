@@ -12,6 +12,37 @@ class DataFunctions:
         return median
 
     @staticmethod
+    def find_total_distance1D(__pos_x, prev_pos_x,  velocity,total_distance):
+        """
+        Function to determine the total distance travelled by the Pozyx device
+
+        :param float pos_*: the current x, y or z position data based on mean calculation
+        :param float prev_pos_*: the previous x, y or z position stored from last iterate_file
+        :param float velocity_*: the calculated x, y or z velocity
+        :param float total_distance: the variable storing the total distance travelled
+
+        :return float total_distance: updates the total distance travelled
+        :return float total_velocity: the velocity of all directions combined for use in velocity_bins function
+
+        Notes:
+        The baseline velocity for adding to the total distance was roughly determined based on one test of 75 seconds of
+        taking data with a still device to see what the maximum possible velocity could be.
+        """
+        from math import sqrt
+
+        total_velocity = (velocity_x + velocity_y + velocity_z)
+        #Getting TypeError: cannot perform reduce with flexible type
+        pos_x = Velocity.position_mean_calculation(__pos_x)
+        pos_y = Velocity.position_mean_calculation(__pos_y)
+        pos_z = Velocity.position_mean_calculation(__pos_z)
+
+        if total_velocity > 2500:
+            total_distance += sqrt((pos_x - prev_pos_x)**2 + (pos_x - prev_pos_x)**2 + (pos_x - prev_pos_x)**2)
+
+        return total_distance, total_velocity
+
+
+    @staticmethod
     def find_total_distance(__pos_x, __pos_y, __pos_z, prev_pos_x, prev_pos_y, prev_pos_z, velocity_x, velocity_y, velocity_z, total_distance):
         """
         Function to determine the total distance travelled by the Pozyx device
@@ -162,6 +193,32 @@ class Velocity:
     """
     This class is to be used for the calculation of velocity on the X, Y and Z axes.
     """
+
+    @staticmethod
+    def update_bins1D(bin_pos,bin_time, elapsed, one_cycle_position):
+        """
+        This function updates the position and time bins used for calculation
+
+        :param object bin_pos_x: this is the object storing x position data
+        :param object bin_pos_y: this is the object storing y position data
+        :param object bin_pos_z: this is the object storing z position data
+
+        :return list binned_pos_x: the list of x position data
+        :return list binned_pos_y: the list of y position data
+        :return list binned_pos_z: the list of z position data
+        :return list binned_time: the list of previous time data
+        """
+        from modules.data_averaging import BinData as BinData
+
+        BinData.add(bin_pos, one_cycle_position.distance)         #creating a list of x position data points for calculation
+        binned_pos = BinData.return_data(bin_pos)         #getting that list
+
+        BinData.add(bin_time, elapsed)
+        binned_time = BinData.return_data(bin_time)
+
+        return binned_pos, binned_time
+
+
     @staticmethod
     def update_bins(bin_pos_x, bin_pos_y, bin_pos_z, bin_time, elapsed, one_cycle_position):
         """
@@ -257,6 +314,25 @@ class Velocity:
         return mean_bin_time
 
     @staticmethod
+    def update_previous_bins1D(binned_pos):
+        """
+        This function updates the bins for previous position bins and returns them at the end of the iterate_file.
+
+        :param binned_pos_x: the x position data already used in calculation
+        :param binned_pos_y: the y position data already used in calculation
+        :param binned_pos_z: the z position data already used in calculation
+        """
+
+        import numpy as np
+
+        prev_bin_pos = binned_pos           #Updates the previous x position bin
+        mean_prev_bin_pos = np.mean(prev_bin_pos)    #Calculates the mean of the previous x position data
+
+
+        return mean_prev_bin_pos
+
+
+    @staticmethod
     def update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z):
         """
         This function updates the bins for previous position bins and returns them at the end of the iterate_file.
@@ -333,6 +409,57 @@ class Velocity:
             return velocity
         else:
             return np.nan
+
+    def initialize_bins1D(bin_input):
+        """
+        Function to create the deque objects that are needed for easily binning the data.
+
+        :param integer bin_input: the size of the bins
+
+        :return object bin_pos_*: each object that will bin the data to calculate velocity
+        :return integer prev_bin_*: the initialized previous bins that will be used
+        :return object bin_time: the object for binning time
+        """
+        from .data_averaging import BinData
+        bin_pos = BinData(bin_size = bin_input)   # Creating position deque objects to calculate velocity
+        prev_bin_pos = 0                          # Initializing the previous points
+
+        bin_time = BinData(bin_size = bin_input)
+
+        return bin_pos, prev_bin_pos, bin_time
+
+    def initialize_mean_prev_bins1D():
+        """
+        Initializing the mena previous bins for use.
+
+        :return mean_prev_bin_pos_*: these are meant to be the means of the bins of previous data taken by Pozyx
+
+        Note: the class ignores the functions until it gets data other than a 0
+        """
+        mean_prev_bin_pos = 0
+
+        return mean_prev_bin_pos
+
+    def find_velocity1D(index, bin_input, binned_pos, mean_prev_bin_pos, binned_time, velocity_method):
+        """
+        This function simply reduces the 3D code to three lines that calculate the velocity by calling on the find_velocity function.
+
+        :param integer index: the index
+        :param integer bin_input: the size of the bin
+        :param float binned_pos_*: the current binned position for each direction
+        :param integer mean_prev_bin_pos_*: the mean of the previos bin of data
+        :param float binned_time: the bin of time data to get the mean time
+        :param string velocity_method: this is the method for calculating velocity
+
+        :return float velocity_*: this returns each of the X, Y, and Z velocities
+        """
+
+        import numpy as np
+
+        velocity = Velocity.find_velocity(index, bin_input, binned_pos, mean_prev_bin_pos, binned_time, method = velocity_method)    #Calculates x velocity
+
+
+        return velocity
 
     def initialize_bins3D(bin_input):
         """
