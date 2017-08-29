@@ -90,7 +90,7 @@ class ReadyToRange(object):
             network_id = 0
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
-                "/position", [network_id, int(device_range.timestamp), int(device_range.distance), int(device_range.RSS)])
+                "/position", [network_id, int(device_range.timestamp), int(device_range.distance), int(device_range.rss)])
 
     def printPublishErrorCode(self, operation):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
@@ -134,6 +134,10 @@ if __name__ == "__main__":
     port = '/dev/tty.usbmodem1411'                # COM port of the Pozyx device
     serial_port = Configuration.get_correct_serial_port()
 
+    remote = True               # whether to use the given remote device for ranging
+    if not remote:
+        remote_id = None
+
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties_1d()
@@ -154,90 +158,7 @@ if __name__ == "__main__":
     pozyx = PozyxSerial(serial_port)
     r = ReadyToRange(pozyx, anchors, osc_udp_client, range_step_mm, ranging_protocol, remote_id)
     r.setup()
+    while True:
+        dr,stat = r.loop()
 
-    # Initialize velocity calculation
-    #use_velocity = False
-    use_velocity = True
-
-    logfile = None
-    if to_use_file:
-        logfile = open(filename, 'a')
-        if use_velocity:
-            FileWriting.write_position_and_velocity_header_to_file_1d(logfile)
-        else:
-            FileWriting.write_position_header_to_file_1d(logfile)
-
-    if use_velocity:
-        bin_input = DataFunctions.bin_input()       #Determines how many points the user wants to bin
-
-        #Creates the deque binning objects
-        bin_pos, prev_bin_pos, bin_time = Velocity.initialize_bins1D(bin_input)
-
-        #Initializing mean calculation variables
-        mean_prev_bin_pos = Velocity.initialize_mean_prev_bins1D()
-
-
-    #while True:
-    #    dr,stat = r.loop()
-
-    #    print(dr.distance)
-
-
-    start = t.time()
-    newTime = start
-    index = 0
-    try:
-        while True:
-            elapsed=(t.time()-start)
-            oldTime = newTime
-            newTime = elapsed
-            timeDifference = newTime - oldTime
-
-            # Status is used for error handling
-            one_cycle_position, status = r.loop()
-
-            if use_velocity and status == POZYX_SUCCESS:
-                # Updates and returns the new bins
-                binned_pos, binned_time = Velocity.update_bins1D(bin_pos, bin_time, timeDifference, one_cycle_position)
-
-                # Can equal either simple or linreg
-                velocity_method = 'simple'
-                # velocity_method = 'linreg'
-
-
-                # Gets the means of the previous data for calculations
-                mean_prev_bin_pos  = Velocity.update_previous_bins1D(binned_pos)
-
-                # Calculates the directional velocities, set the method using method argument
-                velocity = Velocity.find_velocity1D(index, bin_input, binned_pos, mean_prev_bin_pos, binned_time, velocity_method)
-                
-                print(velocity)
-
-
-            # Logs the data to console
-            if use_velocity:
-                ConsoleLogging.log_position_and_velocity_to_console_1d(index, elapsed, one_cycle_position, velocity)
-            else:
-                ConsoleLogging.log_position_to_console_1d(index, elapsed, one_cycle_position)
-
-            if to_use_file:             # writes the data returned from the iterate_file method to the file
-                if use_velocity:
-                    if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
-                        FileWriting.write_position_and_velocity_data_to_file_1d(
-                            index, elapsed, timeDifference, logfile, one_cycle_position,
-                            velocity)
-                    else:                   # Returns 0 for velocity until it provides complete calculations
-                        FileWriting.write_position_and_velocity_data_to_file_1d(
-                            index, elapsed, timeDifference, logfile, one_cycle_position,
-                            np.nan)
-                else:
-                    FileWriting.write_position_data_to_file_1d(index, elapsed, timeDifference, logfile, one_cycle_position)
-
-            index = index + 1                                     # increment data index
-
-
-    except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
-        pass
-
-    if to_use_file:
-        logfile.close()
+        print(dr.distance)
