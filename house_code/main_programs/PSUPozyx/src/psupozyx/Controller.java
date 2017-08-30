@@ -643,6 +643,11 @@ public class Controller implements Initializable {
         Main main = new Main();
         main.openStage("/psupozyx/fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 1024, 768);
     }
+
+    public void handleDataReplay(ActionEvent actionEvent) {
+        Main main = new Main();
+        main.openStage("/psupozyx/fxml/data_replay.fxml", "PSU Pozyx | Data Replay", 600, 400);
+    }
 }
 
 

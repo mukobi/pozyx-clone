@@ -30,11 +30,11 @@ public class ConfigureUwbSettings {
     private CheckBox m_show_console_output;
 
 
-    public void handleLaunchConfigureUwb(ActionEvent actionEvent) {
-        String channel = m_channel.getValue().toString();
+    public void handleLaunchConfigureUwb() {
+        String channel = m_channel.getValue();
 
         String unparsedBitrate = m_bitrate.getValue();
-        String bitrate = "0";
+        String bitrate;
         switch (unparsedBitrate) {
             case "110 Mbps":
                 bitrate = "0";
@@ -50,8 +50,8 @@ public class ConfigureUwbSettings {
                 break;
         }
 
-        String unparsedPrf = m_prf.getValue().toString();
-        String prf = "0";
+        String unparsedPrf = m_prf.getValue();
+        String prf;
         switch (unparsedPrf) {
             case "16 MHz":
                 prf = "1";
@@ -64,8 +64,8 @@ public class ConfigureUwbSettings {
                 break;
         }
 
-        String unparsedPlen = m_plen.getValue().toString();
-        String plen = "0";
+        String unparsedPlen = m_plen.getValue();
+        String plen;
         switch (unparsedPlen) {
             case "64":
                 plen = "0x04";
@@ -103,37 +103,37 @@ public class ConfigureUwbSettings {
         launchConsoleLogging(new String[]{"python", "-u", "configure_uwb_settings.py", channel, bitrate, prf, plen, gain}, showConsole);
     }
 
-    public void handleMaximumRange(ActionEvent actionEvent) {
+    public void handleMaximumRange() {
         m_bitrate.setValue("110 Mbps");
         m_plen.setValue("4096");
         m_gain.setValue("33.5");
     }
 
-    public void handleFavorRange(ActionEvent actionEvent) {
+    public void handleFavorRange() {
         m_bitrate.setValue("110 Mbps");
         m_plen.setValue("2048");
         m_gain.setValue("25.0");
     }
 
-    public void handleBalanced(ActionEvent actionEvent) {
+    public void handleBalanced() {
         m_bitrate.setValue("850 Mbps");
         m_plen.setValue("1024");
         m_gain.setValue("15.0");
     }
 
-    public void handleFavorDataRate(ActionEvent actionEvent) {
+    public void handleFavorDataRate() {
         m_bitrate.setValue("6810 Mbps");
         m_plen.setValue("256");
         m_gain.setValue("5.0");
     }
 
-    public void handleMaximumDataRate(ActionEvent actionEvent) {
+    public void handleMaximumDataRate() {
         m_bitrate.setValue("6810 Mbps");
         m_plen.setValue("64");
         m_gain.setValue("0.0");
     }
 
-    public void handleQuit(ActionEvent actionEvent) {
+    public void handleQuit() {
         Platform.exit();
     }
 
@@ -148,9 +148,7 @@ public class ConfigureUwbSettings {
             stage.initOwner(m_channel.getScene().getWindow());
             stage.initStyle(StageStyle.DECORATED);
             ConsoleWindow console_controller = loader.getController();
-            stage.setOnCloseRequest(we -> {
-                console_controller.terminateProcess();
-            });
+            stage.setOnCloseRequest(we -> console_controller.terminateProcess());
             if (showConsole) {
                 stage.show();
             }
