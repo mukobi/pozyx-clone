@@ -32,7 +32,7 @@ public class Main extends Application {
         }
         Stage newStage = new Stage();
         newStage.setTitle(title);
-        newStage.setScene(new Scene(root, 1024, 768));
+        newStage.setScene(new Scene(root, width, height));
         newStage.show();
     }
 }
