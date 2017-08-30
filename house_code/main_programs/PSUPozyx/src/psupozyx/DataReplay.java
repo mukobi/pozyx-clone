@@ -110,7 +110,7 @@ public class DataReplay {
             launchConsoleLogging(pythonCommands, show_console_output);
         }
     }
-    
+
     private void launchMotionProcessing() {
         try {
             File this_file = new File(
