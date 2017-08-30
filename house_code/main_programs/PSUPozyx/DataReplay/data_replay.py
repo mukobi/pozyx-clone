@@ -2,6 +2,7 @@
 import sys
 from pythonosc.udp_client import SimpleUDPClient
 import time
+import subprocess
 from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_reading import FileReading
 from modules.data_parsing import DataParsing
@@ -10,16 +11,19 @@ from modules.utilities import Utilities
 
 
 class DataReplay:
-    def __init__(self, my_file, my_osc_udp_client, my_replay_speed, my_attributes_to_log_str):
+    def __init__(self, my_file, my_osc_udp_client, my_replay_speed,
+                 my_attributes_to_log_str):
         self.file = my_file
         self.osc_udp_client = my_osc_udp_client
         self.replay_speed = my_replay_speed
-        self.attributes_to_log = UserInput.get_attributes_to_log_from_str(my_attributes_to_log_str)
+        self.attributes_to_log = UserInput.get_attributes_to_log_from_str(
+            my_attributes_to_log_str)
 
     def iterate_file(self):
         with open(self.file, 'r') as f:
             header_list = FileReading.get_header_list(f)
             data_file_type = FileReading.determine_data_file_type(header_list)
+
 
             i_index, i_time, i_difference, i_hz, i_avehz = \
                 FileReading.get_timestamp_indices(header_list)
@@ -44,7 +48,7 @@ class DataReplay:
 
                 previous_time = Utilities.wait_for_time_difference(
                     self.replay_speed, i_difference, data_list, previous_time)
-            print("\nRendered Time: " + str(time.time() - start_time))
+            print("\nRendered Time: " + str(time.time() - start_time) + "s")
 
 if __name__ == "__main__":
     use_processing = True
@@ -55,7 +59,6 @@ if __name__ == "__main__":
     osc_udp_client = None
 
     arguments = sys.argv
-    print(arguments)
     arg_length = len(arguments)
 
     file = ""
@@ -80,6 +83,5 @@ if __name__ == "__main__":
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
     replay = DataReplay(file, osc_udp_client, replay_speed, attributes_to_log)
-
 
     replay.iterate_file()
