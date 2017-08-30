@@ -650,7 +650,7 @@ public class Controller implements Initializable {
     }
 
     public void handlePyVersion(ActionEvent actionEvent) {
-        String[] command = {"python", "--version"};
+        String[] command = {"python", "-u", "mac_python_test.py"};
         launchConsoleLogging(command, true);
     }
 }
