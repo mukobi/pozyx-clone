@@ -367,6 +367,7 @@
             <items>
               <MenuItem mnemonicParsing="false" text="Pozyx Help" />
                   <MenuItem mnemonicParsing="false" text="About" />
+                <MenuItem mnemonicParsing="false" text="Python Version" onAction="#handlePyVersion" />
             </items>
           </Menu>
         </menus>
