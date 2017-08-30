@@ -93,6 +93,7 @@ class SensorAndPositionFileWriting:
         """
         file.write(header + '\n')
 
+    @staticmethod
     def write_sensor_and_position_header_to_file(
             file,
             header=("Index,Time,Difference,Hz,AveHz,"
