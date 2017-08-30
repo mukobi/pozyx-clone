@@ -8,7 +8,91 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PSU Pozyx Configurator.jar" size="215639" download="eager" />
+    <jar href="PSU Pozyx Configurator.jar" size="55270059" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\core.jar" size="1016455" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\gluegen-rt-natives-windows-i586.jar" size="7577" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\gluegen-rt.jar" size="345605" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\gwoptics.jar" size="513583" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\jogl-all-natives-windows-i586.jar" size="209445" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\jogl-all.jar" size="3400401" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\jssc.jar" size="40174" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\oscP5.jar" size="52005" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\pozyx_orientation3D_PSU.jar" size="7400" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\serial.jar" size="3991" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\charsets.jar" size="3091908" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\deploy.jar" size="2293827" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\access-bridge-64.jar" size="188024" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\cldrdata.jar" size="3860502" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\jaccess.jar" size="44516" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\jfxrt.jar" size="18235685" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\localedata.jar" size="1179093" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\nashorn.jar" size="2022531" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\sunec.jar" size="42154" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\sunjce_provider.jar" size="280161" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\sunmscapi.jar" size="32699" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\sunpkcs11.jar" size="251327" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\ext\zipfs.jar" size="68924" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\jce.jar" size="116446" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\jfr.jar" size="560581" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\jfxswt.jar" size="33932" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\jsse.jar" size="647516" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\management-agent.jar" size="381" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\plugin.jar" size="1010785" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\resources.jar" size="3492563" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\rt.jar" size="63697762" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\security\US_export_policy.jar" size="3026" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\java\lib\security\local_policy.jar" size="3527" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\core.jar" size="1016455" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\gluegen-rt-natives-windows-amd64.jar" size="8159" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\gluegen-rt.jar" size="345605" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\gwoptics.jar" size="513583" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\jogl-all-natives-windows-amd64.jar" size="240721" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\jogl-all.jar" size="3400401" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\jssc.jar" size="40174" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\oscP5.jar" size="52005" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\pozyx_orientation3D_PSU.jar" size="7400" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\serial.jar" size="3991" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\core.jar" size="1016455" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\gluegen-rt-natives-windows-i586.jar" size="7577" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\gluegen-rt.jar" size="345605" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\jogl-all-natives-windows-i586.jar" size="209445" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\jogl-all.jar" size="3400401" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\jssc.jar" size="40174" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\oscP5.jar" size="52005" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\pozyx_ready_to_localize_PSU.jar" size="5295" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\serial.jar" size="3991" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\charsets.jar" size="3091908" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\deploy.jar" size="2293827" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\access-bridge-64.jar" size="188024" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\cldrdata.jar" size="3860502" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\jaccess.jar" size="44516" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\jfxrt.jar" size="18235685" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\localedata.jar" size="1179093" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\nashorn.jar" size="2022531" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\sunec.jar" size="42154" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\sunjce_provider.jar" size="280161" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\sunmscapi.jar" size="32699" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\sunpkcs11.jar" size="251327" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\ext\zipfs.jar" size="68924" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\jce.jar" size="116446" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\jfr.jar" size="560581" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\jfxswt.jar" size="33932" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\jsse.jar" size="647516" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\management-agent.jar" size="381" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\plugin.jar" size="1010785" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\resources.jar" size="3492563" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\rt.jar" size="63697762" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\security\US_export_policy.jar" size="3026" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\java\lib\security\local_policy.jar" size="3527" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\core.jar" size="1016455" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\gluegen-rt-natives-windows-amd64.jar" size="8159" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\gluegen-rt.jar" size="345605" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\jogl-all-natives-windows-amd64.jar" size="240721" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\jogl-all.jar" size="3400401" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\jssc.jar" size="40174" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\oscP5.jar" size="52005" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\pozyx_ready_to_localize_PSU.jar" size="5295" download="eager" />
+    <jar href="processing\pozyx_ready_to_localize_PSU\application.windows64\lib\serial.jar" size="3991" download="eager" />
   </resources>
   <jfx:javafx-desc  width="1024" height="768" main-class="psupozyx.Main"  name="PSU Pozyx Configurator" />
   <update check="background"/>

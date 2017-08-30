@@ -12,8 +12,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -23,10 +23,7 @@ public class DataReplay {
     @FXML
     private CheckBox m_show_console_output;
     @FXML
-    private CheckBox m_show_position_graphical_output;
-    @FXML
-    private CheckBox m_show_motion_graphical_output;
-
+    private CheckBox m_show_graphical_output;
     @FXML
     private ChoiceBox<String> m_speed;
 
@@ -56,7 +53,7 @@ public class DataReplay {
             replayFileName = loadFile.getAbsolutePath();
             boolean show_console_output = m_show_console_output.isSelected();
 
-            boolean show_graphical_output = m_show_motion_graphical_output.isSelected() || m_show_position_graphical_output.isSelected();
+            boolean show_graphical_output = m_show_graphical_output.isSelected();
 
             String replaySpeed;
 
@@ -89,12 +86,67 @@ public class DataReplay {
             else { attributesToLog += '0'; }
 
 
-            String[] pythonCommands = {"python", "-u", "DataReplay/data_replay.py", replayFileName, replaySpeed, attributesToLog};
+            String[] pythonCommands = {"python", "-u", "DataReplay/data_replay.py",
+                    replayFileName, replaySpeed, attributesToLog};
+
+            if(show_graphical_output) {
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(replayFileName));
+                    String headerLine = reader.readLine();
+                    reader.close();
+                    if(headerLine.contains("Pressure")) {
+                        launchMotionProcessing();
+                    }
+                    else {
+                        launchPositionProcessing();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
 
             //System.out.println(Arrays.toString(pythonCommands));
             launchConsoleLogging(pythonCommands, show_console_output);
         }
     }
+    
+    private void launchMotionProcessing() {
+        try {
+            File this_file = new File(
+                    Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            File house_dir = this_file.getParentFile().getParentFile();
+            if(house_dir.toString().endsWith("main_programs")) {
+                house_dir = house_dir.getParentFile();
+            }
+            File parent = new File(house_dir.toString() +
+                    "\\processing\\pozyx_orientation3D_PSU\\application.windows64\\");
+            String executable = parent.toString() + "\\pozyx_orientation3D_PSU.exe";
+            Runtime.getRuntime().exec(executable, null, parent);
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void launchPositionProcessing() {
+        try {
+            File this_file = new File(
+                    Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            File house_dir = this_file.getParentFile().getParentFile();
+            if(house_dir.toString().endsWith("main_programs")) {
+                house_dir = house_dir.getParentFile();
+            }
+            File parent = new File(house_dir.toString() +
+                    "\\processing\\pozyx_ready_to_localize_PSU\\application.windows64\\");
+            String executable = parent.toString() + "\\pozyx_ready_to_localize_PSU.exe";
+            Runtime.getRuntime().exec(executable, null, parent);
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     public void handleQuit() {
         Platform.exit();
