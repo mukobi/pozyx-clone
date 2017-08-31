@@ -79,7 +79,7 @@ class ReadyToRange(object):
             #if self.ledControl(device_range.distance) == POZYX_FAILURE:
             #    print("ERROR: setting (remote) leds")
         else:
-            self.printPublishErrorCode("positioning")
+            #self.printPublishErrorCode("positioning")
             device_range.timestamp, device_range.distance, device_range.rss = "error","error","error"
             #print("ERROR: ranging")
             return device_range,status
