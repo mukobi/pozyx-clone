@@ -151,7 +151,6 @@ if __name__ == "__main__":
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
 
-
     range_step_mm = 1000         # distance that separates the amount of LEDs lighting up.
 
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION # the ranging protocol
