@@ -652,6 +652,8 @@ public class Controller implements Initializable {
     public void handlePyVersion(ActionEvent actionEvent) {
         String[] command = {"python", "-u", "mac_python_test.py"};
         launchConsoleLogging(command, true);
+        String[] newCommand = {"sudo", "python", "-u", "mac_python_test.py"};
+        launchConsoleLogging(newCommand, true);
     }
 }
 
