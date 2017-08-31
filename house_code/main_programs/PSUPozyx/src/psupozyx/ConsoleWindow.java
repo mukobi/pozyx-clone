@@ -22,7 +22,7 @@ public class ConsoleWindow implements Initializable {
     @FXML
     private Label console;
 
-    private Process pr;
+    private Process     pr;
     
     private static final int CHARACTERDISPLAYBUFFER = 30000;
 
@@ -32,11 +32,11 @@ public class ConsoleWindow implements Initializable {
         }
         String osName = System.getProperty("os.name");
         console.setText("Running on " + osName + '\n');
-        console.setText("The full command you are running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
-        if(Objects.equals(pythonCommand[0], "python") && !osName.startsWith("Windows") && false) {
+        console.setText("\nThe full command you are running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
+        if(Objects.equals(pythonCommand[0], "python") && !osName.startsWith("Windows")) {
             pythonCommand[0] = "python3";
             console.setText("Running on python3 instead of python.\n" +
-                    "The full command you are running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
+                    "The edited command you are actually running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
         }
         new Thread(() -> {
             try {
