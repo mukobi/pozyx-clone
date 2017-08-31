@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ConsoleWindow implements Initializable {
@@ -27,6 +29,13 @@ public class ConsoleWindow implements Initializable {
     void launchPyScript(String startMessage, String... pythonCommand) {
         if (startMessage != null) {
             console.setText(startMessage);
+        }
+        String osName = System.getProperty("os.name");
+        console.setText("Running on " + osName + '\n');
+        if(Objects.equals(pythonCommand[0], "python") && !osName.startsWith("Windows")) {
+            pythonCommand[0] = "python3";
+            console.setText("Running on python3 instead of python.\n" +
+                    "The full command you are running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
         }
         new Thread(() -> {
             try {
@@ -58,6 +67,7 @@ public class ConsoleWindow implements Initializable {
                 in.close();
 
             } catch (IOException | InterruptedException e) {
+                console.setText(e.toString() + console.getText());
                 e.printStackTrace();
             }
         }).start();
