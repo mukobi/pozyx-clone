@@ -265,8 +265,11 @@ class Velocity:
             if num_of_nans >= int(len(bin_pos) - 1):
                 coeff = [np.nan, np.nan]
             else:
-                fix = np.isfinite(bin_pos)
-                coeff = np.polyfit(bin_pos[fix], bin_time, 1)
+                #fix = np.isfinite(bin_pos)
+                #coeff = np.polyfit(bin_pos[fix], bin_time, 1)
+                coeff = np.polyfit(bin_pos, bin_time, 1)
+                print('Coeff')
+                print(coeff)
         return coeff[1]
 
     @staticmethod
