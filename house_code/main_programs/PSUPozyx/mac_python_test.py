@@ -1,4 +1,4 @@
-import pip  # needed to use the pip functions
+
 import time
 import sys
 
@@ -16,10 +16,7 @@ if __name__ == "__main__":
     time.sleep(0.1)
     print("-")
 
-    print("Installed modules:")
-    for i in pip.get_installed_distributions(local_only=True):
-        print(i)
-        time.sleep(0.1)
+    
 
     print("-")
     time.sleep(0.1)
