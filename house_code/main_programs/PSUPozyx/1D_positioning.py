@@ -24,6 +24,7 @@ import numpy as np
 from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
+import copy as copy
 """
 #RealTimePlotting
 from modules.real_time_plot import RealTimePlot
@@ -171,22 +172,19 @@ if __name__ == "__main__":
         bin_input = DataFunctions.bin_input()       #Determines how many points the user wants to bin
 
         #Creates the deque binning objects
-        bin_pos, prev_bin_pos, bin_time = Velocity.initialize_bins1D(bin_input)
-
-        #Initializing mean calculation variables
-        mean_prev_bin_pos = Velocity.initialize_mean_prev_bins1D()
-
-
-    #while True:
-    #    dr,stat = r.loop()
-
-    #    print(dr.distance)
+        #bin_pos, prev_bin_pos, bin_time, prev_bin_time = Velocity.initialize_bins1D(bin_input)
+        bin_pos = deque(maxlen=bin_input)
+        prev_bin_pos = deque(maxlen=bin_input)
+        bin_time = deque(maxlen=bin_input)
+        prev_bin_time = deque(maxlen=bin_input)
 
 
-    start = t.time()
-    newTime = start
     index = 0
+    velocity=0
+
     try:
+        start = t.time()
+        newTime = start
         while True:
             elapsed=(t.time()-start)
             oldTime = newTime
@@ -196,9 +194,10 @@ if __name__ == "__main__":
             # Status is used for error handling
             one_cycle_position, status = r.loop()
 
+
             if use_velocity and status == POZYX_SUCCESS:
                 # Updates and returns the new bins
-                binned_pos, binned_time = Velocity.update_bins1D(bin_pos, bin_time, timeDifference, one_cycle_position)
+                #bin_pos, bin_time = Velocity.update_bins1D(bin_pos, bin_time, one_cycle_position, newTime)
 
                 # Can equal either simple or linreg
                 velocity_method = 'simple'
@@ -206,11 +205,27 @@ if __name__ == "__main__":
 
 
                 # Gets the means of the previous data for calculations
-                mean_prev_bin_pos  = Velocity.update_previous_bins1D(binned_pos)
+                #mean_prev_bin_pos  = Velocity.update_previous_bins1D(binned_pos)
 
+                bin_pos.append(one_cycle_position.distance)
+                bin_time.append(newTime)
+
+                print('bin pos')
+                print(bin_pos)
+                print(prev_bin_pos)
+                print('bin time')
+                print(bin_time)
+                print(prev_bin_time)
+                print('Index')
+                print(index)
                 # Calculates the directional velocities, set the method using method argument
-                velocity = Velocity.find_velocity1D(index, bin_input, binned_pos, mean_prev_bin_pos, binned_time, velocity_method)
+                velocity = Velocity.find_velocity1D(bin_input, bin_pos, prev_bin_pos, 
+                        bin_time, prev_bin_time, velocity_method)
                 
+                print(velocity)
+
+            else:
+                velocity = -10000
                 print(velocity)
 
 
@@ -234,6 +249,9 @@ if __name__ == "__main__":
                     FileWriting.write_position_data_to_file_1d(index, elapsed, timeDifference, logfile, one_cycle_position)
 
             index = index + 1                                     # increment data index
+            # Replace prev_bin_ with the bin from this iteration
+            prev_bin_pos = copy.copy(bin_pos)
+            prev_bin_time = copy.copy(bin_time)
 
 
     except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
