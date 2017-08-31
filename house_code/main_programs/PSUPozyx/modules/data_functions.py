@@ -195,28 +195,21 @@ class Velocity:
     """
 
     @staticmethod
-    def update_bins1D(bin_pos,bin_time, elapsed, one_cycle_position):
+    def update_bins1D(bin_pos,bin_time, new_position, new_time):
         """
         This function updates the position and time bins used for calculation
 
-        :param object bin_pos_x: this is the object storing x position data
-        :param object bin_pos_y: this is the object storing y position data
-        :param object bin_pos_z: this is the object storing z position data
-
-        :return list binned_pos_x: the list of x position data
-        :return list binned_pos_y: the list of y position data
-        :return list binned_pos_z: the list of z position data
-        :return list binned_time: the list of previous time data
         """
         from modules.data_averaging import BinData as BinData
 
-        BinData.add(bin_pos, one_cycle_position.distance)         #creating a list of x position data points for calculation
-        binned_pos = BinData.return_data(bin_pos)         #getting that list
+        import pdb; pdb.set_trace()
+        BinData.add(bin_pos, new_position.distance)         #creating a list of x position data points for calculation
+        bin_pos = BinData.return_data(bin_pos)         #getting that list
 
-        BinData.add(bin_time, elapsed)
-        binned_time = BinData.return_data(bin_time)
+        BinData.add(bin_time, new_time)
+        bin_time = BinData.return_data(bin_time)
 
-        return binned_pos, binned_time
+        return bin_pos, bin_time
 
 
     @staticmethod
@@ -357,7 +350,7 @@ class Velocity:
 
 
     @staticmethod
-    def simple_velocity(position, prev_pos, time):
+    def simple_velocity(position, prev_pos, time, prev_time):
         """
         This is a function to simply calculate velocity.
 
@@ -372,7 +365,7 @@ class Velocity:
             return 0
         else:
             try:
-                velocity = (position - prev_pos) / (time)
+                velocity = (position - prev_pos) / (time - prev_time)
             except ZeroDivisionError:
                 velocity = np.nan
             return velocity
@@ -410,6 +403,48 @@ class Velocity:
         else:
             return np.nan
 
+
+    @staticmethod
+    def find_velocity1D(bin_input, position, previous_position, time, previous_time, method = 'simple'):
+        """
+        This is a function to determine which method of finding the velocity to use.
+
+        :param integer position: this is the current position of the device
+        :param integer prev_pos: this is the previous position of the device
+        :param float time: this is the current time
+        :param float prev_time: this is the previous time
+
+        Notes: Default is simple.
+        The function returns 'nan' from numpy if it takes an error message.
+        For improvement, we can add functionality to wait a while after receiving an error message.
+        """
+        from modules.data_functions import Velocity as Velocity
+        import numpy as np
+
+        #print('Position')
+        #print(position)
+        #print(previous_position)
+        #print('Time')
+        #print(time)
+        #print(previous_time)
+
+        if (int(len(position)) == bin_input):
+            if method == 'simple':
+                single_position = np.mean(position)
+                single_previous_position = np.mean(previous_position)
+
+                #the time mean calculation takes the total elapsed time over delta position which causes bad data
+                single_time = np.mean(time)
+                single_previous_time = np.mean(previous_time)
+
+                velocity = Velocity.simple_velocity(single_position, single_previous_position, single_time, single_previous_time)
+
+            elif method == 'linreg':
+                velocity = Velocity.linreg_velocity(position, time)
+            return velocity
+        else:
+            return np.nan
+
     def initialize_bins1D(bin_input):
         """
         Function to create the deque objects that are needed for easily binning the data.
@@ -422,11 +457,12 @@ class Velocity:
         """
         from .data_averaging import BinData
         bin_pos = BinData(bin_size = bin_input)   # Creating position deque objects to calculate velocity
-        prev_bin_pos = 0                          # Initializing the previous points
+        prev_bin_pos = BinData(bin_size = bin_input)   # Creating position deque objects to calculate velocity
 
         bin_time = BinData(bin_size = bin_input)
+        prev_bin_time = BinData(bin_size = bin_input)
 
-        return bin_pos, prev_bin_pos, bin_time
+        return bin_pos, prev_bin_pos, bin_time, prev_bin_time
 
     def initialize_mean_prev_bins1D():
         """
@@ -440,26 +476,6 @@ class Velocity:
 
         return mean_prev_bin_pos
 
-    def find_velocity1D(index, bin_input, binned_pos, mean_prev_bin_pos, binned_time, velocity_method):
-        """
-        This function simply reduces the 3D code to three lines that calculate the velocity by calling on the find_velocity function.
-
-        :param integer index: the index
-        :param integer bin_input: the size of the bin
-        :param float binned_pos_*: the current binned position for each direction
-        :param integer mean_prev_bin_pos_*: the mean of the previos bin of data
-        :param float binned_time: the bin of time data to get the mean time
-        :param string velocity_method: this is the method for calculating velocity
-
-        :return float velocity_*: this returns each of the X, Y, and Z velocities
-        """
-
-        import numpy as np
-
-        velocity = Velocity.find_velocity(index, bin_input, binned_pos, mean_prev_bin_pos, binned_time, method = velocity_method)    #Calculates x velocity
-
-
-        return velocity
 
     def initialize_bins3D(bin_input):
         """
