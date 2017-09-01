@@ -24,7 +24,6 @@ import numpy as np
 from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
-import copy as copy
 """
 #RealTimePlotting
 from modules.real_time_plot import RealTimePlot
@@ -79,8 +78,8 @@ class ReadyToRange(object):
             #if self.ledControl(device_range.distance) == POZYX_FAILURE:
             #    print("ERROR: setting (remote) leds")
         else:
-            #self.printPublishErrorCode("positioning")
-            device_range.timestamp, device_range.distance, device_range.rss = 0,0,0
+            self.printPublishErrorCode("positioning")
+            device_range.timestamp, device_range.distance, device_range.rss = "error","error","error"
             #print("ERROR: ranging")
             return device_range,status
 
@@ -91,7 +90,7 @@ class ReadyToRange(object):
             network_id = 0
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
-                "/position", [network_id, int(device_range.timestamp), int(device_range.distance), int(device_range.RSS)])
+                "/position", [network_id, int(device_range.timestamp), int(device_range.distance), int(device_range.rss)])
 
     def printPublishErrorCode(self, operation):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
@@ -135,10 +134,15 @@ if __name__ == "__main__":
     port = '/dev/tty.usbmodem1411'                # COM port of the Pozyx device
     serial_port = Configuration.get_correct_serial_port()
 
+    remote = True               # whether to use the given remote device for ranging
+    if not remote:
+        remote_id = None
+
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties_1d()
 
+    use_processing = True
     #import pdb; pdb.set_trace()
 
     ip = "127.0.0.1"                   # IP for the OSC UDP
@@ -155,106 +159,7 @@ if __name__ == "__main__":
     pozyx = PozyxSerial(serial_port)
     r = ReadyToRange(pozyx, anchors, osc_udp_client, range_step_mm, ranging_protocol, remote_id)
     r.setup()
+    while True:
+        dr,stat = r.loop()
 
-    # Initialize velocity calculation
-    #use_velocity = False
-    use_velocity = True
-
-    logfile = None
-    if to_use_file:
-        logfile = open(filename, 'a')
-        if use_velocity:
-            FileWriting.write_position_and_velocity_header_to_file_1d(logfile)
-        else:
-            FileWriting.write_position_header_to_file_1d(logfile)
-
-    if use_velocity:
-        bin_input = DataFunctions.bin_input()       #Determines how many points the user wants to bin
-
-        #Creates the deque binning objects
-        #bin_pos, prev_bin_pos, bin_time, prev_bin_time = Velocity.initialize_bins1D(bin_input)
-        bin_pos = deque(maxlen=bin_input)
-        prev_bin_pos = deque(maxlen=bin_input)
-        bin_time = deque(maxlen=bin_input)
-        prev_bin_time = deque(maxlen=bin_input)
-
-
-    index = 0
-    velocity=0
-
-    try:
-        start = t.time()
-        newTime = start
-        while True:
-            elapsed=(t.time()-start)
-            oldTime = newTime
-            newTime = elapsed
-            timeDifference = newTime - oldTime
-
-            # Status is used for error handling
-            one_cycle_position, status = r.loop()
-
-
-            if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0:
-                # Updates and returns the new bins
-                #bin_pos, bin_time = Velocity.update_bins1D(bin_pos, bin_time, one_cycle_position, newTime)
-
-                # Can equal either simple or linreg
-                velocity_method = 'simple'
-                #velocity_method = 'linreg'
-
-
-                # Gets the means of the previous data for calculations
-                #mean_prev_bin_pos  = Velocity.update_previous_bins1D(binned_pos)
-
-                bin_pos.append(one_cycle_position.distance)
-                bin_time.append(newTime)
-
-                #print('bin pos')
-                #print(bin_pos)
-                #print(prev_bin_pos)
-                #print('bin time')
-                #print(bin_time)
-                #print(prev_bin_time)
-                #print('Index')
-                #print(index)
-                # Calculates the directional velocities, set the method using method argument
-                velocity = Velocity.find_velocity1D(bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
-                
-                print(velocity)
-
-            else:
-                velocity = ''
-                print(velocity)
-
-
-            # Logs the data to console
-            if use_velocity:
-                ConsoleLogging.log_position_and_velocity_to_console_1d(index, elapsed, one_cycle_position, velocity)
-            else:
-                ConsoleLogging.log_position_to_console_1d(index, elapsed, one_cycle_position)
-
-            if to_use_file:             # writes the data returned from the iterate_file method to the file
-                if use_velocity:
-                    if one_cycle_position.distance != 0:   # Accounts for the time it takes to get accurate velocity calculations
-                        FileWriting.write_position_and_velocity_data_to_file_1d(
-                            index, elapsed, timeDifference, logfile, one_cycle_position,
-                            velocity)
-                    #else:                   # Returns 0 for velocity until it provides complete calculations
-                    #    FileWriting.write_position_and_velocity_data_to_file_1d(
-                    #        index, elapsed, timeDifference, logfile, one_cycle_position,
-                    #        np.nan)
-                else:
-                    FileWriting.write_position_data_to_file_1d(index, elapsed, timeDifference, logfile, one_cycle_position)
-
-            index = index + 1                                     # increment data index
-            # Replace prev_bin_ with the bin from this iteration
-            prev_bin_pos = copy.copy(bin_pos)
-            prev_bin_time = copy.copy(bin_time)
-
-
-    except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
-        pass
-
-    if to_use_file:
-        logfile.close()
+        print(dr.distance)
