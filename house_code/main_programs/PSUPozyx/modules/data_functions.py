@@ -471,6 +471,7 @@ class Velocity:
 
         return bin_pos, prev_bin_pos, bin_time, prev_bin_time
 
+    @staticmethod
     def initialize_mean_prev_bins1D():
         """
         Initializing the mena previous bins for use.
@@ -508,6 +509,7 @@ class Velocity:
 
         return bin_pos_x, bin_pos_y, bin_pos_z, prev_bin_pos_x, prev_bin_pos_y, prev_bin_pos_z, bin_time
 
+    @staticmethod
     def initialize_mean_prev_bins3D():
         """
         Initializing the mena previous bins for use.

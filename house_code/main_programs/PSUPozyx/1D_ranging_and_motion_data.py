@@ -174,7 +174,7 @@ if __name__ == "__main__":
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-        filename, use_processing) = Configuration.get_properties_1d()
+        filename, use_processing) = Configuration.get_properties()
 
     use_processing = True
 
@@ -188,8 +188,11 @@ if __name__ == "__main__":
 
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION # the ranging protocol
 
+    # get just the first anchor
+    destination_id = anchors[0].network_id
+
     pozyx = PozyxSerial(serial_port)
-    r = RangingAndMotionData(pozyx, anchors, osc_udp_client, range_step_mm, ranging_protocol, remote_id)
+    r = RangingAndMotionData(pozyx, destination_id, osc_udp_client, range_step_mm, ranging_protocol, remote_id)
     r.setup()
 
     # Initialize velocity calculation
@@ -229,7 +232,8 @@ if __name__ == "__main__":
             # Status is used for error handling
             one_cycle_position, one_cycle_motion_data, status = r.loop()
 
-            if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0:
+            if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0 \
+                    and type(one_cycle_position.distance) != str:
                 # Updates and returns the new bins
                 #bin_pos, bin_time = Velocity.update_bins1D(bin_pos, bin_time, one_cycle_position, newTime)
 
