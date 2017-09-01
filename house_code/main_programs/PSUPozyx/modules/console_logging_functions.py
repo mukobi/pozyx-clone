@@ -54,6 +54,12 @@ class ConsoleLoggingFunctions:
             and the values are lists of labels and values (for example,
             ['x', 2, 'y', 3, 'z', 5] )
         """
+        output = ConsoleLoggingFunctions.create_sensor_data_output(
+            index, elapsed, data_dictionary)
+        print(output)
+
+    @staticmethod
+    def create_sensor_data_output(index, elapsed, data_dictionary):
         output = str(index)
         output += " Time: "
         elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
@@ -71,8 +77,7 @@ class ConsoleLoggingFunctions:
                 output += " | " + key
                 for item in data_dictionary[key]:
                     output += " " + str(item)
-
-        print(output)
+        return output
 
     @staticmethod
     def log_position_to_console(index, elapsed, position):
@@ -187,9 +192,69 @@ class ConsoleLoggingFunctions:
 
         output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity, 7))
 
+        print(output)
+
+    @staticmethod
+    def log_range_motion_and_velocity(
+            index, elapsed, position, data_dictionary, velocity):
+        """
+        Prints a line of data to the console
+
+        :param int index: data index
+        :param float elapsed: elapsed time since the program started
+        :param position: position data
+        """
+        output = str(index)
+        output += " Time: "
+        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz: "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        output += ave_hertz_str
+
+        output += ConsoleLoggingFunctions.create_sensor_data_output(
+            index, elapsed, data_dictionary)
+
+        # if the data passed was an error string
+        if type(position) == str:
+            output += position
+        else:
+            output += (" | Pos: " + "X: " + str(position.distance))
+
+        output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity, 7))
 
         print(output)
 
+    @staticmethod
+    def log_range_and_motion(
+            index, elapsed, position, data_dictionary):
+        """
+        Prints a line of data to the console
+
+        :param int index: data index
+        :param float elapsed: elapsed time since the program started
+        :param position: position data
+        """
+        output = str(index)
+        output += " Time: "
+        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz: "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        output += ave_hertz_str
+
+        output += ConsoleLoggingFunctions.create_sensor_data_output(
+            index, elapsed, data_dictionary)
+
+        # if the data passed was an error string
+        if type(position) == str:
+            output += position
+        else:
+            output += (" | Pos: " + "X: " + str(position.distance))
+
+        print(output)
 
     @staticmethod
     def log_multitag_position_to_console(index, elapsed, position_array):
@@ -338,7 +403,7 @@ class ConsoleLoggingFunctions:
         """
         :param sensor_data:
         :param multiple_attributes_to_log:
-        :return:
+        :return: formatted data dictionary
         """
         # if the sensor data was returned as an error string
         try:

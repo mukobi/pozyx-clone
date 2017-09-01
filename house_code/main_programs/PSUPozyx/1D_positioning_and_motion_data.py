@@ -9,13 +9,13 @@ light up on both devices.
 """
 
 from time import sleep
-from datetime import datetime #for creating the file with date and time in title
 
+from time import time
 from pypozyx import *
+from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
-from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
@@ -43,6 +43,8 @@ class RangingAndMotionData(object):
         self.remote_id = remote_id
         self.protocol = protocol
         self.osc_udp_client = osc_udp_client
+        self.current_time = None
+        self.msg_builder = None
 
     def setup(self):
         """Sets up both the ranging and destination Pozyx's LED configuration"""
@@ -65,23 +67,29 @@ class RangingAndMotionData(object):
         self.pozyx.setLedConfig(led_config, self.destination_id)
         # set the ranging protocol
         self.pozyx.setRangingProtocol(self.protocol, self.remote_id)
+        self.current_time = time()
 
     def loop(self):
         """Performs ranging and sets the LEDs accordingly"""
         device_range = DeviceRange()
-        #import pdb; pdb.set_trace()
+        sensor_data = SensorData()
+        sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
+        calibration_status = SingleRegister()
         status = self.pozyx.doRanging(self.destination_id, device_range, self.remote_id)
 
+        # get 1D position in this section
         if status == POZYX_SUCCESS:
             self.printPublishPosition(device_range)
-            return device_range, status
-            # if self.ledControl(device_range.distance) == POZYX_FAILURE:
-            #    print("ERROR: setting (remote) leds")
         else:
-            # self.printPublishErrorCode("positioning")
-            device_range.timestamp, device_range.distance, device_range.rss = 0,0,0
-            # print("ERROR: ranging")
-            return device_range,status
+            device_range.timestamp, device_range.distance, device_range.rss = "error", "error", "error"
+
+        # get motion data in this section
+        if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+            status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
+            status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
+            if status == POZYX_SUCCESS:
+                self.publish_sensor_data(sensor_data, calibration_status)
+        return device_range, sensor_data, status
 
     def printPublishPosition(self, device_range):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
@@ -128,6 +136,38 @@ class RangingAndMotionData(object):
             status &= self.pozyx.setLed(2, (distance < 3 * range_step_mm), id)
             status &= self.pozyx.setLed(1, (distance < 4 * range_step_mm), id)
         return status
+
+    def publish_sensor_data(self, sensor_data, calibration_status):
+        """Makes the OSC sensor data package and publishes it"""
+        self.msg_builder = OscMessageBuilder("/sensordata")
+        self.msg_builder.add_arg(int(1000 * (time() - self.current_time)))
+        # current_time = time()
+        self.add_sensor_data(sensor_data)
+        self.add_calibration_status(calibration_status)
+        self.osc_udp_client.send(self.msg_builder.build())
+
+    def add_sensor_data(self, sensor_data):
+        """Adds the sensor data to the OSC message"""
+        self.msg_builder.add_arg(sensor_data.pressure)
+        self.add_components_osc(sensor_data.acceleration)
+        self.add_components_osc(sensor_data.magnetic)
+        self.add_components_osc(sensor_data.angular_vel)
+        self.add_components_osc(sensor_data.euler_angles)
+        self.add_components_osc(sensor_data.quaternion)
+        self.add_components_osc(sensor_data.linear_acceleration)
+        self.add_components_osc(sensor_data.gravity_vector)
+
+    def add_components_osc(self, component):
+        """Adds a sensor data component to the OSC message"""
+        for data in component.data:
+            self.msg_builder.add_arg(float(data))
+
+    def add_calibration_status(self, calibration_status):
+        """Adds the calibration status data to the OSC message"""
+        self.msg_builder.add_arg(calibration_status[0] & 0x03)
+        self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
+        self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
+        self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
 
 if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
@@ -179,14 +219,13 @@ if __name__ == "__main__":
         start = t.time()
         newTime = start
         while True:
-            elapsed=(t.time()-start)
+            elapsed = (t.time()-start)
             oldTime = newTime
             newTime = elapsed
             timeDifference = newTime - oldTime
 
             # Status is used for error handling
-            one_cycle_position, status = r.loop()
-
+            one_cycle_position, one_cycle_motion_data, status = r.loop()
 
             if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0:
                 # Updates and returns the new bins
@@ -220,12 +259,17 @@ if __name__ == "__main__":
                 velocity = ''
                 print(velocity)
 
-
             # Logs the data to console
+            formatted_motion_data_dictionary = ConsoleLogging.format_sensor_data(
+                one_cycle_motion_data, attributes_to_log)
             if use_velocity:
-                ConsoleLogging.log_position_and_velocity_to_console_1d(index, elapsed, one_cycle_position, velocity)
+                ConsoleLogging.log_range_motion_and_velocity(
+                    index, elapsed, one_cycle_position,
+                    formatted_motion_data_dictionary, velocity)
             else:
-                ConsoleLogging.log_position_to_console_1d(index, elapsed, one_cycle_position)
+                ConsoleLogging.log_range_and_motion(
+                    index, elapsed, one_cycle_position,
+                    formatted_motion_data_dictionary)
 
             if to_use_file:             # writes the data returned from the iterate_file method to the file
                 if use_velocity:
@@ -233,20 +277,19 @@ if __name__ == "__main__":
                         FileWriting.write_position_and_velocity_data_to_file_1d(
                             index, elapsed, timeDifference, logfile, one_cycle_position,
                             velocity)
-                    #else:                   # Returns 0 for velocity until it provides complete calculations
+                    # else:                   # Returns 0 for velocity until it provides complete calculations
                     #    FileWriting.write_position_and_velocity_data_to_file_1d(
                     #        index, elapsed, timeDifference, logfile, one_cycle_position,
                     #        np.nan)
                 else:
                     FileWriting.write_position_data_to_file_1d(index, elapsed, timeDifference, logfile, one_cycle_position)
 
-            index = index + 1                                     # increment data index
+            index = index + 1    # increment data index
             # Replace prev_bin_ with the bin from this iteration
             prev_bin_pos = copy.copy(bin_pos)
             prev_bin_time = copy.copy(bin_time)
 
-
-    except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
+    except KeyboardInterrupt:
         pass
 
     if to_use_file:
