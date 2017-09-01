@@ -78,7 +78,7 @@ class ReadyToRange(object):
             return device_range, status
         else:
             device_range.timestamp, device_range.distance, device_range.RSS = \
-                "error", "error", "error"
+                "ranging-error", "ranging-error", "ranging-error"
             return device_range,status
 
     def printPublishPosition(self, device_range):
@@ -148,8 +148,11 @@ if __name__ == "__main__":
 
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION # the ranging protocol
 
+    # get just the first anchor
+    destination_id = anchors[0].network_id
+
     pozyx = PozyxSerial(serial_port)
-    r = ReadyToRange(pozyx, anchors, osc_udp_client, range_step_mm, ranging_protocol, remote_id)
+    r = ReadyToRange(pozyx, destination_id, osc_udp_client, range_step_mm, ranging_protocol, remote_id)
     r.setup()
 
     # Initialize velocity calculation
