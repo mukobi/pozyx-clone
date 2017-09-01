@@ -137,7 +137,7 @@ if __name__ == "__main__":
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-        filename, use_processing) = Configuration.get_properties_1d()
+        filename, use_processing) = Configuration.get_properties()
 
     #import pdb; pdb.set_trace()
 
@@ -146,7 +146,6 @@ if __name__ == "__main__":
     osc_udp_client = None
     if use_processing:
         osc_udp_client = SimpleUDPClient(ip, network_port)
-
 
     range_step_mm = 1000         # distance that separates the amount of LEDs lighting up.
 
