@@ -33,9 +33,10 @@ public class ConsoleWindow implements Initializable {
         String osName = System.getProperty("os.name");
         console.setText("Running on " + osName + '\n');
         console.setText("\nThe full command you are running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
+
         if(Objects.equals(pythonCommand[0], "python") && !osName.startsWith("Windows")) {
-            pythonCommand[0] = "python3";
-            console.setText("Running on python3 instead of python.\n" +
+            pythonCommand[0] = "/Library/Frameworks/Python.framework/Versions/3.6/bin/python3";
+            console.setText("Running on python3 instead of python and trying to use your predefined Python path.\n" +
                     "The edited command you are actually running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
         }
         new Thread(() -> {
