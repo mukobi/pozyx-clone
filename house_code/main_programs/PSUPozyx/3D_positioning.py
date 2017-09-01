@@ -25,6 +25,7 @@ import numpy as np
 from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
+import copy
 """
 #RealTimePlotting
 from modules.real_time_plot import RealTimePlot
@@ -247,52 +248,28 @@ if  __name__ == "__main__":
                 #mean_prev_bin_pos  = Velocity.update_previous_bins1D(binned_pos)
 
                 bin_pos_x.append(one_cycle_position.x)
-                bin_pos_y.append(one_cycle_position.x)
+                bin_pos_y.append(one_cycle_position.y)
+                bin_pos_z.append(one_cycle_position.z)
                 bin_time.append(newTime)
 
-                #print('bin pos')
-                #print(bin_pos)
-                #print(prev_bin_pos)
-                #print('bin time')
-                #print(bin_time)
-                #print(prev_bin_time)
-                #print('Index')
-                #print(index)
                 # Calculates the directional velocities, set the method using method argument
-                velocity = Velocity.find_velocity1D(bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
+                velocity_x = Velocity.find_velocity1D(bin_input, bin_pos_x, prev_bin_pos_x, bin_time, prev_bin_time, velocity_method)
+                velocity_y = Velocity.find_velocity1D(bin_input, bin_pos_y, prev_bin_pos_y, bin_time, prev_bin_time, velocity_method)
+                velocity_z = Velocity.find_velocity1D(bin_input, bin_pos_z, prev_bin_pos_z, bin_time, prev_bin_time, velocity_method)
                 
-                print(velocity)
+ 
+                prev_bin_pos_x = copy.copy(bin_pos_x)
+                prev_bin_pos_y = copy.copy(bin_pos_y)
+                prev_bin_pos_z = copy.copy(bin_pos_z)
+
+               #print(velocity_x)
 
             else:
-                velocity = ''
-                print(velocity)
+                velocity_x = ''
+                velocity_y = ''
+                velocity_z = ''
+                #print(velocity)
 
-
-
-
-
-            if use_velocity and status == POZYX_SUCCESS:
-                # Updates and returns the new bins
-                binned_pos_x, binned_pos_y, binned_pos_z, binned_time = Velocity.update_bins(bin_pos_x, bin_pos_y, bin_pos_z,
-                    bin_time, timeDifference, one_cycle_position)
-
-                # Can equal either simple or linreg
-                velocity_method = 'simple'
-                # velocity_method = 'linreg'
-
-                # Calculates the directional velocities, set the method using method argument
-                velocity_x, velocity_y, velocity_z = Velocity.find_velocity3D(index, bin_input, binned_pos_x, mean_prev_bin_pos_x, binned_pos_y, mean_prev_bin_pos_y,
-                    binned_pos_z, mean_prev_bin_pos_z, binned_time, velocity_method)
-
-                # Gets the total distance travelled and the velocity of x, y and z combined
-                total_distance, total_velocity = DataFunctions.find_total_distance(binned_pos_x, binned_pos_y, binned_pos_z,
-                    mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z, velocity_x, velocity_y, velocity_z, total_distance)
-                # Gets the velocity bins and updates them based on velocity data
-                time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500 = DataFunctions.velocity_bins(total_velocity,
-                    time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500, timeDifference)
-
-                # Gets the means of the previous data for calculations
-                mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.update_previous_bins(binned_pos_x, binned_pos_y, binned_pos_z)
 
 
             # Logs the data to console
@@ -315,13 +292,6 @@ if  __name__ == "__main__":
                     FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)
 
             index = index + 1                                     # increment data index
-
-            """
-            #RealTimePlotting which significantly decreases Hz
-            if status == POZYX_SUCCESS:
-                display_one.add(elapsed, velocity_x)
-                plt.pause(0.0000000000000000000000001)
-            """
 
     except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
         pass
