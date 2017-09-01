@@ -70,8 +70,9 @@ class ReadyToLocalize(object):
             self.printPublishPosition(position)
             return position, status
         else:
-            self.printPublishErrorCode("positioning")
-            position.x, position.y, position.z = "error", "error", "error"
+            #self.printPublishErrorCode("positioning")
+            position.x, position.y, position.z = "", "", ""
+            #position.x, position.y, position.z = "error", "error", "error"
             return position, status
 
     def printPublishPosition(self, position):
@@ -231,6 +232,44 @@ if  __name__ == "__main__":
 
             # Status is used for error handling
             one_cycle_position, status = r.loop()
+
+
+            if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0:
+                # Updates and returns the new bins
+                #bin_pos, bin_time = Velocity.update_bins1D(bin_pos, bin_time, one_cycle_position, newTime)
+
+                # Can equal either simple or linreg
+                velocity_method = 'simple'
+                #velocity_method = 'linreg'
+
+
+                # Gets the means of the previous data for calculations
+                #mean_prev_bin_pos  = Velocity.update_previous_bins1D(binned_pos)
+
+                bin_pos_x.append(one_cycle_position.x)
+                bin_pos_y.append(one_cycle_position.x)
+                bin_time.append(newTime)
+
+                #print('bin pos')
+                #print(bin_pos)
+                #print(prev_bin_pos)
+                #print('bin time')
+                #print(bin_time)
+                #print(prev_bin_time)
+                #print('Index')
+                #print(index)
+                # Calculates the directional velocities, set the method using method argument
+                velocity = Velocity.find_velocity1D(bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
+                
+                print(velocity)
+
+            else:
+                velocity = ''
+                print(velocity)
+
+
+
+
 
             if use_velocity and status == POZYX_SUCCESS:
                 # Updates and returns the new bins
