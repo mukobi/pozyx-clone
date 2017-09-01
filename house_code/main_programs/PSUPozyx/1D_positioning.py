@@ -210,14 +210,14 @@ if __name__ == "__main__":
                 bin_pos.append(one_cycle_position.distance)
                 bin_time.append(newTime)
 
-                print('bin pos')
-                print(bin_pos)
-                print(prev_bin_pos)
-                print('bin time')
-                print(bin_time)
-                print(prev_bin_time)
-                print('Index')
-                print(index)
+                #print('bin pos')
+                #print(bin_pos)
+                #print(prev_bin_pos)
+                #print('bin time')
+                #print(bin_time)
+                #print(prev_bin_time)
+                #print('Index')
+                #print(index)
                 # Calculates the directional velocities, set the method using method argument
                 velocity = Velocity.find_velocity1D(bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
                 
