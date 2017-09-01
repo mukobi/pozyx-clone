@@ -17,7 +17,10 @@ class Configuration:
             configurations_file = os.path.dirname(os.path.dirname(__file__)) + "\\Configurations\\" + MASTER_CONFIG_NAME
         P = dict(line.strip().split('=') for line in open(configurations_file)
                  if not line.startswith('#') and not line.startswith('\n'))
-        number_remote_devices = int(P["number_remotes"])
+        try:
+            number_remote_devices = int(P["number_remotes"])
+        except ValueError:
+            number_remote_devices = 0
 
         # remote_id = None
         tags = []
@@ -26,34 +29,70 @@ class Configuration:
             remote_id = None
         else:
             use_remote = True
-            remote_id = int(P["remote_1_id"], 16)
-            remote_1_id = int(P["remote_1_id"], 16)
-            remote_2_id = int(P["remote_2_id"], 16)
-            remote_3_id = int(P["remote_3_id"], 16)
-            remote_4_id = int(P["remote_4_id"], 16)
-            remote_5_id = int(P["remote_5_id"], 16)
-            remote_6_id = int(P["remote_6_id"], 16)
+            try:
+                remote_id = int(P["remote_1_id"], 16)
+            except ValueError:
+                remote_id = 0
+            try:
+                remote_1_id = int(P["remote_1_id"], 16)
+            except ValueError:
+                remote_1_id = 0
+            try:
+                remote_2_id = int(P["remote_2_id"], 16)
+            except ValueError:
+                remote_2_id = 0
+            try:
+                remote_3_id = int(P["remote_3_id"], 16)
+            except ValueError:
+                remote_3_id = 0
+            try:
+                remote_4_id = int(P["remote_4_id"], 16)
+            except ValueError:
+                remote_4_id = 0
+            try:
+                remote_5_id = int(P["remote_5_id"], 16)
+            except ValueError:
+                remote_5_id = 0
+            try:
+                remote_6_id = int(P["remote_6_id"], 16)
+            except ValueError:
+                remote_6_id = 0
             tags = [remote_1_id, remote_2_id, remote_3_id,
                     remote_4_id, remote_5_id, remote_6_id]
             tags = tags[:number_remote_devices]
 
-        number_anchors = int(P["number_anchors"])
-        anchor_1_id = int(P["anchor_1_id"], 16)
-        anchor_1_x = int(float(P["anchor_1_x"]) * 1000)
-        anchor_1_y = int(float(P["anchor_1_y"]) * 1000)
-        anchor_1_z = int(float(P["anchor_1_z"]) * 1000)
-        anchor_2_id = int(P["anchor_2_id"], 16)
-        anchor_2_x = int(float(P["anchor_2_x"]) * 1000)
-        anchor_2_y = int(float(P["anchor_2_y"]) * 1000)
-        anchor_2_z = int(float(P["anchor_2_z"]) * 1000)
-        anchor_3_id = int(P["anchor_3_id"], 16)
-        anchor_3_x = int(float(P["anchor_3_x"]) * 1000)
-        anchor_3_y = int(float(P["anchor_3_y"]) * 1000)
-        anchor_3_z = int(float(P["anchor_3_z"]) * 1000)
-        anchor_4_id = int(P["anchor_4_id"], 16)
-        anchor_4_x = int(float(P["anchor_4_x"]) * 1000)
-        anchor_4_y = int(float(P["anchor_4_y"]) * 1000)
-        anchor_4_z = int(float(P["anchor_4_z"]) * 1000)
+        try:
+            number_anchors = int(P["number_anchors"])
+        except ValueError:
+            number_anchors = 4
+        try:
+            anchor_1_id = int(P["anchor_1_id"], 16)
+            anchor_1_x = int(float(P["anchor_1_x"]) * 1000)
+            anchor_1_y = int(float(P["anchor_1_y"]) * 1000)
+            anchor_1_z = int(float(P["anchor_1_z"]) * 1000)
+        except ValueError:
+            anchor_1_id , anchor_1_x, anchor_1_y, anchor_1_z = 0, 0, 0, 0
+        try:
+            anchor_2_id = int(P["anchor_2_id"], 16)
+            anchor_2_x = int(float(P["anchor_2_x"]) * 1000)
+            anchor_2_y = int(float(P["anchor_2_y"]) * 1000)
+            anchor_2_z = int(float(P["anchor_2_z"]) * 1000)
+        except ValueError:
+            anchor_2_id , anchor_2_x, anchor_2_y, anchor_2_z = 0, 0, 0, 0
+        try:
+            anchor_3_id = int(P["anchor_3_id"], 16)
+            anchor_3_x = int(float(P["anchor_3_x"]) * 1000)
+            anchor_3_y = int(float(P["anchor_3_y"]) * 1000)
+            anchor_3_z = int(float(P["anchor_3_z"]) * 1000)
+        except ValueError:
+            anchor_3_id , anchor_3_x, anchor_3_y, anchor_3_z = 0, 0, 0, 0
+        try:
+            anchor_4_id = int(P["anchor_1_id"], 16)
+            anchor_4_x = int(float(P["anchor_1_x"]) * 1000)
+            anchor_4_y = int(float(P["anchor_1_y"]) * 1000)
+            anchor_4_z = int(float(P["anchor_1_z"]) * 1000)
+        except ValueError:
+            anchor_4_id , anchor_4_x, anchor_4_y, anchor_4_z = 0, 0, 0, 0
         try:
             anchor_5_id = int(P["anchor_5_id"], 16)
             anchor_5_x = int(float(P["anchor_5_x"]) * 1000)
@@ -103,9 +142,12 @@ class Configuration:
 
         use_file = P["use_file"] == "true"
         filename = P["filename"]
+        if filename == "":
+            use_file = False
         if not filename.endswith(".csv"):
             filename += ".csv"
-        pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+        pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.dirname(__file__)))))
         print('Pozyx Folder')
         print(pozyx_folder)
         data_file = pozyx_folder + "/Data/" + filename
