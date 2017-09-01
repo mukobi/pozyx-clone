@@ -80,7 +80,7 @@ class ReadyToRange(object):
             #    print("ERROR: setting (remote) leds")
         else:
             #self.printPublishErrorCode("positioning")
-            device_range.timestamp, device_range.distance, device_range.rss = "error","error","error"
+            device_range.timestamp, device_range.distance, device_range.rss = 0,0,0
             #print("ERROR: ranging")
             return device_range,status
 
@@ -195,7 +195,7 @@ if __name__ == "__main__":
             one_cycle_position, status = r.loop()
 
 
-            if use_velocity and status == POZYX_SUCCESS:
+            if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0:
                 # Updates and returns the new bins
                 #bin_pos, bin_time = Velocity.update_bins1D(bin_pos, bin_time, one_cycle_position, newTime)
 
@@ -210,21 +210,21 @@ if __name__ == "__main__":
                 bin_pos.append(one_cycle_position.distance)
                 bin_time.append(newTime)
 
-                print('bin pos')
-                print(bin_pos)
-                print(prev_bin_pos)
-                print('bin time')
-                print(bin_time)
-                print(prev_bin_time)
-                print('Index')
-                print(index)
+                #print('bin pos')
+                #print(bin_pos)
+                #print(prev_bin_pos)
+                #print('bin time')
+                #print(bin_time)
+                #print(prev_bin_time)
+                #print('Index')
+                #print(index)
                 # Calculates the directional velocities, set the method using method argument
                 velocity = Velocity.find_velocity1D(bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
                 
                 print(velocity)
 
             else:
-                velocity = -10000
+                velocity = ''
                 print(velocity)
 
 
@@ -236,14 +236,14 @@ if __name__ == "__main__":
 
             if to_use_file:             # writes the data returned from the iterate_file method to the file
                 if use_velocity:
-                    if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
+                    if one_cycle_position.distance != 0:   # Accounts for the time it takes to get accurate velocity calculations
                         FileWriting.write_position_and_velocity_data_to_file_1d(
                             index, elapsed, timeDifference, logfile, one_cycle_position,
                             velocity)
-                    else:                   # Returns 0 for velocity until it provides complete calculations
-                        FileWriting.write_position_and_velocity_data_to_file_1d(
-                            index, elapsed, timeDifference, logfile, one_cycle_position,
-                            np.nan)
+                    #else:                   # Returns 0 for velocity until it provides complete calculations
+                    #    FileWriting.write_position_and_velocity_data_to_file_1d(
+                    #        index, elapsed, timeDifference, logfile, one_cycle_position,
+                    #        np.nan)
                 else:
                     FileWriting.write_position_data_to_file_1d(index, elapsed, timeDifference, logfile, one_cycle_position)
 
