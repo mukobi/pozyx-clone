@@ -136,7 +136,7 @@ if __name__ == "__main__":
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-        filename, use_processing) = Configuration.get_properties_1d()
+        filename, use_processing) = Configuration.get_properties()
 
     #import pdb; pdb.set_trace()
 
