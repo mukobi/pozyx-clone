@@ -14,19 +14,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ConsoleWindow implements Initializable {
     @FXML
     private Label console;
 
-    private Process pr;
+    private Process     pr;
     
     private static final int CHARACTERDISPLAYBUFFER = 30000;
 
     void launchPyScript(String startMessage, String... pythonCommand) {
         if (startMessage != null) {
             console.setText(startMessage);
+        }
+        String osName = System.getProperty("os.name");
+        console.setText("Running on " + osName + '\n');
+        console.setText("\nThe full command you are running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
+
+        if(Objects.equals(pythonCommand[0], "python") && !osName.startsWith("Windows")) {
+            pythonCommand[0] = "/Library/Frameworks/Python.framework/Versions/3.6/bin/python3";
+            console.setText("Running on python3 instead of python and trying to use your predefined Python path.\n" +
+                    "The edited command you are actually running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
         }
         new Thread(() -> {
             try {
@@ -58,6 +69,7 @@ public class ConsoleWindow implements Initializable {
                 in.close();
 
             } catch (IOException | InterruptedException e) {
+                console.setText(e.toString() + console.getText());
                 e.printStackTrace();
             }
         }).start();
