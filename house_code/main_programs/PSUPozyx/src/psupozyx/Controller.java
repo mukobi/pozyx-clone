@@ -648,6 +648,11 @@ public class Controller implements Initializable {
         Main main = new Main();
         main.openStage("/psupozyx/fxml/data_replay.fxml", "PSU Pozyx | Data Replay", 600, 400);
     }
+
+    public void handlePyVersion(ActionEvent actionEvent) {
+        String[] command = {"python", "-u", "mac_python_test.py"};
+        launchConsoleLogging(command, true);
+    }
 }
 
 
