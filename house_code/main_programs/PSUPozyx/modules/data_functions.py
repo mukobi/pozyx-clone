@@ -1,4 +1,4 @@
-import numpy as numpy
+import numpy as np
 class DataFunctions:
     @staticmethod
     def median(data_list):
@@ -8,12 +8,16 @@ class DataFunctions:
         :param list list: this is a list of numbers that the user provides for calculation
         :return float median: this is the median of the data provided
         """
-        median = numpy.median(data_list)
+        median = np.median(data_list)
         return median
 
     @staticmethod
-    def find_total_distance1D(__pos_x, prev_pos_x,  velocity,total_distance):
+    def find_total_distance1D(
+            __pos_x, __pos_y, __pos_z, prev_pos_x, velocity_x, velocity_y, velocity_z, total_distance):
         """
+        WARNING - This function looks very broken, and is currently not implemented anywhere.
+        Gabe suggests to delete it or seriously revise it.
+
         Function to determine the total distance travelled by the Pozyx device
 
         :param float pos_*: the current x, y or z position data based on mean calculation
@@ -31,7 +35,7 @@ class DataFunctions:
         from math import sqrt
 
         total_velocity = (velocity_x + velocity_y + velocity_z)
-        #Getting TypeError: cannot perform reduce with flexible type
+        # Getting TypeError: cannot perform reduce with flexible type
         pos_x = Velocity.position_mean_calculation(__pos_x)
         pos_y = Velocity.position_mean_calculation(__pos_y)
         pos_z = Velocity.position_mean_calculation(__pos_z)
@@ -467,6 +471,7 @@ class Velocity:
 
         return bin_pos, prev_bin_pos, bin_time, prev_bin_time
 
+    @staticmethod
     def initialize_mean_prev_bins1D():
         """
         Initializing the mena previous bins for use.
@@ -504,6 +509,7 @@ class Velocity:
 
         return bin_pos_x, bin_pos_y, bin_pos_z, prev_bin_pos_x, prev_bin_pos_y, prev_bin_pos_z, bin_time
 
+    @staticmethod
     def initialize_mean_prev_bins3D():
         """
         Initializing the mena previous bins for use.
