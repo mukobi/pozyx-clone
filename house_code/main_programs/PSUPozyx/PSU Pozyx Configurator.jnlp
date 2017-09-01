@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PSU Pozyx Configurator.jar" size="55270059" download="eager" />
+    <jar href="PSU Pozyx Configurator.jar" size="55271488" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\core.jar" size="1016455" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\gluegen-rt-natives-windows-i586.jar" size="7577" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\gluegen-rt.jar" size="345605" download="eager" />
