@@ -26,10 +26,11 @@ import copy as copy
 class ReadyToRange(object):
     """Continuously performs ranging between the Pozyx and a destination and sets their LEDs"""
 
-    def __init__(self, i_pozyx, i_destination_id, i_osc_udp_client, i_range_step_mm=1000,
-                 i_protocol=POZYX_RANGE_PROTOCOL_FAST, i_remote_id=None):
+    def __init__(self, i_pozyx, i_destination_id, i_to_get_sensor_data, i_osc_udp_client, i_range_step_mm=1000,
+                 i_protocol=POZYX_RANGE_PROTOCOL_FAST, i_remote_id=None, ):
         self.pozyx = i_pozyx
         self.destination_id = i_destination_id
+        self.to_get_sensor_data = i_to_get_sensor_data
         self.range_step_mm = i_range_step_mm
         self.remote_id = i_remote_id
         self.protocol = i_protocol
@@ -48,7 +49,7 @@ class ReadyToRange(object):
         self.pozyx.setRangingProtocol(self.protocol, self.remote_id)
         self.current_time = time()
 
-    def loop(self, to_get_sensor_data):
+    def loop(self):
         """Performs ranging and sets the LEDs accordingly"""
         device_range = DeviceRange()
 
@@ -64,7 +65,7 @@ class ReadyToRange(object):
 
         # get motion data in this section
         sensor_data = SensorData()
-        if to_get_sensor_data:
+        if self.to_get_sensor_data:
             sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
             if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
                 loop_status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
@@ -154,8 +155,9 @@ class ReadyToRange(object):
 
 if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
-
+    pozyx = PozyxSerial(serial_port)
     use_velocity = True
+    range_step_mm = 1000         # distance that separates the amount of LEDs lighting up.
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
@@ -165,14 +167,12 @@ if __name__ == "__main__":
 
     ip, network_port, osc_udp_client = "127.0.0.1", 8888, None
     osc_udp_client = SimpleUDPClient(ip, network_port)
-    range_step_mm = 1000         # distance that separates the amount of LEDs lighting up.
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
     bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time = None, None, None, None, None
 
-    pozyx = PozyxSerial(serial_port)
-    # get just the first anchor id
     destination_id = anchors[0].network_id
-    r = ReadyToRange(pozyx, destination_id, osc_udp_client, range_step_mm, ranging_protocol, remote_id)
+    r = ReadyToRange(pozyx, destination_id, to_get_sensor_data, osc_udp_client,
+                     range_step_mm, ranging_protocol, remote_id)
     r.setup()
 
     # Initialize velocity calculation
@@ -208,7 +208,7 @@ if __name__ == "__main__":
             timeDifference = newTime - oldTime
 
             # Status is used for error handling
-            one_cycle_position, one_cycle_motion_data, status = r.loop(to_get_sensor_data)
+            one_cycle_position, one_cycle_motion_data, status = r.loop()
 
             if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0 \
                     and type(one_cycle_position.distance) != str:
