@@ -18,7 +18,6 @@ import time as t
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
-from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
 import copy as copy
@@ -52,8 +51,7 @@ class ReadyToRange(object):
     def loop(self):
         """Performs ranging and sets the LEDs accordingly"""
         device_range = DeviceRange()
-        sensor_data = SensorData()
-        sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
+
         calibration_status = SingleRegister()
         loop_status = self.pozyx.doRanging(self.destination_id, device_range, self.remote_id)
 
@@ -65,6 +63,8 @@ class ReadyToRange(object):
                 "ranging-error", "ranging-error", "ranging-error"
 
         # get motion data in this section
+        sensor_data = SensorData()
+        sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
         if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
             loop_status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
             loop_status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
@@ -184,7 +184,8 @@ if __name__ == "__main__":
 
     if use_velocity:
         # *** this function should be in the user_input_config_functions module, not data functions ***
-        bin_input = DataFunctions.bin_input()       # Determines how many points the user wants to bin
+        # bin_input = DataFunctions.bin_input()       # Determines how many points the user wants to bin
+        bin_input = 10  # hard coded for easy use
 
         bin_pos = deque(maxlen=bin_input)
         prev_bin_pos = deque(maxlen=bin_input)
@@ -198,7 +199,7 @@ if __name__ == "__main__":
         start = t.time()
         newTime = start
         while True:
-            elapsed = (t.time()-start)
+            elapsed = t.time() - start
             oldTime = newTime
             newTime = elapsed
             timeDifference = newTime - oldTime
