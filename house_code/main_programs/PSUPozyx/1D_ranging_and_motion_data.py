@@ -48,7 +48,7 @@ class ReadyToRange(object):
         self.pozyx.setRangingProtocol(self.protocol, self.remote_id)
         self.current_time = time()
 
-    def loop(self):
+    def loop(self, to_get_sensor_data):
         """Performs ranging and sets the LEDs accordingly"""
         device_range = DeviceRange()
 
@@ -64,12 +64,13 @@ class ReadyToRange(object):
 
         # get motion data in this section
         sensor_data = SensorData()
-        sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
-        if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-            loop_status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
-            loop_status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
-            if loop_status == POZYX_SUCCESS:
-                self.publish_sensor_data(sensor_data, calibration_status)
+        if to_get_sensor_data:
+            sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
+            if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+                loop_status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
+                loop_status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
+                if loop_status == POZYX_SUCCESS:
+                    self.publish_sensor_data(sensor_data, calibration_status)
         return device_range, sensor_data, loop_status
 
     def print_publish_position(self, device_range):
@@ -160,6 +161,8 @@ if __name__ == "__main__":
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties()
 
+    to_get_sensor_data = not attributes_to_log == []
+
     ip, network_port, osc_udp_client = "127.0.0.1", 8888, None
     osc_udp_client = SimpleUDPClient(ip, network_port)
     range_step_mm = 1000         # distance that separates the amount of LEDs lighting up.
@@ -205,7 +208,7 @@ if __name__ == "__main__":
             timeDifference = newTime - oldTime
 
             # Status is used for error handling
-            one_cycle_position, one_cycle_motion_data, status = r.loop()
+            one_cycle_position, one_cycle_motion_data, status = r.loop(to_get_sensor_data)
 
             if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0 \
                     and type(one_cycle_position.distance) != str:
