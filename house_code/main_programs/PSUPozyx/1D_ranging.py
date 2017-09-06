@@ -110,13 +110,14 @@ class ReadyToRange(object):
 if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
 
+    use_velocity = True
+
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties()
 
     ip, network_port, osc_udp_client = "127.0.0.1", 8888, None
-    if use_processing:
-        osc_udp_client = SimpleUDPClient(ip, network_port)
+    osc_udp_client = SimpleUDPClient(ip, network_port)
     range_step_mm = 1000         # distance that separates the amount of LEDs lighting up.
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
     bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time = None, None, None, None, None
@@ -128,7 +129,6 @@ if __name__ == "__main__":
     r.setup()
 
     # Initialize velocity calculation
-    use_velocity = True
 
     logfile = None
     if to_use_file:
