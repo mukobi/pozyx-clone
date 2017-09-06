@@ -1,4 +1,6 @@
 import numpy as np
+
+
 class DataFunctions:
     @staticmethod
     def median(data_list):
@@ -416,9 +418,9 @@ class Velocity:
         """
         This is a function to determine which method of finding the velocity to use.
 
-        :param integer position: this is the current position of the device
+        :param deque position: this is the current position of the device
         :param integer prev_pos: this is the previous position of the device
-        :param float time: this is the current time
+        :param deque time: this is the current time
         :param float prev_time: this is the previous time
 
         Notes: Default is simple.
