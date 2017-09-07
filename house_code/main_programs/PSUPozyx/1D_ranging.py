@@ -23,16 +23,24 @@ from collections import deque
 import copy as copy
 
 
+class RangeOutputContainer:
+    def __init__(self, tag, device_range, sensor_data, loop_status):
+        self.tag = tag
+        self.device_range = device_range
+        self.sensor_data = sensor_data
+        self.loop_status = loop_status
+
+
 class ReadyToRange(object):
     """Continuously performs ranging between the Pozyx and a destination and sets their LEDs"""
 
-    def __init__(self, i_pozyx, i_destination_id, i_to_get_sensor_data, i_osc_udp_client, i_range_step_mm=1000,
-                 i_protocol=POZYX_RANGE_PROTOCOL_FAST, i_remote_id=None, ):
+    def __init__(self, i_pozyx, i_tags, i_destination_id, i_to_get_sensor_data, i_osc_udp_client, i_range_step_mm=1000,
+                 i_protocol=POZYX_RANGE_PROTOCOL_FAST):
         self.pozyx = i_pozyx
+        self.tags = i_tags
         self.destination_id = i_destination_id
         self.to_get_sensor_data = i_to_get_sensor_data
         self.range_step_mm = i_range_step_mm
-        self.remote_id = i_remote_id
         self.protocol = i_protocol
         self.osc_udp_client = i_osc_udp_client
         self.current_time = None
@@ -42,41 +50,46 @@ class ReadyToRange(object):
         """Sets up both the ranging and destination Pozyx's LED configuration"""
         # make sure the local/remote pozyx system has no control over the LEDs.
         led_config = 0x0
-        self.pozyx.setLedConfig(led_config, self.remote_id)
-        # do the same for the destination.
         self.pozyx.setLedConfig(led_config, self.destination_id)
-        # set the ranging protocol
-        self.pozyx.setRangingProtocol(self.protocol, self.remote_id)
+        for tag in self.tags:
+            self.pozyx.setLedConfig(led_config, tag)
+            # set the ranging protocol
+            self.pozyx.setRangingProtocol(self.protocol, tag)
         self.current_time = time()
 
     def loop(self):
         """Performs ranging and sets the LEDs accordingly"""
-        device_range = DeviceRange()
+        output_array = []
+        for tag in self.tags:
+            # get 1D position in this section
+            device_range = DeviceRange()
+            loop_status = self.pozyx.doRanging(self.destination_id, device_range, tag)
+            if device_range.distance > 2147483647:
+                loop_status = POZYX_FAILURE
+            if loop_status == POZYX_SUCCESS:
+                self.print_publish_position(device_range, tag)
+            else:
+                device_range.timestamp, device_range.distance, device_range.rss =\
+                    "ranging-error", "ranging-error", "ranging-error"
 
-        calibration_status = SingleRegister()
-        loop_status = self.pozyx.doRanging(self.destination_id, device_range, self.remote_id)
+            # get motion data in this section-
+            sensor_data = SensorData()
+            calibration_status = SingleRegister()
+            if self.to_get_sensor_data:
+                sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
+                if tag is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+                    loop_status = self.pozyx.getAllSensorData(sensor_data, tag)
+                    loop_status &= self.pozyx.getCalibrationStatus(calibration_status, tag)
+                    if loop_status == POZYX_SUCCESS:
+                        self.publish_sensor_data(sensor_data, calibration_status)
 
-        # get 1D position in this section
-        if loop_status == POZYX_SUCCESS:
-            self.print_publish_position(device_range)
-        else:
-            device_range.timestamp, device_range.distance, device_range.rss =\
-                "ranging-error", "ranging-error", "ranging-error"
+            output = RangeOutputContainer(tag, device_range, sensor_data, loop_status)
+            output_array.append(output)
+        return output_array
 
-        # get motion data in this section
-        sensor_data = SensorData()
-        if self.to_get_sensor_data:
-            sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
-            if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-                loop_status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
-                loop_status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
-                if loop_status == POZYX_SUCCESS:
-                    self.publish_sensor_data(sensor_data, calibration_status)
-        return device_range, sensor_data, loop_status
-
-    def print_publish_position(self, device_range):
+    def print_publish_position(self, device_range, tag):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
-        network_id = self.remote_id
+        network_id = tag
         if network_id is None:
             network_id = 0
         if self.osc_udp_client is not None:
@@ -84,41 +97,17 @@ class ReadyToRange(object):
                 "/position", [network_id, int(device_range.timestamp),
                               int(device_range.distance), int(device_range.RSS)])
 
-    def print_publish_error_code(self, operation):
-        """Prints the Pozyx's error and possibly sends it as a OSC packet"""
-        error_code = SingleRegister()
-        network_id = self.remote_id
-        if network_id is None:
-            self.pozyx.getErrorCode(error_code)
-            print("ERROR %s, local error code %s" % (operation, str(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message("/error", [operation, 0, error_code[0]])
-            return
-        error_code_status = self.pozyx.getErrorCode(error_code, self.remote_id)
-        if error_code_status == POZYX_SUCCESS:
-            print("ERROR %s on ID %s, error code %s" %
-                  (operation, "0x%0.4x" % network_id, str(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message(
-                    "/error", [operation, network_id, error_code[0]])
-        else:
-            self.pozyx.getErrorCode(error_code)
-            print("ERROR %s, couldn't retrieve remote error code, local error code %s" %
-                  (operation, str(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message("/error", [operation, 0, -1])
-            # should only happen when not being able to communicate with a remote Pozyx.
-
     def led_control(self, distance):
         """Sets LEDs according to the distance between two devices"""
         led_status = POZYX_SUCCESS
-        ids = [self.remote_id, self.destination_id]
-        # set the leds of both local/remote and destination pozyx device
-        for single_id in ids:
-            led_status &= self.pozyx.setLed(4, (distance < range_step_mm), single_id)
-            led_status &= self.pozyx.setLed(3, (distance < 2 * range_step_mm), single_id)
-            led_status &= self.pozyx.setLed(2, (distance < 3 * range_step_mm), single_id)
-            led_status &= self.pozyx.setLed(1, (distance < 4 * range_step_mm), single_id)
+        for tag in self.tags:
+            ids = [tag]
+            # set the leds of both local/remote and destination pozyx device
+            for single_id in ids:
+                led_status &= self.pozyx.setLed(4, (distance < range_step_mm), single_id)
+                led_status &= self.pozyx.setLed(3, (distance < 2 * range_step_mm), single_id)
+                led_status &= self.pozyx.setLed(2, (distance < 3 * range_step_mm), single_id)
+                led_status &= self.pozyx.setLed(1, (distance < 4 * range_step_mm), single_id)
         return led_status
 
     def publish_sensor_data(self, sensor_data, calibration_status):
@@ -171,8 +160,8 @@ if __name__ == "__main__":
     bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time = None, None, None, None, None
 
     destination_id = anchors[0].network_id
-    r = ReadyToRange(pozyx, destination_id, to_get_sensor_data, osc_udp_client,
-                     range_step_mm, ranging_protocol, remote_id)
+    r = ReadyToRange(pozyx, tags, destination_id, to_get_sensor_data, osc_udp_client,
+                     range_step_mm, ranging_protocol)
     r.setup()
 
     # Initialize velocity calculation
@@ -208,44 +197,51 @@ if __name__ == "__main__":
             timeDifference = newTime - oldTime
 
             # Status is used for error handling
-            one_cycle_position, one_cycle_motion_data, status = r.loop()
+            loop_output_array = r.loop()
+            print_output = ""
+            for single_output in loop_output_array:
+                print_output += ("|| " + hex(single_output.tag) + " Pos: " + str(single_output.device_range.distance)
+                                 + " | Acc: " + str(single_output.sensor_data.acceleration.x) + " "
+                                 + str(single_output.sensor_data.acceleration.y) + " "
+                                 + str(single_output.sensor_data.acceleration.z) + " ")
+            print(print_output)
 
-            if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0 \
-                    and type(one_cycle_position.distance) != str:
-                # Can equal either simple or linreg
-                velocity_method = 'simple'
-
-                bin_pos.append(one_cycle_position.distance)
-                bin_time.append(newTime)
-
-                # Calculates the directional velocities, set the method using method argument
-                velocity = Velocity.find_velocity1D(
-                    bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
-
-            else:
-                velocity = 'calc-error'
-
-            # Logs the data to console
-            formatted_motion_data_dictionary = ConsoleLogging.format_sensor_data(
-                one_cycle_motion_data, attributes_to_log)
-            if use_velocity:
-                ConsoleLogging.log_range_motion_and_velocity(
-                    index, elapsed, one_cycle_position,
-                    formatted_motion_data_dictionary, velocity)
-            else:
-                ConsoleLogging.log_range_and_motion(
-                    index, elapsed, one_cycle_position,
-                    formatted_motion_data_dictionary)
-
-            # writes the data to a file
-            if to_use_file:
-                if use_velocity:
-                    FileWriting.write_position_and_velocity_data_to_file_1d(
-                        index, elapsed, timeDifference, logfile, one_cycle_position,
-                        velocity)
-                else:
-                    FileWriting.write_position_data_to_file_1d(
-                        index, elapsed, timeDifference, logfile, one_cycle_position)
+            # if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0 \
+            #         and type(one_cycle_position.distance) != str:
+            #     # Can equal either simple or linreg
+            #     velocity_method = 'simple'
+            #
+            #     bin_pos.append(one_cycle_position.distance)
+            #     bin_time.append(newTime)
+            #
+            #     # Calculates the directional velocities, set the method using method argument
+            #     velocity = Velocity.find_velocity1D(
+            #         bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
+            #
+            # else:
+            #     velocity = 'calc-error'
+            #
+            # # Logs the data to console
+            # formatted_motion_data_dictionary = ConsoleLogging.format_sensor_data(
+            #     one_cycle_motion_data, attributes_to_log)
+            # if use_velocity:
+            #     ConsoleLogging.log_range_motion_and_velocity(
+            #         index, elapsed, one_cycle_position,
+            #         formatted_motion_data_dictionary, velocity)
+            # else:
+            #     ConsoleLogging.log_range_and_motion(
+            #         index, elapsed, one_cycle_position,
+            #         formatted_motion_data_dictionary)
+            #
+            # # writes the data to a file
+            # if to_use_file:
+            #     if use_velocity:
+            #         FileWriting.write_position_and_velocity_data_to_file_1d(
+            #             index, elapsed, timeDifference, logfile, one_cycle_position,
+            #             velocity)
+            #     else:
+            #         FileWriting.write_position_data_to_file_1d(
+            #             index, elapsed, timeDifference, logfile, one_cycle_position)
 
             index = index + 1
             # Replace prev_bin_ with the bin from this iteration
