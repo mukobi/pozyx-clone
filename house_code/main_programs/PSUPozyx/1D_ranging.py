@@ -4,8 +4,7 @@ The Pozyx ready to range tutorial (c) Pozyx Labs
 Please read the tutorial: https://www.pozyx.io/Documentation/Tutorials/ready_to_range/Python
 This demo requires two Pozyx devices. It demonstrates the ranging capabilities and the functionality to
 to remotely control a Pozyx device. Move around with the other Pozyx device.
-This demo measures the range between the two devices. The closer the devices are to each other, the more LEDs will
-light up on both devices.
+This demo measures the range between the two devices.
 """
 
 
@@ -31,33 +30,25 @@ class RangeOutputContainer:
 
 
 class ReadyToRange(object):
-    """Continuously performs ranging between the Pozyx and a destination and sets their LEDs"""
+    """Continuously performs ranging between the Pozyx and a destination"""
 
-    def __init__(self, i_pozyx, i_tags, i_destination_id, i_to_get_sensor_data, i_osc_udp_client, i_range_step_mm=1000,
+    def __init__(self, i_pozyx, i_tags, i_destination_id, i_to_get_sensor_data, i_osc_udp_client,
                  i_protocol=POZYX_RANGE_PROTOCOL_FAST):
         self.pozyx = i_pozyx
         self.tags = i_tags
         self.destination_id = i_destination_id
         self.to_get_sensor_data = i_to_get_sensor_data
-        self.range_step_mm = i_range_step_mm
         self.protocol = i_protocol
         self.osc_udp_client = i_osc_udp_client
         self.current_time = None
         self.msg_builder = None
 
     def setup(self):
-        """Sets up both the ranging and destination Pozyx's LED configuration"""
-        # make sure the local/remote pozyx system has no control over the LEDs.
-        led_config = 0x0
-        self.pozyx.setLedConfig(led_config, self.destination_id)
-        for tag in self.tags:
-            self.pozyx.setLedConfig(led_config, tag)
-            # set the ranging protocol
-            self.pozyx.setRangingProtocol(self.protocol, tag)
+        """Sets up the device"""
         self.current_time = time()
 
     def loop(self):
-        """Performs ranging and sets the LEDs accordingly"""
+        """Performs ranging and collects motion data as needed"""
         output_array = []
         for tag in self.tags:
             # get 1D position in this section
@@ -96,19 +87,6 @@ class ReadyToRange(object):
                 "/position", [network_id, int(device_range.timestamp),
                               int(device_range.distance), int(device_range.RSS)])
 
-    def led_control(self, distance):
-        """Sets LEDs according to the distance between two devices"""
-        led_status = POZYX_SUCCESS
-        for tag in self.tags:
-            ids = [tag]
-            # set the leds of both local/remote and destination pozyx device
-            for single_id in ids:
-                led_status &= self.pozyx.setLed(4, (distance < range_step_mm), single_id)
-                led_status &= self.pozyx.setLed(3, (distance < 2 * range_step_mm), single_id)
-                led_status &= self.pozyx.setLed(2, (distance < 3 * range_step_mm), single_id)
-                led_status &= self.pozyx.setLed(1, (distance < 4 * range_step_mm), single_id)
-        return led_status
-
     def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
         self.msg_builder = OscMessageBuilder("/sensordata")
@@ -145,7 +123,6 @@ if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
     pozyx = PozyxSerial(serial_port)
     use_velocity = True
-    range_step_mm = 1000         # distance that separates the amount of LEDs lighting up.
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
@@ -158,8 +135,8 @@ if __name__ == "__main__":
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
 
     destination_id = anchors[0].network_id
-    r = ReadyToRange(pozyx, tags, destination_id, to_get_sensor_data, osc_udp_client,
-                     range_step_mm, ranging_protocol)
+    r = ReadyToRange(
+        pozyx, tags, destination_id, to_get_sensor_data, osc_udp_client, ranging_protocol)
     r.setup()
 
     # Initialize velocity calculation
