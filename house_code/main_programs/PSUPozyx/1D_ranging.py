@@ -53,7 +53,7 @@ class ReadyToRange(object):
         for tag in self.tags:
             # get 1D position in this section
             device_range = DeviceRange()
-            loop_status = self.pozyx.doRanging(self.destination_id, device_range, tag)
+            loop_status = self.pozyx.doRanging(tag, device_range, self.destination_id)
             if device_range.distance > 2147483647:
                 loop_status = POZYX_FAILURE
             if loop_status == POZYX_SUCCESS:
@@ -135,6 +135,12 @@ if __name__ == "__main__":
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
 
     destination_id = anchors[0].network_id
+
+    # IMPORTANT: set destination_id to None if it is meant to be ranging from the device
+    # connected to the computer. Do this by setting the destination_id to an empty
+    # string "" in the GUI
+    if destination_id == 0:
+        destination_id = None
     r = ReadyToRange(
         pozyx, tags, destination_id, to_get_sensor_data, osc_udp_client, ranging_protocol)
     r.setup()
