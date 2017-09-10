@@ -111,11 +111,12 @@ class DataFunctions:
         since every row will have the same number of data points.
         """
         num_string = str(number)
-        # add decimal place if nonexistent
-        if "." not in num_string:
-            num_string += "."
+        # remove trailing .0
+        if num_string[-2:] == ".0":
+            num_string = num_string[:-2]
+        # add spaces
         while len(num_string) < length:
-            num_string += "0"
+            num_string += " "
         while len(num_string) > length:
             num_string = num_string[:-1]
         return num_string
@@ -125,7 +126,7 @@ class DataFunctions:
         """
         Make a data value have a set character length.
 
-        :param float number: the data point, probably a number, that you want to round
+        :param int number: the data point, probably a number, that you want to round
         :param int length: the length of characters you want the output to be
         :return: a string representation of the input number with set length
         :rtype: str
@@ -137,6 +138,9 @@ class DataFunctions:
         of data points.
         """
         num_string = str(number)
+        # remove trailing .0
+        if num_string[-2:] == ".0":
+            num_string = num_string[:-2]
         # add decimal place if nonexistent
         if len(num_string) >= length:
             return num_string

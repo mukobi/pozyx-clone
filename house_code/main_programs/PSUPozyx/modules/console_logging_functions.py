@@ -580,65 +580,65 @@ class CondensedConsoleLogging:
                         sensor_data.pressure, 8))
                 elif attribute_to_log == "acceleration":
                     attribute_to_log = "Acc"
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.acceleration.x, 8))
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.acceleration.y, 8))
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.acceleration.z, 8))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.acceleration.x, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.acceleration.y, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.acceleration.z, 6))
                 elif attribute_to_log == "magnetic":
                     attribute_to_log = "Mag"
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.magnetic.x, 8))
+                        sensor_data.magnetic.x, 6))
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.magnetic.y, 8))
+                        sensor_data.magnetic.y, 6))
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.magnetic.z, 8))
+                        sensor_data.magnetic.z, 6))
                 elif attribute_to_log == "angular velocity":
                     attribute_to_log = "Ang Vel"
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.angular_vel.x, 8))
+                        sensor_data.angular_vel.x, 6))
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.angular_vel.y, 8))
+                        sensor_data.angular_vel.y, 6))
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.angular_vel.z, 8))
+                        sensor_data.angular_vel.z, 6))
                 elif attribute_to_log == "euler angles":
                     attribute_to_log = ""
                     line_of_data.append("Heading")
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.euler_angles.heading, 8))
+                        sensor_data.euler_angles.heading, 6))
                     line_of_data.append("Roll")
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.euler_angles.roll, 8))
+                        sensor_data.euler_angles.roll, 6))
                     line_of_data.append("Pitch")
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.euler_angles.pitch, 8))
+                        sensor_data.euler_angles.pitch, 6))
                 elif attribute_to_log == "quaternion":
                     attribute_to_log = "Quat"
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.quaternion.x, 8))
+                        sensor_data.quaternion.x, 6))
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.quaternion.y, 8))
+                        sensor_data.quaternion.y, 6))
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.quaternion.z, 8))
+                        sensor_data.quaternion.z, 6))
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.quaternion.w, 8))
+                        sensor_data.quaternion.w, 6))
                 elif attribute_to_log == "linear acceleration":
                     attribute_to_log = "Lin Acc"
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.linear_acceleration.x, 8))
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.linear_acceleration.y, 8))
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.linear_acceleration.z, 8))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.linear_acceleration.x, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.linear_acceleration.y, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.linear_acceleration.z, 6))
                 elif attribute_to_log == "gravity":
                     attribute_to_log = "Grav"
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.gravity_vector.x, 8))
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.gravity_vector.y, 8))
-                    line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.gravity_vector.z, 8))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.gravity_vector.x, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.gravity_vector.y, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.gravity_vector.z, 6))
                 data_dictionary[attribute_to_log.title()] = line_of_data
             return data_dictionary
         except AttributeError:
