@@ -16,9 +16,8 @@ from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
 from modules.file_writing import SensorAndPositionFileWriting as FileWriting
-from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
+from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from modules.data_functions import Velocity as Velocity
 from collections import deque
 import copy as copy
 
@@ -157,7 +156,6 @@ if __name__ == "__main__":
     ip, network_port, osc_udp_client = "127.0.0.1", 8888, None
     osc_udp_client = SimpleUDPClient(ip, network_port)
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
-    bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time = None, None, None, None, None
 
     destination_id = anchors[0].network_id
     r = ReadyToRange(pozyx, tags, destination_id, to_get_sensor_data, osc_udp_client,
@@ -174,20 +172,8 @@ if __name__ == "__main__":
         else:
             FileWriting.write_position_header_to_file_1d(logfile)
 
-    if use_velocity:
-        # *** this function should be in the user_input_config_functions module, not data functions ***
-        # bin_input = DataFunctions.bin_input()       # Determines how many points the user wants to bin
-        bin_input = 10  # hard coded for easy use
-
-        bin_pos = deque(maxlen=bin_input)
-        prev_bin_pos = deque(maxlen=bin_input)
-        bin_time = deque(maxlen=bin_input)
-        prev_bin_time = deque(maxlen=bin_input)
-
-    index = 0
-    velocity = 0
-
     try:
+        index = 0
         start = t.time()
         newTime = start
         while True:
@@ -198,55 +184,11 @@ if __name__ == "__main__":
 
             # Status is used for error handling
             loop_output_array = r.loop()
-            print_output = ""
-            for single_output in loop_output_array:
-                print_output += ("|| " + hex(single_output.tag) + " Pos: " + str(single_output.device_range.distance)
-                                 + " | Acc: " + str(single_output.sensor_data.acceleration.x) + " "
-                                 + str(single_output.sensor_data.acceleration.y) + " "
-                                 + str(single_output.sensor_data.acceleration.z) + " ")
+            print_output = Console.build_1d_ranging_output(
+                index, elapsed, loop_output_array, attributes_to_log)
             print(print_output)
 
-            # if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0 \
-            #         and type(one_cycle_position.distance) != str:
-            #     # Can equal either simple or linreg
-            #     velocity_method = 'simple'
-            #
-            #     bin_pos.append(one_cycle_position.distance)
-            #     bin_time.append(newTime)
-            #
-            #     # Calculates the directional velocities, set the method using method argument
-            #     velocity = Velocity.find_velocity1D(
-            #         bin_input, bin_pos, prev_bin_pos, bin_time, prev_bin_time, velocity_method)
-            #
-            # else:
-            #     velocity = 'calc-error'
-            #
-            # # Logs the data to console
-            # formatted_motion_data_dictionary = ConsoleLogging.format_sensor_data(
-            #     one_cycle_motion_data, attributes_to_log)
-            # if use_velocity:
-            #     ConsoleLogging.log_range_motion_and_velocity(
-            #         index, elapsed, one_cycle_position,
-            #         formatted_motion_data_dictionary, velocity)
-            # else:
-            #     ConsoleLogging.log_range_and_motion(
-            #         index, elapsed, one_cycle_position,
-            #         formatted_motion_data_dictionary)
-            #
-            # # writes the data to a file
-            # if to_use_file:
-            #     if use_velocity:
-            #         FileWriting.write_position_and_velocity_data_to_file_1d(
-            #             index, elapsed, timeDifference, logfile, one_cycle_position,
-            #             velocity)
-            #     else:
-            #         FileWriting.write_position_data_to_file_1d(
-            #             index, elapsed, timeDifference, logfile, one_cycle_position)
-
             index = index + 1
-            # Replace prev_bin_ with the bin from this iteration
-            prev_bin_pos = copy.copy(bin_pos)
-            prev_bin_time = copy.copy(bin_time)
 
     except KeyboardInterrupt:
         pass

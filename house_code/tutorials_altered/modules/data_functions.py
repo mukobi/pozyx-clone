@@ -92,7 +92,7 @@ class DataFunctions:
             return str_number
         everything_to_the_e = str_number[0:str_number.find('e')]
         everything_after_e = str_number[str_number.find('e'):]
-        new_everything_to_the_e = self.str_set_length(everything_to_the_e, length)
+        new_everything_to_the_e = self.str_append_length(everything_to_the_e, length)
         return new_everything_to_the_e + everything_after_e
 
     @staticmethod
