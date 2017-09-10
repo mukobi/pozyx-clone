@@ -141,7 +141,7 @@ class DataFunctions:
         if len(num_string) >= length:
             return num_string
         while len(num_string) < length:
-            num_string = "0" + num_string
+            num_string = " " + num_string
         return num_string
 
     @staticmethod
