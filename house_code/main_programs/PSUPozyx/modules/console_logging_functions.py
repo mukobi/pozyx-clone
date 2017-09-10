@@ -553,12 +553,13 @@ class CondensedConsoleLogging:
 
     @staticmethod
     def build_tag(single_device):
-        return " | Tag: " + hex(single_device.tag)
+        return " | " + hex(single_device.tag)
 
     @staticmethod
     def build_range(single_device):
-        output = " | Dist: "
-        output += str(single_device.device_range.distance)
+        output = " | Dist "
+        output += DataFunctions.str_prepend_length(
+            single_device.device_range.distance, 5)
         return output
 
     @staticmethod
