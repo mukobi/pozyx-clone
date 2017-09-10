@@ -12,7 +12,7 @@ class SensorDataFileWriting:
                                                  "Heading,Roll,Pitch,"
                                                  "Quaternion-X,Quaternion-Y,Quaternion-Z,Quaternion-W,"
                                                  "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
-                                                 "Gravity-X,Gravity-Y,Gravity-Z")):
+                                                 "Gravity-XGravity-X,Gravity-Y,Gravity-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -575,3 +575,38 @@ class MultiDevicePositionFileWriting:
             file.write(output + "\n")
         except AttributeError:
             pass
+
+
+class RangingFileWriting:
+    @staticmethod
+    def write_range_headers_to_file(file, tags, attributes_to_log):
+        header = "Index,Time,Difference,Hz,AveHz,"
+        for tag in tags:
+            if attributes_to_log:
+                header += (hex(tag) + " Pressure,"
+                           + hex(tag) + " Acceleration-X,"
+                           + hex(tag) + " Acceleration-Y,"
+                           + hex(tag) + " Acceleration-Z,"
+                           + hex(tag) + " Magnetic-X,"
+                           + hex(tag) + " Magnetic-Y,"
+                           + hex(tag) + " Magnetic-Z,"
+                           + hex(tag) + " Angular-Vel-X,"
+                           + hex(tag) + " Angular-Vel-Y,"
+                           + hex(tag) + " Angular-Vel-Z,"
+                           + hex(tag) + " Heading,"
+                           + hex(tag) + " Roll,"
+                           + hex(tag) + " Pitch,"
+                           + hex(tag) + " Quaternion-X,"
+                           + hex(tag) + " Quaternion-Y,"
+                           + hex(tag) + " Quaternion-Z,"
+                           + hex(tag) + " Quaternion-W,"
+                           + hex(tag) + " Linear-Acceleration-X,"
+                           + hex(tag) + " Linear-Acceleration-Y,"
+                           + hex(tag) + " Linear-Acceleration-Z,"
+                           + hex(tag) + " Gravity-X,"
+                           + hex(tag) + " Gravity-Y,"
+                           + hex(tag) + " Gravity-Z,")
+            header += hex(tag) + " Range,"
+        header += "\n"
+        file.write(header)
+
