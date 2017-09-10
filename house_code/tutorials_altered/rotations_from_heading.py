@@ -213,11 +213,11 @@ if __name__ == '__main__':
                 current_rotation_speed = 0
 
             print("Index: " + str(index)
-                  + " Time: " + DataFunctions.str_set_length(elapsed, 8)
-                  + " Hz: " + DataFunctions.str_set_length(DataFunctions.find_average_hertz(index, elapsed), 5)
-                  + " Heading: " + DataFunctions.str_set_length(current_heading, 7)
+                  + " Time: " + DataFunctions.str_append_length(elapsed, 8)
+                  + " Hz: " + DataFunctions.str_append_length(DataFunctions.find_average_hertz(index, elapsed), 5)
+                  + " Heading: " + DataFunctions.str_append_length(current_heading, 7)
                   + " Rotations: " + str(total_rotations)
-                  + " Rotation Speed: " + str(DataFunctions.str_set_length(current_rotation_speed, 8)) + "RPS"
+                  + " Rotation Speed: " + str(DataFunctions.str_append_length(current_rotation_speed, 8)) + "RPS"
                   )
 
             if to_use_file:
