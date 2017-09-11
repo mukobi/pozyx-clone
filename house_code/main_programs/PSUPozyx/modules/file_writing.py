@@ -63,9 +63,6 @@ class SensorDataFileWriting:
 
 class SensorAndPositionFileWriting:
 
-    ## 1D 
-    ## Header
-
     @staticmethod
     def write_position_header_to_file_1d(
             file,
@@ -136,11 +133,9 @@ class SensorAndPositionFileWriting:
         """
         file.write(header + '\n')
 
-    ## Data
-
     @staticmethod
-    def write_position_data_to_file_1d(index, elapsed_time, time_difference,
-                                    file, position_data):
+    def write_position_data_to_file_1d(
+            index, elapsed_time, time_difference, file, position_data):
         """
         This function writes the position data to the file each cycle in the while iterate_file.
         """
@@ -159,8 +154,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_position_and_velocity_data_to_file_1d(index, elapsed_time, time_difference,
-                                               file, position_data, velocity):
+    def write_position_and_velocity_data_to_file_1d(
+            index, elapsed_time, time_difference, file, position_data, velocity):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -176,8 +171,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_sensor_and_position_data_to_file_1d(index, elapsed_time, time_difference,
-                                               file, sensor_data, position_data):
+    def write_sensor_and_position_data_to_file_1d(
+            index, elapsed_time, time_difference, file, sensor_data, position_data):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -216,8 +211,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_sensor_and_position_and_velocity_data_to_file_1d(index, elapsed_time, time_difference,
-                                               file, sensor_data, position_data, velocity):
+    def write_sensor_and_position_and_velocity_data_to_file_1d(
+            index, elapsed_time, time_difference, file, sensor_data, position_data, velocity):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -256,11 +251,7 @@ class SensorAndPositionFileWriting:
             output += "\n"
         file.write(output)
 
-
-    # 3D
-
     @staticmethod
-
     def write_sensor_and_position_header_to_file(
             file,
             header=("Index,Time,Difference,Hz,AveHz,"
@@ -332,7 +323,7 @@ class SensorAndPositionFileWriting:
 
     @staticmethod
     def write_position_data_to_file(index, elapsed_time, time_difference,
-                                               file, position_data):
+                                    file, position_data):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -349,8 +340,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_position_and_velocity_data_to_file(index, elapsed_time, time_difference,
-                                               file, position_data, velocity_x, velocity_y, velocity_z):
+    def write_position_and_velocity_data_to_file(
+            index, elapsed_time, time_difference, file, position_data, velocity_x, velocity_y, velocity_z):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -412,8 +403,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_sensor_and_position_and_velocity_data_to_file(index, elapsed_time, time_difference,
-                                               file, sensor_data, position_data, velocity_x, velocity_y, velocity_z):
+    def write_sensor_and_position_and_velocity_data_to_file(
+            index, elapsed_time, time_difference, file, sensor_data, position_data, velocity_x, velocity_y, velocity_z):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -646,4 +637,3 @@ class RangingFileWriting:
             output += str(single_output.device_range.distance) + ","
         output += "\n"
         file.write(output)
-
