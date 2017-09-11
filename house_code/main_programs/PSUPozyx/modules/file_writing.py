@@ -610,3 +610,40 @@ class RangingFileWriting:
         header += "\n"
         file.write(header)
 
+    @staticmethod
+    def write_range_data_to_file(file, index, elapsed_time, time_difference, loop_output_array, attributes_to_log):
+        hz = DataFunctions.convert_hertz(time_difference)
+        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
+        output = (str(index) + "," + str(elapsed_time) + ","
+                  + str(time_difference) + "," + str(hz) + ","
+                  + str(ave_hz) + ",")
+        for single_output in loop_output_array:
+            if attributes_to_log:
+                motion = single_output.sensor_data
+                output += (str(motion.pressure) + ","
+                           + str(motion.acceleration.x) + ","
+                           + str(motion.acceleration.y) + ","
+                           + str(motion.acceleration.z) + ","
+                           + str(motion.magnetic.x) + ","
+                           + str(motion.magnetic.y) + ","
+                           + str(motion.magnetic.z) + ","
+                           + str(motion.angular_vel.x) + ","
+                           + str(motion.angular_vel.y) + ","
+                           + str(motion.angular_vel.z) + ","
+                           + str(motion.euler_angles.heading) + ","
+                           + str(motion.euler_angles.roll) + ","
+                           + str(motion.euler_angles.pitch) + ","
+                           + str(motion.quaternion.x) + ","
+                           + str(motion.quaternion.y) + ","
+                           + str(motion.quaternion.z) + ","
+                           + str(motion.quaternion.w) + ","
+                           + str(motion.linear_acceleration.x) + ","
+                           + str(motion.linear_acceleration.y) + ","
+                           + str(motion.linear_acceleration.z) + ","
+                           + str(motion.gravity_vector.x) + ","
+                           + str(motion.gravity_vector.y) + ","
+                           + str(motion.gravity_vector.z) + ",")
+            output += str(single_output.device_range.distance) + ","
+        output += "\n"
+        file.write(output)
+
