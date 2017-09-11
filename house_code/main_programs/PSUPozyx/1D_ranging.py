@@ -14,7 +14,7 @@ from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time as t
-from modules.file_writing import SensorAndPositionFileWriting as FileWriting
+from modules.file_writing import RangingFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from collections import deque
@@ -149,32 +149,31 @@ if __name__ == "__main__":
 
     logfile = None
     if to_use_file:
-        logfile = open(filename, 'a')
-        if use_velocity:
-            FileWriting.write_position_and_velocity_header_to_file_1d(logfile)
-        else:
-            FileWriting.write_position_header_to_file_1d(logfile)
+        logfile = open(filename, 'w')
+        FileIO.write_range_headers_to_file(logfile, tags, attributes_to_log)
 
     try:
         index = 0
         start = t.time()
-        newTime = start
+        new_time = 0
         while True:
             elapsed = t.time() - start
-            oldTime = newTime
-            newTime = elapsed
-            timeDifference = newTime - oldTime
+            old_time = new_time
+            new_time = elapsed
+            time_difference = new_time - old_time
 
-            # Status is used for error handling
             loop_output_array = r.loop()
-            print_output = Console.build_1d_ranging_output(
-                index, elapsed, loop_output_array, attributes_to_log)
-            print(print_output)
+            print(Console.build_1d_ranging_output(
+                index, elapsed, loop_output_array, attributes_to_log))
+
+            if to_use_file:
+                FileIO.write_range_data_to_file(
+                    logfile, index, elapsed, time_difference, loop_output_array, attributes_to_log)
 
             index = index + 1
 
     except KeyboardInterrupt:
         pass
 
-    if to_use_file:
+    finally:
         logfile.close()
