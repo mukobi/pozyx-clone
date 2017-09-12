@@ -573,30 +573,37 @@ class RangingFileWriting:
     def write_range_headers_to_file(file, tags, attributes_to_log):
         header = "Index,Time,Difference,Hz,AveHz,"
         for tag in tags:
-            if attributes_to_log:
-                header += (hex(tag) + " Pressure,"
-                           + hex(tag) + " Acceleration-X,"
-                           + hex(tag) + " Acceleration-Y,"
-                           + hex(tag) + " Acceleration-Z,"
-                           + hex(tag) + " Magnetic-X,"
-                           + hex(tag) + " Magnetic-Y,"
-                           + hex(tag) + " Magnetic-Z,"
-                           + hex(tag) + " Angular-Vel-X,"
-                           + hex(tag) + " Angular-Vel-Y,"
-                           + hex(tag) + " Angular-Vel-Z,"
-                           + hex(tag) + " Heading,"
-                           + hex(tag) + " Roll,"
-                           + hex(tag) + " Pitch,"
-                           + hex(tag) + " Quaternion-X,"
-                           + hex(tag) + " Quaternion-Y,"
-                           + hex(tag) + " Quaternion-Z,"
-                           + hex(tag) + " Quaternion-W,"
-                           + hex(tag) + " Linear-Acceleration-X,"
-                           + hex(tag) + " Linear-Acceleration-Y,"
-                           + hex(tag) + " Linear-Acceleration-Z,"
-                           + hex(tag) + " Gravity-X,"
-                           + hex(tag) + " Gravity-Y,"
-                           + hex(tag) + " Gravity-Z,")
+            if "pressure" in attributes_to_log:
+                header += (hex(tag) + " Pressure,")
+            if "acceleration" in attributes_to_log:
+                header += (hex(tag) + " Acceleration-X,")
+                header += (hex(tag) + " Acceleration-Y,")
+                header += (hex(tag) + " Acceleration-Z,")
+            if "magnetic" in attributes_to_log:
+                header += (hex(tag) + " Magnetic-X,")
+                header += (hex(tag) + " Magnetic-Y,")
+                header += (hex(tag) + " Magnetic-Z,")
+            if "angular velocity" in attributes_to_log:
+                header += (hex(tag) + " Angular-Vel-X,")
+                header += (hex(tag) + " Angular-Vel-Y,")
+                header += (hex(tag) + " Angular-Vel-Z,")
+            if "euler angles" in attributes_to_log:
+                header += (hex(tag) + " Heading,")
+                header += (hex(tag) + " Roll,")
+                header += (hex(tag) + " Pitch,")
+            if "quaternion" in attributes_to_log:
+                header += (hex(tag) + " Quaternion-X,")
+                header += (hex(tag) + " Quaternion-Y,")
+                header += (hex(tag) + " Quaternion-Z,")
+                header += (hex(tag) + " Quaternion-W,")
+            if "linear acceleration" in attributes_to_log:
+                header += (hex(tag) + " Linear-Acceleration-X,")
+                header += (hex(tag) + " Linear-Acceleration-Y,")
+                header += (hex(tag) + " Linear-Acceleration-Z,")
+            if "gravity" in attributes_to_log:
+                header += (hex(tag) + " Gravity-X,")
+                header += (hex(tag) + " Gravity-Y,")
+                header += (hex(tag) + " Gravity-Z,")
             header += hex(tag) + " Range,"
         header += "\n"
         file.write(header)
@@ -609,31 +616,38 @@ class RangingFileWriting:
                   + str(time_difference) + "," + str(hz) + ","
                   + str(ave_hz) + ",")
         for single_output in loop_output_array:
-            if attributes_to_log:
-                motion = single_output.sensor_data
-                output += (str(motion.pressure) + ","
-                           + str(motion.acceleration.x) + ","
-                           + str(motion.acceleration.y) + ","
-                           + str(motion.acceleration.z) + ","
-                           + str(motion.magnetic.x) + ","
-                           + str(motion.magnetic.y) + ","
-                           + str(motion.magnetic.z) + ","
-                           + str(motion.angular_vel.x) + ","
-                           + str(motion.angular_vel.y) + ","
-                           + str(motion.angular_vel.z) + ","
-                           + str(motion.euler_angles.heading) + ","
-                           + str(motion.euler_angles.roll) + ","
-                           + str(motion.euler_angles.pitch) + ","
-                           + str(motion.quaternion.x) + ","
-                           + str(motion.quaternion.y) + ","
-                           + str(motion.quaternion.z) + ","
-                           + str(motion.quaternion.w) + ","
-                           + str(motion.linear_acceleration.x) + ","
-                           + str(motion.linear_acceleration.y) + ","
-                           + str(motion.linear_acceleration.z) + ","
-                           + str(motion.gravity_vector.x) + ","
-                           + str(motion.gravity_vector.y) + ","
-                           + str(motion.gravity_vector.z) + ",")
+            motion = single_output.sensor_data
+            if "pressure" in attributes_to_log:
+                output += (str(motion.pressure) + ",")
+            if "acceleration" in attributes_to_log:
+                output += (str(motion.acceleration.x) + ",")
+                output += (str(motion.acceleration.y) + ",")
+                output += (str(motion.acceleration.z) + ",")
+            if "magnetic" in attributes_to_log:
+                output += (str(motion.magnetic.x) + ",")
+                output += (str(motion.magnetic.y) + ",")
+                output += (str(motion.magnetic.z) + ",")
+            if "angular velocity" in attributes_to_log:
+                output += (str(motion.angular_vel.x) + ",")
+                output += (str(motion.angular_vel.y) + ",")
+                output += (str(motion.angular_vel.z) + ",")
+            if "euler angles" in attributes_to_log:
+                output += (str(motion.euler_angles.heading) + ",")
+                output += (str(motion.euler_angles.roll) + ",")
+                output += (str(motion.euler_angles.pitch) + ",")
+            if "quaternion" in attributes_to_log:
+                output += (str(motion.quaternion.x) + ",")
+                output += (str(motion.quaternion.y) + ",")
+                output += (str(motion.quaternion.z) + ",")
+                output += (str(motion.quaternion.w) + ",")
+            if "linear acceleration" in attributes_to_log:
+                output += (str(motion.linear_acceleration.x) + ",")
+                output += (str(motion.linear_acceleration.y) + ",")
+                output += (str(motion.linear_acceleration.z) + ",")
+            if "gravity" in attributes_to_log:
+                output += (str(motion.gravity_vector.x) + ",")
+                output += (str(motion.gravity_vector.y) + ",")
+                output += (str(motion.gravity_vector.z) + ",")
             output += str(single_output.device_range.distance) + ","
         output += "\n"
         file.write(output)
