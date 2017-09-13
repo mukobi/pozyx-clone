@@ -604,7 +604,7 @@ class RangingFileWriting:
                 header += (hex(tag) + " Gravity-Y,")
                 header += (hex(tag) + " Gravity-Z,")
             header += hex(tag) + " Range,"
-            header += hex(tag) + " Smooth,"
+            header += hex(tag) + " Smoothed Range,"
         header += "\n"
         file.write(header)
 
