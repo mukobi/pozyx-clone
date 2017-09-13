@@ -605,6 +605,7 @@ class RangingFileWriting:
                 header += (hex(tag) + " Gravity-Z,")
             header += hex(tag) + " Range,"
             header += hex(tag) + " Smoothed Range,"
+            header += hex(tag) + " Velocity,"
         header += "\n"
         file.write(header)
 
@@ -650,5 +651,6 @@ class RangingFileWriting:
                 output += (str(motion.gravity_vector.z) + ",")
             output += str(single_output.device_range.distance) + ","
             output += str(single_output.smoothed_range) + ","
+            output += str(single_output.velocity) + ","
         output += "\n"
         file.write(output)

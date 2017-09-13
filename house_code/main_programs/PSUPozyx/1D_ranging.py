@@ -25,6 +25,7 @@ class RangeOutputContainer:
         self.sensor_data = sensor_data
         self.loop_status = loop_status
         self.smoothed_range = smoothed_range
+        self.velocity = 0
 
 
 class ReadyToRange(object):
@@ -127,8 +128,10 @@ if __name__ == "__main__":
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties()
+
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
     alpha = 0.2
+    smooth_velocity = True
 
     to_get_sensor_data = not attributes_to_log == []
 
@@ -174,10 +177,21 @@ if __name__ == "__main__":
 
             r.loop(range_data_array)
             for single_data in range_data_array:
+                # EMA filter calculations
                 if type(single_data.device_range.distance) is int:
+                    old_smoothed_range = single_data.smoothed_range
                     single_data.smoothed_range = (
                         (1 - alpha) * single_data.smoothed_range
                         + alpha * single_data.device_range.distance)
+                    new_smoothed_range = single_data.smoothed_range
+                    if not (time_difference == 0):
+                        measured_velocity = (
+                            new_smoothed_range - old_smoothed_range) / time_difference
+                        single_data.velocity = (
+                            (1 - alpha) * single_data.velocity
+                            + alpha * measured_velocity)
+                        if not smooth_velocity:
+                            single_data.velocity = measured_velocity
 
             print(Console.build_1d_ranging_output(
                 index, elapsed, range_data_array, attributes_to_log))
