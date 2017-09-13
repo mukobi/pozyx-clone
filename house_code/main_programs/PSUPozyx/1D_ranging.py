@@ -6,14 +6,11 @@ This demo requires two Pozyx devices. It demonstrates the ranging capabilities a
 to remotely control a Pozyx device. Move around with the other Pozyx device.
 This demo measures the range between the two devices.
 """
-
-
-from time import time
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
-import time as t
+import time
 from modules.file_writing import RangingFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
@@ -22,11 +19,12 @@ import copy as copy
 
 
 class RangeOutputContainer:
-    def __init__(self, tag, device_range, sensor_data, loop_status):
+    def __init__(self, tag, device_range, smoothed_range, sensor_data, loop_status):
         self.tag = tag
         self.device_range = device_range
         self.sensor_data = sensor_data
         self.loop_status = loop_status
+        self.smoothed_range = smoothed_range
 
 
 class ReadyToRange(object):
@@ -45,12 +43,12 @@ class ReadyToRange(object):
 
     def setup(self):
         """Sets up the device"""
-        self.current_time = time()
+        self.current_time = time.time()
 
-    def loop(self):
+    def loop(self, range_data_array):
         """Performs ranging and collects motion data as needed"""
         output_array = []
-        for tag in self.tags:
+        for idx, tag in enumerate(self.tags):
             # get 1D position in this section
             device_range = DeviceRange()
             loop_status = self.pozyx.doRanging(tag, device_range, self.destination_id)
@@ -73,9 +71,11 @@ class ReadyToRange(object):
                     if loop_status == POZYX_SUCCESS:
                         self.publish_sensor_data(sensor_data, calibration_status)
 
-            output = RangeOutputContainer(tag, device_range, sensor_data, loop_status)
-            output_array.append(output)
-        return output_array
+            single = range_data_array[idx]
+            single.tag = tag
+            single.device_range = device_range
+            single.sensor_data = sensor_data
+            single.loop_status = loop_status
 
     def print_publish_position(self, device_range, tag):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
@@ -90,7 +90,7 @@ class ReadyToRange(object):
     def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
         self.msg_builder = OscMessageBuilder("/sensordata")
-        self.msg_builder.add_arg(int(1000 * (time() - self.current_time)))
+        self.msg_builder.add_arg(int(1000 * (time.time() - self.current_time)))
         # current_time = time()
         self.add_sensor_data(sensor_data)
         self.add_calibration_status(calibration_status)
@@ -134,41 +134,49 @@ if __name__ == "__main__":
     osc_udp_client = SimpleUDPClient(ip, network_port)
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
 
-    destination_id = anchors[0].network_id
-
     # IMPORTANT: set destination_id to None if it is meant to be ranging from the device
     # connected to the computer. Do this by setting the destination_id to an empty
     # string "" in the GUI
+    destination_id = anchors[0].network_id
     if destination_id == 0:
         destination_id = None
     r = ReadyToRange(
         pozyx, tags, destination_id, to_get_sensor_data, osc_udp_client, ranging_protocol)
     r.setup()
 
-    # Initialize velocity calculation
+    range_data_array = []
+    for tag in tags:
+        range_data_array.append(RangeOutputContainer(None, None, None, None, None))
 
     logfile = None
     if to_use_file:
         logfile = open(filename, 'w')
         FileIO.write_range_headers_to_file(logfile, tags, attributes_to_log)
 
+    # wait for motion data to work before running main loop
+    if to_get_sensor_data:
+        not_started = True
+        while not_started:
+            r.loop(range_data_array)
+            not_started = range_data_array[0].sensor_data.pressure == 0
+
     try:
         index = 0
-        start = t.time()
+        start = time.time()
         new_time = 0
         while True:
-            elapsed = t.time() - start
+            elapsed = time.time() - start
             old_time = new_time
             new_time = elapsed
             time_difference = new_time - old_time
 
-            loop_output_array = r.loop()
+            r.loop(range_data_array)
             print(Console.build_1d_ranging_output(
-                index, elapsed, loop_output_array, attributes_to_log))
+                index, elapsed, range_data_array, attributes_to_log))
 
             if to_use_file:
                 FileIO.write_range_data_to_file(
-                    logfile, index, elapsed, time_difference, loop_output_array, attributes_to_log)
+                    logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
 
             index = index + 1
 
@@ -176,4 +184,5 @@ if __name__ == "__main__":
         pass
 
     finally:
-        logfile.close()
+        if to_use_file:
+            logfile.close()
