@@ -127,6 +127,8 @@ if __name__ == "__main__":
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties()
+    # smoothing constant; 1 is no filtering, lim->0 is most filtering
+    alpha = 0.5
 
     to_get_sensor_data = not attributes_to_log == []
 
@@ -146,7 +148,7 @@ if __name__ == "__main__":
 
     range_data_array = []
     for tag in tags:
-        range_data_array.append(RangeOutputContainer(None, None, None, None, None))
+        range_data_array.append(RangeOutputContainer(None, None, 0, None, None))
 
     logfile = None
     if to_use_file:
@@ -171,6 +173,12 @@ if __name__ == "__main__":
             time_difference = new_time - old_time
 
             r.loop(range_data_array)
+            for single_data in range_data_array:
+                if type(single_data.device_range.distance) is int:
+                    single_data.smoothed_range = (
+                        (1 - alpha) * single_data.smoothed_range
+                        + alpha * single_data.device_range.distance)
+
             print(Console.build_1d_ranging_output(
                 index, elapsed, range_data_array, attributes_to_log))
 
