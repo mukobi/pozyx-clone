@@ -560,6 +560,9 @@ class CondensedConsoleLogging:
         output = " | Dist "
         output += DataFunctions.str_prepend_length(
             single_device.device_range.distance, 5)
+        output += " | Smooth "
+        output += DataFunctions.str_prepend_length(
+            int(single_device.smoothed_range + 0.5), 5)
         return output
 
     @staticmethod

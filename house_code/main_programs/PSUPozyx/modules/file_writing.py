@@ -552,7 +552,6 @@ class MultiDevicePositionFileWriting:
         """
         This function writes 1D data to the file each cycle in the while iterate_file.
         """
-
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -605,6 +604,7 @@ class RangingFileWriting:
                 header += (hex(tag) + " Gravity-Y,")
                 header += (hex(tag) + " Gravity-Z,")
             header += hex(tag) + " Range,"
+            header += hex(tag) + " Smooth,"
         header += "\n"
         file.write(header)
 
@@ -649,5 +649,6 @@ class RangingFileWriting:
                 output += (str(motion.gravity_vector.y) + ",")
                 output += (str(motion.gravity_vector.z) + ",")
             output += str(single_output.device_range.distance) + ","
+            output += str(single_output.smoothed_range) + ","
         output += "\n"
         file.write(output)
