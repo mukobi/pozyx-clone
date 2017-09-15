@@ -14,6 +14,7 @@ import javafx.stage.*;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -642,6 +643,16 @@ public class Controller implements Initializable {
     public void handleConfigureUwbSettings(ActionEvent actionEvent) {
         Main main = new Main();
         main.openStage("/psupozyx/fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 1024, 768);
+    }
+
+    public void handleDataReplay(ActionEvent actionEvent) {
+        Main main = new Main();
+        main.openStage("/psupozyx/fxml/data_replay.fxml", "PSU Pozyx | Data Replay", 600, 400);
+    }
+
+    public void handlePyVersion(ActionEvent actionEvent) {
+        String[] command = {"python", "-u", "mac_python_test.py"};
+        launchConsoleLogging(command, true);
     }
 }
 
