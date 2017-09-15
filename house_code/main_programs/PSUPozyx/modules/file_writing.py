@@ -12,7 +12,7 @@ class SensorDataFileWriting:
                                                  "Heading,Roll,Pitch,"
                                                  "Quaternion-X,Quaternion-Y,Quaternion-Z,Quaternion-W,"
                                                  "Linear-Acceleration-X,Linear-Acceleration-Y,Linear-Acceleration-Z,"
-                                                 "Gravity-X,Gravity-Y,Gravity-Z")):
+                                                 "Gravity-XGravity-X,Gravity-Y,Gravity-Z")):
         """
         Writes column headers for all of the sensor data to a file
 
@@ -62,9 +62,6 @@ class SensorDataFileWriting:
 
 
 class SensorAndPositionFileWriting:
-
-    ## 1D 
-    ## Header
 
     @staticmethod
     def write_position_header_to_file_1d(
@@ -136,11 +133,9 @@ class SensorAndPositionFileWriting:
         """
         file.write(header + '\n')
 
-    ## Data
-
     @staticmethod
-    def write_position_data_to_file_1d(index, elapsed_time, time_difference,
-                                    file, position_data):
+    def write_position_data_to_file_1d(
+            index, elapsed_time, time_difference, file, position_data):
         """
         This function writes the position data to the file each cycle in the while iterate_file.
         """
@@ -159,8 +154,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_position_and_velocity_data_to_file_1d(index, elapsed_time, time_difference,
-                                               file, position_data, velocity):
+    def write_position_and_velocity_data_to_file_1d(
+            index, elapsed_time, time_difference, file, position_data, velocity):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -176,8 +171,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_sensor_and_position_data_to_file_1d(index, elapsed_time, time_difference,
-                                               file, sensor_data, position_data):
+    def write_sensor_and_position_data_to_file_1d(
+            index, elapsed_time, time_difference, file, sensor_data, position_data):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -216,8 +211,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_sensor_and_position_and_velocity_data_to_file_1d(index, elapsed_time, time_difference,
-                                               file, sensor_data, position_data, velocity):
+    def write_sensor_and_position_and_velocity_data_to_file_1d(
+            index, elapsed_time, time_difference, file, sensor_data, position_data, velocity):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -256,11 +251,7 @@ class SensorAndPositionFileWriting:
             output += "\n"
         file.write(output)
 
-
-    # 3D
-
     @staticmethod
-
     def write_sensor_and_position_header_to_file(
             file,
             header=("Index,Time,Difference,Hz,AveHz,"
@@ -332,7 +323,7 @@ class SensorAndPositionFileWriting:
 
     @staticmethod
     def write_position_data_to_file(index, elapsed_time, time_difference,
-                                               file, position_data):
+                                    file, position_data):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -349,8 +340,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_position_and_velocity_data_to_file(index, elapsed_time, time_difference,
-                                               file, position_data, velocity_x, velocity_y, velocity_z):
+    def write_position_and_velocity_data_to_file(
+            index, elapsed_time, time_difference, file, position_data, velocity_x, velocity_y, velocity_z):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -412,8 +403,8 @@ class SensorAndPositionFileWriting:
         file.write(output)
 
     @staticmethod
-    def write_sensor_and_position_and_velocity_data_to_file(index, elapsed_time, time_difference,
-                                               file, sensor_data, position_data, velocity_x, velocity_y, velocity_z):
+    def write_sensor_and_position_and_velocity_data_to_file(
+            index, elapsed_time, time_difference, file, sensor_data, position_data, velocity_x, velocity_y, velocity_z):
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -561,7 +552,6 @@ class MultiDevicePositionFileWriting:
         """
         This function writes 1D data to the file each cycle in the while iterate_file.
         """
-
         hz = DataFunctions.convert_hertz(time_difference)
         ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
         output = (str(index) + "," + str(elapsed_time) + ","
@@ -575,3 +565,95 @@ class MultiDevicePositionFileWriting:
             file.write(output + "\n")
         except AttributeError:
             pass
+
+
+class RangingFileWriting:
+    @staticmethod
+    def write_range_headers_to_file(file, tags, attributes_to_log):
+        header = "Index,Time,Difference,Hz,AveHz,"
+        for tag in tags:
+            if "pressure" in attributes_to_log:
+                header += (hex(tag) + " Pressure,")
+            if "acceleration" in attributes_to_log:
+                header += (hex(tag) + " Acceleration-X,")
+                header += (hex(tag) + " Acceleration-Y,")
+                header += (hex(tag) + " Acceleration-Z,")
+            if "magnetic" in attributes_to_log:
+                header += (hex(tag) + " Magnetic-X,")
+                header += (hex(tag) + " Magnetic-Y,")
+                header += (hex(tag) + " Magnetic-Z,")
+            if "angular velocity" in attributes_to_log:
+                header += (hex(tag) + " Angular-Vel-X,")
+                header += (hex(tag) + " Angular-Vel-Y,")
+                header += (hex(tag) + " Angular-Vel-Z,")
+            if "euler angles" in attributes_to_log:
+                header += (hex(tag) + " Heading,")
+                header += (hex(tag) + " Roll,")
+                header += (hex(tag) + " Pitch,")
+            if "quaternion" in attributes_to_log:
+                header += (hex(tag) + " Quaternion-X,")
+                header += (hex(tag) + " Quaternion-Y,")
+                header += (hex(tag) + " Quaternion-Z,")
+                header += (hex(tag) + " Quaternion-W,")
+            if "linear acceleration" in attributes_to_log:
+                header += (hex(tag) + " Linear-Acceleration-X,")
+                header += (hex(tag) + " Linear-Acceleration-Y,")
+                header += (hex(tag) + " Linear-Acceleration-Z,")
+            if "gravity" in attributes_to_log:
+                header += (hex(tag) + " Gravity-X,")
+                header += (hex(tag) + " Gravity-Y,")
+                header += (hex(tag) + " Gravity-Z,")
+            header += hex(tag) + " Range,"
+            header += hex(tag) + " Smoothed Range,"
+            header += hex(tag) + " Velocity,"
+        header += "\n"
+        file.write(header)
+
+    @staticmethod
+    def write_range_data_to_file(file, index, elapsed_time, time_difference, loop_output_array, attributes_to_log):
+        hz = DataFunctions.convert_hertz(time_difference)
+        ave_hz = DataFunctions.find_average_hertz(index, elapsed_time)
+        output = (str(index) + "," + str(elapsed_time) + ","
+                  + str(time_difference) + "," + str(hz) + ","
+                  + str(ave_hz) + ",")
+        for single_output in loop_output_array:
+            motion = single_output.sensor_data
+            if "pressure" in attributes_to_log:
+                output += (str(motion.pressure) + ",")
+            if "acceleration" in attributes_to_log:
+                output += (str(motion.acceleration.x) + ",")
+                output += (str(motion.acceleration.y) + ",")
+                output += (str(motion.acceleration.z) + ",")
+            if "magnetic" in attributes_to_log:
+                output += (str(motion.magnetic.x) + ",")
+                output += (str(motion.magnetic.y) + ",")
+                output += (str(motion.magnetic.z) + ",")
+            if "angular velocity" in attributes_to_log:
+                output += (str(motion.angular_vel.x) + ",")
+                output += (str(motion.angular_vel.y) + ",")
+                output += (str(motion.angular_vel.z) + ",")
+            if "euler angles" in attributes_to_log:
+                output += (str(motion.euler_angles.heading) + ",")
+                output += (str(motion.euler_angles.roll) + ",")
+                output += (str(motion.euler_angles.pitch) + ",")
+            if "quaternion" in attributes_to_log:
+                output += (str(motion.quaternion.x) + ",")
+                output += (str(motion.quaternion.y) + ",")
+                output += (str(motion.quaternion.z) + ",")
+                output += (str(motion.quaternion.w) + ",")
+            if "linear acceleration" in attributes_to_log:
+                output += (str(motion.linear_acceleration.x) + ",")
+                output += (str(motion.linear_acceleration.y) + ",")
+                output += (str(motion.linear_acceleration.z) + ",")
+            if "gravity" in attributes_to_log:
+                output += (str(motion.gravity_vector.x) + ",")
+                output += (str(motion.gravity_vector.y) + ",")
+                output += (str(motion.gravity_vector.z) + ",")
+            output += str(single_output.device_range.distance) + ","
+            output += str(single_output.smoothed_range) + ","
+            if elapsed_time == 0: # don't log zero velocity
+                output += ","
+            else:
+                output += str(single_output.velocity) + ","
+        output += "\n"
+        file.write(output)

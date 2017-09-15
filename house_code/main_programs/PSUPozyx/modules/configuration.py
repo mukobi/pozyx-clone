@@ -9,8 +9,6 @@ class Configuration:
 
     @staticmethod
     def get_properties():
-        print('file')
-        print(os.path.dirname(os.path.dirname(__file__)))
         if platform == "darwin" or platform == 'linux':
             configurations_file = os.path.dirname(os.path.dirname(__file__)) + "/Configurations/" + MASTER_CONFIG_NAME
         else:
@@ -180,8 +178,6 @@ class Configuration:
             filename += ".csv"
         pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(
             os.path.dirname(os.path.dirname(__file__)))))
-        print('Pozyx Folder')
-        print(pozyx_folder)
         data_file = pozyx_folder + "/Data/" + filename
         use_processing = P["use_processing"] == "true"
         anchors = [DeviceCoordinates(anchor_1_id, 1, Coordinates(anchor_1_x, anchor_1_y, anchor_1_z)),
