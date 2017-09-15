@@ -1,4 +1,6 @@
 import numpy as np
+
+
 class DataFunctions:
     @staticmethod
     def median(data_list):
@@ -94,7 +96,7 @@ class DataFunctions:
         return time_between_2500_and_4500, time_between_4500_and_6500, time_between_6500_and_8500, time_above_8500
 
     @staticmethod
-    def str_set_length(number, length):
+    def str_append_length(number, length):
         """
         Make a data value have a set character length.
 
@@ -107,43 +109,44 @@ class DataFunctions:
         return a string of the number with a set character length.
         This is to make it easier to read the data from the console
         since every row will have the same number of data points.
-
-        Ex: strSetLength(352.3549234234, 6) --> 352.35
-        strSetLength(23.22, 7) --> 23.2200
         """
         num_string = str(number)
-        # add decimal place if nonexistent
-        if "." not in num_string:
-            num_string += "."
+        # remove trailing .0
+        if num_string[-2:] == ".0":
+            num_string = num_string[:-2]
+        # add spaces
         while len(num_string) < length:
-            num_string += "0"
+            num_string += " "
         while len(num_string) > length:
             num_string = num_string[:-1]
         return num_string
 
     @staticmethod
-    def exp_notation_str_set_length(self, number, length):
+    def str_prepend_length(number, length):
         """
-        Make a data value with exponential notation have a set character length
+        Make a data value have a set character length.
 
-        :param self: use what DataFunctions class was imported as
-        :param float number: the data point, probably a number, that you want to round
+        :param int number: the data point, probably a number, that you want to round
         :param int length: the length of characters you want the output to be
         :return: a string representation of the input number with set length
         :rtype: str
 
-        This function takes a number and rounds it off/adds zeros to
-        return a string of the number with a set character length.
-        This is to make it easier to read the data from the console
-        since every row will have the same number of data points.
+        This function takes a number and adds zeros to the beginning
+        as necessary to return a string of the number with a set
+        character length. This is to make it easier to read the data
+        from the console since every row will have the same number
+        of data points.
         """
-        str_number = str(number)
-        if 'e' not in str_number:
-            return str_number
-        everything_to_the_e = str_number[0:str_number.find('e')]
-        everything_after_e = str_number[str_number.find('e'):]
-        new_everything_to_the_e = self.str_set_length(everything_to_the_e, length)
-        return new_everything_to_the_e + everything_after_e
+        num_string = str(number)
+        # remove trailing .0
+        if num_string[-2:] == ".0":
+            num_string = num_string[:-2]
+        # add decimal place if nonexistent
+        if len(num_string) >= length:
+            return num_string
+        while len(num_string) < length:
+            num_string = " " + num_string
+        return num_string
 
     @staticmethod
     def convert_hertz(time_difference):
@@ -416,9 +419,9 @@ class Velocity:
         """
         This is a function to determine which method of finding the velocity to use.
 
-        :param integer position: this is the current position of the device
+        :param deque position: this is the current position of the device
         :param integer prev_pos: this is the previous position of the device
-        :param float time: this is the current time
+        :param deque time: this is the current time
         :param float prev_time: this is the previous time
 
         Notes: Default is simple.
