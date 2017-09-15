@@ -160,10 +160,14 @@ if __name__ == "__main__":
 
     # wait for motion data to work before running main loop
     if to_get_sensor_data:
-        not_started = True
+        not_started = False
         while not_started:
             r.loop(range_data_array)
             not_started = range_data_array[0].sensor_data.pressure == 0
+            for single_data in range_data_array:
+                # Initialize EMA filter
+                if type(single_data.device_range.distance) is int:
+                    single_data.smoothed_range = single_data.device_range.distance
 
     try:
         index = 0
