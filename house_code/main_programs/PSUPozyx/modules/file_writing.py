@@ -651,6 +651,9 @@ class RangingFileWriting:
                 output += (str(motion.gravity_vector.z) + ",")
             output += str(single_output.device_range.distance) + ","
             output += str(single_output.smoothed_range) + ","
-            output += str(single_output.velocity) + ","
+            if elapsed_time == 0: # don't log zero velocity
+                output += ","
+            else:
+                output += str(single_output.velocity) + ","
         output += "\n"
         file.write(output)
