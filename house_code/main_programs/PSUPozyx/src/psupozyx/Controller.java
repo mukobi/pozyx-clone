@@ -225,16 +225,7 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchRanging() {
         saveSettingsForUse();
-        if (Objects.equals(log_pressure, "true") || Objects.equals(log_acceleration, "true") ||
-            Objects.equals(log_magnetic, "true") || Objects.equals(log_angular_velocity, "true") ||
-            Objects.equals(log_euler_angles, "true") || Objects.equals(log_quaternion, "true") ||
-            Objects.equals(log_linear_acceleration, "true") || Objects.equals(log_gravity, "true")) {
-            // we want to log ranging and motion data
-            launchConsoleLogging(new String[]{"python", "-u", "1D_ranging_and_motion_data.py"}, true);
-        }
-        else {
-            launchConsoleLogging(new String[]{"python", "-u", "1D_ranging.py"}, true);
-        }
+        launchConsoleLogging(new String[]{"python", "-u", "1D_ranging.py"}, true);
     }
 
     @FXML
