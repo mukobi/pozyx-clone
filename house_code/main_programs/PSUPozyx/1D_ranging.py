@@ -188,7 +188,7 @@ if __name__ == "__main__":
                         (1 - alpha) * single_data.smoothed_range
                         + alpha * single_data.device_range.distance)
                     new_smoothed_range = single_data.smoothed_range
-                    if not (time_difference == 0):
+                    if not (time_difference == 0) and not(elapsed == 0):
                         measured_velocity = (
                             new_smoothed_range - old_smoothed_range) / time_difference
                         single_data.velocity = (

@@ -564,8 +564,11 @@ class CondensedConsoleLogging:
         output += DataFunctions.str_prepend_length(
             int(single_device.smoothed_range + 0.5), 5)
         output += " | Vel "
-        output += DataFunctions.str_prepend_length(
-            int(single_device.velocity + 0.5), 5)
+        try:
+            output += DataFunctions.str_prepend_length(
+                int(single_device.velocity + 0.5), 5)
+        except TypeError:
+            output += "     "
         return output
 
     @staticmethod
