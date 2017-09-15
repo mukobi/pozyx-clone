@@ -58,8 +58,7 @@ class ReadyToRange(object):
             if loop_status == POZYX_SUCCESS:
                 self.print_publish_position(device_range, tag)
             else:
-                device_range.timestamp, device_range.distance, device_range.rss =\
-                    "ranging-error", "ranging-error", "ranging-error"
+                device_range.timestamp, device_range.distance, device_range.rss = "","",""
 
             # get motion data in this section-
             sensor_data = SensorData()
