@@ -62,11 +62,11 @@ class ConsoleLoggingFunctions:
     def create_sensor_data_output(index, elapsed, data_dictionary):
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         # if the data passed was an error string
@@ -90,11 +90,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         # if the data passed was an error string
@@ -118,11 +118,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         # if the data passed was an error string
@@ -133,9 +133,9 @@ class ConsoleLoggingFunctions:
                        + " Y: " + str(position.y)
                        + " Z: " + str(position.z))
 
-        output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity_x, 7)
-                       + " Y: " + DataFunctions.str_set_length(velocity_y, 7)
-                       + " Z: " + DataFunctions.str_set_length(velocity_z, 7))
+        output += (" | Vel: " + "X: " + DataFunctions.str_append_length(velocity_x, 7)
+                   + " Y: " + DataFunctions.str_append_length(velocity_y, 7)
+                   + " Z: " + DataFunctions.str_append_length(velocity_z, 7))
 
 
         print(output)
@@ -151,11 +151,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         # if the data passed was an error string
@@ -177,11 +177,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         # if the data passed was an error string
@@ -190,7 +190,7 @@ class ConsoleLoggingFunctions:
         else:
             output += (" | Pos: " + "X: " + str(position.distance))
 
-        output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity, 7))
+        output += (" | Vel: " + "X: " + DataFunctions.str_append_length(velocity, 7))
 
         print(output)
 
@@ -206,11 +206,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         output += ConsoleLoggingFunctions.create_sensor_data_output(
@@ -222,7 +222,7 @@ class ConsoleLoggingFunctions:
         else:
             output += (" | Pos: " + "X: " + str(position.distance))
 
-        output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity, 7))
+        output += (" | Vel: " + "X: " + DataFunctions.str_append_length(velocity, 7))
 
         print(output)
 
@@ -238,11 +238,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         output += ConsoleLoggingFunctions.create_sensor_data_output(
@@ -267,11 +267,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         output += " | "
@@ -299,11 +299,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         output += " | "
@@ -335,11 +335,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         # if the data passed was an error string
@@ -373,11 +373,11 @@ class ConsoleLoggingFunctions:
         """
         output = str(index)
         output += " Time: "
-        elapsed_time_str = DataFunctions.str_set_length(elapsed, 10)
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
         output += elapsed_time_str
         output += " Hz: "
         ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
-        ave_hertz_str = DataFunctions.str_set_length(ave_hertz, 5)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
         output += ave_hertz_str
 
         # if the data passed was an error string
@@ -393,9 +393,9 @@ class ConsoleLoggingFunctions:
             output += (" | Pos: " + "X: " + str(position.x)
                        + " Y: " + str(position.y)
                        + " Z: " + str(position.z))
-            output += (" | Vel: " + "X: " + DataFunctions.str_set_length(velocity_x, 6)
-                           + " Y: " + DataFunctions.str_set_length(velocity_y, 6)
-                           + " Z: " + DataFunctions.str_set_length(velocity_z, 6))
+            output += (" | Vel: " + "X: " + DataFunctions.str_append_length(velocity_x, 6)
+                       + " Y: " + DataFunctions.str_append_length(velocity_y, 6)
+                       + " Z: " + DataFunctions.str_append_length(velocity_z, 6))
         print(output)
 
     @staticmethod
@@ -416,76 +416,76 @@ class ConsoleLoggingFunctions:
                         DataFunctions, sensor_data.pressure, 10))
                 elif attribute_to_log == "acceleration":
                     line_of_data.append("x:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.acceleration.x, 8))
                     line_of_data.append("y:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.acceleration.y, 8))
                     line_of_data.append("z:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.acceleration.z, 8))
                 elif attribute_to_log == "magnetic":
                     line_of_data.append("x:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.magnetic.x, 8))
                     line_of_data.append("y:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.magnetic.y, 8))
                     line_of_data.append("z:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.magnetic.z, 8))
                 elif attribute_to_log == "angular velocity":
                     line_of_data.append("x:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.angular_vel.x, 8))
                     line_of_data.append("y:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.angular_vel.y, 8))
                     line_of_data.append("z:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.angular_vel.z, 8))
                 elif attribute_to_log == "euler angles":
                     line_of_data.append("heading:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.euler_angles.heading, 8))
                     line_of_data.append("roll:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.euler_angles.roll, 8))
                     line_of_data.append("pitch:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.euler_angles.pitch, 8))
                 elif attribute_to_log == "quaternion":
                     line_of_data.append("x:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.quaternion.x, 8))
                     line_of_data.append("y:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.quaternion.y, 8))
                     line_of_data.append("z:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.quaternion.z, 8))
                     line_of_data.append("w:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.quaternion.w, 8))
                 elif attribute_to_log == "linear acceleration":
                     line_of_data.append("x:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.linear_acceleration.x, 8))
                     line_of_data.append("y:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.linear_acceleration.y, 8))
                     line_of_data.append("z:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.linear_acceleration.z, 8))
                 elif attribute_to_log == "gravity":
                     line_of_data.append("x:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.gravity_vector.x, 8))
                     line_of_data.append("y:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.gravity_vector.y, 8))
                     line_of_data.append("z:")
-                    line_of_data.append(DataFunctions.str_set_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.gravity_vector.z, 8))
                 data_dictionary[attribute_to_log.title()] = line_of_data
             return data_dictionary
@@ -495,6 +495,191 @@ class ConsoleLoggingFunctions:
     @staticmethod
     def print_data_error_message(index, elapsed_time, message="Error, no data"):
         output = (str(index) + " Time: "
-                  + DataFunctions.str_set_length(elapsed_time, 10) + " "
+                  + DataFunctions.str_append_length(elapsed_time, 10) + " "
                   + message)
         print(output)
+
+
+class CondensedConsoleLogging:
+    @staticmethod
+    def get_time():
+        """
+        Gets processor time
+
+        :return float current_time: the current processor time
+        """
+        current_time = time.time()
+        return current_time
+
+    @staticmethod
+    def get_elapsed_time(self, start_time):
+        """
+        Gets elapsed time since start_time
+
+        :param self:
+        :param float start_time: time to count from, set at program start
+        :return float elapsed_time: time passed since start_time
+        """
+        elapsed_time = self.get_time() - start_time
+        return elapsed_time
+
+    @staticmethod
+    def single_cycle_time_difference(previous_time, current_time):
+        """
+        Calculates the time it took to get to the current cycle
+
+        :param float previous_time: the point of time of the previous cycle
+        :param float current_time: the point of time of the current cycle
+        :return:
+            :time_difference: the difference in time between cycles
+            :new_previous_time: used as previous_time in next cycle
+        :rtype: float, float
+        """
+        time_difference = current_time - previous_time
+        new_previous_time = current_time
+        return time_difference, new_previous_time
+
+    @staticmethod
+    def build_timestamp(index, elapsed):
+        output = str(index)
+        output += " Time: "
+        elapsed_time_str = DataFunctions.str_append_length(elapsed, 10)
+        output += elapsed_time_str
+        output += " Hz: "
+        ave_hertz = DataFunctions.find_average_hertz(index, elapsed)
+        ave_hertz_str = DataFunctions.str_append_length(ave_hertz, 5)
+        output += ave_hertz_str
+        return output
+
+    @staticmethod
+    def build_tag(single_device):
+        return " | " + hex(single_device.tag)
+
+    @staticmethod
+    def build_range(single_device):
+        output = " | Dist "
+        output += DataFunctions.str_prepend_length(
+            single_device.device_range.distance, 5)
+        output += " | Smooth "
+        output += DataFunctions.str_prepend_length(
+            int(single_device.smoothed_range + 0.5), 5)
+        output += " | Vel "
+        try:
+            output += DataFunctions.str_prepend_length(
+                int(single_device.velocity + 0.5), 5)
+        except TypeError:
+            output += "     "
+        return output
+
+    @staticmethod
+    def format_sensor_data(sensor_data, multiple_attributes_to_log):
+        """
+        :param sensor_data:
+        :param multiple_attributes_to_log:
+        :return: formatted data dictionary
+        """
+        # if the sensor data was returned as an error string
+        try:
+            data_dictionary = {}
+            for attribute_to_log in multiple_attributes_to_log:
+                line_of_data = []
+                if attribute_to_log == "pressure":
+                    attribute_to_log = "Press"
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.pressure, 8))
+                elif attribute_to_log == "acceleration":
+                    attribute_to_log = "Acc"
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.acceleration.x, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.acceleration.y, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.acceleration.z, 6))
+                elif attribute_to_log == "magnetic":
+                    attribute_to_log = "Mag"
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.magnetic.x, 6))
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.magnetic.y, 6))
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.magnetic.z, 6))
+                elif attribute_to_log == "angular velocity":
+                    attribute_to_log = "Ang Vel"
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.angular_vel.x, 6))
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.angular_vel.y, 6))
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.angular_vel.z, 6))
+                elif attribute_to_log == "euler angles":
+                    attribute_to_log = ""
+                    line_of_data.append("Heading")
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.euler_angles.heading, 6))
+                    line_of_data.append("Roll")
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.euler_angles.roll, 6))
+                    line_of_data.append("Pitch")
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.euler_angles.pitch, 6))
+                elif attribute_to_log == "quaternion":
+                    attribute_to_log = "Quat"
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.quaternion.x, 6))
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.quaternion.y, 6))
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.quaternion.z, 6))
+                    line_of_data.append(DataFunctions.str_append_length(
+                        sensor_data.quaternion.w, 6))
+                elif attribute_to_log == "linear acceleration":
+                    attribute_to_log = "Lin Acc"
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.linear_acceleration.x, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.linear_acceleration.y, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.linear_acceleration.z, 6))
+                elif attribute_to_log == "gravity":
+                    attribute_to_log = "Grav"
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.gravity_vector.x, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.gravity_vector.y, 6))
+                    line_of_data.append(DataFunctions.str_prepend_length(
+                        sensor_data.gravity_vector.z, 6))
+                data_dictionary[attribute_to_log.title()] = line_of_data
+            return data_dictionary
+        except AttributeError:
+            return " Error in data"
+
+    @staticmethod
+    def build_sensor_data(single_device_data, attributes_to_log):
+        """
+        Builds motion data output for a tag
+        """
+        if not attributes_to_log:
+            return ""
+
+        motion_data = single_device_data.sensor_data
+        data_dictionary = CondensedConsoleLogging.format_sensor_data(
+            motion_data, attributes_to_log)
+        output = ""
+        if type(data_dictionary) == str:
+            output += data_dictionary
+        else:
+            for key in data_dictionary:
+                output += " | " + key
+                for item in data_dictionary[key]:
+                    output += " " + str(item)
+        return output
+
+    @staticmethod
+    def build_1d_ranging_output(index, elapsed, ranging_loop_array, attributes_to_log):
+        output = CondensedConsoleLogging.build_timestamp(index, elapsed)
+        for single_device in ranging_loop_array:
+            output += CondensedConsoleLogging.build_tag(single_device)
+            output += CondensedConsoleLogging.build_sensor_data(
+                single_device, attributes_to_log)
+            output += CondensedConsoleLogging.build_range(single_device)
+        return output
