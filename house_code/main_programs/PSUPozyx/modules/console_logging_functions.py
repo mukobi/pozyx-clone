@@ -1,6 +1,7 @@
 import time as time
 from .data_functions import DataFunctions as DataFunctions
-
+import sys
+sys.stdout.flush()
 
 class ConsoleLoggingFunctions:
 
@@ -56,7 +57,7 @@ class ConsoleLoggingFunctions:
         """
         output = ConsoleLoggingFunctions.create_sensor_data_output(
             index, elapsed, data_dictionary)
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def create_sensor_data_output(index, elapsed, data_dictionary):
@@ -105,7 +106,7 @@ class ConsoleLoggingFunctions:
                        + " Y: " + str(position.y)
                        + " Z: " + str(position.z))
 
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_position_and_velocity_to_console(index, elapsed, position, velocity_x, velocity_y, velocity_z):
@@ -137,8 +138,7 @@ class ConsoleLoggingFunctions:
                    + " Y: " + DataFunctions.str_append_length(velocity_y, 7)
                    + " Z: " + DataFunctions.str_append_length(velocity_z, 7))
 
-
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_position_to_console_1d(index, elapsed, position):
@@ -164,7 +164,7 @@ class ConsoleLoggingFunctions:
         else:
             output += (" | Pos: " + "X: " + str(position.distance))
 
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_position_and_velocity_to_console_1d(index, elapsed, position, velocity):
@@ -192,7 +192,7 @@ class ConsoleLoggingFunctions:
 
         output += (" | Vel: " + "X: " + DataFunctions.str_append_length(velocity, 7))
 
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_range_motion_and_velocity(
@@ -224,7 +224,7 @@ class ConsoleLoggingFunctions:
 
         output += (" | Vel: " + "X: " + DataFunctions.str_append_length(velocity, 7))
 
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_range_and_motion(
@@ -254,7 +254,7 @@ class ConsoleLoggingFunctions:
         else:
             output += (" | Pos: " + "X: " + str(position.distance))
 
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_multitag_position_to_console(index, elapsed, position_array):
@@ -286,7 +286,7 @@ class ConsoleLoggingFunctions:
                 output += hex(element) + " "
             elif idx % 4 != 0:
                 output += str(element) + " "
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_multitag_1D_to_console(index, elapsed, position_array):
@@ -318,7 +318,7 @@ class ConsoleLoggingFunctions:
                 output += hex(element) + " "
             elif idx % 2 != 0:
                 output += str(element) + " "
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_position_and_sensor_data_to_console(index, elapsed, data_dictionary, position):
@@ -356,7 +356,7 @@ class ConsoleLoggingFunctions:
                        + " Y: " + str(position.y)
                        + " Z: " + str(position.z))
 
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def log_position_and_velocity_and_sensor_data_to_console(index, elapsed, data_dictionary, position, velocity_x, velocity_y, velocity_z):
@@ -396,7 +396,7 @@ class ConsoleLoggingFunctions:
             output += (" | Vel: " + "X: " + DataFunctions.str_append_length(velocity_x, 6)
                        + " Y: " + DataFunctions.str_append_length(velocity_y, 6)
                        + " Z: " + DataFunctions.str_append_length(velocity_z, 6))
-        print(output)
+        print(output, flush=True)
 
     @staticmethod
     def format_sensor_data(sensor_data, multiple_attributes_to_log):
@@ -497,7 +497,7 @@ class ConsoleLoggingFunctions:
         output = (str(index) + " Time: "
                   + DataFunctions.str_append_length(elapsed_time, 10) + " "
                   + message)
-        print(output)
+        print(output, flush=True)
 
 
 class CondensedConsoleLogging:
@@ -675,11 +675,11 @@ class CondensedConsoleLogging:
         return output
 
     @staticmethod
-    def build_1d_ranging_output(index, elapsed, ranging_loop_array, attributes_to_log):
+    def print_1d_ranging_output(index, elapsed, ranging_loop_array, attributes_to_log):
         output = CondensedConsoleLogging.build_timestamp(index, elapsed)
         for single_device in ranging_loop_array:
             output += CondensedConsoleLogging.build_tag(single_device)
             output += CondensedConsoleLogging.build_sensor_data(
                 single_device, attributes_to_log)
             output += CondensedConsoleLogging.build_range(single_device)
-        return output
+        print(output, flush=True)
