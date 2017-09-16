@@ -6,6 +6,7 @@ This demo requires two Pozyx devices. It demonstrates the ranging capabilities a
 to remotely control a Pozyx device. Move around with the other Pozyx device.
 This demo measures the range between the two devices.
 """
+import sys
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
@@ -151,15 +152,17 @@ if __name__ == "__main__":
     range_data_array = []
     for tag in tags:
         range_data_array.append(RangeOutputContainer(None, None, 0, None, None))
+    if not tags:
+        sys.exit("Please add at least one remote device for 1D ranging.")
 
     logfile = None
     if to_use_file:
-        logfile = open(filename, 'w')
+        logfile = open(filename, 'a')
         FileIO.write_range_headers_to_file(logfile, tags, attributes_to_log)
 
     # wait for motion data to work before running main loop
     if to_get_sensor_data:
-        not_started = False
+        not_started = True
         while not_started:
             r.loop(range_data_array)
             not_started = range_data_array[0].sensor_data.pressure == 0
@@ -196,8 +199,8 @@ if __name__ == "__main__":
                         if not smooth_velocity:
                             single_data.velocity = measured_velocity
 
-            print(Console.build_1d_ranging_output(
-                index, elapsed, range_data_array, attributes_to_log))
+            Console.print_1d_ranging_output(
+                index, elapsed, range_data_array, attributes_to_log)
 
             if to_use_file:
                 FileIO.write_range_data_to_file(
@@ -206,7 +209,7 @@ if __name__ == "__main__":
             index = index + 1
 
     except KeyboardInterrupt:
-        pass
+        sys.exit()
 
     finally:
         if to_use_file:

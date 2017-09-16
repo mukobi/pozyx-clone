@@ -47,16 +47,6 @@ class ReadyToLocalize(object):
 
     def setup(self):
         """Sets up the Pozyx for positioning by calibrating its anchor list."""
-        print("------------POZYX POSITIONING V1.1 -------------")
-        print("NOTES: ")
-        print("- No parameters required.")
-        print()
-        print("- System will auto start configuration")
-        print()
-        print("- System will auto start positioning")
-        print("------------POZYX POSITIONING V1.1 --------------")
-        print()
-        print("START Ranging: ")
         self.pozyx.clearDevices(self.remote_id)
         self.setAnchorsManual()
         self.printPublishConfigurationResult()
@@ -262,13 +252,11 @@ if  __name__ == "__main__":
                 prev_bin_pos_y = copy.copy(bin_pos_y)
                 prev_bin_pos_z = copy.copy(bin_pos_z)
 
-               #print(velocity_x)
 
             else:
                 velocity_x = ''
                 velocity_y = ''
                 velocity_z = ''
-                #print(velocity)
 
 
 
