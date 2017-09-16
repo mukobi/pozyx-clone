@@ -100,7 +100,8 @@ public class ConfigureUwbSettings {
 
         boolean showConsole = m_show_console_output.isSelected();
 
-        launchConsoleLogging(new String[]{"python", "-u", "configure_uwb_settings.py", channel, bitrate, prf, plen, gain}, showConsole);
+        launchConsoleLogging("python -u configure_uwb_settings.py "
+                + channel + " " + bitrate + " " + prf + " " + plen + " " + gain, showConsole);
     }
 
     public void handleMaximumRange() {
@@ -137,7 +138,7 @@ public class ConfigureUwbSettings {
         Platform.exit();
     }
 
-    private void launchConsoleLogging(String[] pythonCommands, boolean showConsole) {
+    private void launchConsoleLogging(String pythonCommands, boolean showConsole) {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/console_window.fxml"));
@@ -152,8 +153,8 @@ public class ConfigureUwbSettings {
             if (showConsole) {
                 stage.show();
             }
-
-            console_controller.launchPyScript("Setting UWB settings. Feel free to close when done.", pythonCommands);
+            String prependPathType = "";
+            console_controller.launchPyScript("Setting UWB settings. Feel free to close when done.", pythonCommands, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();

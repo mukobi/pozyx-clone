@@ -225,7 +225,7 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchRanging() {
         saveSettingsForUse();
-        launchConsoleLogging(new String[]{"python", "-u", "1D_ranging.py"}, true);
+        launchConsoleLogging("1D_ranging.exe", true, "COMPILEDPATH");
     }
 
     @FXML
@@ -234,10 +234,10 @@ public class Controller implements Initializable {
         switch(number_mobile_devices) {
             case "0":
             case "1":
-                launchConsoleLogging(new String[]{"python", "-u", "3D_positioning.py"}, true);
+                launchConsoleLogging("3D_positioning.exe", true, "COMPILEDPATH");
                 break;
             default:
-                launchConsoleLogging(new String[]{"python", "-u", "multidevice_positioning.py"}, true);
+                launchConsoleLogging("multidevice_positioning.exe", true, "COMPILEDPATH");
                 break;
         }
         if(use_processing.equals("true")) {
@@ -260,7 +260,7 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchMotionData() {
         saveSettingsForUse();
-        launchConsoleLogging(new String[]{"python", "-u", "motion_data.py"}, true);
+        launchConsoleLogging("motion_data.exe", true, "COMPILEDPATH");
         if(use_processing.equals("true")) {
             try {
                 File this_file = new File(
@@ -281,7 +281,8 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchPositioningAndMotionData() {
         saveSettingsForUse();
-        launchConsoleLogging(new String[]{"python", "-u", "3D_positioning_and_motion_data.py"}, true);
+
+        launchConsoleLogging("3D_positioning_and_motion_data.exe", true, "COMPILEDPATH");
     }
 
     private void update_variables_from_gui() {
@@ -595,7 +596,7 @@ public class Controller implements Initializable {
         );
     }
 
-    private void launchConsoleLogging(String[] pythonCommands, boolean showConsole) {
+    private void launchConsoleLogging(String executable, boolean showConsole, String prependPathType) {
         try {
             stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/console_window.fxml"));
@@ -613,14 +614,12 @@ public class Controller implements Initializable {
                 stage.show();
             }
 
-            console_controller.launchPyScript("Waiting for data to be collected...", pythonCommands);
+            console_controller.launchPyScript("Waiting for data to be collected...", executable, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
 
     @Override
@@ -651,8 +650,7 @@ public class Controller implements Initializable {
     }
 
     public void handlePyVersion(ActionEvent actionEvent) {
-        String[] command = {"python", "-u", "mac_python_test.py"};
-        launchConsoleLogging(command, true);
+
     }
 }
 
