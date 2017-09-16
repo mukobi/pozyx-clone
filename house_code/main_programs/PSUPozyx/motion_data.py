@@ -27,7 +27,6 @@ from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import SensorDataFileWriting as FileWriting
 from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
 from modules.configuration import Configuration as Configuration
-import matplotlib.pyplot as plt
 # import matplotlib.animation as animation
 # from modules.data_averaging import DataAveraging as DataAveraging
 # from modules.data_averaging import BinData as BinData
@@ -133,10 +132,6 @@ if __name__ == '__main__':
     if to_use_file:
         logfile = open(filename, 'a')
         FileWriting.write_sensor_data_header_to_file(logfile)
-
-    fig, axes = plt.subplots()
-    display_two = RealTimePlot(axes)
-    display_two.animate(fig, lambda frame_index: ([], []))
 
     start = ConsoleLogging.get_time()
     try:
