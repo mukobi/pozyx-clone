@@ -56,6 +56,8 @@
 #include <avr/sleep.h> //Needed for sleep_mode
 #include <avr/power.h> //Needed for powering down perihperals such as the ADC/TWI and Timers
 
+#include <SD.h> //Needed for writing to a file
+
 #define FIRMWARE_VERSION "1.0"
 
 const byte statusLED = 13;  //Flashes with each reading
