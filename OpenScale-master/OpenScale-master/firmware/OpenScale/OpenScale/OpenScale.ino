@@ -141,8 +141,12 @@ void setup()
 
 }
 
+File myFile; //creates a file
+
 void loop()
 {
+  myFile = SD.open("testData.csv",FILE_WRITE);
+  
   //Power cycle takes around 400ms so only do so if our report rate is greater than 500ms
   if (setting_report_rate > minimum_powercycle_time) powerUpScale();
 
@@ -150,20 +154,29 @@ void loop()
 
   //Take average of readings with calibration and tare taken into account
   float currentReading = scale.get_units(setting_average_amount);
-
+  if(myFile)
+  {
   //Print time stamp
   if (setting_timestamp_enable == true)
   {
     Serial.print(startTime);
+    myFile.write(startTime);
     Serial.print(F(","));
+    myFile.write(F(","));
   }
 
   //Print calibrated reading
+  
   Serial.print(currentReading, setting_decimal_places);
+  myFile.write(currentReading, setting_decimal_places);
   Serial.print(F(","));
+  myFile.write(F(","));
   if (setting_units == UNITS_LBS) Serial.print(F("lbs"));
+                                  myFile.write(F("lbs"));
   if (setting_units == UNITS_KG) Serial.print(F("kg"));
+                                 myFile.write(F("kg"));
   Serial.print(F(","));
+  myFile.write(F(","));
 
   //Print raw reading
   if (setting_raw_reading_enable == true)
@@ -172,6 +185,12 @@ void loop()
 
     Serial.print(rawReading);
     Serial.print(F(","));
+  }
+  myFile.close();
+  }
+  else
+  {
+    Serial.println("ERROR IN OPENING THE FILE");
   }
 
   //Print local temp
