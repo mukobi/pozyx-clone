@@ -130,7 +130,7 @@ if __name__ == "__main__":
         filename, use_processing) = Configuration.get_properties()
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha = 0.2
+    alpha = 0.5
     smooth_velocity = True
 
     to_get_sensor_data = not attributes_to_log == []
