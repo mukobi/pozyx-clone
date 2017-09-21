@@ -26,7 +26,7 @@ class RangeOutputContainer:
         self.sensor_data = sensor_data
         self.loop_status = loop_status
         self.smoothed_range = smoothed_range
-        self.velocity = 0
+        self.velocity = ""
 
 
 class ReadyToRange(object):
@@ -130,7 +130,8 @@ if __name__ == "__main__":
         filename, use_processing) = Configuration.get_properties()
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha = 0.5
+    alpha_pos = 0.2
+    alpha_vel = 0.1
     smooth_velocity = True
 
     to_get_sensor_data = not attributes_to_log == []
@@ -174,7 +175,7 @@ if __name__ == "__main__":
     try:
         index = 0
         start = time.time()
-        new_time = 0
+        new_time = 0.0
         while True:
             elapsed = time.time() - start
             old_time = new_time
@@ -187,15 +188,17 @@ if __name__ == "__main__":
                 if type(single_data.device_range.distance) is int:
                     old_smoothed_range = single_data.smoothed_range
                     single_data.smoothed_range = (
-                        (1 - alpha) * single_data.smoothed_range
-                        + alpha * single_data.device_range.distance)
+                        (1 - alpha_pos) * single_data.smoothed_range
+                        + alpha_pos * single_data.device_range.distance)
                     new_smoothed_range = single_data.smoothed_range
-                    if not (time_difference == 0) and not(elapsed == 0):
+                    if not (time_difference == 0) and not(elapsed <= 0.001):
+                        if single_data.velocity == "":
+                            single_data.velocity = 0.0
                         measured_velocity = (
                             new_smoothed_range - old_smoothed_range) / time_difference
                         single_data.velocity = (
-                            (1 - alpha) * single_data.velocity
-                            + alpha * measured_velocity)
+                            (1 - alpha_vel) * single_data.velocity
+                            + alpha_vel * measured_velocity)
                         if not smooth_velocity:
                             single_data.velocity = measured_velocity
 
