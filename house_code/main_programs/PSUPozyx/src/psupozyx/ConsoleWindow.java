@@ -37,7 +37,12 @@ public class ConsoleWindow implements Initializable {
                 String executableWithDirectory = executable;
                 if (osName.startsWith("Windows")) {
                     if(Objects.equals(prependPathType, "COMPILEDPATH")) {
-                        executableWithDirectory = "build/exe.win32-3.6/" + executableWithDirectory;
+                        executableWithDirectory = "build/exe.win32-3.6/" + executableWithDirectory + ".exe";
+                    }
+                }
+                if (osName.startsWith("Mac")) {
+                    if(Objects.equals(prependPathType, "COMPILEDPATH")) {
+                        executableWithDirectory = "build/exe.macosx-10.6-intel-3.6/" + executableWithDirectory;
                     }
                 }
 

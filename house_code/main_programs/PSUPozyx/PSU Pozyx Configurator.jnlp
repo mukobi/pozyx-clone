@@ -8,7 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PSU Pozyx Configurator.jar" size="55264214" download="eager" />
+    <jar href="PSU Pozyx Configurator.jar" size="106362837" download="eager" />
+    <jar href="PSU Pozyx Configurator2.jar" size="160033" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\core.jar" size="1016455" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\gluegen-rt-natives-windows-i586.jar" size="7577" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows32\lib\gluegen-rt.jar" size="345605" download="eager" />
@@ -52,6 +53,7 @@
     <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\oscP5.jar" size="52005" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\pozyx_orientation3D_PSU.jar" size="7400" download="eager" />
     <jar href="processing\pozyx_orientation3D_PSU\application.windows64\lib\serial.jar" size="3991" download="eager" />
+    <jar href="processing\pozyx_orientation3D_PSU\processing-py.jar" size="44351787" download="eager" />
     <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\core.jar" size="1016455" download="eager" />
     <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\gluegen-rt-natives-windows-i586.jar" size="7577" download="eager" />
     <jar href="processing\pozyx_ready_to_localize_PSU\application.windows32\lib\gluegen-rt.jar" size="345605" download="eager" />
