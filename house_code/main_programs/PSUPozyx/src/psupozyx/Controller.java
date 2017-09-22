@@ -225,7 +225,7 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchRanging() {
         saveSettingsForUse();
-        launchConsoleLogging("1D_ranging.exe", true, "COMPILEDPATH");
+        launchConsoleLogging("1D_ranging", true, "COMPILEDPATH");
     }
 
     @FXML
@@ -234,10 +234,10 @@ public class Controller implements Initializable {
         switch(number_mobile_devices) {
             case "0":
             case "1":
-                launchConsoleLogging("3D_positioning.exe", true, "COMPILEDPATH");
+                launchConsoleLogging("3D_positioning", true, "COMPILEDPATH");
                 break;
             default:
-                launchConsoleLogging("multidevice_positioning.exe", true, "COMPILEDPATH");
+                launchConsoleLogging("multidevice_positioning", true, "COMPILEDPATH");
                 break;
         }
         if(use_processing.equals("true")) {
@@ -260,7 +260,7 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchMotionData() {
         saveSettingsForUse();
-        launchConsoleLogging("motion_data.exe", true, "COMPILEDPATH");
+        launchConsoleLogging("motion_data", true, "COMPILEDPATH");
         if(use_processing.equals("true")) {
             try {
                 File this_file = new File(
@@ -282,7 +282,7 @@ public class Controller implements Initializable {
     private void handleLaunchPositioningAndMotionData() {
         saveSettingsForUse();
 
-        launchConsoleLogging("3D_positioning_and_motion_data.exe", true, "COMPILEDPATH");
+        launchConsoleLogging("3D_positioning_and_motion_data", true, "COMPILEDPATH");
     }
 
     private void update_variables_from_gui() {
