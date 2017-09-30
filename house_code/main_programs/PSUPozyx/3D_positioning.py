@@ -36,6 +36,9 @@ class PositionOutputContainer:
         self.velocity_z = ""
 
 
+
+
+
 class Positioning(object):
     """Continuously performs multitag positioning"""
 
@@ -181,7 +184,58 @@ class Positioning(object):
         self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
         self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
 
+
+def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
+    for single_data in loop_position_data_array:
+        # EMA filter calculations
+        if type(single_data.position.x) is int:
+            old_smoothed_x, old_smoothed_y, old_smoothed_z = (
+                single_data.smoothed_x, single_data.smoothed_y, single_data.smoothed_z)
+
+            single_data.smoothed_x = (
+                (1 - loop_alpha_pos) * single_data.smoothed_x
+                + loop_alpha_pos * single_data.position.x)
+            new_smoothed_x = single_data.smoothed_x
+            single_data.smoothed_y = (
+                (1 - loop_alpha_pos) * single_data.smoothed_y
+                + loop_alpha_pos * single_data.position.y)
+            new_smoothed_y = single_data.smoothed_y
+            single_data.smoothed_z = (
+                (1 - loop_alpha_pos) * single_data.smoothed_z
+                + loop_alpha_pos * single_data.position.z)
+            new_smoothed_z = single_data.smoothed_z
+
+            if not (time_difference == 0) and not (elapsed <= 0.001):
+                if single_data.velocity_x == "":
+                    single_data.velocity_x = 0.0
+                    single_data.velocity_y = 0.0
+                    single_data.velocity_z = 0.0
+                measured_velocity_x = (new_smoothed_x - old_smoothed_x) / time_difference
+                measured_velocity_y = (new_smoothed_y - old_smoothed_y) / time_difference
+                measured_velocity_z = (new_smoothed_z - old_smoothed_z) / time_difference
+                if not smooth_velocity:
+                    single_data.velocity_x = measured_velocity_x
+                    single_data.velocity_y = measured_velocity_y
+                    single_data.velocity_z = measured_velocity_z
+                    return
+                # smooth velocity
+                single_data.velocity_x = (
+                    (1 - loop_alpha_vel) * single_data.velocity_x
+                    + loop_alpha_vel * measured_velocity_x)
+                single_data.velocity_y = (
+                    (1 - loop_alpha_vel) * single_data.velocity_y
+                    + loop_alpha_vel * measured_velocity_y)
+                single_data.velocity_z = (
+                    (1 - loop_alpha_vel) * single_data.velocity_z
+                    + loop_alpha_vel * measured_velocity_z)
+
+
 if __name__ == "__main__":
+    # smoothing constant; 1 is no filtering, lim->0 is most filtering
+    alpha_pos = 0.2
+    alpha_vel = 0.1
+    smooth_velocity = True
+
     # shortcut to not have to find out the port yourself
     serial_port = Configuration.get_correct_serial_port()
     pozyx = PozyxSerial(serial_port)
@@ -231,6 +285,8 @@ if __name__ == "__main__":
 
             r.loop(position_data_array)
 
+            apply_ema_filter(position_data_array, alpha_pos, alpha_vel)
+
             Console.print_3d_positioning_output(
                 index, elapsed, position_data_array, attributes_to_log)
 
@@ -241,3 +297,5 @@ if __name__ == "__main__":
     finally:
         if to_use_file:
             logfile.close()
+
+
