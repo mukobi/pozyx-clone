@@ -22,14 +22,15 @@ from modules.configuration import Configuration as Configuration
 
 
 class PositionOutputContainer:
-    def __init__(self, tag, position, smoothed_x, smoothed_y, smoothed_z, sensor_data, loop_status):
-        self.tag = tag
-        self.position = position
-        self.sensor_data = sensor_data
-        self.loop_status = loop_status
-        self.smoothed_x = smoothed_x
-        self.smoothed_y = smoothed_y
-        self.smoothed_z = smoothed_z
+    def __init__(self, i_tag, i_position, i_smoothed_x, i_smoothed_y, i_smoothed_z,
+                 i_sensor_data, i_loop_status):
+        self.tag = i_tag
+        self.position = i_position
+        self.sensor_data = i_sensor_data
+        self.loop_status = i_loop_status
+        self.smoothed_x = i_smoothed_x
+        self.smoothed_y = i_smoothed_y
+        self.smoothed_z = i_smoothed_z
         self.velocity_x = ""
         self.velocity_y = ""
         self.velocity_z = ""
@@ -57,31 +58,32 @@ class Positioning(object):
         self.set_anchors_manual()
         self.print_publish_anchor_configuration()
 
-    def loop(self, position_data_array):
+    def loop(self, loop_position_data_array):
         """Performs positioning and prints the results."""
-        for idx, tag in enumerate(self.tags):
+        for idx, loop_tag in enumerate(self.tags):
             # get device position
             position = Coordinates()
             loop_status = self.pozyx.doPositioning(
-                position, self.dimension, self.height, self.algorithm, remote_id=tag)
+                position, self.dimension, self.height, self.algorithm, remote_id=loop_tag)
             if loop_status == POZYX_SUCCESS:
-                self.print_publish_position(position, tag)
+                self.print_publish_position(position, loop_tag)
             else:
-                self.print_publish_error_code("positioning", tag)
+                self.print_publish_error_code("positioning", loop_tag)
 
             # get motion data
             sensor_data = SensorData()
             calibration_status = SingleRegister()
             if self.to_get_sensor_data:
                 sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
-                if tag is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-                    loop_status = self.pozyx.getAllSensorData(sensor_data, tag)
-                    loop_status &= self.pozyx.getCalibrationStatus(calibration_status, tag)
+                if loop_tag is not None or self.pozyx.checkForFlag(
+                        POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+                    loop_status = self.pozyx.getAllSensorData(sensor_data, loop_tag)
+                    loop_status &= self.pozyx.getCalibrationStatus(calibration_status, loop_tag)
                     if loop_status == POZYX_SUCCESS:
                         self.publish_sensor_data(sensor_data, calibration_status)
 
-            single = position_data_array[idx]
-            single.tag = tag
+            single = loop_position_data_array[idx]
+            single.tag = loop_tag
             single.position = position
             single.sensor_data = sensor_data
             single.loop_status = loop_status
@@ -92,24 +94,24 @@ class Positioning(object):
             network_id = 0
         s = "POS ID: {}, x(mm): {}, y(mm): {}, z(mm): {}".format(
             "0x%0.4x" % network_id, position.x, position.y, position.z)
-        print(s)  # comment out to get rid of default prints
+        # print(s)  # comment out to get rid of default prints
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
                 "/position", [network_id, position.x, position.y, position.z])
 
     def set_anchors_manual(self):
         """Adds the manually measured anchors to the Pozyx's device list one for one."""
-        for tag in self.tags:
-            status = self.pozyx.clearDevices(tag)
+        for anchor_manual_tag in self.tags:
+            status = self.pozyx.clearDevices(anchor_manual_tag)
             for anchor in self.anchors:
-                status &= self.pozyx.addDevice(anchor, tag)
+                status &= self.pozyx.addDevice(anchor, anchor_manual_tag)
             if len(anchors) > 4:
                 status &= self.pozyx.setSelectionOfAnchors(
-                    POZYX_ANCHOR_SEL_AUTO, len(anchors), remote_id=tag)
+                    POZYX_ANCHOR_SEL_AUTO, len(anchors), remote_id=anchor_manual_tag)
             # enable these if you want to save the configuration to the devices.
             # self.pozyx.saveAnchorIds(tag)
             # self.pozyx.saveRegisters([POZYX_ANCHOR_SEL_AUTO], tag)
-            self.print_publish_configuration_result(status, tag)
+            self.print_publish_configuration_result(status, anchor_manual_tag)
 
     def print_publish_configuration_result(self, status, tag_id):
         """Prints the configuration explicit result, prints and publishes error if one occurs"""
@@ -197,6 +199,10 @@ if __name__ == "__main__":
     if not tags:
         sys.exit("Please add at least one remote device for 1D ranging.")
 
+    logfile = None
+    if to_use_file:
+        logfile = open(filename, 'a')
+
     r = Positioning(pozyx, osc_udp_client, tags, anchors, to_get_sensor_data)
     r.setup()
 
@@ -213,5 +219,25 @@ if __name__ == "__main__":
                     single_data.smoothed_y = single_data.position.y
                     single_data.smoothed_y = single_data.position.y
 
-    while True:
-        r.loop(position_data_array)
+    try:
+        index = 0
+        start = time.time()
+        new_time = 0.0
+        while True:
+            elapsed = time.time() - start
+            old_time = new_time
+            new_time = elapsed
+            time_difference = new_time - old_time
+
+            r.loop(position_data_array)
+
+            Console.print_3d_positioning_output(
+                index, elapsed, position_data_array, attributes_to_log)
+
+            index = index + 1
+    except KeyboardInterrupt:
+        sys.exit()
+
+    finally:
+        if to_use_file:
+            logfile.close()
