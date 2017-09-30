@@ -121,17 +121,10 @@ class ReadyToLocalize(object):
             print("ANCHOR,0x%0.4x, %s" % (device_list[i], str(anchor_coordinates)))
             if self.osc_udp_client is not None:
                 self.osc_udp_client.send_message(
-                    "/anchor", [device_list[i], int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
+                    "/anchor", [device_list[i], int(anchor_coordinates.x),
+                                int(anchor_coordinates.y), int(anchor_coordinates.z)])
                 sleep(0.025)
 
-    def printPublishAnchorConfiguration(self):
-        """Prints and potentially publishes the anchor configuration"""
-        for anchor in self.anchors:
-            print("ANCHOR,0x%0.4x,%s" % (anchor.network_id, str(anchor.coordinates)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message(
-                    "/anchor", [anchor.network_id, int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
-                sleep(0.025)
 
 if __name__ == "__main__":
     # shortcut to not have to find out the port yourself
