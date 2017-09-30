@@ -16,6 +16,6 @@ setup(
     version = "0.1",
     description = "A script used for the PSU Pozyx system",
     options = options,
-    executables = [Executable("1D_ranging.py"), Executable("3D_positioning_old.py"), Executable("multidevice_positioning.py"), Executable("motion_data.py")],
+    executables = [Executable("1D_ranging.py"), Executable("3D_positioning.py"), Executable("motion_data.py")],
     requires=['pypozyx']
 )
