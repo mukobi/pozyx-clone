@@ -13,12 +13,11 @@ import time
 import sys
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
-from pypozyx.definitions.registers import POZYX_EUL_HEADING
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-# TODO: write and import file writing
+from modules.file_writing import PositioningFileWriting as FileIO
 
 
 class PositionOutputContainer:
@@ -34,9 +33,6 @@ class PositionOutputContainer:
         self.velocity_x = ""
         self.velocity_y = ""
         self.velocity_z = ""
-
-
-
 
 
 class Positioning(object):
@@ -95,9 +91,6 @@ class Positioning(object):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
         if network_id is None:
             network_id = 0
-        s = "POS ID: {}, x(mm): {}, y(mm): {}, z(mm): {}".format(
-            "0x%0.4x" % network_id, position.x, position.y, position.z)
-        # print(s)  # comment out to get rid of default prints
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
                 "/position", [network_id, position.x, position.y, position.z])
@@ -186,47 +179,47 @@ class Positioning(object):
 
 
 def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
-    for single_data in loop_position_data_array:
+    for single_device_data in loop_position_data_array:
         # EMA filter calculations
-        if type(single_data.position.x) is int:
+        if type(single_device_data.position.x) is int:
             old_smoothed_x, old_smoothed_y, old_smoothed_z = (
-                single_data.smoothed_x, single_data.smoothed_y, single_data.smoothed_z)
+                single_device_data.smoothed_x, single_device_data.smoothed_y, single_device_data.smoothed_z)
 
-            single_data.smoothed_x = (
-                (1 - loop_alpha_pos) * single_data.smoothed_x
-                + loop_alpha_pos * single_data.position.x)
-            new_smoothed_x = single_data.smoothed_x
-            single_data.smoothed_y = (
-                (1 - loop_alpha_pos) * single_data.smoothed_y
-                + loop_alpha_pos * single_data.position.y)
-            new_smoothed_y = single_data.smoothed_y
-            single_data.smoothed_z = (
-                (1 - loop_alpha_pos) * single_data.smoothed_z
-                + loop_alpha_pos * single_data.position.z)
-            new_smoothed_z = single_data.smoothed_z
+            single_device_data.smoothed_x = (
+                (1 - loop_alpha_pos) * single_device_data.smoothed_x
+                + loop_alpha_pos * single_device_data.position.x)
+            new_smoothed_x = single_device_data.smoothed_x
+            single_device_data.smoothed_y = (
+                (1 - loop_alpha_pos) * single_device_data.smoothed_y
+                + loop_alpha_pos * single_device_data.position.y)
+            new_smoothed_y = single_device_data.smoothed_y
+            single_device_data.smoothed_z = (
+                (1 - loop_alpha_pos) * single_device_data.smoothed_z
+                + loop_alpha_pos * single_device_data.position.z)
+            new_smoothed_z = single_device_data.smoothed_z
 
             if not (time_difference == 0) and not (elapsed <= 0.001):
-                if single_data.velocity_x == "":
-                    single_data.velocity_x = 0.0
-                    single_data.velocity_y = 0.0
-                    single_data.velocity_z = 0.0
+                if single_device_data.velocity_x == "":
+                    single_device_data.velocity_x = 0.0
+                    single_device_data.velocity_y = 0.0
+                    single_device_data.velocity_z = 0.0
                 measured_velocity_x = (new_smoothed_x - old_smoothed_x) / time_difference
                 measured_velocity_y = (new_smoothed_y - old_smoothed_y) / time_difference
                 measured_velocity_z = (new_smoothed_z - old_smoothed_z) / time_difference
                 if not smooth_velocity:
-                    single_data.velocity_x = measured_velocity_x
-                    single_data.velocity_y = measured_velocity_y
-                    single_data.velocity_z = measured_velocity_z
+                    single_device_data.velocity_x = measured_velocity_x
+                    single_device_data.velocity_y = measured_velocity_y
+                    single_device_data.velocity_z = measured_velocity_z
                     return
                 # smooth velocity
-                single_data.velocity_x = (
-                    (1 - loop_alpha_vel) * single_data.velocity_x
+                single_device_data.velocity_x = (
+                    (1 - loop_alpha_vel) * single_device_data.velocity_x
                     + loop_alpha_vel * measured_velocity_x)
-                single_data.velocity_y = (
-                    (1 - loop_alpha_vel) * single_data.velocity_y
+                single_device_data.velocity_y = (
+                    (1 - loop_alpha_vel) * single_device_data.velocity_y
                     + loop_alpha_vel * measured_velocity_y)
-                single_data.velocity_z = (
-                    (1 - loop_alpha_vel) * single_data.velocity_z
+                single_device_data.velocity_z = (
+                    (1 - loop_alpha_vel) * single_device_data.velocity_z
                     + loop_alpha_vel * measured_velocity_z)
 
 
@@ -256,6 +249,7 @@ if __name__ == "__main__":
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
+        FileIO.write_position_headers_to_file(logfile, tags, attributes_to_log)
 
     r = Positioning(pozyx, osc_udp_client, tags, anchors, to_get_sensor_data)
     r.setup()
@@ -290,12 +284,15 @@ if __name__ == "__main__":
             Console.print_3d_positioning_output(
                 index, elapsed, position_data_array, attributes_to_log)
 
+            if to_use_file:
+                FileIO.write_position_data_to_file(logfile, index, elapsed, time_difference,
+                                                   position_data_array, attributes_to_log)
+
             index = index + 1
+
     except KeyboardInterrupt:
         sys.exit()
 
     finally:
         if to_use_file:
             logfile.close()
-
-
