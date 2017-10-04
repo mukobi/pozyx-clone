@@ -231,7 +231,6 @@ if __name__ == "__main__":
 
     # shortcut to not have to find out the port yourself
     serial_port = Configuration.get_correct_serial_port()
-    pozyx = PozyxSerial(serial_port)
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,

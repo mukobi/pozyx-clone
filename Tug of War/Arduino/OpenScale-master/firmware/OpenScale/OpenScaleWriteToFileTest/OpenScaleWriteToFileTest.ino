@@ -1125,7 +1125,7 @@ void displaySystemHeader(void)
 void set_default_settings(void)
 {
   //Reset UART to 9600bps
-  setting_uart_speed = 9600;
+  setting_uart_speed = 115200;
 
   //Reset to pounds as our unit of measure
   setting_units = UNITS_LBS;
@@ -1210,7 +1210,7 @@ void readSystemSettings(void)
   setting_uart_speed = readBytes(LOCATION_BAUD_MSB, sizeof(setting_uart_speed));
   if (setting_uart_speed < BAUD_MIN || setting_uart_speed > BAUD_MAX)
   {
-    setting_uart_speed = 9600; //Reset UART to 9600 if there is no speed stored
+    setting_uart_speed = 115200; //Reset UART to 9600 if there is no speed stored
     writeBytes(LOCATION_BAUD_MSB, setting_uart_speed, sizeof(setting_uart_speed));
   }
 
