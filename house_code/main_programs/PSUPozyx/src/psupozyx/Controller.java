@@ -231,15 +231,7 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchPositioning() {
         saveSettingsForUse();
-        switch(number_mobile_devices) {
-            case "0":
-            case "1":
-                launchConsoleLogging("3D_positioning", true, "COMPILEDPATH");
-                break;
-            default:
-                launchConsoleLogging("multidevice_positioning", true, "COMPILEDPATH");
-                break;
-        }
+        launchConsoleLogging("3D_positioning", true, "COMPILEDPATH");
         if(use_processing.equals("true")) {
             try {
                 File this_file = new File(
@@ -281,8 +273,6 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchPositioningAndMotionData() {
         saveSettingsForUse();
-
-        launchConsoleLogging("3D_positioning_and_motion_data", true, "COMPILEDPATH");
     }
 
     private void update_variables_from_gui() {

@@ -183,6 +183,7 @@ if __name__ == "__main__":
             time_difference = new_time - old_time
 
             r.loop(range_data_array)
+
             for single_data in range_data_array:
                 # EMA filter calculations
                 if type(single_data.device_range.distance) is int:

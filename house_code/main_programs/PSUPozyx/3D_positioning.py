@@ -1,288 +1,297 @@
 #!/usr/bin/env python
 """
 The Pozyx ready to localize tutorial (c) Pozyx Labs
-Please read the tutorial that accompanies this sketch:
-https://www.pozyx.io/Documentation/Tutorials/ready_to_localize/Python
 
-This tutorial requires at least the contents of the Pozyx Ready to Localize kit. It demonstrates the positioning capabilities
-of the Pozyx device both locally and remotely. Follow the steps to correctly set up your environment in the link, change the
-parameters and upload this sketch. Watch the coordinates change as you move your device around!
+Modified by Gabriel Mukobi for use with the PSU Pozyx Configurator Graphical
+User Interface and incorporating the sensor data and multitag localization
+scripts. That is, this file smartly collects 3D position and optionally sensor
+data at the same time for 1 or more remote devices based on the active settings
+in the PSUPozyx GUI.
+
 """
-
-from time import sleep
-from datetime import datetime #for creating the file with date and time in title
-
+import time
+import sys
 from pypozyx import *
+from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
-import time as t
-from modules.user_input_config_functions import UserInputConfigFunctions as UserInput
-from modules.file_writing import SensorAndPositionFileWriting as FileWriting
-from modules.console_logging_functions import ConsoleLoggingFunctions as ConsoleLogging
+from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from modules.data_averaging import BinData as BinData
-import numpy as np
-from modules.data_functions import DataFunctions as DataFunctions
-from modules.data_functions import Velocity as Velocity
-from collections import deque
-import copy
-"""
-#RealTimePlotting
-from modules.real_time_plot import RealTimePlot
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-"""
+from modules.file_writing import PositioningFileWriting as FileIO
 
-class ReadyToLocalize(object):
-    """Continuously calls the Pozyx positioning function and prints its position."""
-    def __init__(self, pozyx, osc_udp_client, anchors, algorithm=POZYX_POS_ALG_UWB_ONLY, dimension=POZYX_3D, height=1000, remote_id=None):
-        self.pozyx = pozyx
-        self.osc_udp_client = osc_udp_client
 
-        self.anchors = anchors
-        self.algorithm = algorithm
-        self.dimension = dimension
-        self.height = height
-        self.remote_id = remote_id
+class PositionOutputContainer:
+    def __init__(self, i_tag, i_position, i_smoothed_x, i_smoothed_y, i_smoothed_z,
+                 i_sensor_data, i_loop_status):
+        self.tag = i_tag
+        self.position = i_position
+        self.sensor_data = i_sensor_data
+        self.loop_status = i_loop_status
+        self.smoothed_x = i_smoothed_x
+        self.smoothed_y = i_smoothed_y
+        self.smoothed_z = i_smoothed_z
+        self.velocity_x = ""
+        self.velocity_y = ""
+        self.velocity_z = ""
+
+
+class Positioning(object):
+    """Continuously performs multitag positioning"""
+
+    def __init__(self, i_pozyx, i_osc_udp_client, i_tags, i_anchors, i_to_get_sensor_data,
+                 i_algorithm=POZYX_POS_ALG_UWB_ONLY, i_dimension=POZYX_3D, i_height=1000):
+        self.pozyx = i_pozyx
+        self.osc_udp_client = i_osc_udp_client
+        self.tags = i_tags
+        self.anchors = i_anchors
+        self.algorithm = i_algorithm
+        self.dimension = i_dimension
+        self.height = i_height
+        self.to_get_sensor_data = i_to_get_sensor_data
+        self.current_time = None
+        self.msg_builder = None
 
     def setup(self):
         """Sets up the Pozyx for positioning by calibrating its anchor list."""
-        self.pozyx.clearDevices(self.remote_id)
-        self.setAnchorsManual()
-        self.printPublishConfigurationResult()
-        network_id = self.remote_id
+        self.current_time = time.time()
+        self.set_anchors_manual()
+        self.print_publish_anchor_configuration()
 
-    def loop(self):
-        """Performs positioning and displays/exports the results."""
-        position = Coordinates()
-        status = self.pozyx.doPositioning(
-            position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
-        if status == POZYX_SUCCESS:
-            self.printPublishPosition(position)
-            return position, status
-        else:
-            #self.printPublishErrorCode("positioning")
-            position.x, position.y, position.z = "", "", ""
-            #position.x, position.y, position.z = "error", "error", "error"
-            return position, status
+    def loop(self, loop_position_data_array):
+        """Performs positioning and prints the results."""
+        for idx, loop_tag in enumerate(self.tags):
+            # get device position
+            position = Coordinates()
+            loop_status = self.pozyx.doPositioning(
+                position, self.dimension, self.height, self.algorithm, remote_id=loop_tag)
+            if loop_status == POZYX_SUCCESS:
+                self.print_publish_position(position, loop_tag)
+            else:
+                self.print_publish_error_code("positioning", loop_tag)
 
-    def printPublishPosition(self, position):
+            # get motion data
+            sensor_data = SensorData()
+            calibration_status = SingleRegister()
+            if self.to_get_sensor_data:
+                sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
+                if loop_tag is not None or self.pozyx.checkForFlag(
+                        POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
+                    loop_status = self.pozyx.getAllSensorData(sensor_data, loop_tag)
+                    loop_status &= self.pozyx.getCalibrationStatus(calibration_status, loop_tag)
+                    if loop_status == POZYX_SUCCESS:
+                        self.publish_sensor_data(sensor_data, calibration_status)
+
+            single = loop_position_data_array[idx]
+            single.tag = loop_tag
+            single.position = position
+            single.sensor_data = sensor_data
+            single.loop_status = loop_status
+
+    def print_publish_position(self, position, network_id):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
-        network_id = self.remote_id
         if network_id is None:
             network_id = 0
         if self.osc_udp_client is not None:
             self.osc_udp_client.send_message(
-                "/position", [network_id, int(position.x), int(position.y), int(position.z)])
+                "/position", [network_id, position.x, position.y, position.z])
 
-    def printPublishErrorCode(self, operation):
+    def set_anchors_manual(self):
+        """Adds the manually measured anchors to the Pozyx's device list one for one."""
+        for anchor_manual_tag in self.tags:
+            status = self.pozyx.clearDevices(anchor_manual_tag)
+            for anchor in self.anchors:
+                status &= self.pozyx.addDevice(anchor, anchor_manual_tag)
+            if len(anchors) > 4:
+                status &= self.pozyx.setSelectionOfAnchors(
+                    POZYX_ANCHOR_SEL_AUTO, len(anchors), remote_id=anchor_manual_tag)
+            # enable these if you want to save the configuration to the devices.
+            # self.pozyx.saveAnchorIds(tag)
+            # self.pozyx.saveRegisters([POZYX_ANCHOR_SEL_AUTO], tag)
+            self.print_publish_configuration_result(status, anchor_manual_tag)
+
+    def print_publish_configuration_result(self, status, tag_id):
+        """Prints the configuration explicit result, prints and publishes error if one occurs"""
+        if tag_id is None:
+            tag_id = 0
+        if status == POZYX_SUCCESS:
+            print("Configuration of tag %s: success" % tag_id)
+        else:
+            self.print_publish_error_code("configuration", tag_id)
+
+    def print_publish_error_code(self, operation, network_id):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
         error_code = SingleRegister()
-        network_id = self.remote_id
+        status = self.pozyx.getErrorCode(error_code, None)
         if network_id is None:
-            self.pozyx.getErrorCode(error_code)
-            print("ERROR %s, local error code %s" % (operation, str(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message("/error", [operation, 0, error_code[0]])
-            return
-        status = self.pozyx.getErrorCode(error_code, self.remote_id)
+            network_id = 0
         if status == POZYX_SUCCESS:
-            print("ERROR %s on ID %s, error code %s" %
+            print("Error %s on ID %s, error code %s" %
                   (operation, "0x%0.4x" % network_id, str(error_code)))
             if self.osc_udp_client is not None:
                 self.osc_udp_client.send_message(
-                    "/error", [operation, network_id, error_code[0]])
+                    "/error_%s" % operation, [network_id, error_code[0]])
         else:
-            self.pozyx.getErrorCode(error_code)
-            print("ERROR %s, couldn't retrieve remote error code, local error code %s" %
-                  (operation, str(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message("/error", [operation, 0, -1])
             # should only happen when not being able to communicate with a remote Pozyx.
+            self.pozyx.getErrorCode(error_code)
+            print("Error % s, local error code %s" % (operation, str(error_code)))
+            if self.osc_udp_client is not None:
+                self.osc_udp_client.send_message("/error_%s" % operation, [0, error_code[0]])
 
-    def setAnchorsManual(self):
-        """Adds the manually measured anchors to the Pozyx's device list one for one."""
-        status = self.pozyx.clearDevices(self.remote_id)
+    def print_publish_anchor_configuration(self):
         for anchor in self.anchors:
-            status &= self.pozyx.addDevice(anchor, self.remote_id)
-        if len(anchors) > 4:
-            status &= self.pozyx.setSelectionOfAnchors(POZYX_ANCHOR_SEL_AUTO, len(anchors))
-        return status
-
-    def printPublishConfigurationResult(self):
-        """Prints and potentially publishes the anchor configuration result in a human-readable way."""
-        list_size = SingleRegister()
-
-        status = self.pozyx.getDeviceListSize(list_size, self.remote_id)
-        print("List size: {0}".format(list_size[0]))
-        if list_size[0] != len(self.anchors):
-            self.printPublishErrorCode("configuration")
-            return
-        device_list = DeviceList(list_size=list_size[0])
-        status = self.pozyx.getDeviceIds(device_list, self.remote_id)
-        print("Calibration result:")
-        print("Anchors found: {0}".format(list_size[0]))
-        print("Anchor IDs: ", device_list)
-
-        for i in range(list_size[0]):
-            anchor_coordinates = Coordinates()
-            status = self.pozyx.getDeviceCoordinates(
-                device_list[i], anchor_coordinates, self.remote_id)
-            print("ANCHOR,0x%0.4x, %s" % (device_list[i], str(anchor_coordinates)))
+            print("ANCHOR,0x%0.4x,%s" % (anchor.network_id, str(anchor.pos)))
             if self.osc_udp_client is not None:
                 self.osc_udp_client.send_message(
-                    "/anchor", [device_list[i], int(anchor_coordinates.x), int(anchor_coordinates.y), int(anchor_coordinates.z)])
-                sleep(0.025)
+                    "/anchor", [anchor.network_id, anchor.pos.x, anchor.pos.y, anchor.pos.z])
+                time.sleep(0.025)
 
-    def printPublishAnchorConfiguration(self):
-        """Prints and potentially publishes the anchor configuration"""
-        for anchor in self.anchors:
-            print("ANCHOR,0x%0.4x,%s" % (anchor.network_id, str(anchor.coordinates)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message(
-                    "/anchor", [anchor.network_id, int(anchor.coordinates.x), int(anchor.coordinates.y), int(anchor.coordinates.z)])
-                sleep(0.025)
+    def publish_sensor_data(self, sensor_data, calibration_status):
+        """Makes the OSC sensor data package and publishes it"""
+        self.msg_builder = OscMessageBuilder("/sensordata")
+        self.msg_builder.add_arg(int(1000 * (time.time() - self.current_time)))
+        # current_time = time()
+        self.add_sensor_data(sensor_data)
+        self.add_calibration_status(calibration_status)
+        self.osc_udp_client.send(self.msg_builder.build())
+
+    def add_sensor_data(self, sensor_data):
+        """Adds the sensor data to the OSC message"""
+        self.msg_builder.add_arg(sensor_data.pressure)
+        self.add_components_osc(sensor_data.acceleration)
+        self.add_components_osc(sensor_data.magnetic)
+        self.add_components_osc(sensor_data.angular_vel)
+        self.add_components_osc(sensor_data.euler_angles)
+        self.add_components_osc(sensor_data.quaternion)
+        self.add_components_osc(sensor_data.linear_acceleration)
+        self.add_components_osc(sensor_data.gravity_vector)
+
+    def add_components_osc(self, component):
+        """Adds a sensor data component to the OSC message"""
+        for data in component.data:
+            self.msg_builder.add_arg(float(data))
+
+    def add_calibration_status(self, calibration_status):
+        """Adds the calibration status data to the OSC message"""
+        self.msg_builder.add_arg(calibration_status[0] & 0x03)
+        self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
+        self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
+        self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
 
 
-if  __name__ == "__main__":
+def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
+    for single_device_data in loop_position_data_array:
+        # EMA filter calculations
+        if type(single_device_data.position.x) is int:
+            old_smoothed_x, old_smoothed_y, old_smoothed_z = (
+                single_device_data.smoothed_x, single_device_data.smoothed_y, single_device_data.smoothed_z)
+
+            single_device_data.smoothed_x = (
+                (1 - loop_alpha_pos) * single_device_data.smoothed_x
+                + loop_alpha_pos * single_device_data.position.x)
+            new_smoothed_x = single_device_data.smoothed_x
+            single_device_data.smoothed_y = (
+                (1 - loop_alpha_pos) * single_device_data.smoothed_y
+                + loop_alpha_pos * single_device_data.position.y)
+            new_smoothed_y = single_device_data.smoothed_y
+            single_device_data.smoothed_z = (
+                (1 - loop_alpha_pos) * single_device_data.smoothed_z
+                + loop_alpha_pos * single_device_data.position.z)
+            new_smoothed_z = single_device_data.smoothed_z
+
+            if not (time_difference == 0) and not (elapsed <= 0.001):
+                if single_device_data.velocity_x == "":
+                    single_device_data.velocity_x = 0.0
+                    single_device_data.velocity_y = 0.0
+                    single_device_data.velocity_z = 0.0
+                measured_velocity_x = (new_smoothed_x - old_smoothed_x) / time_difference
+                measured_velocity_y = (new_smoothed_y - old_smoothed_y) / time_difference
+                measured_velocity_z = (new_smoothed_z - old_smoothed_z) / time_difference
+                if not smooth_velocity:
+                    single_device_data.velocity_x = measured_velocity_x
+                    single_device_data.velocity_y = measured_velocity_y
+                    single_device_data.velocity_z = measured_velocity_z
+                    return
+                # smooth velocity
+                single_device_data.velocity_x = (
+                    (1 - loop_alpha_vel) * single_device_data.velocity_x
+                    + loop_alpha_vel * measured_velocity_x)
+                single_device_data.velocity_y = (
+                    (1 - loop_alpha_vel) * single_device_data.velocity_y
+                    + loop_alpha_vel * measured_velocity_y)
+                single_device_data.velocity_z = (
+                    (1 - loop_alpha_vel) * single_device_data.velocity_z
+                    + loop_alpha_vel * measured_velocity_z)
+
+
+if __name__ == "__main__":
+    # smoothing constant; 1 is no filtering, lim->0 is most filtering
+    alpha_pos = 0.2
+    alpha_vel = 0.1
+    smooth_velocity = True
+
+    # shortcut to not have to find out the port yourself
     serial_port = Configuration.get_correct_serial_port()
-
-    remote = True                  # whether to use a remote device
-    if not remote:
-        remote_id = 0x614e
-
-    index = 0
-    oldTime = 0
-    newTime = 0
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-        filename, use_processing) = Configuration.get_properties()
+     filename, use_processing) = Configuration.get_properties()
+    to_get_sensor_data = not attributes_to_log == []
 
-    use_processing = True
+    osc_udp_client = SimpleUDPClient("127.0.0.1", 8888)
 
-    if not remote:
-        remote_id = None
-
-    ip = "127.0.0.1"                   # IP for the OSC UDP
-    network_port = 8888                # network port for the OSC UDP
-    osc_udp_client = None
-    if use_processing:
-        osc_udp_client = SimpleUDPClient(ip, network_port)
-
-    # algorithm = POZYX_POS_ALG_UWB_ONLY  # positioning algorithm to use
-    algorithm = POZYX_POS_ALG_TRACKING  # tracking positioning algorithm
-    dimension = POZYX_3D         # positioning dimension
-    height = 100000                      # height of device, required in 2.5D positioning
-
-    pozyx = PozyxSerial(serial_port)
-    r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
-    r.setup()
-
-    use_velocity = False
-    # use_velocity = True
+    position_data_array = []
+    for tag in tags:
+        position_data_array.append(PositionOutputContainer(None, None, 0, 0, 0, None, None))
+    if not tags:
+        sys.exit("Please add at least one remote device for 1D ranging.")
 
     logfile = None
     if to_use_file:
         logfile = open(filename, 'a')
-        if use_velocity:
-            FileWriting.write_position_and_velocity_header_to_file(logfile)
-        else:
-            FileWriting.write_position_header_to_file(logfile)
+        FileIO.write_position_headers_to_file(logfile, tags, attributes_to_log)
 
-    """
-    #RealTimePlotting
-    fig,axes = plt.subplots()
-    display_one = RealTimePlot(axes)
-    display_one. animate(fig,lambda frame_index: ([], []))
-    plt.ylabel("X Velocity")
-    #To add more subplots, copy this code and change the object name
-    """
-    if use_velocity:
-        bin_input = DataFunctions.bin_input()       #Determines how many points the user wants to bin
+    r = Positioning(pozyx, osc_udp_client, tags, anchors, to_get_sensor_data)
+    r.setup()
 
-        #Creates the deque binning objects
-        bin_pos_x, bin_pos_y, bin_pos_z, prev_bin_pos_x, prev_bin_pos_y, prev_bin_pos_z, bin_time = Velocity.initialize_bins3D(bin_input)
+    # wait for motion data to work before running main loop
+    if to_get_sensor_data:
+        not_started = True
+        while not_started:
+            r.loop(position_data_array)
+            not_started = position_data_array[0].sensor_data.pressure == 0
+            for single_data in position_data_array:
+                # Initialize EMA filter
+                if type(single_data.position.x) is int:
+                    single_data.smoothed_x = single_data.position.x
+                    single_data.smoothed_y = single_data.position.y
+                    single_data.smoothed_y = single_data.position.y
 
-        #Initializing mean calculation variables
-        mean_prev_bin_pos_x, mean_prev_bin_pos_y, mean_prev_bin_pos_z = Velocity.initialize_mean_prev_bins3D()
-
-        total_distance = 0             # Initializing total distance
-        time_between_2500_and_4500 = 0              # Initializing different bins for velocity intervals
-        time_between_4500_and_6500 = 0
-        time_between_6500_and_8500 = 0
-        time_above_8500 = 0
-
-    start = t.time()
     try:
+        index = 0
+        start = time.time()
+        new_time = 0.0
         while True:
-            elapsed=(t.time()-start)
-            oldTime = newTime
-            newTime = elapsed
-            timeDifference = newTime - oldTime
+            elapsed = time.time() - start
+            old_time = new_time
+            new_time = elapsed
+            time_difference = new_time - old_time
 
-            # Status is used for error handling
-            one_cycle_position, status = r.loop()
+            r.loop(position_data_array)
 
+            apply_ema_filter(position_data_array, alpha_pos, alpha_vel)
 
-            if use_velocity and status == POZYX_SUCCESS and one_cycle_position != 0:
-                # Updates and returns the new bins
-                #bin_pos, bin_time = Velocity.update_bins1D(bin_pos, bin_time, one_cycle_position, newTime)
+            Console.print_3d_positioning_output(
+                index, elapsed, position_data_array, attributes_to_log)
 
-                # Can equal either simple or linreg
-                velocity_method = 'simple'
-                #velocity_method = 'linreg'
+            if to_use_file:
+                FileIO.write_position_data_to_file(logfile, index, elapsed, time_difference,
+                                                   position_data_array, attributes_to_log)
 
+            index = index + 1
 
-                # Gets the means of the previous data for calculations
-                #mean_prev_bin_pos  = Velocity.update_previous_bins1D(binned_pos)
+    except KeyboardInterrupt:
+        sys.exit()
 
-                bin_pos_x.append(one_cycle_position.x)
-                bin_pos_y.append(one_cycle_position.y)
-                bin_pos_z.append(one_cycle_position.z)
-                bin_time.append(newTime)
-
-                # Calculates the directional velocities, set the method using method argument
-                velocity_x = Velocity.find_velocity1D(bin_input, bin_pos_x, prev_bin_pos_x, bin_time, prev_bin_time, velocity_method)
-                velocity_y = Velocity.find_velocity1D(bin_input, bin_pos_y, prev_bin_pos_y, bin_time, prev_bin_time, velocity_method)
-                velocity_z = Velocity.find_velocity1D(bin_input, bin_pos_z, prev_bin_pos_z, bin_time, prev_bin_time, velocity_method)
-                
- 
-                prev_bin_pos_x = copy.copy(bin_pos_x)
-                prev_bin_pos_y = copy.copy(bin_pos_y)
-                prev_bin_pos_z = copy.copy(bin_pos_z)
-
-
-            else:
-                velocity_x = ''
-                velocity_y = ''
-                velocity_z = ''
-
-
-
-            # Logs the data to console
-            if use_velocity:
-                ConsoleLogging.log_position_and_velocity_to_console(index, elapsed, one_cycle_position, velocity_x, velocity_y, velocity_z)
-            else:
-                ConsoleLogging.log_position_to_console(index, elapsed, one_cycle_position)
-
-            if to_use_file:             # writes the data returned from the iterate_file method to the file
-                if use_velocity:
-                    if index > bin_input:   # Accounts for the time it takes to get accurate velocity calculations
-                        FileWriting.write_position_and_velocity_data_to_file(
-                            index, elapsed, timeDifference, logfile, one_cycle_position,
-                            velocity_x, velocity_y, velocity_z)
-                    else:                   # Returns 0 for velocity until it provides complete calculations
-                        FileWriting.write_position_and_velocity_data_to_file(
-                            index, elapsed, timeDifference, logfile, one_cycle_position,
-                            np.nan, np.nan, np.nan)
-                else:
-                    FileWriting.write_position_data_to_file(index, elapsed, timeDifference, logfile, one_cycle_position)
-
-            index = index + 1                                     # increment data index
-
-    except KeyboardInterrupt:  # this allows Windows users to exit the while iterate_file by pressing ctrl+c
-        pass
-
-    if to_use_file:
-        logfile.close()
+    finally:
+        if to_use_file:
+            logfile.close()
