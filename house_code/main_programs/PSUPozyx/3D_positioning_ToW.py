@@ -26,6 +26,8 @@ from modules.data_functions import DataFunctions as DataFunctions
 from modules.data_functions import Velocity as Velocity
 from collections import deque
 import copy
+
+from OpenScaleData import OpenScaleData as OS_data
 """
 #RealTimePlotting
 from modules.real_time_plot import RealTimePlot
@@ -57,12 +59,13 @@ class ReadyToLocalize(object):
         position = Coordinates()
         status = self.pozyx.doPositioning(
             position, self.dimension, self.height, self.algorithm, remote_id=self.remote_id)
+        OpenScale = OS_data()
         if status == POZYX_SUCCESS:
             self.printPublishPosition(position)
-            return position, status
+            return position, status,
         else:
             #self.printPublishErrorCode("positioning")
-            position.x, position.y, position.z = "", "", ""
+            position.x, position.y, position.z = "error", "", ""
             #position.x, position.y, position.z = "error", "error", "error"
             return position, status
 
@@ -146,6 +149,7 @@ class ReadyToLocalize(object):
 
 if  __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
+##    serial_port = get_serial_ports()[0].device
 
     remote = True                  # whether to use a remote device
     if not remote:
@@ -159,7 +163,7 @@ if  __name__ == "__main__":
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
         filename, use_processing) = Configuration.get_properties()
 
-    use_processing = True
+    use_processing = False
 
     if not remote:
         remote_id = None
