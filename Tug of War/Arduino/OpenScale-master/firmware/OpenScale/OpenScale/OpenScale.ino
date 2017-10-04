@@ -131,17 +131,17 @@ void setup()
 
   //Calculate the minimum time between reports
   int minTime = calcMinimumReadTime();
-  Serial.print(F("Minimum time between reports: "));
-  Serial.println(minTime);
+//  Serial.print(F("Minimum time between reports: "));
+//  Serial.println(minTime);
 
   //Look for a special case where the report rate time is less than the allowed minimum
   if (setting_report_rate < minTime) setting_report_rate = minTime;
 
-  Serial.print(F("Press "));
-  Serial.print((char)escape_character);
-  Serial.println(F(" to bring up settings"));
-
-  Serial.println(F("Reading:"));
+//  Serial.print(F("Press "));
+//  Serial.print((char)escape_character);
+//  Serial.println(F(" to bring up settings"));
+//
+//  Serial.println(F("Reading:"));
 
 }
 
@@ -158,6 +158,7 @@ void loop()
   //Print time stamp
   if (setting_timestamp_enable == true)
   {
+    Serial.print(F(","));
     Serial.print(startTime);
     Serial.print(F(","));
   }
@@ -1031,15 +1032,15 @@ void checkEmergencyReset(void)
 //Saves us a few dozen bytes
 void displaySystemHeader(void)
 {
-  Serial.print(F("\r\nSerial Load Cell Converter version "));
-  Serial.println(F(FIRMWARE_VERSION));
-  Serial.println(F("By SparkFun Electronics"));
+//  Serial.print(F("\r\nSerial Load Cell Converter version "));
+//  Serial.println(F(FIRMWARE_VERSION));
+//  Serial.println(F("By SparkFun Electronics"));
 
   //Look to see if we have an external or remote temp sensor attached
   if (remoteSensor.search(remoteSensorAddress) == 0)
   {
     remoteSensorAttached = false;
-    Serial.println(F("No remote sensor found"));
+//    Serial.println(F("No remote sensor found"));
   }
   else
   {

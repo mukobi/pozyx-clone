@@ -10,7 +10,7 @@ fileType= '.csv'
 
 
 ser=serial.Serial('COM8',115200)
-ser2=serial.Serial('COM11', 115200)
+##ser2=serial.Serial('COM11', 115200)
 
 ## open text file to store the current 
 text_file = open(fileName+fileType, 'w')
@@ -19,17 +19,17 @@ text_file = open(fileName+fileType, 'w')
 while 1:
     if ser.inWaiting():
         x=ser.readline()
-        x1=ser2.readline()
+##        x1=ser2.readline()
         print(x)
-        print(x1)
+##        print(x1)
 ##        data= int(filter(str.isdigit, x))
-        text_file.write(str (x))
-        text_file.write(str (x1))
-        text_file.write('\n')
-        if x=='\n':
-             text_file.seek(0)
-             text_file.truncate()
-        text_file.flush()
+##        text_file.write(str (x))
+##        text_file.write(str (x1))
+##        text_file.write('\n')
+##        if x=='\n':
+##             text_file.seek(0)
+##             text_file.truncate()
+##        text_file.flush()
 
 ## close the serial connection and text file
 text_file.close()
