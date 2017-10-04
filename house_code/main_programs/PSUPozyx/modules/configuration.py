@@ -1,6 +1,7 @@
 from pypozyx import *
 import os
 from sys import platform
+import sys
 
 MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
 
@@ -9,10 +10,19 @@ class Configuration:
 
     @staticmethod
     def get_properties():
+        psu_pozyx_folder = __file__
+        end = psu_pozyx_folder[-8:]
+        while True:
+            psu_pozyx_folder = os.path.dirname(psu_pozyx_folder)
+            end = psu_pozyx_folder[-8:]
+            if end == "PSUPozyx":
+                break
+
+
         if platform == "darwin" or platform == 'linux':
-            configurations_file = os.path.dirname(os.path.dirname(__file__)) + "/Configurations/" + MASTER_CONFIG_NAME
+            configurations_file = psu_pozyx_folder + "/Configurations/" + MASTER_CONFIG_NAME
         else:
-            configurations_file = os.path.dirname(os.path.dirname(__file__)) + "\\Configurations\\" + MASTER_CONFIG_NAME
+            configurations_file = psu_pozyx_folder + "\\Configurations\\" + MASTER_CONFIG_NAME
         P = dict(line.strip().split('=') for line in open(configurations_file)
                  if not line.startswith('#') and not line.startswith('\n'))
         try:
@@ -176,8 +186,7 @@ class Configuration:
             use_file = False
         if not filename.endswith(".csv"):
             filename += ".csv"
-        pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(
-            os.path.dirname(os.path.dirname(__file__)))))
+        pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(psu_pozyx_folder)))
         data_file = pozyx_folder + "/Data/" + filename
         use_processing = P["use_processing"] == "true"
         anchors = [DeviceCoordinates(anchor_1_id, 1, Coordinates(anchor_1_x, anchor_1_y, anchor_1_z)),
@@ -189,7 +198,6 @@ class Configuration:
                    DeviceCoordinates(anchor_7_id, 1, Coordinates(anchor_7_x, anchor_7_y, anchor_7_z)),
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
-
         return use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file, use_processing
 
     @staticmethod

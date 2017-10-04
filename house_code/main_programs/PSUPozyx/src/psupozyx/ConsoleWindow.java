@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import sun.rmi.log.LogOutputStream;
 
 import java.io.BufferedReader;
@@ -23,27 +24,44 @@ public class ConsoleWindow implements Initializable {
     private Label console;
 
     private Process     pr;
-    
+
     private static final int CHARACTERDISPLAYBUFFER = 30000;
 
-    void launchPyScript(String startMessage, String... pythonCommand) {
+    private String osName = System.getProperty("os.name");
+    private String OS = osName.toLowerCase();
+
+    void launchPyScript(String startMessage, String executable, String prependPathType) {
         if (startMessage != null) {
             console.setText(startMessage);
         }
-        String osName = System.getProperty("os.name");
-        console.setText("Running on " + osName + '\n');
-        console.setText("\nThe full command you are running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
 
-        if(Objects.equals(pythonCommand[0], "python") && !osName.startsWith("Windows")) {
-            pythonCommand[0] = "/Library/Frameworks/Python.framework/Versions/3.6/bin/python3";
-            console.setText("Running on python3 instead of python and trying to use your predefined Python path.\n" +
-                    "The edited command you are actually running is:\n" + Arrays.toString(pythonCommand) + "\n\n" + console.getText());
-        }
+        console.setText("Running " + executable + " on " + osName + '\n');
         new Thread(() -> {
             try {
+                String executableWithDirectory = executable;
+                if (isWindows()) {
+                    if(Objects.equals(prependPathType, "COMPILEDPATH")) {
+                        executableWithDirectory = "build/exe.win32-3.6/" + executableWithDirectory + ".exe";
+                    }
+                }
+                else if (isMac()) {
+                    if(Objects.equals(prependPathType, "COMPILEDPATH")) {
+                        executableWithDirectory = "build/exe.macosx-10.6-intel-3.6/" + executableWithDirectory;
+                    }
+                }
+                else if (isUnix()) {
+                    if(Objects.equals(prependPathType, "COMPILEDPATH")) {
+                        executableWithDirectory = "build/exe.linux-i686-3.5/" + executableWithDirectory;
+                    }
+                }
+                else {
+                    console.setText("Unfortunately your operating system is not yet supported.\n" +
+                            "Please try again on a Windows, Mac, or Linux device.");
+                    throw new NotImplementedException();
+                }
 
 
-                ProcessBuilder ps=new ProcessBuilder(pythonCommand);
+                ProcessBuilder ps=new ProcessBuilder(executableWithDirectory);
 
                 ps.redirectErrorStream(true);
 
@@ -62,7 +80,7 @@ public class ConsoleWindow implements Initializable {
                         pooledOutput = pooledOutput.substring(0, CHARACTERDISPLAYBUFFER);
                     }
                     final String finalOutput = pooledOutput;
-                    javafx.application.Platform.runLater( () -> console.setText(finalOutput));
+                    Platform.runLater( () -> console.setText(finalOutput));
                 }
                 pr.waitFor();
 
@@ -83,5 +101,22 @@ public class ConsoleWindow implements Initializable {
         if (pr != null) {
             pr.destroy();
         }
+    }
+
+
+    private boolean isWindows() {
+        return (OS.contains("win"));
+    }
+
+    private boolean isMac() {
+        return (OS.contains("mac"));
+    }
+
+    private boolean isUnix() {
+        return (OS.contains("nix") || OS.contains("nux") || OS.indexOf("aix") > 0 );
+    }
+
+    private boolean isSolaris() {
+        return (OS.contains("sunos"));
     }
 }

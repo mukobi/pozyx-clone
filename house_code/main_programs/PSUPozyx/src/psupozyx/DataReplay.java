@@ -86,8 +86,8 @@ public class DataReplay {
             else { attributesToLog += '0'; }
 
 
-            String[] pythonCommands = {"python", "-u", "DataReplay/data_replay.py",
-                    replayFileName, replaySpeed, attributesToLog};
+            String pythonCommands = "python -u DataReplay/data_replay.py"
+                    + " " + replayFileName + " " + replaySpeed + " " + attributesToLog;
 
             if(show_graphical_output) {
                 try {
@@ -105,8 +105,6 @@ public class DataReplay {
                 }
             }
 
-
-            //System.out.println(Arrays.toString(pythonCommands));
             launchConsoleLogging(pythonCommands, show_console_output);
         }
     }
@@ -152,7 +150,7 @@ public class DataReplay {
         Platform.exit();
     }
 
-    private void launchConsoleLogging(String[] pythonCommands, boolean showConsole) {
+    private void launchConsoleLogging(String pythonCommands, boolean showConsole) {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/console_window.fxml"));
@@ -167,8 +165,8 @@ public class DataReplay {
             if (showConsole) {
                 stage.show();
             }
-
-            console_controller.launchPyScript("", pythonCommands);
+            String prependPathType = "";
+            console_controller.launchPyScript("", pythonCommands, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();
