@@ -572,6 +572,36 @@ class CondensedConsoleLogging:
         return output
 
     @staticmethod
+    def build_position(single_device):
+        output = " | Pos "
+        output += DataFunctions.str_prepend_length(
+            single_device.position.x, 5) + " "
+        output += DataFunctions.str_prepend_length(
+            single_device.position.y, 5) + " "
+        output += DataFunctions.str_prepend_length(
+            single_device.position.z, 5)
+
+        output += " | Smooth "
+        output += DataFunctions.str_prepend_length(
+            int(single_device.smoothed_x + 0.5), 5) + " "
+        output += DataFunctions.str_prepend_length(
+            int(single_device.smoothed_y + 0.5), 5) + " "
+        output += DataFunctions.str_prepend_length(
+            int(single_device.smoothed_z + 0.5), 5)
+
+        output += " | Vel "
+        try:
+            output += DataFunctions.str_prepend_length(
+                int(single_device.velocity_x + 0.5), 5) + " "
+            output += DataFunctions.str_prepend_length(
+                int(single_device.velocity_y + 0.5), 5) + " "
+            output += DataFunctions.str_prepend_length(
+                int(single_device.velocity_z + 0.5), 5)
+        except TypeError:
+            output += " " * 15
+        return output
+
+    @staticmethod
     def format_sensor_data(sensor_data, multiple_attributes_to_log):
         """
         :param sensor_data:
@@ -682,4 +712,14 @@ class CondensedConsoleLogging:
             output += CondensedConsoleLogging.build_sensor_data(
                 single_device, attributes_to_log)
             output += CondensedConsoleLogging.build_range(single_device)
+        print(output, flush=True)
+
+    @staticmethod
+    def print_3d_positioning_output(index, elapsed, position_loop_array, attributes_to_log):
+        output = CondensedConsoleLogging.build_timestamp(index, elapsed)
+        for single_device in position_loop_array:
+            output += CondensedConsoleLogging.build_tag(single_device)
+            output += CondensedConsoleLogging.build_sensor_data(
+                single_device, attributes_to_log)
+            output += CondensedConsoleLogging.build_position(single_device)
         print(output, flush=True)
