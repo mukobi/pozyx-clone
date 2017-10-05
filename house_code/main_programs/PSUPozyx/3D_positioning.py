@@ -250,6 +250,7 @@ if __name__ == "__main__":
         logfile = open(filename, 'a')
         FileIO.write_position_headers_to_file(logfile, tags, attributes_to_log)
 
+    pozyx = PozyxSerial(serial_port)
     r = Positioning(pozyx, osc_udp_client, tags, anchors, to_get_sensor_data)
     r.setup()
 
