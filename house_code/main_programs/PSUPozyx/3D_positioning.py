@@ -226,7 +226,7 @@ def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
 if __name__ == "__main__":
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
     alpha_pos = 0.2
-    alpha_vel = 0.1
+    alpha_vel = 0.077
     smooth_velocity = True
 
     # shortcut to not have to find out the port yourself
