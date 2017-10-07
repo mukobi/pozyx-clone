@@ -26,9 +26,6 @@ public class ConfigureUwbSettings {
     @FXML
     private ChoiceBox<String> m_gain;
 
-    @FXML
-    private CheckBox m_show_console_output;
-
 
     public void handleLaunchConfigureUwb() {
         String channel = m_channel.getValue();
@@ -98,10 +95,8 @@ public class ConfigureUwbSettings {
 
         String gain = m_gain.getValue();
 
-        boolean showConsole = m_show_console_output.isSelected();
-
         launchConsoleLogging("python -u configure_uwb_settings.py "
-                + channel + " " + bitrate + " " + prf + " " + plen + " " + gain, showConsole);
+                + channel + " " + bitrate + " " + prf + " " + plen + " " + gain, true);
     }
 
     public void handleMaximumRange() {
