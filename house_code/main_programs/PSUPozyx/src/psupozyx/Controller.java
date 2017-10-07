@@ -1,14 +1,12 @@
 package psupozyx;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-//import javafx.scene.layout.GridPane;
 import javafx.stage.*;
 
 import java.io.*;
@@ -597,9 +595,7 @@ public class Controller implements Initializable {
             stage.initOwner(m_a1_id.getScene().getWindow());
             stage.initStyle(StageStyle.DECORATED);
             ConsoleWindow console_controller = loader.getController();
-            stage.setOnCloseRequest(we -> {
-                console_controller.terminateProcess();
-            });
+            stage.setOnCloseRequest(we -> console_controller.terminateProcess());
             if (showConsole) {
                 stage.show();
             }
@@ -625,16 +621,16 @@ public class Controller implements Initializable {
                 (observableValue, oldStr, newStr) -> refreshDisabledAnchors());
     }
 
-    public void handleQuit(ActionEvent actionEvent) {
+    public void handleQuit() {
         Platform.exit();
     }
 
-    public void handleConfigureUwbSettings(ActionEvent actionEvent) {
+    public void handleConfigureUwbSettings() {
         Main main = new Main();
         main.openStage("/psupozyx/fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 1024, 768);
     }
 
-    public void handleDataReplay(ActionEvent actionEvent) {
+    public void handleDataReplay() {
         Main main = new Main();
         main.openStage("/psupozyx/fxml/data_replay.fxml", "PSU Pozyx | Data Replay", 600, 400);
     }
