@@ -25,6 +25,7 @@ class RangeOutputContainer:
         self.loop_status = loop_status
         self.smoothed_range = smoothed_range
         self.velocity = ""
+        self.elapsed_time = 0.0  # used for osc messaging
 
 
 class ReadyToRange(object):
@@ -47,15 +48,14 @@ class ReadyToRange(object):
 
     def loop(self, range_data_array):
         """Performs ranging and collects motion data as needed"""
+        loop_status = 0
         for idx, tag in enumerate(self.tags):
             # get 1D position in this section
             device_range = DeviceRange()
             loop_status = self.pozyx.doRanging(tag, device_range, self.destination_id)
             if int(device_range.distance) > 2147483647:
                 loop_status = POZYX_FAILURE
-            if loop_status == POZYX_SUCCESS:
-                self.print_publish_position(device_range, tag)
-            else:
+            if loop_status != POZYX_SUCCESS:
                 device_range.timestamp, device_range.distance, device_range.rss = "", "", ""
 
             # get motion data in this section-
@@ -75,15 +75,20 @@ class ReadyToRange(object):
             single.sensor_data = sensor_data
             single.loop_status = loop_status
 
-    def print_publish_position(self, device_range, tag):
+        if loop_status == POZYX_SUCCESS:
+            self.print_publish_position(range_data_array)
+
+    def print_publish_position(self, range_data_array):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
-        network_id = tag
-        if network_id is None:
-            network_id = 0
-        if self.osc_udp_client is not None:
-            self.osc_udp_client.send_message(
-                "/position", [network_id, int(device_range.timestamp),
-                              int(device_range.distance), int(device_range.RSS)])
+        for idx, tag in enumerate(self.tags):
+            network_id = tag
+            if network_id is None:
+                network_id = 0
+            elapsed_time = range_data_array[idx].elapsed_time
+            smoothed_range = range_data_array[idx].smoothed_range
+            if self.osc_udp_client is not None:
+                self.osc_udp_client.send_message(
+                    "/range", [network_id, elapsed_time, smoothed_range])
 
     def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
@@ -183,6 +188,7 @@ if __name__ == "__main__":
             r.loop(range_data_array)
 
             for single_data in range_data_array:
+                single_data.elapsed_time = elapsed # update time for OSC message
                 # EMA filter calculations
                 if type(single_data.device_range.distance) is int:
                     old_smoothed_range = single_data.smoothed_range
