@@ -9,8 +9,8 @@ fileName= input('Enter file name: ') #ask user to name the file
 fileType= '.csv'
 
 def OpenScaleData():
-    ser=serial.Serial('COM8',4800)
-    ser2=serial.Serial('COM11', 1200)
+    ser=serial.Serial('COM8',115200)
+    ser2=serial.Serial('COM11', 115200)
 
 ## open text file to store the current 
     text_file = open(fileName+fileType, 'w')
