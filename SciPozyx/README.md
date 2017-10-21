@@ -14,6 +14,14 @@ https://github.com/scipy/scipy/blob/v0.14.0/scipy/signal/signaltools.py#L441
 
 TODO: 
 
+Try Fourier filters: 
+
+               - docs.scipy.org/doc/numpy-1.13.0/reference/routines.fft.html
+
+               - docs.scipy.org/doc/scipy/reference/tutorial/fftpack.html
+
+
+
 Try K-Filters: 
 
                - scipy-cookbook.readthedocs.io/items/KalmanFiltering.html
