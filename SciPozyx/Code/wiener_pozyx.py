@@ -4,8 +4,10 @@ Created on Sat Oct 21 17:04:42 2017
 
 @author: Etcyl 
          Using signaltools by Oliphant to run the Wiener function with only the necessary code.
-         Ver. 2.0 Testing (Tested on position data, reduced the error in the gravity value from approx. 0.8 to 0.04, i.e.
-         the error was reduced from approx. 9% to ~ 1% error) 
+         Ver. 2.0 Testing 
+         
+         Tested on position data, reduced the error in the gravity value from approx. 0.8 to 0.04, i.e.
+         the error was reduced from approx. 9% to ~ 1% error 
 """
 # Author: Travis Oliphant
 # 1999 -- 2002
