@@ -22,13 +22,13 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="grid_pane_stage" alignment="CENTER" hgap="10.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.Controller">
+<GridPane alignment="CENTER" hgap="10.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.Controller">
   <children>
     <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="743.0" maxWidth="1024.0" minHeight="743.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="743.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
       <items>
         <AnchorPane maxWidth="274.0" minHeight="743.0" minWidth="274.0" prefHeight="743.0" prefWidth="274.0" style="-fx-background-color: white;">
           <children>
-            <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="75.0" spacing="5.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="125.0" spacing="20.0">
               <children>
                         <VBox id="VBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
                            <children>
@@ -67,18 +67,10 @@
                     <Label alignment="TOP_LEFT" font="$x2" prefHeight="110.0" prefWidth="250.0" text="Collects data from the different sensors onboard a device, including acceleration, orientation, angular velocity, gravity, pressure, temperature, linear acceleration, and magnetic fields." wrapText="true" />
                   </children>
                 </VBox>
-                <VBox id="VBox" alignment="CENTER" spacing="5.0">
-                  <children>
-                    <Button mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" prefHeight="50.0" prefWidth="250.0" text="3D Positioning and Motion Data" textOverrun="ELLIPSIS" wrapText="true">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Button>
-                    <Label alignment="TOP_LEFT" font="$x2" prefHeight="110.0" prefWidth="250.0" text="Combines the 3D Positioning and Motion Data functionality to collect data from a devices sensors and collect data on its position simultaneously. " wrapText="true" />
-                  </children>
-                </VBox>
+                <VBox id="VBox" alignment="CENTER" spacing="5.0" />
               </children>
             </VBox>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefWidth="-1.0" text="Available Programs" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="25.0" text="Available Programs" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
               <font>
                 <Font name="System Bold" size="24.0" fx:id="x1" />
               </font>
@@ -88,9 +80,9 @@
             </Label>
           </children>
         </AnchorPane>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="743.0" minWidth="750.0" prefHeight="743.0" prefWidth="750.0" style="-fx-background-color: #6a7f10;">
+        <AnchorPane minHeight="743.0" minWidth="750.0" prefHeight="743.0" prefWidth="750.0" style="-fx-background-color: #6a7f10;">
           <children>
-            <Label id="changeLabel" alignment="CENTER" font="$x1" text="Configuration Settings" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+            <Label id="changeLabel" alignment="CENTER" font="$x1" layoutY="25.0" text="Configuration Settings" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="25.0" />
             <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="99.0" spacing="50.0" />
             <Label font="$x3" layoutX="19.0" layoutY="95.0" text="Mobile Devices" textFill="WHITE" AnchorPane.leftAnchor="19.0" />
             <Label font="$x3" layoutX="21.0" layoutY="223.0" text="Anchors" textFill="WHITE" />
@@ -198,20 +190,18 @@
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <CheckBox id="log_pressure" fx:id="m_log_pressure" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Pressure"
-                              textFill="WHITE"/>
-                    <CheckBox id="log_acceleration" fx:id="m_log_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Acceleration" textFill="WHITE"/>
-                    <CheckBox id="log_magnetic" fx:id="m_log_magnetic" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Magnetic" textFill="WHITE"/>
-                    <CheckBox id="log_angular_velocity" fx:id="m_log_angular_velocity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Angular Velocity"
-                              textFill="WHITE"/>
+                    <CheckBox id="log_pressure" fx:id="m_log_pressure" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Pressure" textFill="WHITE" />
+                    <CheckBox id="log_acceleration" fx:id="m_log_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Acceleration" textFill="WHITE" />
+                    <CheckBox id="log_magnetic" fx:id="m_log_magnetic" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Magnetic" textFill="WHITE" />
+                    <CheckBox id="log_angular_velocity" fx:id="m_log_angular_velocity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Angular Velocity" textFill="WHITE" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <CheckBox id="log_euler_angles" fx:id="m_log_euler_angles" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Euler Angles" textFill="WHITE"/>
-                    <CheckBox id="log_quaternion" fx:id="m_log_quaternion" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Quaternion" textFill="WHITE"/>
-                    <CheckBox id="log_linear_acceleration" fx:id="m_log_linear_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Linear Acceleration" textFill="WHITE"/>
-                    <CheckBox id="log_gravity" fx:id="m_log_gravity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Gravity" textFill="WHITE"/>
+                    <CheckBox id="log_euler_angles" fx:id="m_log_euler_angles" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Euler Angles" textFill="WHITE" />
+                    <CheckBox id="log_quaternion" fx:id="m_log_quaternion" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Quaternion" textFill="WHITE" />
+                    <CheckBox id="log_linear_acceleration" fx:id="m_log_linear_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Linear Acceleration" textFill="WHITE" />
+                    <CheckBox id="log_gravity" fx:id="m_log_gravity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Gravity" textFill="WHITE" />
                   </children>
                 </HBox>
               </children>
@@ -220,14 +210,14 @@
             <Label font="$x3" layoutX="21.0" layoutY="666.0" text="Output" textFill="WHITE" />
             <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="697.0" spacing="30.0">
               <children>
-                <CheckBox id="write_data_to_file" fx:id="m_use_file" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Write Data to File" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                <CheckBox id="write_data_to_file" fx:id="m_use_file" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Write Data to File" textFill="WHITE"/>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
                     <Label font="$x2" text="Filename:" textFill="WHITE" />
                     <TextField id="filename" fx:id="m_filename" prefWidth="200.0" promptText="filename" />
                   </children>
                 </HBox>
-                  <CheckBox id="use_processing" fx:id="m_use_processing" allowIndeterminate="false" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Show Real-Time Visualization" textAlignment="LEFT" textFill="WHITE" textOverrun="ELLIPSIS" />
+                  <CheckBox id="use_processing" fx:id="m_use_processing" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Show Real-Time Visualization" textFill="WHITE"/>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0" />
               </children>
             </HBox>
@@ -266,7 +256,7 @@
                     <HBox id="HBox" alignment="CENTER" spacing="5.0">
                       <children>
                         <Label font="$x2" text="Device 1 ID:" textFill="WHITE" />
-                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_1_id" disable="false" prefWidth="100.0" promptText="0x0000" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_1_id" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
                     <HBox id="HBox" alignment="CENTER" spacing="5.0">
@@ -346,7 +336,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Setup">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Configure UWB Settings" onAction="#handleConfigureUwbSettings" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleConfigureUwbSettings" text="Configure UWB Settings" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Run">
@@ -359,7 +349,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Analyze">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Replay Data" onAction="#handleDataReplay"/>
+                  <MenuItem mnemonicParsing="false" onAction="#handleDataReplay" text="Replay Data" />
                   <MenuItem mnemonicParsing="false" text="Graph Data" />
                </items>
             </Menu>
@@ -367,7 +357,7 @@
             <items>
               <MenuItem mnemonicParsing="false" text="Pozyx Help" />
                   <MenuItem mnemonicParsing="false" text="About" />
-                <MenuItem mnemonicParsing="false" text="Python Test" onAction="#handlePyVersion" />
+                <MenuItem mnemonicParsing="false" text="Python Test" />
             </items>
           </Menu>
         </menus>

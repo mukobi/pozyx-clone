@@ -15,8 +15,6 @@ import time
 from modules.file_writing import RangingFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from collections import deque
-import copy as copy
 
 
 class RangeOutputContainer:
@@ -49,17 +47,16 @@ class ReadyToRange(object):
 
     def loop(self, range_data_array):
         """Performs ranging and collects motion data as needed"""
-        output_array = []
         for idx, tag in enumerate(self.tags):
             # get 1D position in this section
             device_range = DeviceRange()
             loop_status = self.pozyx.doRanging(tag, device_range, self.destination_id)
-            if device_range.distance > 2147483647:
+            if int(device_range.distance) > 2147483647:
                 loop_status = POZYX_FAILURE
             if loop_status == POZYX_SUCCESS:
                 self.print_publish_position(device_range, tag)
             else:
-                device_range.timestamp, device_range.distance, device_range.rss = "","",""
+                device_range.timestamp, device_range.distance, device_range.rss = "", "", ""
 
             # get motion data in this section-
             sensor_data = SensorData()
@@ -119,6 +116,7 @@ class ReadyToRange(object):
         self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
         self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
         self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
+
 
 if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()

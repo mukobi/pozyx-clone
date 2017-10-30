@@ -36,7 +36,7 @@ int32_t height = 1000;                                  // height of device, req
 ////////////////////////////////////////////////
 
 void setup(){
-  Serial.begin(1200);
+  Serial.begin(115200);
 
   if(Pozyx.begin() == POZYX_FAILURE){
     Serial.println(F("ERROR: Unable to connect to POZYX shield"));
