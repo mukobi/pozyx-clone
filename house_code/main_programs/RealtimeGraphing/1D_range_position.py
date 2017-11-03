@@ -1,7 +1,7 @@
 from pythonosc import osc_server
 from pythonosc import dispatcher
 import matplotlib
-matplotlib.use("wxagg")
+#matplotlib.use("qt5agg")
 from collections import deque
 from matplotlib import pyplot as plt
 import matplotlib.animation as animation
@@ -15,6 +15,7 @@ data_address = "/range"
 max_data_length = 1000
 
 start = time.time()
+
 
 class RealTimePlot:
     def __init__(self, axes, max_len=max_data_length):
@@ -90,6 +91,6 @@ if __name__ == "__main__":
     plt.grid()
     while plt.get_fignums():
 
-        plt.pause(.016)
+        plt.pause(.02)
         pass
     _thread.exit_thread()
