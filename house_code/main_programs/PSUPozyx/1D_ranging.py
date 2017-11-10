@@ -18,6 +18,7 @@ from modules.configuration import Configuration as Configuration
 
 
 class RangeOutputContainer:
+    """Holds the range data, motion data, and more for a single device"""
     def __init__(self, tag, device_range, smoothed_range, sensor_data, loop_status):
         self.tag = tag
         self.device_range = device_range
@@ -30,7 +31,6 @@ class RangeOutputContainer:
 
 class ReadyToRange(object):
     """Continuously performs ranging between the Pozyx and a destination"""
-
     def __init__(self, i_pozyx, i_tags, i_destination_id, i_to_get_sensor_data, i_osc_udp_client,
                  i_protocol=POZYX_RANGE_PROTOCOL_FAST):
         self.pozyx = i_pozyx
@@ -133,8 +133,8 @@ if __name__ == "__main__":
         filename, use_processing) = Configuration.get_properties()
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha_pos = 0.2
-    alpha_vel = 0.1
+    alpha_pos = 0.12
+    alpha_vel = 0.08
     smooth_velocity = True
 
     to_get_sensor_data = not attributes_to_log == []
@@ -170,15 +170,18 @@ if __name__ == "__main__":
         while not_started:
             r.loop(range_data_array)
             not_started = range_data_array[0].sensor_data.pressure == 0
-            for single_data in range_data_array:
-                # Initialize EMA filter
-                if type(single_data.device_range.distance) is int:
-                    single_data.smoothed_range = single_data.device_range.distance
 
     try:
         index = 0
         start = time.time()
         new_time = 0.0
+
+        # Initialize EMA filter so it doesn't start at 0
+        r.loop(range_data_array)
+        for single_data in range_data_array:
+            if type(single_data.device_range.distance) is int:
+                single_data.smoothed_range = single_data.device_range.distance
+
         while True:
             elapsed = time.time() - start
             old_time = new_time

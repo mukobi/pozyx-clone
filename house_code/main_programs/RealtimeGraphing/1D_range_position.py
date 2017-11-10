@@ -10,39 +10,30 @@ import random
 import _thread
 
 # global config variables
+plt.style.use('fivethirtyeight')
+
 data_address = "/range"
 (ip, network_code) = ("127.0.0.1", 8888)
-max_data_length = 1000
+max_data_length = 500
 
 start = time.time()
 
 
 class RealTimePlot:
-    def __init__(self, axes, max_len=max_data_length):
+    def __init__(self, max_len=max_data_length):
         self.axis_x = deque(maxlen=max_len)
         self.axis_y = deque(maxlen=max_len)
         self.maxLen = max_len
-        self.axes = axes
-
-        self.lineplot, = axes.plot([], [], "ro-")
-        self.axes.set_autoscaley_on(True)
 
     def add(self, x, y):
         self.axis_x.append(x)
         self.axis_y.append(y)
-        self.lineplot.set_data(self.axis_x, self.axis_y)
-        self.axes.set_xlim(self.axis_x[0], self.axis_x[-1] + 1e-15)
-        self.axes.relim()
-        self.axes.autoscale_view()  # rescale the y-axis
 
-    def animate(self, figure, callback, interval=50):
-        def wrapper(frame_index):
-            self.add(*callback(frame_index))
-            self.axes.relim()
-            self.axes.autoscale_view()  # rescale the y-axis
-            return self.lineplot
+    def get_x(self):
+        return self.axis_x
 
-        animation.FuncAnimation(figure, wrapper, interval=interval)
+    def get_y(self):
+        return self.axis_y
 
 
 class RangeDataHandling:
@@ -79,18 +70,22 @@ def multi_thread_run_forever(in_data_handler):
 
 
 if __name__ == "__main__":
-    fig, axes = plt.subplots()
+    try:
+        fig = plt.figure()
+        ax1 = fig.add_subplot(1,1,1)
 
-    time.sleep(0.5)
-    display = RealTimePlot(axes)
-    display.animate(fig, lambda frame_index: (time.time() - start, random.random() * 100))
+        real_time_plot = RealTimePlot()
 
-    data_handler = RangeDataHandling(display)
+        def animate(i):
+            ax1.clear()
+            ax1.plot(real_time_plot.get_x(), real_time_plot.get_y(), 'g-', linewidth=2)
 
-    _thread.start_new_thread(multi_thread_run_forever, (data_handler, ))
-    plt.grid()
-    while plt.get_fignums():
+        ani = animation.FuncAnimation(fig, animate, interval=16)
 
-        plt.pause(.02)
-        pass
-    _thread.exit_thread()
+        data_handler = RangeDataHandling(real_time_plot)
+
+        _thread.start_new_thread(multi_thread_run_forever, (data_handler,))
+
+        plt.show()
+    finally:
+        _thread.exit_thread()
