@@ -1,12 +1,11 @@
+import sys
 from pythonosc import osc_server
 from pythonosc import dispatcher
-import matplotlib
-#matplotlib.use("qt5agg")
+import numpy as np
 from collections import deque
 from matplotlib import pyplot as plt
 import matplotlib.animation as animation
 import time
-import random
 import _thread
 
 # global config variables
@@ -71,18 +70,38 @@ def multi_thread_run_forever(in_data_handler):
 
 if __name__ == "__main__":
     try:
+        arguments = sys.argv
+        arg_length = len(arguments)
+
+        # if arg_length is 1 or arg_length is 2:
+        #     sys.exit("Error, please provide an x-axis data type and a y-axis data type in the form:\n"
+        #              "'2D_realitime_graphing.py x-axis y-axis'")
+        # elif arg_length is 3:
+        #     file = arguments[1]
+        #     replay_speed = int(arguments[2])
+        # elif arg_length is 4:
+        #     file = arguments[1]
+        #     replay_speed = int(arguments[2])
+        #     attributes_to_log = arguments[3]
+        # else:
+        #     sys.exit("Error, too many arguments provided.")
+
         fig = plt.figure()
         ax1 = fig.add_subplot(1,1,1)
 
         real_time_plot = RealTimePlot()
 
+        data_handler = RangeDataHandling(real_time_plot)
+
         def animate(i):
             ax1.clear()
-            ax1.plot(real_time_plot.get_x(), real_time_plot.get_y(), 'g-', linewidth=2)
+            ax1.scatter(real_time_plot.get_x()[-1], real_time_plot.get_y()[-1], color=[1, 0, 0, 1])
+            ax1.plot(real_time_plot.get_x(), real_time_plot.get_y(), '-o', color=[0,0.5,1,1], markersize=3, linewidth=0.5)
+
 
         ani = animation.FuncAnimation(fig, animate, interval=16)
 
-        data_handler = RangeDataHandling(real_time_plot)
+
 
         _thread.start_new_thread(multi_thread_run_forever, (data_handler,))
 
