@@ -1,125 +1,48 @@
-# Uncomment the next two lines if you want to save the animation
-# import matplotlib
-# matplotlib.use("Agg")
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider, Button, RadioButtons
 
-import numpy
-from matplotlib.pylab import *
-from mpl_toolkits.axes_grid1 import host_subplot
-import matplotlib.animation as animation
+fig, ax = plt.subplots()
+plt.subplots_adjust(left=0.25, bottom=0.25)
+t = np.arange(0.0, 1.0, 0.001)
+a0 = 5
+f0 = 3
+s = a0*np.sin(2*np.pi*f0*t)
+l, = plt.plot(t, s, lw=2, color='red')
+plt.axis([0, 1, -10, 10])
+
+axcolor = 'lightgoldenrodyellow'
+axfreq = plt.axes([0.25, 0.1, 0.65, 0.03], facecolor=axcolor)
+axamp = plt.axes([0.25, 0.15, 0.65, 0.03], facecolor=axcolor)
+
+sfreq = Slider(axfreq, 'Freq', 0.1, 30.0, valinit=f0)
+samp = Slider(axamp, 'Amp', 0.1, 10.0, valinit=a0)
 
 
+def update(val):
+    amp = samp.val
+    freq = sfreq.val
+    l.set_ydata(amp*np.sin(2*np.pi*freq*t))
+    fig.canvas.draw_idle()
+sfreq.on_changed(update)
+samp.on_changed(update)
 
-# Sent for figure
-font = {'size'   : 9}
-matplotlib.rc('font', **font)
+resetax = plt.axes([0.8, 0.025, 0.1, 0.04])
+button = Button(resetax, 'Reset', color=axcolor, hovercolor='0.975')
 
-# Setup figure and subplots
-f0 = figure(num = 0, figsize = (12, 8))#, dpi = 100)
-f0.suptitle("Oscillation decay", fontsize=12)
-ax01 = subplot2grid((2, 2), (0, 0))
-ax02 = subplot2grid((2, 2), (0, 1))
-ax03 = subplot2grid((2, 2), (1, 0), colspan=2, rowspan=1)
-ax04 = ax03.twinx()
-#tight_layout()
 
-# Set titles of subplots
-ax01.set_title('Position vs Time')
-ax02.set_title('Velocity vs Time')
-ax03.set_title('Position and Velocity vs Time')
+def reset(event):
+    sfreq.reset()
+    samp.reset()
+button.on_clicked(reset)
 
-# set y-limits
-ax01.set_ylim(0,2)
-ax02.set_ylim(-6,6)
-ax03.set_ylim(-0,5)
-ax04.set_ylim(-10,10)
+rax = plt.axes([0.025, 0.5, 0.15, 0.15], facecolor=axcolor)
+radio = RadioButtons(rax, ('red', 'blue', 'green'), active=0)
 
-# sex x-limits
-ax01.set_xlim(0,5.0)
-ax02.set_xlim(0,5.0)
-ax03.set_xlim(0,5.0)
-ax04.set_xlim(0,5.0)
 
-# Turn on grids
-ax01.grid(True)
-ax02.grid(True)
-ax03.grid(True)
-
-# set label names
-ax01.set_xlabel("x")
-ax01.set_ylabel("py")
-ax02.set_xlabel("t")
-ax02.set_ylabel("vy")
-ax03.set_xlabel("t")
-ax03.set_ylabel("py")
-ax04.set_ylabel("vy")
-
-# Data Placeholders
-yp1=zeros(0)
-yv1=zeros(0)
-yp2=zeros(0)
-yv2=zeros(0)
-t=zeros(0)
-
-# set plots
-p011, = ax01.plot(t,yp1,'b-', label="yp1")
-p012, = ax01.plot(t,yp2,'g-', label="yp2")
-
-p021, = ax02.plot(t,yv1,'b-', label="yv1")
-p022, = ax02.plot(t,yv2,'g-', label="yv2")
-
-p031, = ax03.plot(t,yp1,'b-', label="yp1")
-p032, = ax04.plot(t,yv1,'g-', label="yv1")
-
-# set lagends
-ax01.legend([p011,p012], [p011.get_label(),p012.get_label()])
-ax02.legend([p021,p022], [p021.get_label(),p022.get_label()])
-ax03.legend([p031,p032], [p031.get_label(),p032.get_label()])
-
-# Data Update
-xmin = 0.0
-xmax = 5.0
-x = 0.0
-
-def updateData(self):
-	global x
-	global yp1
-	global yv1
-	global yp2
-	global yv2
-	global t
-
-	tmpp1 = 1 + exp(-x) *sin(2 * pi * x)
-	tmpv1 = - exp(-x) * sin(2 * pi * x) + exp(-x) * cos(2 * pi * x) * 2 * pi
-	yp1=append(yp1,tmpp1)
-	yv1=append(yv1,tmpv1)
-	yp2=append(yp2,0.5*tmpp1)
-	yv2=append(yv2,0.5*tmpv1)
-	t=append(t,x)
-
-	x += 0.05
-
-	p011.set_data(t,yp1)
-	p012.set_data(t,yp2)
-
-	p021.set_data(t,yv1)
-	p022.set_data(t,yv2)
-
-	p031.set_data(t,yp1)
-	p032.set_data(t,yv1)
-
-	if x >= xmax-1.00:
-		p011.axes.set_xlim(x-xmax+1.0,x+1.0)
-		p021.axes.set_xlim(x-xmax+1.0,x+1.0)
-		p031.axes.set_xlim(x-xmax+1.0,x+1.0)
-		p032.axes.set_xlim(x-xmax+1.0,x+1.0)
-
-	return p011, p012, p021, p022, p031, p032
-
-# interval: draw new frame every 'interval' ms
-# frames: number of frames to draw
-simulation = animation.FuncAnimation(f0, updateData, blit=False, interval=2, repeat=False)
-
-# Uncomment the next line if you want to save the animation
-#simulation.save(filename='sim.mp4',fps=30,dpi=300)
+def colorfunc(label):
+    l.set_color(label)
+    fig.canvas.draw_idle()
+radio.on_clicked(colorfunc)
 
 plt.show()
