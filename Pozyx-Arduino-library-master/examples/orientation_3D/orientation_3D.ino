@@ -26,8 +26,8 @@
 ////////////////// PARAMETERS //////////////////
 ////////////////////////////////////////////////
 
-boolean remote = false;               // boolean to indicate if we want to read sensor data from the attached pozyx shield (value 0) or from a remote pozyx device (value 1)
-uint16_t remote_id = 0x6606;          // the network id of the other pozyx device: fill in the network id of the other device
+boolean remote = true;               // boolean to indicate if we want to read sensor data from the attached pozyx shield (value 0) or from a remote pozyx device (value 1)
+uint16_t remote_id = 0x614e;          // the network id of the other pozyx device: fill in the network id of the other device
 uint32_t last_millis;                 // used to compute the measurement interval in milliseconds 
 
 ////////////////////////////////////////////////
@@ -75,72 +75,80 @@ void loop(){
   dt = millis() - last_millis;
   last_millis += dt;    
   // print time difference between last measurement in ms, sensor data, and calibration data
-  Serial.print(dt, DEC);
+  //Serial.print(dt, DEC);
   Serial.print(",");
   printRawSensorData(sensor_raw);
   Serial.print(",");
   // will be zeros for remote devices as unavailable remotely.
-  printCalibrationStatus(calibration_status);
-  Serial.println();
+  //printCalibrationStatus(calibration_status);
+ //Serial.println();
 }
 
 void printRawSensorData(sensor_raw_t sensor_raw){
-  Serial.print(sensor_raw.pressure);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.pressure);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.acceleration[0]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.acceleration[1]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.acceleration[2]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.magnetic[0]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.magnetic[1]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.magnetic[2]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.angular_vel[0]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.angular_vel[1]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.angular_vel[2]);
+//  Serial.print(",");
+  Serial.print(" ,");
+  //Euler angles
+  float heading= sensor_raw.euler_angles[0]/16.;
+  Serial.print(heading);
   Serial.print(",");
-  Serial.print(sensor_raw.acceleration[0]);
+  float roll= sensor_raw.euler_angles[1]/16.;
+  Serial.print(roll);
   Serial.print(",");
-  Serial.print(sensor_raw.acceleration[1]);
-  Serial.print(",");
-  Serial.print(sensor_raw.acceleration[2]);
-  Serial.print(",");
-  Serial.print(sensor_raw.magnetic[0]);
-  Serial.print(",");
-  Serial.print(sensor_raw.magnetic[1]);
-  Serial.print(",");
-  Serial.print(sensor_raw.magnetic[2]);
-  Serial.print(",");
-  Serial.print(sensor_raw.angular_vel[0]);
-  Serial.print(",");
-  Serial.print(sensor_raw.angular_vel[1]);
-  Serial.print(",");
-  Serial.print(sensor_raw.angular_vel[2]);
-  Serial.print(",");
-  Serial.print(sensor_raw.euler_angles[0]);
-  Serial.print(",");
-  Serial.print(sensor_raw.euler_angles[1]);
-  Serial.print(",");
-  Serial.print(sensor_raw.euler_angles[2]);
-  Serial.print(",");
-  Serial.print(sensor_raw.quaternion[0]);
-  Serial.print(",");
-  Serial.print(sensor_raw.quaternion[1]);
-  Serial.print(",");
-  Serial.print(sensor_raw.quaternion[2]);
-  Serial.print(",");
-  Serial.print(sensor_raw.quaternion[3]);
-  Serial.print(",");
-  Serial.print(sensor_raw.linear_acceleration[0]);
-  Serial.print(",");
-  Serial.print(sensor_raw.linear_acceleration[1]);
-  Serial.print(",");
-  Serial.print(sensor_raw.linear_acceleration[2]);
-  Serial.print(",");
-  Serial.print(sensor_raw.gravity_vector[0]);
-  Serial.print(",");
-  Serial.print(sensor_raw.gravity_vector[1]);
-  Serial.print(",");
-  Serial.print(sensor_raw.gravity_vector[2]);
-  Serial.print(",");
-  Serial.print(sensor_raw.temperature);
+  float pitch=sensor_raw.euler_angles[2]/16.;
+  Serial.print(pitch);
+  Serial.println(", ");
+//  Serial.print(",");
+//  
+//  Serial.print(sensor_raw.quaternion[0]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.quaternion[1]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.quaternion[2]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.quaternion[3]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.linear_acceleration[0]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.linear_acceleration[1]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.linear_acceleration[2]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.gravity_vector[0]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.gravity_vector[1]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.gravity_vector[2]);
+//  Serial.print(",");
+//  Serial.print(sensor_raw.temperature);
 }
 
 void printCalibrationStatus(uint8_t calibration_status){
-  Serial.print(calibration_status & 0x03);
-  Serial.print(",");
-  Serial.print((calibration_status & 0x0C) >> 2);
-  Serial.print(",");
-  Serial.print((calibration_status & 0x30) >> 4);
-  Serial.print(",");
-  Serial.print((calibration_status & 0xC0) >> 6);  
+//  Serial.print(calibration_status & 0x03);
+//  Serial.print(",");
+//  Serial.print((calibration_status & 0x0C) >> 2);
+//  Serial.print(",");
+//  Serial.print((calibration_status & 0x30) >> 4);
+//  Serial.print(",");
+//  Serial.print((calibration_status & 0xC0) >> 6);  
 }
 

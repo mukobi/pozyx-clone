@@ -17,7 +17,7 @@
 ////////////////// PARAMETERS //////////////////
 ////////////////////////////////////////////////
 
-uint16_t remote_id = 0x614e;                            // set this to the ID of the remote device
+uint16_t remote_id = 0x6103;                            // set this to the ID of the remote device
 bool remote = true;                                    // set this to true to use the remote ID
 
 boolean use_processing = false;                         // set this to true to output data for the processing sketch
