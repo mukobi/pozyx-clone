@@ -1,7 +1,6 @@
 import sys
 from pythonosc import osc_server
 from pythonosc import dispatcher
-import numpy as np
 from collections import deque
 from matplotlib import pyplot as plt
 import matplotlib.animation as animation
@@ -94,14 +93,13 @@ if __name__ == "__main__":
         data_handler = RangeDataHandling(real_time_plot)
 
         def animate(i):
-            ax1.clear()
-            ax1.scatter(real_time_plot.get_x()[-1], real_time_plot.get_y()[-1], color=[1, 0, 0, 1])
-            ax1.plot(real_time_plot.get_x(), real_time_plot.get_y(), '-o', color=[0,0.5,1,1], markersize=3, linewidth=0.5)
+            if real_time_plot.get_x():
+                ax1.clear()
+                ax1.scatter(real_time_plot.get_x()[-1], real_time_plot.get_y()[-1], color=[1, 0, 0, 1])
+                ax1.plot(real_time_plot.get_x(), real_time_plot.get_y(), '-o', color=[0,0.5,1,1], markersize=3, linewidth=0.5)
 
 
         ani = animation.FuncAnimation(fig, animate, interval=16)
-
-
 
         _thread.start_new_thread(multi_thread_run_forever, (data_handler,))
 
