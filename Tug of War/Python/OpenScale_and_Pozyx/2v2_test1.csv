@@ -1,0 +1,4 @@
+ ,time,force,units, ,x ,y ,z, 
+b',30,0.199,lbs,\r\n'b'Assertion failed in function : getDeviceIds\r\n'
+b',118,0.208,lbs,\r\n'b'Filename: C:\\Users\\student_admin\\Documents\\Arduino\\libraries\\Archive\\Pozyx_lib.cpp\r\n'
+b',206,0.210,lbs,\r\n'b'Line number: 973\r\n'

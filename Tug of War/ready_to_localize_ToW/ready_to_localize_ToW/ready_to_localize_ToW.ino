@@ -17,16 +17,16 @@
 ////////////////// PARAMETERS //////////////////
 ////////////////////////////////////////////////
 
-uint16_t remote_id = 0x6103;                            // set this to the ID of the remote device
+uint16_t remote_id = 0x611d;                            // set this to the ID of the remote device
 bool remote = true;                                    // set this to true to use the remote ID
 
 boolean use_processing = false;                         // set this to true to output data for the processing sketch
 
 const uint8_t num_anchors = 4;                                    // the number of anchors
 uint16_t anchors[num_anchors] = {0x605d, 0x604f, 0x6129, 0x6020};     // the network id of the anchors: change these to the network ids of your anchors.
-int32_t anchors_x[num_anchors] = {0, 3545, 5182, 3024};               // anchor x-coorindates in mm
-int32_t anchors_y[num_anchors] = {1669, 0, 3052, 5886};                  // anchor y-coordinates in mm
-int32_t heights[num_anchors] = {1016, 2595, 198, 1535};              // anchor z-coordinates in mm
+int32_t anchors_x[num_anchors] = {1873, 0, 291, 2617};               // anchor x-coorindates in mm
+int32_t anchors_y[num_anchors] = {3745, 0, 6183, 2908};                  // anchor y-coordinates in mm
+int32_t heights[num_anchors] = {970, 1660, 1731, 1705};              // anchor z-coordinates in mm
 
 uint8_t algorithm = POZYX_POS_ALG_UWB_ONLY;             // positioning algorithm to use. try POZYX_POS_ALG_TRACKING for fast moving objects.
 uint8_t dimension = POZYX_3D;                           // positioning dimension
@@ -254,55 +254,55 @@ void setAnchorsManual(){
 void printRawSensorData(sensor_raw_t sensor_raw){
 //  Serial.print(sensor_raw.pressure);
 //  Serial.print(",");
-  Serial.print(sensor_raw.acceleration[0]/1000);
+  Serial.print(sensor_raw.acceleration[0]);
   Serial.print(",");
-  Serial.print(sensor_raw.acceleration[1]/1000);
+  Serial.print(sensor_raw.acceleration[1]);
   Serial.print(",");
-  Serial.print(sensor_raw.acceleration[2]/1000);
+  Serial.print(sensor_raw.acceleration[2]);
   Serial.print(",");
-//  Serial.print(sensor_raw.magnetic[0]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.magnetic[1]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.magnetic[2]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.angular_vel[0]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.angular_vel[1]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.angular_vel[2]);
-//  Serial.print(",");
+  Serial.print(sensor_raw.magnetic[0]);
+  Serial.print(",");
+  Serial.print(sensor_raw.magnetic[1]);
+  Serial.print(",");
+  Serial.print(sensor_raw.magnetic[2]);
+  Serial.print(",");
+  Serial.print(sensor_raw.angular_vel[0]);
+  Serial.print(",");
+  Serial.print(sensor_raw.angular_vel[1]);
+  Serial.print(",");
+  Serial.print(sensor_raw.angular_vel[2]);
+  Serial.print(",");
 
   //Euler angles
-//  float heading= sensor_raw.euler_angles[0]/16.f;
-//  Serial.print(heading);
-//  Serial.print(",");
-//  float roll= (sensor_raw.euler_angles[1]/16.f);
-//  Serial.print(roll);
-//  Serial.print(",");
-//  float pitch=(sensor_raw.euler_angles[2]/16.f);
-//  Serial.print(pitch);
-//  Serial.print(", ");
-//  Serial.print(sensor_raw.quaternion[0]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.quaternion[1]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.quaternion[2]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.quaternion[3]);
-//  Serial.print(",");
-  Serial.print((sensor_raw.linear_acceleration[0])/1000);
+  float heading= sensor_raw.euler_angles[0]/16.f;
+  Serial.print(heading);
   Serial.print(",");
-  Serial.print((sensor_raw.linear_acceleration[1])/1000);
+  float roll= (sensor_raw.euler_angles[1]/16.f);
+  Serial.print(roll);
   Serial.print(",");
-  Serial.print((sensor_raw.linear_acceleration[2])/1000);
+  float pitch=(sensor_raw.euler_angles[2]/16.f);
+  Serial.print(pitch);
+  Serial.print(", ");
+  Serial.print(sensor_raw.quaternion[0]);
   Serial.print(",");
-//  Serial.print(sensor_raw.gravity_vector[0]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.gravity_vector[1]);
-//  Serial.print(",");
-//  Serial.print(sensor_raw.gravity_vector[2]);
-//  Serial.print(",");
+  Serial.print(sensor_raw.quaternion[1]);
+  Serial.print(",");
+  Serial.print(sensor_raw.quaternion[2]);
+  Serial.print(",");
+  Serial.print(sensor_raw.quaternion[3]);
+  Serial.print(",");
+  Serial.print((sensor_raw.linear_acceleration[0]));
+  Serial.print(",");
+  Serial.print((sensor_raw.linear_acceleration[1]));
+  Serial.print(",");
+  Serial.print((sensor_raw.linear_acceleration[2]));
+  Serial.print(",");
+  Serial.print(sensor_raw.gravity_vector[0]);
+  Serial.print(",");
+  Serial.print(sensor_raw.gravity_vector[1]);
+  Serial.print(",");
+  Serial.print(sensor_raw.gravity_vector[2]);
+  Serial.print(",");
 //  Serial.print(sensor_raw.temperature);
 //  Serial.print(",");
 }
