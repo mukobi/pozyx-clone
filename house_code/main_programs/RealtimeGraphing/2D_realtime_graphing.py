@@ -75,7 +75,7 @@ if __name__ == "__main__":
         possible_data_types = [
             "time",
             "1D_range","1D_velocity",
-            "3D position X", "3D position Y", "3D_position__Z",
+            "3D position X", "3D position Y", "3D_position_Z",
             "3D_velocity_X", "3D_velocity_Y", "3D_velocity_Z",
             "pressure",
             "acceleration_x", "acceleration_y", "acceleration_z",
@@ -86,13 +86,25 @@ if __name__ == "__main__":
             "lin_acc_x", "lin_acc_y", "lin_acc_z",
             "gravity_x", "gravity_y", "gravity_z"]
 
-        if arg_length is not 3:
+        if arg_length is not 4:
             print("Error, please provide an x-axis data type, a y-axis data type, and a tag to graph in the form:\n"
-                     "'python 2D_realitime_graphing.py x-axis y-axis tag'\n\n"
-                     "possible data for the axes include:\n\n"
-                     + "\n".join(possible_data_types))
+                  "'python 2D_realtime_graphing.py x-axis y-axis tag'\n\n"
+                  "possible data for the axes include:\n\n"
+                  + "\n".join(possible_data_types))
             sys.exit()
 
+        x_axis = arguments[1]
+        y_axis = arguments[2]
+        tag = arguments[3]
+
+        if x_axis not in possible_data_types:
+            print("Error: make sure your x-axis is one of the possible data types::\n\n"
+                  + "\n".join(possible_data_types))
+            sys.exit()
+        if y_axis not in possible_data_types:
+            print("Error: make sure your y-axis is one of the possible data types::\n\n"
+                  + "\n".join(possible_data_types))
+            sys.exit()
 
         fig = plt.figure()
         ax1 = fig.add_subplot(1,1,1)
