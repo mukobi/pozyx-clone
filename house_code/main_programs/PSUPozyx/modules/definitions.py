@@ -1,0 +1,4 @@
+# data collection type definitions
+DATA_TYPE_POSITIONING = 0
+DATA_TYPE_RANGING = 1
+DATA_TYPE_MOTION_DATA = 2
