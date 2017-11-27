@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 import matplotlib.animation as animation
 import time
 import _thread
+import definitions
 
 # global config variables
 plt.style.use('fivethirtyeight')
@@ -35,17 +36,26 @@ class RealTimePlot:
 
 
 class RangeDataHandling:
-    def __init__(self, display):
+    def __init__(self, display, x_axis, y_axis, tag):
         self.display = display
+        self.x_axis = x_axis
+        self.y_axis = y_axis
+        self.tag = tag
 
-    @staticmethod
-    def extract_range_data(*args):
+    def extract_range_data(self, *args):
         message = args[0]
         print(message)
         # extract data from osc message
-        address_idx = message.index(data_address)
-        x = message[address_idx + 2]
-        y = message[address_idx + 3]
+        tag_idx = message.index(self.tag)
+        x_index = definitions.OSC_INDEX_DICT[x_axis] + tag_idx
+        if x_axis == "time":
+            x_index = 1
+        y_index = definitions.OSC_INDEX_DICT[y_axis] + tag_idx
+        if y_axis == "time":
+            y_index = 1
+
+        x = message[x_index]
+        y = message[y_index]
         return x, y
 
     def deal_with_data(self, *args):
@@ -95,7 +105,8 @@ if __name__ == "__main__":
 
         x_axis = arguments[1]
         y_axis = arguments[2]
-        tag = arguments[3]
+        tag = int(arguments[3], 16)
+        print(tag)
 
         if x_axis not in possible_data_types:
             print("Error: make sure your x-axis is one of the possible data types::\n\n"
@@ -106,12 +117,13 @@ if __name__ == "__main__":
                   + "\n".join(possible_data_types))
             sys.exit()
 
+
         fig = plt.figure()
         ax1 = fig.add_subplot(1,1,1)
 
         real_time_plot = RealTimePlot()
 
-        data_handler = RangeDataHandling(real_time_plot)
+        data_handler = RangeDataHandling(real_time_plot, x_axis, y_axis, tag)
 
         def animate(i):
             if real_time_plot.get_x():
