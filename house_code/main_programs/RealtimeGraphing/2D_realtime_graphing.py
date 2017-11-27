@@ -72,18 +72,27 @@ if __name__ == "__main__":
         arguments = sys.argv
         arg_length = len(arguments)
 
-        # if arg_length is 1 or arg_length is 2:
-        #     sys.exit("Error, please provide an x-axis data type and a y-axis data type in the form:\n"
-        #              "'2D_realitime_graphing.py x-axis y-axis'")
-        # elif arg_length is 3:
-        #     file = arguments[1]
-        #     replay_speed = int(arguments[2])
-        # elif arg_length is 4:
-        #     file = arguments[1]
-        #     replay_speed = int(arguments[2])
-        #     attributes_to_log = arguments[3]
-        # else:
-        #     sys.exit("Error, too many arguments provided.")
+        possible_data_types = [
+            "time",
+            "1D_range","1D_velocity",
+            "3D position X", "3D position Y", "3D_position__Z",
+            "3D_velocity_X", "3D_velocity_Y", "3D_velocity_Z",
+            "pressure",
+            "acceleration_x", "acceleration_y", "acceleration_z",
+            "magnetic_x", "magnetic_y", "magnetic_z",
+            "angular_vel_x", "angular_vel_y", "angular_vel_z",
+            "euler_heading", "euler_roll", "euler_pitch",
+            "quaternion_x", "quaternion_y", "quaternion_z","quaternion_w",
+            "lin_acc_x", "lin_acc_y", "lin_acc_z",
+            "gravity_x", "gravity_y", "gravity_z"]
+
+        if arg_length is not 3:
+            print("Error, please provide an x-axis data type, a y-axis data type, and a tag to graph in the form:\n"
+                     "'python 2D_realitime_graphing.py x-axis y-axis tag'\n\n"
+                     "possible data for the axes include:\n\n"
+                     + "\n".join(possible_data_types))
+            sys.exit()
+
 
         fig = plt.figure()
         ax1 = fig.add_subplot(1,1,1)
