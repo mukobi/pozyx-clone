@@ -85,14 +85,14 @@ if __name__ == "__main__":
         possible_data_types = [
             "time",
             "1D_range","1D_velocity",
-            "3D position X", "3D position Y", "3D_position_Z",
+            "3D_position_X", "3D_position_Y", "3D_position_Z",
             "3D_velocity_X", "3D_velocity_Y", "3D_velocity_Z",
             "pressure",
             "acceleration_x", "acceleration_y", "acceleration_z",
             "magnetic_x", "magnetic_y", "magnetic_z",
             "angular_vel_x", "angular_vel_y", "angular_vel_z",
             "euler_heading", "euler_roll", "euler_pitch",
-            "quaternion_x", "quaternion_y", "quaternion_z","quaternion_w",
+            "quaternion_w","quaternion_x", "quaternion_y", "quaternion_z",
             "lin_acc_x", "lin_acc_y", "lin_acc_z",
             "gravity_x", "gravity_y", "gravity_z"]
 
