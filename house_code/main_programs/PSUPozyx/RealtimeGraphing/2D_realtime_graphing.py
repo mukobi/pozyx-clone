@@ -11,7 +11,6 @@ from constants import definitions
 
 # global config variables
 plt.style.use('fivethirtyeight')
-
 data_address = "/pozyx"
 (ip, network_code) = ("127.0.0.1", 8888)
 max_data_length = 500
