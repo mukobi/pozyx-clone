@@ -6,7 +6,8 @@ from matplotlib import pyplot as plt
 import matplotlib.animation as animation
 import time
 import _thread
-import definitions
+sys.path.append(sys.path[0] + "/..")
+from constants import definitions
 
 # global config variables
 plt.style.use('fivethirtyeight')

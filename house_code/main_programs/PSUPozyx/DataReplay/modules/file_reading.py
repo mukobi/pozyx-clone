@@ -1,4 +1,5 @@
-from definitions import definitions
+from constants import definitions
+
 
 class FileReading:
     @staticmethod

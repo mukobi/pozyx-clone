@@ -102,7 +102,7 @@ paths:
               type: string
               format: dateTime
           schema:
-            $ref: '#/definitions/Contents'
+            $ref: '#/constants/Contents'
         500:
           description: Model key error
     post:
@@ -132,7 +132,7 @@ paths:
               type: string
               format: url
           schema:
-            $ref: '#/definitions/Contents'
+            $ref: '#/constants/Contents'
         404:
           description: No item found
         400:
@@ -171,7 +171,7 @@ paths:
               type: string
               format: url
           schema:
-            $ref: '#/definitions/Contents'
+            $ref: '#/constants/Contents'
         400:
           description: No data provided
           schema:
@@ -219,7 +219,7 @@ paths:
               type: string
               format: url
           schema:
-            $ref: '#/definitions/Contents'
+            $ref: '#/constants/Contents'
         201:
           description: Path created
           headers:
@@ -228,7 +228,7 @@ paths:
               type: string
               format: url
           schema:
-            $ref: '#/definitions/Contents'
+            $ref: '#/constants/Contents'
         400:
           description: No data provided
           schema:
@@ -279,7 +279,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Checkpoints'
+              $ref: '#/constants/Checkpoints'
         500:
           description: Model key error
     post:
@@ -296,7 +296,7 @@ paths:
               type: string
               format: url
           schema:
-            $ref: '#/definitions/Checkpoints'
+            $ref: '#/constants/Checkpoints'
         404:
           description: No item found
         400:
@@ -353,7 +353,7 @@ paths:
         200:
           description: Session
           schema:
-            $ref: '#/definitions/Session'
+            $ref: '#/constants/Session'
     patch:
       summary: "This can be used to rename the session."
       tags:
@@ -363,12 +363,12 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#definitions/Session'
+            $ref: '#constants/Session'
       responses:
         200:
           description: Session
           schema:
-            $ref: '#/definitions/Session'
+            $ref: '#/constants/Session'
         400:
           description: No data provided
     delete:
@@ -391,7 +391,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Session'
+              $ref: '#/constants/Session'
     post:
       summary: "Create a new session, or return an existing session if a session of the same name already exists"
       tags:
@@ -400,12 +400,12 @@ paths:
         - name: session
           in: body
           schema:
-            $ref: '#definitions/Session'
+            $ref: '#constants/Session'
       responses:
         201:
           description: Session created or returned
           schema:
-            $ref: '#/definitions/Session'
+            $ref: '#/constants/Session'
           headers:
             Location:
               description: URL for session commands
@@ -433,7 +433,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Kernel'
+              $ref: '#/constants/Kernel'
     post:
       summary: Start a kernel and return the uuid
       tags:
@@ -451,7 +451,7 @@ paths:
         201:
           description: Kernel started
           schema:
-            $ref: '#/definitions/Kernel'
+            $ref: '#/constants/Kernel'
           headers:
             Location:
               description: Model for started kernel
@@ -468,7 +468,7 @@ paths:
         200:
           description: Kernel information
           schema:
-            $ref: '#/definitions/Kernel'
+            $ref: '#/constants/Kernel'
     delete:
       summary: Kill a kernel and delete the kernel id
       tags:
@@ -502,7 +502,7 @@ paths:
               type: string
               format: url
           schema:
-            $ref: '#/definitions/Kernel'
+            $ref: '#/constants/Kernel'
 
   /kernelspecs:
     get:
@@ -521,7 +521,7 @@ paths:
               kernelspecs:
                 type: object
                 additionalProperties:
-                  $ref: '#/definitions/KernelSpec'
+                  $ref: '#/constants/KernelSpec'
   /config/{section_name}:
     get:
       summary: Get a configuration section by name
@@ -563,7 +563,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Terminal_ID'
+              $ref: '#/constants/Terminal_ID'
         403:
           description: Forbidden to access
         404:
@@ -577,7 +577,7 @@ paths:
         200:
           description: Succesfully created a new terminal
           schema:
-            $ref: '#/definitions/Terminal_ID'
+            $ref: '#/constants/Terminal_ID'
         403:
           description: Forbidden to access
         404:
@@ -594,7 +594,7 @@ paths:
         200:
           description: Terminal session with given id
           schema:
-            $ref: '#/definitions/Terminal_ID'
+            $ref: '#/constants/Terminal_ID'
         403:
           description: Forbidden to access
         404:
@@ -623,7 +623,7 @@ paths:
       responses:
         200:
           description: The current status of the server
-          $ref: '#/definitions/APIStatus'
+          $ref: '#/constants/APIStatus'
 definitions:
   APIStatus:
     description: |
@@ -654,7 +654,7 @@ definitions:
         type: string
         description: Unique name for kernel
       KernelSpecFile:
-        $ref: '#/definitions/KernelSpecFile'
+        $ref: '#/constants/KernelSpecFile'
         description: Kernel spec json file
       resources:
         type: object
@@ -760,7 +760,7 @@ definitions:
         type: string
         description: session type
       kernel:
-        $ref: '#/definitions/Kernel'
+        $ref: '#/constants/Kernel'
   Contents:
     description: "A contents object.  The content and format keys may be null if content is not contained.  If type is 'file', then the mimetype will be null."
     type: object

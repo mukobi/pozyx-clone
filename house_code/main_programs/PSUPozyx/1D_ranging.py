@@ -16,7 +16,8 @@ from modules.file_writing import RangingFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from modules.pozyx_osc import PozyxOSC
-from modules import definitions
+sys.path.append(sys.path[0] + "/..")
+from constants import definitions
 
 
 class RangeOutputContainer:

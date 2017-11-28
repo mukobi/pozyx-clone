@@ -1,6 +1,6 @@
 from pythonosc.osc_message_builder import OscMessageBuilder
-from definitions import definitions
-import time
+
+from constants import definitions
 
 
 class ReplayOscMessageSending:

@@ -1,4 +1,6 @@
-from modules import definitions
+import sys
+sys.path.append(sys.path[0] + "/..")
+from constants import definitions
 from pythonosc.osc_message_builder import OscMessageBuilder
 
 
