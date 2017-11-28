@@ -106,7 +106,6 @@ if __name__ == "__main__":
         x_axis = arguments[1]
         y_axis = arguments[2]
         tag = int(arguments[3], 16)
-        print(tag)
 
         if x_axis not in possible_data_types:
             print("Error: make sure your x-axis is one of the possible data types::\n\n"
