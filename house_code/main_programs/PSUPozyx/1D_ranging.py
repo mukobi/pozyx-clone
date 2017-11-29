@@ -15,9 +15,6 @@ import time
 from modules.file_writing import RangingFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from modules.pozyx_osc import PozyxOSC
-sys.path.append(sys.path[0] + "/..")
-from constants import definitions
 
 
 class RangeOutputContainer:
@@ -84,8 +81,7 @@ class ReadyToRange(object):
             single.loop_status = loop_status
 
         if loop_status == POZYX_SUCCESS:
-            # self.print_publish_position(range_data_array)
-            pass
+            self.print_publish_position(range_data_array)
 
     def print_publish_position(self, range_data_array):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
@@ -195,7 +191,7 @@ if __name__ == "__main__":
 
         # update message client after data working - don't send initial 0 range over osc
         osc_udp_client = SimpleUDPClient(ip, network_port)
-        pozyxOSC = PozyxOSC(osc_udp_client)
+        r.update_osc_udp_client(osc_udp_client)
 
         while True:
             elapsed = time.time() - start
@@ -217,7 +213,8 @@ if __name__ == "__main__":
                     if not (time_difference == 0) and not (elapsed <= 0.001):
                         if single_data.velocity == "":
                             single_data.velocity = 0.0
-                        measured_velocity = (new_smoothed_range - old_smoothed_range) / time_difference
+                        measured_velocity = (
+                                                new_smoothed_range - old_smoothed_range) / time_difference
                         single_data.velocity = (
                             (1 - alpha_vel) * single_data.velocity
                             + alpha_vel * measured_velocity)
@@ -230,9 +227,6 @@ if __name__ == "__main__":
             if to_use_file:
                 FileIO.write_range_data_to_file(
                     logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
-
-            if range_data_array[0].loop_status == POZYX_SUCCESS:
-                pozyxOSC.send_message(elapsed, tags, range_data_array, [definitions.DATA_TYPE_RANGING])
 
             index = index + 1
 
