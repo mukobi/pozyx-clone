@@ -1,6 +1,7 @@
 import time as time
+
+from constants import definitions
 from .data_functions import DataFunctions as DataFunctions
-from definitions import definitions
 
 
 class DataParsing:
