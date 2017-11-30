@@ -116,7 +116,6 @@ if __name__ == "__main__":
                   + "\n".join(possible_data_types))
             sys.exit()
 
-
         fig = plt.figure()
         ax1 = fig.add_subplot(1,1,1)
 
@@ -131,10 +130,11 @@ if __name__ == "__main__":
                 ax1.plot(real_time_plot.get_x(), real_time_plot.get_y(), '-o', color=[0,0.5,1,1], markersize=3, linewidth=0.5)
 
 
-        ani = animation.FuncAnimation(fig, animate, interval=16)
+        ani = animation.FuncAnimation(fig, animate, interval=20)
 
         _thread.start_new_thread(multi_thread_run_forever, (data_handler,))
 
-        plt.show()
+        # plt.show() # comment this or not to hide or show the graph
+        input()
     finally:
         _thread.exit_thread()
