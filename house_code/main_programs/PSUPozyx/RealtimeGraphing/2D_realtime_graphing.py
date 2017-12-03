@@ -87,20 +87,18 @@ data_container = DataContainer()
 
 app = QtGui.QApplication([])
 p = pg.plot()
-curve = p.plot()
 
 
 def updater():
     x_data = data_container.get_x()
     y_data = data_container.get_y()
-    curve.setData(x=x_data, y=y_data)
-    curve.setPos(0,0)
+    p.plot(x_data, y_data, pen="g", clear=True)
     QtGui.QApplication.processEvents()
 
 
 timer = pg.QtCore.QTimer()
 timer.timeout.connect(updater)
-timer.start(50)
+timer.start(40)
 
 if __name__ == "__main__":
     try:
