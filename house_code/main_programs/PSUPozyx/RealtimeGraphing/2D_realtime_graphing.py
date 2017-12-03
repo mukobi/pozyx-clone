@@ -1,11 +1,10 @@
-import sys
-from pythonosc import osc_server
-from pythonosc import dispatcher
-from collections import deque
+from pythonosc import osc_server, dispatcher
 from matplotlib import pyplot as plt
 import matplotlib.animation as animation
+import numpy as np
 import time
 import _thread
+import sys
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
@@ -20,13 +19,17 @@ start = time.time()
 
 class RealTimePlot:
     def __init__(self, max_len=max_data_length):
-        self.axis_x = deque(maxlen=max_len)
-        self.axis_y = deque(maxlen=max_len)
+        self.axis_x = np.array([])
+        self.axis_y = np.array([])
         self.maxLen = max_len
 
     def add(self, x, y):
-        self.axis_x.append(x)
-        self.axis_y.append(y)
+        self.axis_x = np.append(self.axis_x, x)
+        self.axis_y = np.append(self.axis_y, y)
+        if len(self.axis_x) > self.maxLen:
+            self.axis_x = np.delete(self.axis_x, 0)
+        if len(self.axis_y) > self.maxLen:
+            self.axis_y = np.delete(self.axis_y, 0)
 
     def get_x(self):
         return self.axis_x
@@ -44,7 +47,7 @@ class RangeDataHandling:
 
     def extract_range_data(self, *args):
         message = args[0]
-        print(message)
+        # print(message)
         # extract data from osc message
         tag_idx = message.index(self.tag)
         x_index = definitions.OSC_INDEX_DICT[x_axis] + tag_idx
@@ -134,7 +137,6 @@ if __name__ == "__main__":
 
         _thread.start_new_thread(multi_thread_run_forever, (data_handler,))
 
-        # plt.show() # comment this or not to hide or show the graph
-        input()
+        plt.show() # comment this or not to hide or show the graph
     finally:
         _thread.exit_thread()
