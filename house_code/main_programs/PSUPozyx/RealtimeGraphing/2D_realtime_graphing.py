@@ -1,17 +1,15 @@
 from pythonosc import osc_server, dispatcher
 from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
-import numpy as np
 import threading
 import sys
-import time
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
 # global config variables
 data_address = "/pozyx"
 (ip, network_code) = ("127.0.0.1", 8888)
-max_data_length = 500
+max_data_length = 200
 
 
 class OSCDataHandling:
@@ -20,8 +18,8 @@ class OSCDataHandling:
         self.x_axis = x_axis
         self.y_axis = y_axis
         self.tag = tag
-        self.axis_x = np.array([], dtype=np.float32)
-        self.axis_y = np.array([], dtype=np.float32)
+        self.x_data = []
+        self.y_data = []
         self.maxLen = max_data_length
 
     def extract_range_data(self, *args):
@@ -42,20 +40,18 @@ class OSCDataHandling:
 
     def add(self, x, y):
         # print(len(self.axis_x))
-        if len(self.axis_x) < max_data_length:
-            self.axis_x = np.append(self.axis_x, x)
-            self.axis_y = np.append(self.axis_y, y)
-        else:
-            self.axis_x[:-1] = self.axis_x[1:]  # shift over data
-            self.axis_y[:-1] = self.axis_y[1:]
-            self.axis_x[-1] = x  # add new data
-            self.axis_y[-1] = y
+
+        self.x_data.append(x)
+        self.y_data.append(y)
+        number_x_over = len(self.x_data) - max_data_length
+        if number_x_over > 0:
+            self.x_data = self.x_data[number_x_over:]
+        number_y_over = len(self.y_data) - max_data_length
+        if number_y_over > 0:
+            self.y_data = self.y_data[number_y_over:]
         # print(self.axis_x.__len__())
 
-        if(len(self.axis_x) != len(self.axis_y)):
-            time.sleep(0.001)
-
-        self.grapher.plot_data(self.axis_x, self.axis_y)
+        # self.grapher.plot_data(self.axis_x, self.axis_y)
 
     def deal_with_data(self, *args):
         x, y = self.extract_range_data(args)
@@ -65,23 +61,13 @@ class OSCDataHandling:
         my_dispatcher = dispatcher.Dispatcher()
         # tells the dispatcher to use function to handle range data
         my_dispatcher.map(data_address, self.deal_with_data)
-        # my_dispatcher.map(data_address, print)
         # create server
         server = osc_server.ThreadingOSCUDPServer((ip, network_code), my_dispatcher)
         print("Serving on {}".format(server.server_address))
         server.serve_forever()
 
-
-class DataGrapher:
-    def __init__(self):
-        self.color = "g"
-        self.line = pg.plot(pen=self.color)
-
-    def plot_data(self, x, y):
-        print(str(len(x)) + " " + str(len(y)) + " " + str(len(x) ==  len(y)))
-        self.line.plot(x, y)
-        QtGui.QApplication.processEvents()
-
+    def get_data(self):
+        return self.x_data, self.y_data
 
 
 if __name__ == "__main__":
@@ -123,22 +109,33 @@ if __name__ == "__main__":
               + "\n".join(possible_data_types))
         sys.exit()
 
+    # grapher = DataGrapher()
 
-
-    def init_graph_thread():
-        global grapher
-        grapher = DataGrapher()
-        pg.QtGui.QApplication.exec_()
-
-    init_graph_thread()
-
-    osc_handler = OSCDataHandling(grapher, x_axis, y_axis, tag)
+    osc_handler = OSCDataHandling(None, x_axis, y_axis, tag)
 
     data_thread = threading.Thread(target=osc_handler.start_running)
     data_thread.start()
 
-    pg.QtGui.QApplication.exec_()
+    win = pg.GraphicsWindow()
 
+    color = "g"
+    p = win.addPlot(pen=color)
+
+    running = True
+    def stop_running():
+        exit()
+        global running
+        running = False
+        print("\n\n\n\nquit\n\n\n\n\n")
+
+    app = QtGui.QApplication(sys.argv)
+    app.aboutToQuit.connect(stop_running)
+
+    while running:
+        x, y = osc_handler.get_data()
+        # print(str(len(x)) + " " + str(len(y)) + " " + str(len(x) == len(y)))
+        p.plot(x, y, clear=True, pen=color)
+        QtGui.QApplication.processEvents()
 
 
 
