@@ -15,9 +15,14 @@ import time
 from modules.file_writing import RangingFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
+from modules.pozyx_osc import PozyxOSC
+sys.path.append(sys.path[0] + "/..")
+from constants import definitions
 
 
 class RangeOutputContainer:
+    """Holds the range data, motion data, and more for a single device"""
+
     def __init__(self, tag, device_range, smoothed_range, sensor_data, loop_status):
         self.tag = tag
         self.device_range = device_range
@@ -41,6 +46,9 @@ class ReadyToRange(object):
         self.osc_udp_client = i_osc_udp_client
         self.current_time = None
         self.msg_builder = None
+
+    def update_osc_udp_client(self, in_osc_udp_client):
+        self.osc_udp_client = in_osc_udp_client
 
     def setup(self):
         """Sets up the device"""
@@ -76,7 +84,8 @@ class ReadyToRange(object):
             single.loop_status = loop_status
 
         if loop_status == POZYX_SUCCESS:
-            self.print_publish_position(range_data_array)
+            # self.print_publish_position(range_data_array)
+            pass
 
     def print_publish_position(self, range_data_array):
         """Prints the Pozyx's position and possibly sends it as a OSC packet"""
@@ -92,6 +101,8 @@ class ReadyToRange(object):
 
     def publish_sensor_data(self, sensor_data, calibration_status):
         """Makes the OSC sensor data package and publishes it"""
+        if self.osc_udp_client is None:
+            return
         self.msg_builder = OscMessageBuilder("/sensordata")
         self.msg_builder.add_arg(int(1000 * (time.time() - self.current_time)))
         # current_time = time()
@@ -130,17 +141,17 @@ if __name__ == "__main__":
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-        filename, use_processing) = Configuration.get_properties()
+     filename, use_processing) = Configuration.get_properties()
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha_pos = 0.2
-    alpha_vel = 0.1
+    alpha_pos = 0.1
+    alpha_vel = 0.08
     smooth_velocity = True
 
     to_get_sensor_data = not attributes_to_log == []
 
     ip, network_port, osc_udp_client = "127.0.0.1", 8888, None
-    osc_udp_client = SimpleUDPClient(ip, network_port)
+
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
 
     # IMPORTANT: set destination_id to None if it is meant to be ranging from the device
@@ -170,15 +181,22 @@ if __name__ == "__main__":
         while not_started:
             r.loop(range_data_array)
             not_started = range_data_array[0].sensor_data.pressure == 0
-            for single_data in range_data_array:
-                # Initialize EMA filter
-                if type(single_data.device_range.distance) is int:
-                    single_data.smoothed_range = single_data.device_range.distance
 
     try:
         index = 0
         start = time.time()
         new_time = 0.0
+
+        # Initialize EMA filter so it doesn't start at 0
+        r.loop(range_data_array)
+        for single_data in range_data_array:
+            if type(single_data.device_range.distance) is int:
+                single_data.smoothed_range = single_data.device_range.distance
+
+        # update message client after data working - don't send initial 0 range over osc
+        osc_udp_client = SimpleUDPClient(ip, network_port)
+        pozyxOSC = PozyxOSC(osc_udp_client)
+
         while True:
             elapsed = time.time() - start
             old_time = new_time
@@ -188,7 +206,7 @@ if __name__ == "__main__":
             r.loop(range_data_array)
 
             for single_data in range_data_array:
-                single_data.elapsed_time = elapsed # update time for OSC message
+                single_data.elapsed_time = elapsed  # update time for OSC message
                 # EMA filter calculations
                 if type(single_data.device_range.distance) is int:
                     old_smoothed_range = single_data.smoothed_range
@@ -196,11 +214,10 @@ if __name__ == "__main__":
                         (1 - alpha_pos) * single_data.smoothed_range
                         + alpha_pos * single_data.device_range.distance)
                     new_smoothed_range = single_data.smoothed_range
-                    if not (time_difference == 0) and not(elapsed <= 0.001):
+                    if not (time_difference == 0) and not (elapsed <= 0.001):
                         if single_data.velocity == "":
                             single_data.velocity = 0.0
-                        measured_velocity = (
-                            new_smoothed_range - old_smoothed_range) / time_difference
+                        measured_velocity = (new_smoothed_range - old_smoothed_range) / time_difference
                         single_data.velocity = (
                             (1 - alpha_vel) * single_data.velocity
                             + alpha_vel * measured_velocity)
@@ -213,6 +230,9 @@ if __name__ == "__main__":
             if to_use_file:
                 FileIO.write_range_data_to_file(
                     logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
+
+            if range_data_array[0].loop_status == POZYX_SUCCESS:
+                pozyxOSC.send_message(elapsed, tags, range_data_array, [definitions.DATA_TYPE_RANGING])
 
             index = index + 1
 
