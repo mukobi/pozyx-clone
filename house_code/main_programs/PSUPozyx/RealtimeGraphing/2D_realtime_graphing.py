@@ -94,7 +94,8 @@ def updater():
     x_data = data_container.get_x()
     y_data = data_container.get_y()
     curve.setData(x=x_data, y=y_data)
-    curve.setPos(x_data[0],y_data[0])
+    curve.setPos(0,0)
+    QtGui.QApplication.processEvents()
 
 
 timer = pg.QtCore.QTimer()
