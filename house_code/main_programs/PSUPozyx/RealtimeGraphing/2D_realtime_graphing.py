@@ -1,6 +1,6 @@
 from pythonosc import osc_server, dispatcher
-from matplotlib import pyplot as plt
-import matplotlib.animation as animation
+from pyqtgraph.Qt import QtGui, QtCore
+import pyqtgraph as pg
 import numpy as np
 import time
 import _thread
@@ -9,7 +9,6 @@ sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
 # global config variables
-plt.style.use('fivethirtyeight')
 data_address = "/pozyx"
 (ip, network_code) = ("127.0.0.1", 8888)
 max_data_length = 500
@@ -17,19 +16,23 @@ max_data_length = 500
 start = time.time()
 
 
-class RealTimePlot:
+class DataContainer:
     def __init__(self, max_len=max_data_length):
-        self.axis_x = np.array([])
+        self.axis_x = np.array([], dtype="Int32")
         self.axis_y = np.array([])
         self.maxLen = max_len
 
     def add(self, x, y):
-        self.axis_x = np.append(self.axis_x, x)
-        self.axis_y = np.append(self.axis_y, y)
-        if len(self.axis_x) > self.maxLen:
-            self.axis_x = np.delete(self.axis_x, 0)
-        if len(self.axis_y) > self.maxLen:
-            self.axis_y = np.delete(self.axis_y, 0)
+        # print(len(self.axis_x))
+        if len(self.axis_x) < max_data_length:
+            self.axis_x = np.append(self.axis_x, x)
+            self.axis_y = np.append(self.axis_y, y)
+            return
+        self.axis_x[:-1] = self.axis_x[1:]  # shift over data
+        self.axis_y[:-1] = self.axis_y[1:]
+        self.axis_x[-1] = x
+        self.axis_y[-1] = y
+
 
     def get_x(self):
         return self.axis_x
@@ -38,7 +41,7 @@ class RealTimePlot:
         return self.axis_y
 
 
-class RangeDataHandling:
+class OSCDataHandling:
     def __init__(self, display, x_axis, y_axis, tag):
         self.display = display
         self.x_axis = x_axis
@@ -80,9 +83,28 @@ def multi_thread_run_forever(in_data_handler):
     in_data_handler.run_forever()
 
 
+data_container = DataContainer()
+
+app = QtGui.QApplication([])
+p = pg.plot()
+curve = p.plot()
+
+
+def updater():
+    x_data = data_container.get_x()
+    y_data = data_container.get_y()
+    curve.setData(x=x_data, y=y_data)
+    curve.setPos(x_data[0],y_data[0])
+
+
+timer = pg.QtCore.QTimer()
+timer.timeout.connect(updater)
+timer.start(50)
+
 if __name__ == "__main__":
     try:
         arguments = sys.argv
+        arguments = ["", "time", "1D_range", "0x6041"]
         arg_length = len(arguments)
 
         possible_data_types = [
@@ -119,24 +141,12 @@ if __name__ == "__main__":
                   + "\n".join(possible_data_types))
             sys.exit()
 
-        fig = plt.figure()
-        ax1 = fig.add_subplot(1,1,1)
+        osc_handler = OSCDataHandling(data_container, x_axis, y_axis, tag)
 
-        real_time_plot = RealTimePlot()
+        _thread.start_new_thread(multi_thread_run_forever, (osc_handler,))
 
-        data_handler = RangeDataHandling(real_time_plot, x_axis, y_axis, tag)
+        if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
+            QtGui.QApplication.instance().exec_()
 
-        def animate(i):
-            if real_time_plot.get_x():
-                ax1.clear()
-                ax1.scatter(real_time_plot.get_x()[-1], real_time_plot.get_y()[-1], color=[1, 0, 0, 1])
-                ax1.plot(real_time_plot.get_x(), real_time_plot.get_y(), '-o', color=[0,0.5,1,1], markersize=3, linewidth=0.5)
-
-
-        ani = animation.FuncAnimation(fig, animate, interval=20)
-
-        _thread.start_new_thread(multi_thread_run_forever, (data_handler,))
-
-        plt.show() # comment this or not to hide or show the graph
     finally:
         _thread.exit_thread()
