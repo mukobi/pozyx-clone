@@ -1,5 +1,5 @@
 from pythonosc import osc_server, dispatcher
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtCore
 from PyQt5 import QtGui
 import pyqtgraph as pg
 import _thread
@@ -11,7 +11,7 @@ from constants import definitions
 # global config variables
 data_address = "/pozyx"
 (ip, network_code) = ("127.0.0.1", 8888)
-max_data_length = 2000
+max_data_length = 200
 
 
 class OSCDataHandling:
@@ -24,16 +24,30 @@ class OSCDataHandling:
         self.y_data = []
         self.maxLen = max_data_length
 
+    def clear_data(self):
+        self.x_data = []
+        self.y_data = []
+
+    def change_x_axis(self, x_axis_in):
+        self.x_axis = x_axis_in
+
+    def change_y_axis(self, y_axis_in):
+        self.y_axis = y_axis_in
+
+    def change_max_data_len(self, len_in):
+        self.maxLen = len_in
+
     def extract_range_data(self, *args):
         message = args[0]
         # print(message)
         # extract data from osc message
         tag_idx = message.index(self.tag)
-        x_index = definitions.OSC_INDEX_DICT[x_axis] + tag_idx
-        if x_axis == "time":
+
+        x_index = definitions.OSC_INDEX_DICT[self.x_axis] + tag_idx
+        if self.x_axis == "time":
             x_index = 1
-        y_index = definitions.OSC_INDEX_DICT[y_axis] + tag_idx
-        if y_axis == "time":
+        y_index = definitions.OSC_INDEX_DICT[self.y_axis] + tag_idx
+        if self.y_axis == "time":
             y_index = 1
 
         x = message[x_index]
@@ -43,10 +57,10 @@ class OSCDataHandling:
     def add(self, x, y):
         self.x_data.append(x)
         self.y_data.append(y)
-        number_x_over = len(self.x_data) - max_data_length
+        number_x_over = len(self.x_data) - self.maxLen
         if number_x_over > 0:
             self.x_data = self.x_data[number_x_over:]
-        number_y_over = len(self.y_data) - max_data_length
+        number_y_over = len(self.y_data) - self.maxLen
         if number_y_over > 0:
             self.y_data = self.y_data[number_y_over:]
 
@@ -123,13 +137,15 @@ if __name__ == "__main__":
     x_label = QtGui.QLabel("X-axis:")
     x_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     x_dropdown = pg.ComboBox(items=possible_data_types)
+    x_dropdown.setValue("time")
     y_label = QtGui.QLabel("Y-axis:")
     y_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     y_dropdown = pg.ComboBox(items=possible_data_types)
+    y_dropdown.setValue("1D_range")
 
     data_point_label = QtGui.QLabel("Number of points:")
     data_point_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
-    data_point_spin = pg.SpinBox(value=100, bounds=(0, 5000), step=1.0, dec=True)
+    data_point_spin = pg.SpinBox(value=100, bounds=(2, 5000), step=1.0, dec=True)
 
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
@@ -149,6 +165,25 @@ if __name__ == "__main__":
         # print(x)
         pw.plot(x, y, clear=True, pen=color)
         QtGui.QApplication.processEvents()
+
+    def change_x_axis(ind):
+        osc_handler.clear_data()
+        print("Change x-axis to: " + x_dropdown.value())
+        osc_handler.change_x_axis(x_dropdown.value())
+
+    def change_y_axis(ind):
+        osc_handler.clear_data()
+        print("Change y-axis to: " + y_dropdown.value())
+        osc_handler.change_y_axis(y_dropdown.value())
+
+    def change_data_length(item):
+        print("Change num data points to: " + str(item.value()))
+        print(type(item.value()))
+        osc_handler.change_max_data_len(int(item.value()))
+
+    x_dropdown.currentIndexChanged.connect(change_x_axis)
+    y_dropdown.currentIndexChanged.connect(change_y_axis)
+    data_point_spin.sigValueChanged.connect(change_data_length)
 
     timer = QtCore.QTimer()
     timer.timeout.connect(update)
