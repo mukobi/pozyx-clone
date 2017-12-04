@@ -1,8 +1,9 @@
 from pythonosc import osc_server, dispatcher
 from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
-import threading
+import _thread
 import sys
+import random
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
@@ -24,7 +25,7 @@ class OSCDataHandling:
 
     def extract_range_data(self, *args):
         message = args[0]
-        # print(message)
+        print(message)
         # extract data from osc message
         tag_idx = message.index(self.tag)
         x_index = definitions.OSC_INDEX_DICT[x_axis] + tag_idx
@@ -39,8 +40,6 @@ class OSCDataHandling:
         return x, y
 
     def add(self, x, y):
-        # print(len(self.axis_x))
-
         self.x_data.append(x)
         self.y_data.append(y)
         number_x_over = len(self.x_data) - max_data_length
@@ -49,9 +48,6 @@ class OSCDataHandling:
         number_y_over = len(self.y_data) - max_data_length
         if number_y_over > 0:
             self.y_data = self.y_data[number_y_over:]
-        # print(self.axis_x.__len__())
-
-        # self.grapher.plot_data(self.axis_x, self.axis_y)
 
     def deal_with_data(self, *args):
         x, y = self.extract_range_data(args)
@@ -109,37 +105,27 @@ if __name__ == "__main__":
               + "\n".join(possible_data_types))
         sys.exit()
 
-    # grapher = DataGrapher()
-
     osc_handler = OSCDataHandling(None, x_axis, y_axis, tag)
 
-    data_thread = threading.Thread(target=osc_handler.start_running)
-    data_thread.start()
+    data_thread = _thread.start_new_thread(osc_handler.start_running, ())
 
-    win = pg.GraphicsWindow()
-
-    color = "g"
     p = win.addPlot(pen=color)
+    pw = pg.plot()
 
-    running = True
-    def stop_running():
-        exit()
-        global running
-        running = False
-        print("\n\n\n\nquit\n\n\n\n\n")
-
-    app = QtGui.QApplication(sys.argv)
-    app.aboutToQuit.connect(stop_running)
-
-    while running:
+    def update():
         x, y = osc_handler.get_data()
-        # print(str(len(x)) + " " + str(len(y)) + " " + str(len(x) == len(y)))
-        p.plot(x, y, clear=True, pen=color)
+        # print(x)
+        pw.plot(x, y, clear=True, pen=color)
         QtGui.QApplication.processEvents()
 
+    timer = QtCore.QTimer()
+    timer.timeout.connect(update)
+    timer.start(0)
 
+    if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
+        QtGui.QApplication.instance().exec_()
 
-
+    _thread.exit_thread()
 
 
 
