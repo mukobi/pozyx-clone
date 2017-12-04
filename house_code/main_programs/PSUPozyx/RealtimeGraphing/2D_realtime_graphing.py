@@ -1,5 +1,6 @@
 from pythonosc import osc_server, dispatcher
 from pyqtgraph.Qt import QtGui, QtCore
+from PyQt5 import QtGui
 import pyqtgraph as pg
 import _thread
 import sys
@@ -10,7 +11,7 @@ from constants import definitions
 # global config variables
 data_address = "/pozyx"
 (ip, network_code) = ("127.0.0.1", 8888)
-max_data_length = 200
+max_data_length = 2000
 
 
 class OSCDataHandling:
@@ -25,7 +26,7 @@ class OSCDataHandling:
 
     def extract_range_data(self, *args):
         message = args[0]
-        print(message)
+        # print(message)
         # extract data from osc message
         tag_idx = message.index(self.tag)
         x_index = definitions.OSC_INDEX_DICT[x_axis] + tag_idx
@@ -111,7 +112,37 @@ if __name__ == "__main__":
 
     colors = ["g", "r", "c", "m", "y", "w"]
     color = colors[random.randint(0, len(colors) - 1)]
-    pw = pg.plot()
+
+    app = QtGui.QApplication([])
+    pw = pg.PlotWidget()
+
+    pw.showGrid(x=True, y=True)
+
+    w = QtGui.QWidget()
+
+    x_label = QtGui.QLabel("X-axis:")
+    x_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+    x_dropdown = pg.ComboBox(items=possible_data_types)
+    y_label = QtGui.QLabel("Y-axis:")
+    y_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+    y_dropdown = pg.ComboBox(items=possible_data_types)
+
+    data_point_label = QtGui.QLabel("Number of points:")
+    data_point_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+    data_point_spin = pg.SpinBox(value=100, bounds=(0, 5000), step=1.0, dec=True)
+
+    layout = QtGui.QGridLayout()
+    w.setLayout(layout)
+
+    layout.addWidget(x_label,          0, 0, 1, 1)
+    layout.addWidget(x_dropdown,       0, 1, 1, 3)
+    layout.addWidget(y_label,          0, 4, 1, 1)
+    layout.addWidget(y_dropdown,       0, 5, 1, 3)
+    layout.addWidget(data_point_label, 0, 8, 1, 1)
+    layout.addWidget(data_point_spin,  0, 9, 1, 2)
+    layout.addWidget(pw,               1, 0, 1, 11)
+
+    w.show()
 
     def update():
         x, y = osc_handler.get_data()
@@ -124,7 +155,7 @@ if __name__ == "__main__":
     timer.start(16)
 
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QApplication.instance().exec_()
+        app.exec_()
 
     _thread.exit_thread()
 
