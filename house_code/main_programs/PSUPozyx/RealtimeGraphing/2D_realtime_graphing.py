@@ -17,6 +17,8 @@ max_data_length = 200
 class OSCDataHandling:
     def __init__(self, tag):
         self.tag = tag
+        self.x_axis = "time"
+        self.y_axis = "1D_range"
         self.x_data = []
         self.y_data = []
         self.maxLen = max_data_length
@@ -24,6 +26,9 @@ class OSCDataHandling:
     def clear_data(self):
         self.x_data = []
         self.y_data = []
+
+    def change_tag(self, tag_in):
+        self.tag = tag_in
 
     def change_x_axis(self, x_axis_in):
         self.x_axis = x_axis_in
@@ -97,7 +102,7 @@ if __name__ == "__main__":
         "gravity_x", "gravity_y", "gravity_z"]
 
     if arg_length is not 2:
-        print("Error, please provide a tag to graph'\n\n")
+        print("Error, please provide a tag to graph\n")
         sys.exit()
 
     tag = int(arguments[1], 16)
@@ -129,7 +134,12 @@ if __name__ == "__main__":
 
     data_point_label = QtGui.QLabel("Number of points:")
     data_point_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
-    data_point_spin = pg.SpinBox(value=100, bounds=(2, 5000), step=1.0, dec=True)
+    data_point_spin = pg.SpinBox(value=100, bounds=(2, 5000), step=1.0, dec=True, int=True)
+
+    # tag_label = QtGui.QLabel("Tag ID:")
+    # tag_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+    # tag_input = QtGui.QTextLine("tea")
+
 
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
