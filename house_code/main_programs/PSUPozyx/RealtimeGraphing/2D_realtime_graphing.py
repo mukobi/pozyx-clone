@@ -109,7 +109,8 @@ if __name__ == "__main__":
 
     data_thread = _thread.start_new_thread(osc_handler.start_running, ())
 
-    p = win.addPlot(pen=color)
+    colors = [(100, 255, 255), "g", "r", "c", "m", "y", "w"]
+    color = colors[random.randint(0, len(colors) - 1)]
     pw = pg.plot()
 
     def update():
