@@ -15,10 +15,7 @@ max_data_length = 200
 
 
 class OSCDataHandling:
-    def __init__(self, grapher, x_axis, y_axis, tag):
-        self.grapher = grapher
-        self.x_axis = x_axis
-        self.y_axis = y_axis
+    def __init__(self, tag):
         self.tag = tag
         self.x_data = []
         self.y_data = []
@@ -83,7 +80,6 @@ class OSCDataHandling:
 
 if __name__ == "__main__":
     arguments = sys.argv
-    arguments = ["", "time", "1D_range", "0x6041"]
     arg_length = len(arguments)
 
     possible_data_types = [
@@ -100,27 +96,15 @@ if __name__ == "__main__":
         "lin_acc_x", "lin_acc_y", "lin_acc_z",
         "gravity_x", "gravity_y", "gravity_z"]
 
-    if arg_length is not 4:
-        print("Error, please provide an x-axis data type, a y-axis data type, and a tag to graph in the form:\n"
-              "'python 2D_realtime_graphing.py x-axis y-axis tag'\n\n"
-              "possible data for the axes include:\n\n"
-              + "\n".join(possible_data_types))
+    if arg_length is not 2:
+        print("Error, please provide a tag to graph'\n\n")
         sys.exit()
 
-    x_axis = arguments[1]
-    y_axis = arguments[2]
-    tag = int(arguments[3], 16)
+    tag = int(arguments[1], 16)
 
-    if x_axis not in possible_data_types:
-        print("Error: make sure your x-axis is one of the possible data types::\n\n"
-              + "\n".join(possible_data_types))
-        sys.exit()
-    if y_axis not in possible_data_types:
-        print("Error: make sure your y-axis is one of the possible data types::\n\n"
-              + "\n".join(possible_data_types))
-        sys.exit()
 
-    osc_handler = OSCDataHandling(None, x_axis, y_axis, tag)
+
+    osc_handler = OSCDataHandling(tag)
 
     data_thread = _thread.start_new_thread(osc_handler.start_running, ())
 
