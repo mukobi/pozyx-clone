@@ -21,7 +21,6 @@ from constants import definitions
 
 class RangeOutputContainer:
     """Holds the range data, motion data, and more for a single device"""
-
     def __init__(self, tag, device_range, smoothed_range, sensor_data, loop_status):
         self.tag = tag
         self.device_range = device_range
@@ -29,7 +28,6 @@ class RangeOutputContainer:
         self.loop_status = loop_status
         self.smoothed_range = smoothed_range
         self.velocity = ""
-        self.elapsed_time = 0.0  # used for osc messaging
 
 
 class ReadyToRange(object):
