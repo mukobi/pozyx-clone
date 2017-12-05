@@ -9,7 +9,6 @@ This demo measures the range between the two devices.
 import sys
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
-from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 import time
 from modules.file_writing import RangingFileWriting as FileIO
