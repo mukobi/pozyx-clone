@@ -48,11 +48,9 @@ class Positioning(object):
         self.dimension = i_dimension
         self.height = i_height
         self.to_get_sensor_data = i_to_get_sensor_data
-        self.current_time = None
 
     def setup(self):
         """Sets up the Pozyx for positioning by calibrating its anchor list."""
-        self.current_time = time.time()
         self.set_anchors_manual()
 
     def loop(self, loop_position_data_array):

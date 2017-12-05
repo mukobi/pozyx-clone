@@ -42,12 +42,6 @@ class ReadyToRange(object):
         self.destination_id = i_destination_id
         self.to_get_sensor_data = i_to_get_sensor_data
         self.protocol = i_protocol
-        self.current_time = None
-        self.msg_builder = None
-
-    def setup(self):
-        """Sets up the device"""
-        self.current_time = time.time()
 
     def loop(self, range_data_array):
         """Performs ranging and collects motion data as needed"""
@@ -103,7 +97,6 @@ if __name__ == "__main__":
         destination_id = None
     r = ReadyToRange(
         pozyx, tags, destination_id, to_get_sensor_data, ranging_protocol)
-    r.setup()
 
     range_data_array = []
     for tag in tags:
