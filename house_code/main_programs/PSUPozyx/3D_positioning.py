@@ -13,11 +13,13 @@ import time
 import sys
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
-from pythonosc.osc_message_builder import OscMessageBuilder
 from pythonosc.udp_client import SimpleUDPClient
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from modules.file_writing import PositioningFileWriting as FileIO
+from modules.pozyx_osc import PozyxOSC
+sys.path.append(sys.path[0] + "/..")
+from constants import definitions
 
 
 class PositionOutputContainer:
@@ -37,11 +39,9 @@ class PositionOutputContainer:
 
 class Positioning(object):
     """Continuously performs multitag positioning"""
-
-    def __init__(self, i_pozyx, i_osc_udp_client, i_tags, i_anchors, i_to_get_sensor_data,
+    def __init__(self, i_pozyx, i_tags, i_anchors, i_to_get_sensor_data,
                  i_algorithm=POZYX_POS_ALG_UWB_ONLY, i_dimension=POZYX_3D, i_height=1000):
         self.pozyx = i_pozyx
-        self.osc_udp_client = i_osc_udp_client
         self.tags = i_tags
         self.anchors = i_anchors
         self.algorithm = i_algorithm
@@ -49,13 +49,11 @@ class Positioning(object):
         self.height = i_height
         self.to_get_sensor_data = i_to_get_sensor_data
         self.current_time = None
-        self.msg_builder = None
 
     def setup(self):
         """Sets up the Pozyx for positioning by calibrating its anchor list."""
         self.current_time = time.time()
         self.set_anchors_manual()
-        self.print_publish_anchor_configuration()
 
     def loop(self, loop_position_data_array):
         """Performs positioning and prints the results."""
@@ -64,10 +62,6 @@ class Positioning(object):
             position = Coordinates()
             loop_status = self.pozyx.doPositioning(
                 position, self.dimension, self.height, self.algorithm, remote_id=loop_tag)
-            if loop_status == POZYX_SUCCESS:
-                self.print_publish_position(position, loop_tag)
-            else:
-                self.print_publish_error_code("positioning", loop_tag)
 
             # get motion data
             sensor_data = SensorData()
@@ -78,22 +72,12 @@ class Positioning(object):
                         POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
                     loop_status = self.pozyx.getAllSensorData(sensor_data, loop_tag)
                     loop_status &= self.pozyx.getCalibrationStatus(calibration_status, loop_tag)
-                    if loop_status == POZYX_SUCCESS:
-                        self.publish_sensor_data(sensor_data, calibration_status)
 
             single = loop_position_data_array[idx]
             single.tag = loop_tag
             single.position = position
             single.sensor_data = sensor_data
             single.loop_status = loop_status
-
-    def print_publish_position(self, position, network_id):
-        """Prints the Pozyx's position and possibly sends it as a OSC packet"""
-        if network_id is None:
-            network_id = 0
-        if self.osc_udp_client is not None:
-            self.osc_udp_client.send_message(
-                "/position", [network_id, position.x, position.y, position.z])
 
     def set_anchors_manual(self):
         """Adds the manually measured anchors to the Pozyx's device list one for one."""
@@ -104,21 +88,18 @@ class Positioning(object):
             if len(anchors) > 4:
                 status &= self.pozyx.setSelectionOfAnchors(
                     POZYX_ANCHOR_SEL_AUTO, len(anchors), remote_id=anchor_manual_tag)
-            # enable these if you want to save the configuration to the devices.
-            # self.pozyx.saveAnchorIds(tag)
-            # self.pozyx.saveRegisters([POZYX_ANCHOR_SEL_AUTO], tag)
-            self.print_publish_configuration_result(status, anchor_manual_tag)
+            self.print_configuration_result(status, anchor_manual_tag)
 
-    def print_publish_configuration_result(self, status, tag_id):
+    def print_configuration_result(self, status, tag_id):
         """Prints the configuration explicit result, prints and publishes error if one occurs"""
         if tag_id is None:
             tag_id = 0
         if status == POZYX_SUCCESS:
             print("Configuration of tag %s: success" % tag_id)
         else:
-            self.print_publish_error_code("configuration", tag_id)
+            self.print_error_code("configuration", tag_id)
 
-    def print_publish_error_code(self, operation, network_id):
+    def print_error_code(self, operation, network_id):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
         error_code = SingleRegister()
         status = self.pozyx.getErrorCode(error_code, None)
@@ -127,55 +108,10 @@ class Positioning(object):
         if status == POZYX_SUCCESS:
             print("Error %s on ID %s, error code %s" %
                   (operation, "0x%0.4x" % network_id, str(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message(
-                    "/error_%s" % operation, [network_id, error_code[0]])
         else:
             # should only happen when not being able to communicate with a remote Pozyx.
             self.pozyx.getErrorCode(error_code)
             print("Error % s, local error code %s" % (operation, str(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message("/error_%s" % operation, [0, error_code[0]])
-
-    def print_publish_anchor_configuration(self):
-        for anchor in self.anchors:
-            print("ANCHOR,0x%0.4x,%s" % (anchor.network_id, str(anchor.pos)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message(
-                    "/anchor", [anchor.network_id, anchor.pos.x, anchor.pos.y, anchor.pos.z])
-                time.sleep(0.025)
-
-    def publish_sensor_data(self, sensor_data, calibration_status):
-        """Makes the OSC sensor data package and publishes it"""
-        self.msg_builder = OscMessageBuilder("/sensordata")
-        self.msg_builder.add_arg(int(1000 * (time.time() - self.current_time)))
-        # current_time = time()
-        self.add_sensor_data(sensor_data)
-        self.add_calibration_status(calibration_status)
-        self.osc_udp_client.send(self.msg_builder.build())
-
-    def add_sensor_data(self, sensor_data):
-        """Adds the sensor data to the OSC message"""
-        self.msg_builder.add_arg(sensor_data.pressure)
-        self.add_components_osc(sensor_data.acceleration)
-        self.add_components_osc(sensor_data.magnetic)
-        self.add_components_osc(sensor_data.angular_vel)
-        self.add_components_osc(sensor_data.euler_angles)
-        self.add_components_osc(sensor_data.quaternion)
-        self.add_components_osc(sensor_data.linear_acceleration)
-        self.add_components_osc(sensor_data.gravity_vector)
-
-    def add_components_osc(self, component):
-        """Adds a sensor data component to the OSC message"""
-        for data in component.data:
-            self.msg_builder.add_arg(float(data))
-
-    def add_calibration_status(self, calibration_status):
-        """Adds the calibration status data to the OSC message"""
-        self.msg_builder.add_arg(calibration_status[0] & 0x03)
-        self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
-        self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
-        self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
 
 
 def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
@@ -237,8 +173,6 @@ if __name__ == "__main__":
      filename, use_processing) = Configuration.get_properties()
     to_get_sensor_data = not attributes_to_log == []
 
-    osc_udp_client = SimpleUDPClient("127.0.0.1", 8888)
-
     position_data_array = []
     for tag in tags:
         position_data_array.append(PositionOutputContainer(None, None, 0, 0, 0, None, None))
@@ -251,7 +185,7 @@ if __name__ == "__main__":
         FileIO.write_position_headers_to_file(logfile, tags, attributes_to_log)
 
     pozyx = PozyxSerial(serial_port)
-    r = Positioning(pozyx, osc_udp_client, tags, anchors, to_get_sensor_data)
+    r = Positioning(pozyx, tags, anchors, to_get_sensor_data)
     r.setup()
 
     # wait for motion data to work before running main loop
@@ -268,6 +202,11 @@ if __name__ == "__main__":
                     single_data.smoothed_y = single_data.position.y
 
     try:
+        # update message client after data working - don't send initial 0 range over osc
+        ip, network_port = "127.0.0.1", 8888
+        osc_udp_client = SimpleUDPClient(ip, network_port)
+        pozyxOSC = PozyxOSC(osc_udp_client)
+
         index = 0
         start = time.time()
         new_time = 0.0
@@ -287,6 +226,11 @@ if __name__ == "__main__":
             if to_use_file:
                 FileIO.write_position_data_to_file(logfile, index, elapsed, time_difference,
                                                    position_data_array, attributes_to_log)
+
+            if position_data_array[0].loop_status == POZYX_SUCCESS:
+                data_type = ([definitions.DATA_TYPE_POSITIONING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
+                             else [definitions.DATA_TYPE_POSITIONING])
+                pozyxOSC.send_message(elapsed, tags, position_data_array, data_type)
 
             index = index + 1
 
