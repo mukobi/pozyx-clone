@@ -76,7 +76,6 @@ class OSCDataHandling:
         my_dispatcher.map(data_address, self.deal_with_data)
         # create server
         server = osc_server.ThreadingOSCUDPServer((ip, network_code), my_dispatcher)
-        print("Serving on {}".format(server.server_address))
         server.serve_forever()
 
     def get_data(self):
@@ -106,8 +105,6 @@ if __name__ == "__main__":
         sys.exit()
 
     tag = int(arguments[1], 16)
-
-
 
     osc_handler = OSCDataHandling(tag)
 
@@ -172,7 +169,6 @@ if __name__ == "__main__":
 
     def change_data_length(item):
         print("Change num data points to: " + str(item.value()))
-        print(type(item.value()))
         osc_handler.change_max_data_len(int(item.value()))
 
     x_dropdown.currentIndexChanged.connect(change_x_axis)
