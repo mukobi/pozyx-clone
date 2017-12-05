@@ -43,7 +43,6 @@ class ReadyToRange(object):
 
     def loop(self, range_data_array):
         """Performs ranging and collects motion data as needed"""
-        loop_status = 0
         for idx, tag in enumerate(self.tags):
             # get 1D position in this section
             device_range = DeviceRange()
