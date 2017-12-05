@@ -232,7 +232,9 @@ if __name__ == "__main__":
                     logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
 
             if range_data_array[0].loop_status == POZYX_SUCCESS:
-                pozyxOSC.send_message(elapsed, tags, range_data_array, [definitions.DATA_TYPE_RANGING])
+                data_type = ([definitions.DATA_TYPE_RANGING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
+                             else [definitions.DATA_TYPE_RANGING])
+                pozyxOSC.send_message(elapsed, tags, range_data_array, data_type)
 
             index = index + 1
 
