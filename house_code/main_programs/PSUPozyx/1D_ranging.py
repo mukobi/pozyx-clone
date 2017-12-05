@@ -83,56 +83,6 @@ class ReadyToRange(object):
             single.sensor_data = sensor_data
             single.loop_status = loop_status
 
-        if loop_status == POZYX_SUCCESS:
-            # self.print_publish_position(range_data_array)
-            pass
-
-    def print_publish_position(self, range_data_array):
-        """Prints the Pozyx's position and possibly sends it as a OSC packet"""
-        for idx, tag in enumerate(self.tags):
-            network_id = tag
-            if network_id is None:
-                network_id = 0
-            elapsed_time = range_data_array[idx].elapsed_time
-            smoothed_range = range_data_array[idx].smoothed_range
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message(
-                    "/range", [network_id, elapsed_time, smoothed_range])
-
-    def publish_sensor_data(self, sensor_data, calibration_status):
-        """Makes the OSC sensor data package and publishes it"""
-        if self.osc_udp_client is None:
-            return
-        self.msg_builder = OscMessageBuilder("/sensordata")
-        self.msg_builder.add_arg(int(1000 * (time.time() - self.current_time)))
-        # current_time = time()
-        self.add_sensor_data(sensor_data)
-        self.add_calibration_status(calibration_status)
-        self.osc_udp_client.send(self.msg_builder.build())
-
-    def add_sensor_data(self, sensor_data):
-        """Adds the sensor data to the OSC message"""
-        self.msg_builder.add_arg(sensor_data.pressure)
-        self.add_components_osc(sensor_data.acceleration)
-        self.add_components_osc(sensor_data.magnetic)
-        self.add_components_osc(sensor_data.angular_vel)
-        self.add_components_osc(sensor_data.euler_angles)
-        self.add_components_osc(sensor_data.quaternion)
-        self.add_components_osc(sensor_data.linear_acceleration)
-        self.add_components_osc(sensor_data.gravity_vector)
-
-    def add_components_osc(self, component):
-        """Adds a sensor data component to the OSC message"""
-        for data in component.data:
-            self.msg_builder.add_arg(float(data))
-
-    def add_calibration_status(self, calibration_status):
-        """Adds the calibration status data to the OSC message"""
-        self.msg_builder.add_arg(calibration_status[0] & 0x03)
-        self.msg_builder.add_arg((calibration_status[0] & 0x0C) >> 2)
-        self.msg_builder.add_arg((calibration_status[0] & 0x30) >> 4)
-        self.msg_builder.add_arg((calibration_status[0] & 0xC0) >> 6)
-
 
 if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
