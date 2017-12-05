@@ -36,19 +36,15 @@ class RangeOutputContainer:
 class ReadyToRange(object):
     """Continuously performs ranging between the Pozyx and a destination"""
 
-    def __init__(self, i_pozyx, i_tags, i_destination_id, i_to_get_sensor_data, i_osc_udp_client,
+    def __init__(self, i_pozyx, i_tags, i_destination_id, i_to_get_sensor_data,
                  i_protocol=POZYX_RANGE_PROTOCOL_FAST):
         self.pozyx = i_pozyx
         self.tags = i_tags
         self.destination_id = i_destination_id
         self.to_get_sensor_data = i_to_get_sensor_data
         self.protocol = i_protocol
-        self.osc_udp_client = i_osc_udp_client
         self.current_time = None
         self.msg_builder = None
-
-    def update_osc_udp_client(self, in_osc_udp_client):
-        self.osc_udp_client = in_osc_udp_client
 
     def setup(self):
         """Sets up the device"""
@@ -74,8 +70,6 @@ class ReadyToRange(object):
                 if tag is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
                     loop_status = self.pozyx.getAllSensorData(sensor_data, tag)
                     loop_status &= self.pozyx.getCalibrationStatus(calibration_status, tag)
-                    if loop_status == POZYX_SUCCESS:
-                        self.publish_sensor_data(sensor_data, calibration_status)
 
             single = range_data_array[idx]
             single.tag = tag
@@ -100,8 +94,6 @@ if __name__ == "__main__":
 
     to_get_sensor_data = not attributes_to_log == []
 
-    ip, network_port, osc_udp_client = "127.0.0.1", 8888, None
-
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
 
     # IMPORTANT: set destination_id to None if it is meant to be ranging from the device
@@ -111,7 +103,7 @@ if __name__ == "__main__":
     if destination_id == 0:
         destination_id = None
     r = ReadyToRange(
-        pozyx, tags, destination_id, to_get_sensor_data, osc_udp_client, ranging_protocol)
+        pozyx, tags, destination_id, to_get_sensor_data, ranging_protocol)
     r.setup()
 
     range_data_array = []
@@ -144,6 +136,7 @@ if __name__ == "__main__":
                 single_data.smoothed_range = single_data.device_range.distance
 
         # update message client after data working - don't send initial 0 range over osc
+        ip, network_port = "127.0.0.1", 8888
         osc_udp_client = SimpleUDPClient(ip, network_port)
         pozyxOSC = PozyxOSC(osc_udp_client)
 
