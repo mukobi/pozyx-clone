@@ -233,7 +233,7 @@ if __name__ == "__main__":
             index = index + 1
 
     except KeyboardInterrupt:
-        sys.exit()
+        pass
 
     finally:
         if to_use_file:

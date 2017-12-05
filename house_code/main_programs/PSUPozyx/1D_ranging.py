@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     logfile = None
     if to_use_file:
-        logfile = open(filename, 'a')
+        logfile = open(filename, 'w')
         FileIO.write_range_headers_to_file(logfile, tags, attributes_to_log)
 
     # wait for motion data to work before running main loop
@@ -171,7 +171,7 @@ if __name__ == "__main__":
             index = index + 1
 
     except KeyboardInterrupt:
-        sys.exit()
+        pass
 
     finally:
         if to_use_file:
