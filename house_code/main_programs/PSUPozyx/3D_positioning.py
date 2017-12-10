@@ -208,6 +208,7 @@ if __name__ == "__main__":
         index = 0
         start = time.time()
         new_time = 0.0
+        time.sleep(0.00001)
         while True:
             elapsed = time.time() - start
             old_time = new_time
