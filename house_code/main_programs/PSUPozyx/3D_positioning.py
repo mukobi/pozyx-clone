@@ -11,6 +11,7 @@ in the PSUPozyx GUI.
 """
 import time
 import sys
+import pythonosc
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.udp_client import SimpleUDPClient
@@ -156,6 +157,11 @@ def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
                     (1 - loop_alpha_vel) * single_device_data.velocity_z
                     + loop_alpha_vel * measured_velocity_z)
 
+class ContinueI(Exception):
+    pass
+
+continue_i = ContinueI()
+
 
 if __name__ == "__main__":
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
@@ -209,29 +215,42 @@ if __name__ == "__main__":
         start = time.time()
         new_time = 0.0
         time.sleep(0.00001)
+        
         while True:
-            elapsed = time.time() - start
-            old_time = new_time
-            new_time = elapsed
-            time_difference = new_time - old_time
+            try:
+                elapsed = time.time() - start
+                old_time = new_time
+                new_time = elapsed
+                time_difference = new_time - old_time
 
-            r.loop(position_data_array)
+                r.loop(position_data_array)
+                for dataset in position_data_array:
+                    if (dataset.position.x == 0 and
+                        dataset.position.y == 0 and
+                        dataset.position.z == 0):
+                        raise continue_i
 
-            apply_ema_filter(position_data_array, alpha_pos, alpha_vel)
+                apply_ema_filter(position_data_array, alpha_pos, alpha_vel)
 
-            Console.print_3d_positioning_output(
-                index, elapsed, position_data_array, attributes_to_log)
+                Console.print_3d_positioning_output(
+                    index, elapsed, position_data_array, attributes_to_log)
 
-            if to_use_file:
-                FileIO.write_position_data_to_file(logfile, index, elapsed, time_difference,
-                                                   position_data_array, attributes_to_log)
+                if to_use_file:
+                    FileIO.write_position_data_to_file(logfile, index, elapsed, time_difference,
+                                                       position_data_array, attributes_to_log)
 
-            if position_data_array[0].loop_status == POZYX_SUCCESS:
-                data_type = ([definitions.DATA_TYPE_POSITIONING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
-                             else [definitions.DATA_TYPE_POSITIONING])
-                pozyxOSC.send_message(elapsed, tags, position_data_array, data_type)
+                if position_data_array[0].loop_status == POZYX_SUCCESS:
+                    data_type = ([definitions.DATA_TYPE_POSITIONING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
+                                 else [definitions.DATA_TYPE_POSITIONING])
+                    try:
+                        pozyxOSC.send_message(elapsed, tags, position_data_array, data_type)
+                    except pythonosc.osc_message.ParseError:
+                        pass
 
-            index = index + 1
+                index = index + 1
+
+            except ContinueI:
+                continue
 
     except KeyboardInterrupt:
         pass

@@ -112,6 +112,12 @@ if __name__ == "__main__":
 
     colors = ["g", "r", "c", "m", "y", "w"]
     color = colors[random.randint(0, len(colors) - 1)]
+    color = 'k'
+
+    pen = pg.mkPen(color, width=5)
+
+    pg.setConfigOption('background', 'w')
+    pg.setConfigOption('foreground', 'k')
 
     app = QtGui.QApplication([])
     pw = pg.PlotWidget()
@@ -150,7 +156,7 @@ if __name__ == "__main__":
     layout.addWidget(pw,               1, 0, 1, 11)
 
     w.show()
-    curve = pw.plot(pen=color)
+    curve = pw.plot(pen=pen)
 
     def update():
         x, y = osc_handler.get_data()
