@@ -150,11 +150,12 @@ if __name__ == "__main__":
     layout.addWidget(pw,               1, 0, 1, 11)
 
     w.show()
+    curve = pw.plot(pen=color)
 
     def update():
         x, y = osc_handler.get_data()
         # print(x)
-        pw.plot(x, y, clear=True, pen=color)
+        curve.setData(x, y)
         QtGui.QApplication.processEvents()
 
     def change_x_axis(ind):
