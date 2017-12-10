@@ -7,7 +7,6 @@ import sys
 import random
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
-from modules import udp
 
 # global config variables
 data_address = "/pozyx"
@@ -23,7 +22,6 @@ class OSCDataHandling:
         self.x_data = []
         self.y_data = []
         self.maxLen = max_data_length
-        self.consumer = udp.Consumer()
 
     def clear_data(self):
         self.x_data = []
@@ -41,18 +39,18 @@ class OSCDataHandling:
     def change_max_data_len(self, len_in):
         self.maxLen = len_in
 
-    def extract_data(self, new_data):
-        message = new_data[1]
+    def extract_range_data(self, *args):
+        message = args[0]
         # print(message)
         # extract data from osc message
         tag_idx = message.index(self.tag)
 
         x_index = definitions.OSC_INDEX_DICT[self.x_axis] + tag_idx
         if self.x_axis == "time":
-            x_index = 0
+            x_index = 1
         y_index = definitions.OSC_INDEX_DICT[self.y_axis] + tag_idx
         if self.y_axis == "time":
-            y_index = 0
+            y_index = 1
 
         x = message[x_index]
         y = message[y_index]
@@ -68,16 +66,17 @@ class OSCDataHandling:
         if number_y_over > 0:
             self.y_data = self.y_data[number_y_over:]
 
-    def deal_with_data(self, new_data):
-        x, y = self.extract_data(new_data)
+    def deal_with_data(self, *args):
+        x, y = self.extract_range_data(args)
         self.add(x, y)
 
     def start_running(self, *args):
-        while True:
-            new_data = self.consumer.receive()
-            if new_data is None:
-                continue
-            self.deal_with_data(new_data)
+        my_dispatcher = dispatcher.Dispatcher()
+        # tells the dispatcher to use function to handle range data
+        my_dispatcher.map(data_address, self.deal_with_data)
+        # create server
+        server = osc_server.ThreadingOSCUDPServer((ip, network_code), my_dispatcher)
+        server.serve_forever()
 
     def get_data(self):
         return self.x_data, self.y_data
@@ -151,12 +150,11 @@ if __name__ == "__main__":
     layout.addWidget(pw,               1, 0, 1, 11)
 
     w.show()
-    curve = pw.plot()
 
     def update():
         x, y = osc_handler.get_data()
         # print(x)
-        curve.setData(x, y)
+        pw.plot(x, y, clear=True, pen=color)
         QtGui.QApplication.processEvents()
 
     def change_x_axis(ind):
@@ -179,7 +177,7 @@ if __name__ == "__main__":
 
     timer = QtCore.QTimer()
     timer.timeout.connect(update)
-    timer.start(50)
+    timer.start(16)
 
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         app.exec_()
