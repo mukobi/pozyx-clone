@@ -165,7 +165,7 @@ continue_i = ContinueI()
 
 if __name__ == "__main__":
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha_pos = 0.2
+    alpha_pos = 1
     alpha_vel = 0.077
     smooth_velocity = True
 
