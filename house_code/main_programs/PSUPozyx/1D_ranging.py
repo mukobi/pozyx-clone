@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
             Console.print_1d_ranging_output(
                 index, elapsed, range_data_array, attributes_to_log)
-
+            
             if to_use_file:
                 FileIO.write_range_data_to_file(
                     logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
@@ -176,3 +176,5 @@ if __name__ == "__main__":
     finally:
         if to_use_file:
             logfile.close()
+            print("closing file")
+            # time.sleep(1)
