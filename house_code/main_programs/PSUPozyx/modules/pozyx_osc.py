@@ -1,18 +1,14 @@
 import sys
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
-from pythonosc.osc_message_builder import OscMessageBuilder
+from modules import udp
 
 
-class PozyxOSC:
+class PozyxUDP:
     def __init__(self, osc_udp_client_in=None):
-        self.osc_udp_client = osc_udp_client_in
-
-    def update_osc_udp_client(self, in_osc_udp_client):
-        self.osc_udp_client = in_osc_udp_client
+        self.producer = udp.Producer()
 
     def send_message(self, elapsed_time, tags, data_array, data_types):
-        self.msg_builder = OscMessageBuilder("/pozyx")
         message_array = [elapsed_time]
         for idx, tag in enumerate(tags):
             message_array.append(tag)
@@ -20,9 +16,7 @@ class PozyxOSC:
             message_array = message_array + self.add_range_data(data_for_tag, data_types)
             message_array = message_array + self.add_position_data(data_for_tag, data_types)
             message_array = message_array + self.add_motion_data(data_for_tag, data_types)
-        for data_value in message_array:
-            self.msg_builder.add_arg(data_value)
-        self.osc_udp_client.send(self.msg_builder.build())
+        self.producer.send(message_array)
 
     @staticmethod
     def add_range_data(data_for_tag, data_types):

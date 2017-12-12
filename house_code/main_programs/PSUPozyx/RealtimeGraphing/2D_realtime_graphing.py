@@ -3,10 +3,12 @@ from pyqtgraph.Qt import QtCore
 from PyQt5 import QtGui
 import pyqtgraph as pg
 import _thread
+import time
 import sys
 import random
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
+from modules import udp
 
 # global config variables
 data_address = "/pozyx"
@@ -22,6 +24,7 @@ class OSCDataHandling:
         self.x_data = []
         self.y_data = []
         self.maxLen = max_data_length
+        self.consumer = udp.Consumer()
 
     def clear_data(self):
         self.x_data = []
@@ -39,18 +42,18 @@ class OSCDataHandling:
     def change_max_data_len(self, len_in):
         self.maxLen = len_in
 
-    def extract_range_data(self, *args):
-        message = args[0]
+    def extract_data(self, new_data):
+        message = new_data[1]
         # print(message)
         # extract data from osc message
         tag_idx = message.index(self.tag)
 
         x_index = definitions.OSC_INDEX_DICT[self.x_axis] + tag_idx
         if self.x_axis == "time":
-            x_index = 1
+            x_index = 0
         y_index = definitions.OSC_INDEX_DICT[self.y_axis] + tag_idx
         if self.y_axis == "time":
-            y_index = 1
+            y_index = 0
 
         x = message[x_index]
         y = message[y_index]
@@ -66,17 +69,18 @@ class OSCDataHandling:
         if number_y_over > 0:
             self.y_data = self.y_data[number_y_over:]
 
-    def deal_with_data(self, *args):
-        x, y = self.extract_range_data(args)
+    def deal_with_data(self, new_data):
+        x, y = self.extract_data(new_data)
         self.add(x, y)
 
     def start_running(self, *args):
-        my_dispatcher = dispatcher.Dispatcher()
-        # tells the dispatcher to use function to handle range data
-        my_dispatcher.map(data_address, self.deal_with_data)
-        # create server
-        server = osc_server.ThreadingOSCUDPServer((ip, network_code), my_dispatcher)
-        server.serve_forever()
+        while True:
+            new_data = self.consumer.receive()
+            if new_data is None:
+                time.sleep(0.04)
+                continue
+            self.deal_with_data(new_data)
+
 
     def get_data(self):
         return self.x_data, self.y_data
@@ -110,11 +114,10 @@ if __name__ == "__main__":
 
     data_thread = _thread.start_new_thread(osc_handler.start_running, ())
 
-    colors = ["g", "r", "c", "m", "y", "w"]
+    colors = ["g", "r", "c", "m", "b", "k"]
     color = colors[random.randint(0, len(colors) - 1)]
-    color = 'k'
 
-    pen = pg.mkPen(color, width=5)
+    pen = pg.mkPen(color, width=4)
 
     pg.setConfigOption('background', 'w')
     pg.setConfigOption('foreground', 'k')
@@ -139,6 +142,8 @@ if __name__ == "__main__":
     data_point_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     data_point_spin = pg.SpinBox(value=100, bounds=(2, 5000), step=1.0, dec=True, int=True)
 
+    clear_data_button = QtGui.QPushButton("Clear Window")
+
     # tag_label = QtGui.QLabel("Tag ID:")
     # tag_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     # tag_input = QtGui.QTextLine("tea")
@@ -147,13 +152,14 @@ if __name__ == "__main__":
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
 
-    layout.addWidget(x_label,          0, 0, 1, 1)
-    layout.addWidget(x_dropdown,       0, 1, 1, 3)
-    layout.addWidget(y_label,          0, 4, 1, 1)
-    layout.addWidget(y_dropdown,       0, 5, 1, 3)
-    layout.addWidget(data_point_label, 0, 8, 1, 1)
-    layout.addWidget(data_point_spin,  0, 9, 1, 2)
-    layout.addWidget(pw,               1, 0, 1, 11)
+    layout.addWidget(x_label,           0, 0, 1, 1)
+    layout.addWidget(x_dropdown,        0, 1, 1, 3)
+    layout.addWidget(y_label,           0, 4, 1, 1)
+    layout.addWidget(y_dropdown,        0, 5, 1, 3)
+    layout.addWidget(data_point_label,  0, 8, 1, 1)
+    layout.addWidget(data_point_spin,   0, 9, 1, 2)
+    layout.addWidget(clear_data_button, 0, 11, 1, 1)
+    layout.addWidget(pw,               1, 0, 1, 12)
 
     w.show()
     curve = pw.plot(pen=pen)
@@ -178,13 +184,17 @@ if __name__ == "__main__":
         print("Change num data points to: " + str(item.value()))
         osc_handler.change_max_data_len(int(item.value()))
 
+    def clear_data_handler(ind):
+        osc_handler.clear_data()
+
     x_dropdown.currentIndexChanged.connect(change_x_axis)
     y_dropdown.currentIndexChanged.connect(change_y_axis)
     data_point_spin.sigValueChanged.connect(change_data_length)
+    clear_data_button.clicked.connect(clear_data_handler)
 
     timer = QtCore.QTimer()
     timer.timeout.connect(update)
-    timer.start(16)
+    timer.start(40)
 
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         app.exec_()
