@@ -142,6 +142,8 @@ if __name__ == "__main__":
     data_point_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     data_point_spin = pg.SpinBox(value=100, bounds=(2, 5000), step=1.0, dec=True, int=True)
 
+    clear_data_button = QtGui.QPushButton("Clear Window")
+
     # tag_label = QtGui.QLabel("Tag ID:")
     # tag_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     # tag_input = QtGui.QTextLine("tea")
@@ -150,13 +152,14 @@ if __name__ == "__main__":
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
 
-    layout.addWidget(x_label,          0, 0, 1, 1)
-    layout.addWidget(x_dropdown,       0, 1, 1, 3)
-    layout.addWidget(y_label,          0, 4, 1, 1)
-    layout.addWidget(y_dropdown,       0, 5, 1, 3)
-    layout.addWidget(data_point_label, 0, 8, 1, 1)
-    layout.addWidget(data_point_spin,  0, 9, 1, 2)
-    layout.addWidget(pw,               1, 0, 1, 11)
+    layout.addWidget(x_label,           0, 0, 1, 1)
+    layout.addWidget(x_dropdown,        0, 1, 1, 3)
+    layout.addWidget(y_label,           0, 4, 1, 1)
+    layout.addWidget(y_dropdown,        0, 5, 1, 3)
+    layout.addWidget(data_point_label,  0, 8, 1, 1)
+    layout.addWidget(data_point_spin,   0, 9, 1, 2)
+    layout.addWidget(clear_data_button, 0, 11, 1, 1)
+    layout.addWidget(pw,               1, 0, 1, 12)
 
     w.show()
     curve = pw.plot(pen=pen)
@@ -181,9 +184,13 @@ if __name__ == "__main__":
         print("Change num data points to: " + str(item.value()))
         osc_handler.change_max_data_len(int(item.value()))
 
+    def clear_data_handler(ind):
+        osc_handler.clear_data()
+
     x_dropdown.currentIndexChanged.connect(change_x_axis)
     y_dropdown.currentIndexChanged.connect(change_y_axis)
     data_point_spin.sigValueChanged.connect(change_data_length)
+    clear_data_button.clicked.connect(clear_data_handler)
 
     timer = QtCore.QTimer()
     timer.timeout.connect(update)
