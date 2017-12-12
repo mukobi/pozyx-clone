@@ -3,6 +3,7 @@ from pyqtgraph.Qt import QtCore
 from PyQt5 import QtGui
 import pyqtgraph as pg
 import _thread
+import time
 import sys
 import random
 sys.path.append(sys.path[0] + "/..")
@@ -76,8 +77,10 @@ class OSCDataHandling:
         while True:
             new_data = self.consumer.receive()
             if new_data is None:
+                time.sleep(0.04)
                 continue
             self.deal_with_data(new_data)
+
 
     def get_data(self):
         return self.x_data, self.y_data
@@ -111,11 +114,10 @@ if __name__ == "__main__":
 
     data_thread = _thread.start_new_thread(osc_handler.start_running, ())
 
-    colors = ["g", "r", "c", "m", "y", "w"]
+    colors = ["g", "r", "c", "m", "b", "k"]
     color = colors[random.randint(0, len(colors) - 1)]
-    color = 'k'
 
-    pen = pg.mkPen(color, width=5)
+    pen = pg.mkPen(color, width=4)
 
     pg.setConfigOption('background', 'w')
     pg.setConfigOption('foreground', 'k')
@@ -158,7 +160,6 @@ if __name__ == "__main__":
 
     w.show()
     curve = pw.plot(pen=pen)
-    curve = pw.plot()
 
     def update():
         x, y = osc_handler.get_data()
@@ -186,7 +187,7 @@ if __name__ == "__main__":
 
     timer = QtCore.QTimer()
     timer.timeout.connect(update)
-    timer.start(50)
+    timer.start(40)
 
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         app.exec_()

@@ -8,7 +8,7 @@ SENDER_PORT = 1501
 # (ping 224.0.0.1 for the group mulitcast server list)
 MCAST_ADDR = "224.168.2.9"
 MCAST_PORT = 1600
-TTL = 31  # valid value are 1-255, <32 is local network
+TTL = 5  # valid value are 1-255, <32 is local network
 
 
 class Producer:
