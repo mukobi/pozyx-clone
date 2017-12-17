@@ -111,7 +111,10 @@ if __name__ == "__main__":
         not_started = True
         while not_started:
             r.loop(range_data_array)
-            not_started = int(range_data_array[0].sensor_data.pressure) == 0
+            try:
+                not_started = int(range_data_array[0].sensor_data.pressure) == 0
+            except TypeError:
+                not_started = True
 
     try:
         # Initialize EMA filter so it doesn't start at 0
