@@ -111,7 +111,7 @@ if __name__ == "__main__":
         not_started = True
         while not_started:
             r.loop(range_data_array)
-            not_started = range_data_array[0].sensor_data.pressure == 0
+            not_started = int(range_data_array[0].sensor_data.pressure) == 0
 
     try:
         # Initialize EMA filter so it doesn't start at 0
