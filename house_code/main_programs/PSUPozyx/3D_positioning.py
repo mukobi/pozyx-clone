@@ -18,9 +18,11 @@ from pythonosc.udp_client import SimpleUDPClient
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from modules.file_writing import PositioningFileWriting as FileIO
-from modules.pozyx_osc import PozyxOSC
+#from modules.pozyx_osc import PozyxOSC
+from modules.pozyx_osc import PozyxUDP
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
+
 
 
 class PositionOutputContainer:
@@ -209,7 +211,7 @@ if __name__ == "__main__":
         # update message client after data working - don't send initial 0 range over osc
         ip, network_port = "127.0.0.1", 8888
         osc_udp_client = SimpleUDPClient(ip, network_port)
-        pozyxOSC = PozyxOSC(osc_udp_client)
+        pozyxOSC = PozyxUDP(osc_udp_client)
 
         index = 0
         start = time.time()

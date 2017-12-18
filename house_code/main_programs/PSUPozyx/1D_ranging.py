@@ -49,6 +49,7 @@ class ReadyToRange(object):
             loop_status = self.pozyx.doRanging(tag, device_range, self.destination_id)
             if int(device_range.distance) > 2147483647:
                 loop_status = POZYX_FAILURE
+            # print(device_range.distance)
             if loop_status != POZYX_SUCCESS:
                 device_range.timestamp, device_range.distance, device_range.rss = "", "", ""
 
@@ -68,6 +69,15 @@ class ReadyToRange(object):
             single.loop_status = loop_status
 
 
+class ContinueI(Exception):
+  pass
+
+
+
+
+continue_i = ContinueI()
+
+
 if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
     pozyx = PozyxSerial(serial_port)
@@ -78,8 +88,8 @@ if __name__ == "__main__":
      filename, use_processing) = Configuration.get_properties()
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha_pos = 0.1
-    alpha_vel = 0.08
+    alpha_pos = 0.2
+    alpha_vel = 0.2
     smooth_velocity = True
 
     to_get_sensor_data = not attributes_to_log == []
@@ -128,48 +138,52 @@ if __name__ == "__main__":
         new_time = 0.0
         time.sleep(0.0001)
         while True:
-            elapsed = time.time() - start
-            old_time = new_time
-            new_time = elapsed
-            time_difference = new_time - old_time
+            try:
+                elapsed = time.time() - start
+                old_time = new_time
+                new_time = elapsed
+                time_difference = new_time - old_time
+    
+                r.loop(range_data_array)
 
-            r.loop(range_data_array)
-
-            for single_data in range_data_array:
-                single_data.elapsed_time = elapsed  # update time for OSC message
+                for dataset in range_data_array:
+                    if dataset.device_range.distance == 0:
+                        raise continue_i
+    
+                for single_data in range_data_array:
+                    single_data.elapsed_time = elapsed  # update time for OSC message
                 # EMA filter calculations
-                if type(single_data.device_range.distance) is int:
-                    old_smoothed_range = single_data.smoothed_range
-                    single_data.smoothed_range = (
-                        (1 - alpha_pos) * single_data.smoothed_range
-                        + alpha_pos * single_data.device_range.distance)
-                    new_smoothed_range = single_data.smoothed_range
-                    if not (time_difference == 0) and not (elapsed <= 0.001):
-                        if single_data.velocity == "":
-                            single_data.velocity = 0.0
-                        measured_velocity = (new_smoothed_range - old_smoothed_range) / time_difference
-                        single_data.velocity = (
-                            (1 - alpha_vel) * single_data.velocity
-                            + alpha_vel * measured_velocity)
-                        if not smooth_velocity:
-                            single_data.velocity = measured_velocity
-
-            Console.print_1d_ranging_output(
-                index, elapsed, range_data_array, attributes_to_log)
-            
-            if to_use_file:
-                FileIO.write_range_data_to_file(
-                    logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
-
-            if range_data_array[0].loop_status == POZYX_SUCCESS:
-                data_type = ([definitions.DATA_TYPE_RANGING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
-                             else [definitions.DATA_TYPE_RANGING])
-                pozyxUDP.send_message(elapsed, tags, range_data_array, data_type)
-
-            index = index + 1
-
-    except KeyboardInterrupt:
-        pass
+                    if type(single_data.device_range.distance) is int:
+                        old_smoothed_range = single_data.smoothed_range
+                        single_data.smoothed_range = (
+                            (1 - alpha_pos) * single_data.smoothed_range
+                            + alpha_pos * single_data.device_range.distance)
+                        new_smoothed_range = single_data.smoothed_range
+                        if not (time_difference == 0) and not (elapsed <= 0.001):
+                            if single_data.velocity == "":
+                                single_data.velocity = 0.0
+                            measured_velocity = (new_smoothed_range - old_smoothed_range) / time_difference
+                            single_data.velocity = (
+                                (1 - alpha_vel) * single_data.velocity
+                                + alpha_vel * measured_velocity)
+                            if not smooth_velocity:
+                                single_data.velocity = measured_velocity
+    
+                Console.print_1d_ranging_output(
+                    index, elapsed, range_data_array, attributes_to_log)
+                
+                if to_use_file:
+                    FileIO.write_range_data_to_file(
+                        logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
+    
+                if range_data_array[0].loop_status == POZYX_SUCCESS:
+                    data_type = ([definitions.DATA_TYPE_RANGING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
+                                 else [definitions.DATA_TYPE_RANGING])
+                    pozyxUDP.send_message(elapsed, tags, range_data_array, data_type)
+    
+                index = index + 1
+            except ContinueI:
+                continue
 
     finally:
         if to_use_file:
