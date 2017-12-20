@@ -72,7 +72,7 @@ def func3(t, vel, drag) :
             i+=1
     return np.array(xlist)
 # find the optimal values of velocity and drag coefficient
-popt, pcov = curve_fit(func3, x2, d2, bounds=([0,0], [1,1]))
+popt, pcov = curve_fit(func3, x2, d2, bounds=([0,0], [0.001,1]))
 print(popt)
 
 # calculate and print r-squared
