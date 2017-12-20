@@ -23,22 +23,11 @@ df.columns = ['index', 'time', 'difference', 'hz', 'avgHz', 'pressure', 'acceler
 
 df2 = df.ix[2483:2540].dropna() #index range pertaining to data of interest
 
-############################################# entire data set ###########################################
+# entire data set
 x=df['time'].values
 d=df['range'].values*0.001
-p=df['pressure'].values
-mx=df['magnetic-x'].values
-my=df['magnetic-y'].values
-mz=df['magnetic-z'].values
-heading=df['heading'].values
-pitch=df['pitch'].values
-roll=df['roll'].values
-gx=df['gravity-x'].values
-gy=df['gravity-y'].values
-gz=df['gravity-z'].values
-######################################################################################
 
-########################### data pertaining to rocket's motion #######################
+#data pertaining to rocket's motion
 xa=df2['time'].values
 xi = xa[0] # when was the ball released?
 x_final = xa[-1] - xi # sets land time assuming drop time is zero

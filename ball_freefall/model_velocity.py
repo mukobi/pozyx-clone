@@ -23,9 +23,11 @@ df.columns = ['index', 'time', 'difference', 'hz', 'avgHz', 'pressure', 'acceler
 
 df2 = df.ix[2483:2540].dropna() #index range pertaining to data of interest
 
-############################################# entire data set ###########################################
+# entire data set
 x=df['time'].values
 d=df['range'].values*0.001
+
+#data pertaining to object's motion
 xa=df2['time'].values
 xi = xa[0] # when was the ball released?
 x_final = xa[-1] - xi # sets land time assuming drop time is zero
