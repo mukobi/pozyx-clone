@@ -165,10 +165,14 @@ if __name__ == "__main__":
     curve = pw.plot(pen=pen)
 
     def update():
-        x, y = osc_handler.get_data()
-        # print(x)
-        curve.setData(x, y)
-        QtGui.QApplication.processEvents()
+        try:
+            x, y = osc_handler.get_data()
+            # print(x)
+            curve.setData(x, y)
+
+            QtGui.QApplication.processEvents()
+        except e:
+            print("TypeError")
 
     def change_x_axis(ind):
         osc_handler.clear_data()
