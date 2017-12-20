@@ -33,7 +33,7 @@ x3Raw = df3['time'].values
 x3 = x3Raw - x3Raw[0]
 
 from math import pi
-diameter = 0.07 # cross sectional area
+diameter = 0.07083 # cross sectional area
 radius = 1/2 * diameter
 A = pi*radius**2 # cross sectional area in meters
 rho = 1.225 # density of air at sea level at 20 degrees C
