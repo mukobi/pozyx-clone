@@ -1,7 +1,7 @@
 import socket
 import struct
 import time
-import pickle
+import msgpack
 
 HOST_IP = '0.0.0.0'  # all interfaces
 SENDER_PORT = 2000
@@ -25,8 +25,8 @@ class Producer:
                 self.__init__(sender_ip, sender_port + 1, ttl)
 
     def send(self, msg="", mcast_addr=MCAST_ADDR, mcast_port=MCAST_PORT, ):
-        pickled_msg = pickle.dumps(msg)
-        self.sock.sendto(pickled_msg, (mcast_addr, mcast_port))
+        packed_message = msgpack.packb(msg)
+        self.sock.sendto(packed_message, (mcast_addr, mcast_port))
 
     def close_socket(self):
         self.sock.close()
@@ -53,8 +53,8 @@ class Consumer:
 
     def receive(self, size=1024):
         try:
-            pickled_data, addr = self.sock.recvfrom(size)
-            data = pickle.loads(pickled_data)
+            packed_data, addr = self.sock.recvfrom(size)
+            data = msgpack.unpackb(packed_data)
             return addr, data
         except socket.error as e:
             return None
