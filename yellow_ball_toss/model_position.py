@@ -13,9 +13,10 @@ diameter = 15.15155*0.001
 radius = .5 * diameter
 A = pi*radius**2        # cross sectional area in meters
 rho = 1.225             # density of air at sea level at 20 degrees C
-m = 107*0.001                # mass of the object in kg
+m = 107*0.001           # mass of the object in kg
 g=9.8
 Fg = -m*g
+vi = 7                  # initial velocity to test
 
 df=pd.read_csv('yellow_ball_toss_new4.csv', delimiter=',', usecols = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28])
 
@@ -24,22 +25,11 @@ df.columns = ['index', 'time', 'difference', 'hz', 'avgHz', 'pressure', 'acceler
 
 df2 = df.ix[42:72].dropna() #index range pertaining to data of interest
 
-############################################# entire data set ###########################################
+# entire data set
 x=df['time'].values
 d=df['range'].values*0.001
-p=df['pressure'].values
-mx=df['magnetic-x'].values
-my=df['magnetic-y'].values
-mz=df['magnetic-z'].values
-heading=df['heading'].values
-pitch=df['pitch'].values
-roll=df['roll'].values
-gx=df['gravity-x'].values
-gy=df['gravity-y'].values
-gz=df['gravity-z'].values
-######################################################################################
 
-########################### data pertaining to rocket's motion #######################
+# data pertaining to balls's motion 
 xa=df2['time'].values
 xi = xa[0] # when was the ball released?
 x_final = xa[-1] - xi # sets land time assuming drop time is zero
@@ -47,7 +37,7 @@ x2 = xa - xi # sets release time to zero
 d2=df2['range'].values*0.001
 
 ################################### create the models ################################
-N = 100 # allows you to create each model out of 100 points
+N = 100 # create each model out of 100 points
 
 model_times = np.linspace(x2[0], x2[-1], 100)   # create array of 100 times within experimental timeframe for the modeled positions
 x_mod=np.zeros(shape=(N))   # create empty array with space for 100 elements
@@ -61,17 +51,17 @@ plt.plot(x2,d2,'o')
 c_vect = [0,0.1,0.2,0.3,0.4]
 for c_vect in range(len(c_vect)) :
     x_mod[0] = 0    # initial position of zero
-    v_mod[0] = 7    #initial velocity of zero
+    v_mod[0] = vi   # initial velocity of zero
     dragForce[0] = c_vect*((rho*v_mod[0]**2)/2)*A   # initial drag force
     a_mod[0] = (Fg-dragForce[0])/m  # initial acceleration based on initial drag force
     n=0
 
     for n in range(0,N-1):
-        x_mod[n+1] = x_mod[n]  + v_mod[n] * (x2[-1]-x2[0])/100 + (1/2) * (a_mod[n]) * (x2[-1]-x2[0])/100**2 # simply y=x + v*t + (1/2)*a*t^2
+        x_mod[n+1] = x_mod[n]  + v_mod[n] * (x2[-1]-x2[0])/100 + (1/2) * (a_mod[n]) * ((x2[-1]-x2[0])/100)**2 # simply y = x + v*t + (1/2)*a*t^2
         v_mod[n+1] = v_mod[n] + a_mod[n] * (x2[-1]-x2[0])/100 # updated velocity is v + a*t
 
         if v_mod[n] < 0 :
-            dragForce[n+1] = -(c_vect*((rho*(v_mod[n])**2)/2)*A) # if/else may not be necessary
+            dragForce[n+1] = -(c_vect*((rho*(v_mod[n])**2)/2)*A)    # if/else isn't doing anything?
 
         else:
             dragForce[n+1] = c_vect*((rho*v_mod[n]**2)/2)*A

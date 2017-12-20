@@ -14,9 +14,10 @@ diameter = 15.15155*0.01
 radius = .5 * diameter
 A = pi*radius**2        # cross sectional area in meters
 rho = 1.225             # density of air at sea level at 20 degrees C
-m = 107*0.001                # mass of the object in kg
+m = 107*0.001           # mass of the object in kg
 g=9.8
 Fg = -m*g
+vi = 7
 
 df=pd.read_csv('yellow_ball_toss_new4.csv', delimiter=',', usecols = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28])
 
@@ -25,9 +26,11 @@ df.columns = ['index', 'time', 'difference', 'hz', 'avgHz', 'pressure', 'acceler
 
 df2 = df.ix[42:72].dropna() #index range pertaining to data of interest
 
-################################## entire data set ###################################
+# entire data set
 x=df['time'].values
 d=df['range'].values*0.001
+
+# data pertaining to object's motion
 xa=df2['time'].values
 xi = xa[0]  # when was the ball released?
 x_final = xa[-1] - xi # sets land time assuming drop time is zero

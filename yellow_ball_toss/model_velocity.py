@@ -13,9 +13,10 @@ diameter = 15.15155*0.001
 radius = .5 * diameter
 A = pi*radius**2        # cross sectional area in meters
 rho = 1.225             # density of air at sea level at 20 degrees C
-m = 107*0.001                # mass of the object in kg
+m = 107*0.001           # mass of the object in kg
 g=9.8
 Fg = -m*g
+vi = 7                  # initial velocity to test (m/s)
 
 df=pd.read_csv('yellow_ball_toss_new4.csv', delimiter=',', usecols = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28])
 
@@ -24,12 +25,11 @@ df.columns = ['index', 'time', 'difference', 'hz', 'avgHz', 'pressure', 'acceler
 
 df2 = df.ix[42:72].dropna() #index range pertaining to data of interest
 
-############################################ entire data set ###########################################
-
+# entire data set
 x=df['time'].values
 d=df['range'].values*0.001
 
-########################### data pertaining to rocket's motion #######################
+# data pertaining to rocket's motion
 xa=df2['time'].values
 xi = xa[0] # when was the ball released?
 x_final = xa[-1] - xi # sets land time assuming drop time is zero
@@ -50,7 +50,7 @@ plt.figure()
 c_vect = [0,0.1,0.2,0.3,0.4]
 for c_vect in range(len(c_vect)) :
     x_mod[0] = 0    # initial position of zero
-    v_mod[0] = 7    #initial velocity of zero
+    v_mod[0] = vi
     dragForce[0] = c_vect*((rho*v_mod[0]**2)/2)*A   # initial drag force
     a_mod[0] = (Fg-dragForce[0])/m  # initial acceleration based on initial drag force
     n=0
