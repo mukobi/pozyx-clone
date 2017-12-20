@@ -14,7 +14,7 @@ s = 2052.0-368.0 # FOR 1D VERTICLE MOTION ONLY how much did rocket shift in mete
 n = 3.636 # to start newRange at zer
 
 ##################### parameters for drag force ##########################################################
-diameter = 0.0508   # diameter of object
+diameter = 0.07083   # diameter of object
 radius = 1/2 * diameter
 A = pi*radius**2    # cross sectional area in meters
 vi = 16             # initial velocity to try
