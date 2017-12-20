@@ -14,7 +14,7 @@ s = 2052.0-368.0 # FOR 1D VERTICLE MOTION ONLY how much did rocket shift in mete
 n = 3.636 # to start newRange at zer
 
 ##################### parameters for drag force ##########################################################
-diameter = 0.008107319666 # diameter of object
+diameter = 0.0508 # diameter of object
 radius = 1/2 * diameter
 A = pi*radius**2 # cross sectional area in meters
 v = 16 # initial velocity
@@ -24,28 +24,31 @@ rho = 1.225 # density of air at sea level at 20 degrees C
 m = 0.227 # mass of the object in kg
 g = 9.81
 Fg = -m*g
-
 ##########################################################################################################
 ##########################################################################################################
 df=pd.read_csv('rocket_4096_oct24_3.csv', delimiter=',', usecols = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28])
 
 df.columns = ['index', 'time', 'difference', 'hz', 'avgHz', 'pressure', 'acceleration-x', 'acceleration-y', 'acceleration-z', 'magnetic-x', 'magnetic-y', 'magnetic-z', 'angularVelocity-x', 'angularVelocity-y', 'angularVelocity-z', 'heading', 'roll', 'pitch', 'quaternion-x', 'quaternion-y', 'quaternion-z', 'quaternion-w', 'linearAcceleration-x', 'linearAcceleration-y', 'linearAcceleration-z', 'gravity-x', 'gravity-y', 'gravity-z', 'range']
 
+#df2 = df.ix[166:216].dropna() #index pertaining to rocket's motion
+
 df2 = df.ix[166:216].dropna()
 df3 = df.ix[168:216].dropna() # for newRange calculations
 df4 = df.ix[169:214].dropna()
 
+
+################################# entire data set ###########################################
 x=df['time'].values
 d=df['range'].values
 
 xa=df2['time'].values
 x2 = xa - ti
 d2=df2['range'].values
-
 x3=df3['time'].values
 d3=df3['range'].values
 
-############################## for calculating new range #############################
+x6 = df2['time'].ix[169:216].values # time frame for velocity plot and models
+####################################### for calculating new range #########################################
 dt = t # rocket's time in the air
 
 new_v=s/dt # for discounting horizontal motion
@@ -56,46 +59,53 @@ newRange = newd[~np.isnan(newd)]
 
 df3['newRange'] = newRange
 velocity = (np.ediff1d(newRange) / np.ediff1d(x3) ) * 0.001 # velocity from new range
-###################### plot the raw data within motion parameters ####################
 
-def func(x,a,b,c):
-    return a*(x**2) + b*x + c
-pfit, success = opt.curve_fit(func,x2,d2)
-xx = np.linspace(x2[0],x2[-1],100)
-print('raw range coeffs: {}'.format(pfit))
+x7_mod = df['time'].ix[169:214].values
+x7_vel_mod = df['time'].ix[170:214].values
+
+newRange_mod = df['range'].ix[169:214].values*0.001
+
+adj_newRange_mod = newRange_mod  - 3.636
+
+adj_x7_mod = x7_mod - 11.23917484
+
+xx7 = np.linspace(2.83447221e-09,3.29492307e+00,100)
+
+vel = (np.ediff1d(adj_newRange_mod) / np.ediff1d(adj_x7_mod))
+
+N = 100
+
+x_mod=np.zeros(shape=(N))
+v_mod=np.zeros(shape=(N))
+a_mod=np.zeros(shape=(N))
+dragForce=np.zeros(shape=(N))
+
+c_vect = [0,0.1,0.2,0.3,0.4]    # drag coefficients to try
 plt.figure()
-plt.subplot(1,1,1)
-plt.tick_params()
-plt.title('Raw Range')
-plt.xlabel('Time (s)')
-plt.ylabel('Distance (m)')
-plt.plot(x2, d2, 'o')
-plt.plot(xx,func(xx,*pfit),'--', alpha=.8)
-gravity = 'a = {} m/s$^2$'.format(np.around(pfit[0]*-2*0.001, 2))
-print(gravity)
-plt.figtext(0.485,0.20, gravity, style='italic')
-plt.tight_layout()
 
-######################################################################################
+for c_vect in range(len(c_vect)) :
+    x_mod[0] = 0    # initial position
+    v_mod[0] = v    # initial velocity
+    dragForce[0] = c_vect*((rho*v_mod[0]**2)/2)*A   # initial drag forcw
+    a_mod[0] = (Fg-dragForce[0])/m  # initial acceleration
+    n=0
 
-################################# plot newRange ######################################
-def func1(x,a,b,c):
-    return a*(x**2) + b*x + c
-pfit1, success1 = opt.curve_fit(func1,x3,newRange)
-xx3 = np.linspace(11.171177,14.669509,38)
+    for n in range(0,N-1):
+        x_mod[n+1] = x_mod[n] + v_mod[n] * 3.29492307e+00/100+ (1/2) * (a_mod[n]) * (3.29492307e+00/100)**2 # y = x + vt + (1/2) at^2 for new position
+        v_mod[n+1] = v_mod[n] + a_mod[n] * 3.29492307e+00/100   # y = v + at for new velocity
 
-print('pfit1 coeffs: {}'.format(pfit1))
-plt.figure()
-plt.subplot(1,1,1)
-plt.tick_params()
-plt.title('New Range')
-plt.plot(x3, newRange,'o')
-plt.plot(xx3,func1(xx3,*pfit1),'--', alpha=.8)
-plt.xlabel('Time')
-plt.ylabel('Distance')
-z = np.polyfit(x3, newRange, 2)
-newGravity = 'a = {} m/s^2'.format(pfit1[0]*-2*0.001)
-plt.figtext(0.35,0.15, newGravity, style='italic')
-plt.tight_layout()
-######################################################################################
+        if v_mod[n] < 0 :   # when velocity is negative, drag force is negative
+            dragForce[n+1] = -(c_vect*((rho*(v_mod[n])**2)/2)*A)
+
+        else: # when velocity is positive, drag force is positive
+            dragForce[n+1] = c_vect*((rho*v_mod[n]**2)/2)*A
+
+        a_mod[n+1] = (Fg-dragForce[n+1])/m
+        n = n+1
+    x_filt = x_mod[x_mod >= 0]
+
+    plt.plot(xx7,v_mod)
+    plt.title("Modeled Velocity Graphs")
+    plt.xlabel("Time (s)")
+    plt.ylabel("Velocity (m/s)")
 plt.show()
