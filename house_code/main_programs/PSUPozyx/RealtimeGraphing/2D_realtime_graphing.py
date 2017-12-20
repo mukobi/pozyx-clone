@@ -171,7 +171,7 @@ if __name__ == "__main__":
             curve.setData(x, y)
 
             QtGui.QApplication.processEvents()
-        except e:
+        except Exception:
             print("TypeError")
 
     def change_x_axis(ind):
@@ -202,6 +202,8 @@ if __name__ == "__main__":
 
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         app.exec_()
+
+    osc_handler.consumer.close_socket()
 
     _thread.exit_thread()
 

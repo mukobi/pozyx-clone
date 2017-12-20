@@ -3,12 +3,12 @@ import struct
 import time
 import pickle
 
-HOST_IP = "0.0.0.0"  # all interfaces
-SENDER_PORT = 1024
+HOST_IP = '0.0.0.0'  # all interfaces
+SENDER_PORT = 2000
 # 224.0.1.0 thru 224.255.255.255
 # (ping 224.0.0.1 for the group mulitcast server list)
-MCAST_ADDR = "224.168.2.9"
-MCAST_PORT = 1600
+MCAST_ADDR = '224.13.39.71'
+MCAST_PORT = 4000
 TTL = struct.pack('b', 1)  # valid value are 1-255, <32 is local network
 
 
@@ -28,6 +28,9 @@ class Producer:
         pickled_msg = pickle.dumps(msg)
         self.sock.sendto(pickled_msg, (mcast_addr, mcast_port))
 
+    def close_socket(self):
+        self.sock.close()
+
     @staticmethod
     def host_name():
         return socket.gethostname()
@@ -45,11 +48,14 @@ class Consumer:
                              socket.inet_aton(mcast_addr) + socket.inet_aton(client_ip))
         self.sock.setblocking(blocking)
 
+    def close_socket(self):
+        self.sock.close()
+
     def receive(self, size=1024):
         try:
             pickled_data, addr = self.sock.recvfrom(size)
             data = pickle.loads(pickled_data)
-            return (addr, data)
+            return addr, data
         except socket.error as e:
             return None
 

@@ -126,6 +126,7 @@ if __name__ == "__main__":
             except TypeError:
                 not_started = True
 
+    pozyxUDP = None
     try:
         # Initialize EMA filter so it doesn't start at 0
         r.loop(range_data_array)
@@ -190,6 +191,7 @@ if __name__ == "__main__":
 
     finally:
         if to_use_file:
+            pozyxUDP.producer.close_socket()
             logfile.close()
             print("closing file")
             # time.sleep(1)
