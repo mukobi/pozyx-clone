@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as opt
 from scipy.optimize import curve_fit
-from math import isclose
 #####################################################################
 
 # enter your parameters here. this contains information about the ball that was dropped.
