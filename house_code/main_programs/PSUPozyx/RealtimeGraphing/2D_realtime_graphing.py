@@ -117,7 +117,7 @@ if __name__ == "__main__":
     colors = ["g", "r", "c", "m", "b", "k"]
     color = colors[random.randint(0, len(colors) - 1)]
 
-    pen = pg.mkPen(color, width=4)
+    pen = pg.mkPen(color, width=2)
 
     pg.setConfigOption('background', 'w')
     pg.setConfigOption('foreground', 'k')

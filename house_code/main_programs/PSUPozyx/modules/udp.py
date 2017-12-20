@@ -1,14 +1,15 @@
 import socket
+import struct
 import time
 import pickle
 
 HOST_IP = "0.0.0.0"  # all interfaces
-SENDER_PORT = 1501
+SENDER_PORT = 1024
 # 224.0.1.0 thru 224.255.255.255
 # (ping 224.0.0.1 for the group mulitcast server list)
 MCAST_ADDR = "224.168.2.9"
 MCAST_PORT = 1600
-TTL = 5  # valid value are 1-255, <32 is local network
+TTL = struct.pack('b', 1)  # valid value are 1-255, <32 is local network
 
 
 class Producer:
