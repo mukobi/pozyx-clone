@@ -40,10 +40,8 @@ gravity = 'a = {} m/s$^2$'.format(np.around(pfit[0]*-2, 2))
 print(gravity)
 plt.figtext(0.45,0.20, gravity, style='italic')
 plt.tight_layout()
-#####################################################################
 
 ########################### plot velocity ###########################
-
 velocity = (np.ediff1d(d2) / np.ediff1d(x2) )
 def func(x,a,b):
     return a*x + b

@@ -17,6 +17,7 @@ rho = 1.225             # density of air at sea level at 20 degrees C
 m = 33*0.001                # mass of the object in kg
 g = 9.8
 Fg = -m*g
+vi = 8
 
 df=pd.read_csv('r_ball_toss6.csv', delimiter=',', usecols = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28])
 
@@ -50,7 +51,7 @@ plt.figure()
 c_vect = [0,0.1,0.2,0.3,0.4]
 for c_vect in range(len(c_vect)) :
     x_mod[0] = 0    # initial position of zero
-    v_mod[0] = 8    #initial velocity of zero
+    v_mod[0] = vi
     dragForce[0] = c_vect*((rho*v_mod[0]**2)/2)*A   # initial drag force
     a_mod[0] = (Fg-dragForce[0])/m  # initial acceleration based on initial drag force
     n=0

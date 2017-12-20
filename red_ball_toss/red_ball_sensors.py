@@ -13,7 +13,7 @@ df.columns = ['index', 'time', 'difference', 'hz', 'avgHz', 'pressure', 'acceler
 
 df2 = df.ix[35:64].dropna() #index range pertaining to data of interest
 
-############################################# entire data set ###########################################
+# entire data set
 x=df['time'].values
 d=df['range'].values*0.001
 p=df['pressure'].values
@@ -26,8 +26,8 @@ roll=df['roll'].values
 gx=df['gravity-x'].values
 gy=df['gravity-y'].values
 gz=df['gravity-z'].values
-##########################################################################################################
 
+# data pertaining to object's motion
 xa=df2['time'].values
 xi = xa[0] # when was the ball released?
 x_final = xa[-1] - xi # sets land time assuming drop time is zero
@@ -37,11 +37,9 @@ p2=df2['pressure'].values
 lax2=df2['linearAcceleration-x'].values * 0.01
 lay2=df2['linearAcceleration-y'].values * 0.01
 laz2=df2['linearAcceleration-z'].values * 0.01
-
 Ax2=df2['acceleration-x'].values * 0.01
 Ay2=df2['acceleration-y'].values * 0.01
 Az2=df2['acceleration-z'].values * 0.01
-
 mx2=df2['magnetic-x'].values
 my2=df2['magnetic-y'].values
 mz2=df2['magnetic-z'].values
@@ -55,6 +53,7 @@ qx2=df2['quaternion-x'].values
 qy2=df2['quaternion-y'].values
 qz2=df2['quaternion-z'].values
 qw2=df2['quaternion-w'].values
+
 ####################### plot euler angles ###########################
 plt.figure()
 plt.subplot(1,1,1)
@@ -67,7 +66,6 @@ plt.xlabel('Time (s)')
 plt.ylabel('Angle ($^\circ$)')
 plt.legend()
 plt.tight_layout()
-####################################################################
 
 ############################ plot gravity ##########################
 plt.figure()
@@ -80,7 +78,6 @@ plt.plot(x2, gy2, '-o', label='y')
 plt.plot(x2, gz2,'-o', label='z')
 plt.legend()
 plt.tight_layout()
-####################################################################
 
 #################### plot linear acceleration ######################
 plt.figure()
@@ -94,7 +91,6 @@ plt.plot(x2, lay2, '-o',label='y')
 plt.plot(x2, laz2,'-o', label='z')
 plt.legend()
 plt.tight_layout()
-####################################################################
 
 ########################### plot acceleration ######################
 plt.figure()
@@ -108,5 +104,5 @@ plt.plot(x2, Ay2, '-o',label='y')
 plt.plot(x2, Az2,'-o', label='z')
 plt.legend()
 plt.tight_layout()
-####################################################################
+
 plt.show()
