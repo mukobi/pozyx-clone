@@ -1,4 +1,3 @@
-from pythonosc import osc_server, dispatcher
 from pyqtgraph.Qt import QtCore
 from PyQt5 import QtGui
 import pyqtgraph as pg
@@ -25,6 +24,8 @@ class OSCDataHandling:
         self.y_data = []
         self.maxLen = max_data_length
         self.consumer = udp.Consumer()
+        self.tag_idx = 1
+        self.to_check_tag_idx = False
 
     def clear_data(self):
         self.x_data = []
@@ -32,6 +33,7 @@ class OSCDataHandling:
 
     def change_tag(self, tag_in):
         self.tag = tag_in
+        self.to_check_tag_idx = True
 
     def change_x_axis(self, x_axis_in):
         self.x_axis = x_axis_in
@@ -44,14 +46,19 @@ class OSCDataHandling:
 
     def extract_data(self, new_data):
         message = new_data[1]
-        # print(message)
-        # extract data from osc message
-        tag_idx = message.index(self.tag)
+        if self.to_check_tag_idx:
+            try:
+                self.tag_idx = message.index(int(self.tag, 16))
+                self.clear_data()
+            except Exception as e:
+                print("Error, " + self.tag + " has no data. Defaulting to first tag.")
+                self.tag_idx = 1
+            self.to_check_tag_idx = False  # done checking
 
-        x_index = definitions.OSC_INDEX_DICT[self.x_axis] + tag_idx
+        x_index = definitions.OSC_INDEX_DICT[self.x_axis] + self.tag_idx
         if self.x_axis == "time":
             x_index = 0
-        y_index = definitions.OSC_INDEX_DICT[self.y_axis] + tag_idx
+        y_index = definitions.OSC_INDEX_DICT[self.y_axis] + self.tag_idx
         if self.y_axis == "time":
             y_index = 0
 
@@ -104,11 +111,9 @@ if __name__ == "__main__":
         "lin_acc_x", "lin_acc_y", "lin_acc_z",
         "gravity_x", "gravity_y", "gravity_z"]
 
-    if arg_length is not 2:
-        print("Error, please provide a tag to graph\n")
-        sys.exit()
 
-    tag = int(arguments[1], 16)
+
+    tag = "0x6041"
 
     osc_handler = OSCDataHandling(tag)
 
@@ -138,28 +143,31 @@ if __name__ == "__main__":
     y_dropdown = pg.ComboBox(items=possible_data_types)
     y_dropdown.setValue("1D_range")
 
-    data_point_label = QtGui.QLabel("Number of points:")
+    data_point_label = QtGui.QLabel("Points:")
     data_point_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     data_point_spin = pg.SpinBox(value=100, bounds=(2, 5000), step=1.0, dec=True, int=True)
 
+    tag_label = QtGui.QLabel("Tag:")
+    tag_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+    tag_input = QtGui.QLineEdit()
+    tag_input.setText("0x6000")
+    tag_input.setMaxLength(6)
+
     clear_data_button = QtGui.QPushButton("Clear Window")
-
-    # tag_label = QtGui.QLabel("Tag ID:")
-    # tag_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
-    # tag_input = QtGui.QTextLine("tea")
-
 
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
 
     layout.addWidget(x_label,           0, 0, 1, 1)
-    layout.addWidget(x_dropdown,        0, 1, 1, 3)
-    layout.addWidget(y_label,           0, 4, 1, 1)
-    layout.addWidget(y_dropdown,        0, 5, 1, 3)
-    layout.addWidget(data_point_label,  0, 8, 1, 1)
-    layout.addWidget(data_point_spin,   0, 9, 1, 2)
-    layout.addWidget(clear_data_button, 0, 11, 1, 1)
-    layout.addWidget(pw,               1, 0, 1, 12)
+    layout.addWidget(x_dropdown,        0, 1, 1, 2)
+    layout.addWidget(y_label,           0, 3, 1, 1)
+    layout.addWidget(y_dropdown,        0, 4, 1, 2)
+    layout.addWidget(data_point_label,  0, 6, 1, 1)
+    layout.addWidget(data_point_spin,   0, 7, 1, 3)
+    layout.addWidget(tag_label,         0, 10, 1, 1)
+    layout.addWidget(tag_input,         0, 11, 1, 2)
+    layout.addWidget(clear_data_button, 0, 13, 1, 1)
+    layout.addWidget(pw,                1, 0, 1, 14)
 
     w.show()
     curve = pw.plot(pen=pen)
@@ -188,12 +196,24 @@ if __name__ == "__main__":
         print("Change num data points to: " + str(item.value()))
         osc_handler.change_max_data_len(int(item.value()))
 
+    def update_tag(item):
+        new_tag = tag_input.text()
+        try:
+            int(new_tag, 16)
+        except ValueError as e:
+            print(new_tag + " is not a valid hexadecimal tag name.")
+            return
+        print("Change tag to: " + new_tag)
+        osc_handler.change_tag(new_tag)
+
+
     def clear_data_handler(ind):
         osc_handler.clear_data()
 
     x_dropdown.currentIndexChanged.connect(change_x_axis)
     y_dropdown.currentIndexChanged.connect(change_y_axis)
     data_point_spin.sigValueChanged.connect(change_data_length)
+    tag_input.textEdited.connect(update_tag)
     clear_data_button.clicked.connect(clear_data_handler)
 
     timer = QtCore.QTimer()
