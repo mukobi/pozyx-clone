@@ -190,18 +190,18 @@
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <CheckBox id="log_pressure" fx:id="m_log_pressure" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Pressure" textFill="WHITE" />
-                    <CheckBox id="log_acceleration" fx:id="m_log_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Acceleration" textFill="WHITE" />
-                    <CheckBox id="log_magnetic" fx:id="m_log_magnetic" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Magnetic" textFill="WHITE" />
-                    <CheckBox id="log_angular_velocity" fx:id="m_log_angular_velocity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Angular Velocity" textFill="WHITE" />
+                    <CheckBox id="log_pressure" fx:id="m_log_pressure" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Pressure" textFill="WHITE" />
+                    <CheckBox id="log_acceleration" fx:id="m_log_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Acceleration" textFill="WHITE" />
+                    <CheckBox id="log_magnetic" fx:id="m_log_magnetic" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Magnetic" textFill="WHITE" />
+                    <CheckBox id="log_angular_velocity" fx:id="m_log_angular_velocity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Angular Velocity" textFill="WHITE" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <CheckBox id="log_euler_angles" fx:id="m_log_euler_angles" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Euler Angles" textFill="WHITE" />
-                    <CheckBox id="log_quaternion" fx:id="m_log_quaternion" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Quaternion" textFill="WHITE" />
-                    <CheckBox id="log_linear_acceleration" fx:id="m_log_linear_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Linear Acceleration" textFill="WHITE" />
-                    <CheckBox id="log_gravity" fx:id="m_log_gravity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Log Gravity" textFill="WHITE" />
+                    <CheckBox id="log_euler_angles" fx:id="m_log_euler_angles" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Euler Angles" textFill="WHITE" />
+                    <CheckBox id="log_quaternion" fx:id="m_log_quaternion" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Quaternion" textFill="WHITE" />
+                    <CheckBox id="log_linear_acceleration" fx:id="m_log_linear_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Linear Acceleration" textFill="WHITE" />
+                    <CheckBox id="log_gravity" fx:id="m_log_gravity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Gravity" textFill="WHITE" />
                   </children>
                 </HBox>
               </children>
