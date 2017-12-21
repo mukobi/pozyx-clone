@@ -511,7 +511,7 @@ public class Controller implements Initializable {
                 m_mobile_device_1_id.setDisable(false);
                 m_mobile_device_2_id.setDisable(false);
                 m_mobile_device_3_id.setDisable(false);
-                m_mobile_device_2_id.setDisable(false);
+                m_mobile_device_4_id.setDisable(false);
                 break;
             case "5":
                 m_mobile_device_1_id.setDisable(false);
@@ -529,7 +529,6 @@ public class Controller implements Initializable {
                 m_mobile_device_6_id.setDisable(false);
                 break;
         }
-
     }
 
     private void refreshDisabledAnchors() {
