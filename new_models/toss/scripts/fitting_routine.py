@@ -12,12 +12,13 @@ params = {'mathtext.default': 'regular'}
 plt.rcParams.update(params)
 #####################################################################
 
-datafile = ['red_toss.csv', 'yellow_toss.csv', 'blue_toss.csv', 'orange_toss.csv']
+datafile = ['red_toss2.csv', 'yellow_toss2.csv', 'blue_toss2.csv', 'orange_toss.csv']
 ball = [redBall, yellowBall, blueBall, orangeBall]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball']
 figname = ['redBall', 'yellowBall', 'blueBall', 'orangeBall']
-rows = [slice(38,63,1), slice(42,72,1), slice(2237,2265,1), slice(2319,2347,1)]
+rows = [slice(417,454,1), slice(359,396,1), slice(172,209,1), slice(2319,2347,1)]
 
+#slice(549,584,1),
 for ii in range(4):
     g = -9.81
     Fg = g * ball[ii].mass
@@ -89,7 +90,7 @@ for ii in range(4):
         return np.array(xlist)
 
 
-    popt, pcov = curve_fit(func3, x2, d2, bounds=([0,0], [10,2]))
+    popt, pcov = curve_fit(func3, x2, d2, bounds=([0,-2], [10,2]))
     print(popt)
     plt.figure()
     x_filt = d2[d2 >= 0]

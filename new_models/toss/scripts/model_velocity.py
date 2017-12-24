@@ -8,13 +8,13 @@ from physProps import *
 params = {'mathtext.default': 'regular'}
 plt.rcParams.update(params)
 #####################################################################
-
-datafile = ['red_toss.csv', 'yellow_toss.csv', 'blue_toss.csv', 'orange_toss.csv']
+datafile = ['red_toss2.csv', 'yellow_toss2.csv', 'blue_toss2.csv', 'orange_toss.csv']
 ball = [redBall, yellowBall, blueBall, orangeBall]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball']
-figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf']
-rows = [slice(38,63,1), slice(42,72,1), slice(2237,2265,1), slice(2319,2347,1)]
-
+figname = ['redBall', 'yellowBall', 'blueBall', 'orangeBall']
+rows = [slice(417,454,1), slice(359,396,1), slice(172,209,1), slice(2319,2347,1)]
+vi = [7.440, 6.824, 6.642, 7.545]
+#slice(549,584,1),
 for ii in range(4):
     g = -9.81
     Fg = g * ball[ii].mass
@@ -77,7 +77,7 @@ for ii in range(4):
         plt.plot(model_times, v_mod, label='$C_d={}$'.format(c_vect[c]))
     plt.xlabel("Time (s)")
     plt.ylabel("Velocity (m/s)")
-    plt.title(title[ii])
+    plt.title("{} Velocity (V$_i$={})".format(title[ii], vi[ii]))
     plt.legend()
     plt.savefig(figname[ii], bbox_inches='tight')
 
