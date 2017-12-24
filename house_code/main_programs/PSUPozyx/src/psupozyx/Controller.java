@@ -12,7 +12,6 @@ import javafx.stage.*;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -128,9 +127,6 @@ public class Controller implements Initializable {
     private CheckBox m_use_file;
     @FXML
     private TextField m_filename;
-
-    @FXML
-    private CheckBox m_use_processing;
 
     // field data variables
     private String number_mobile_devices;
@@ -327,7 +323,6 @@ public class Controller implements Initializable {
 
         use_file = valueOf(m_use_file.isSelected());
         filename = m_filename.getText();
-        use_processing = valueOf(m_use_processing.isSelected());
     }
 
     private void save_properties_to_file(String file) {
@@ -475,7 +470,6 @@ public class Controller implements Initializable {
             m_log_gravity.setSelected(Boolean.valueOf(prop.getProperty("log_gravity", "false")));
             m_use_file.setSelected(Boolean.valueOf(prop.getProperty("use_file", "false")));
             m_filename.setText(prop.getProperty("filename", ""));
-            m_use_processing.setSelected(Boolean.valueOf(prop.getProperty("use_processing", "")));
 
             update_variables_from_gui();
         }
