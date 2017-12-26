@@ -39,6 +39,11 @@ public class Controller implements Initializable {
     private TextField m_mobile_device_6_id;
 
     @FXML
+    private TextField m_range_anchor_id;
+    @FXML
+    private CheckBox m_use_remote_1d_anchor;
+
+    @FXML
     private ChoiceBox<String> m_number_anchors;
 
     @FXML
@@ -137,6 +142,9 @@ public class Controller implements Initializable {
     private String remote_5_id;
     private String remote_6_id;
 
+    private String range_anchor_id;
+    private String use_remote_1d_anchor;
+
     private String number_anchors;
     private String anchor1_id;
     private String anchor1_x;
@@ -182,7 +190,6 @@ public class Controller implements Initializable {
 
     private String use_file;
     private String filename;
-    private String use_processing;
 
 
     @FXML
@@ -245,6 +252,9 @@ public class Controller implements Initializable {
         remote_4_id = m_mobile_device_4_id.getText();
         remote_5_id = m_mobile_device_5_id.getText();
         remote_6_id = m_mobile_device_6_id.getText();
+
+        range_anchor_id = m_range_anchor_id.getText();
+        use_remote_1d_anchor = valueOf(m_use_remote_1d_anchor.isSelected());
 
         number_anchors = m_number_anchors.getValue();
         anchor1_id = m_a1_id.getText();
@@ -311,6 +321,9 @@ public class Controller implements Initializable {
             props.setProperty("remote_4_id", remote_4_id);
             props.setProperty("remote_5_id", remote_5_id);
             props.setProperty("remote_6_id", remote_6_id);
+
+            props.setProperty("range_anchor_id", range_anchor_id);
+            props.setProperty("use_remote_1d_anchor", use_remote_1d_anchor);
 
             props.setProperty("number_anchors", number_anchors);
             props.setProperty("anchor_1_id", anchor1_id);
@@ -392,6 +405,9 @@ public class Controller implements Initializable {
             m_mobile_device_4_id.setText(prop.getProperty("remote_4_id", ""));
             m_mobile_device_5_id.setText(prop.getProperty("remote_5_id", ""));
             m_mobile_device_6_id.setText(prop.getProperty("remote_6_id", ""));
+
+            m_range_anchor_id.setText(prop.getProperty("range_anchor_id", ""));
+            m_use_remote_1d_anchor.setSelected(Boolean.valueOf(prop.getProperty("use_remote_1d_anchor", "false")));
 
             m_number_anchors.setValue(prop.getProperty("number_anchors", "4"));
             m_a1_id.setText(prop.getProperty("anchor_1_id", ""));

@@ -84,11 +84,11 @@
           <children>
             <Label id="changeLabel" alignment="CENTER" font="$x1" layoutY="25.0" text="Configuration Settings" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="25.0" />
             <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="99.0" spacing="50.0" />
-            <Label font="$x3" layoutX="19.0" layoutY="95.0" text="Mobile Devices" textFill="WHITE" AnchorPane.leftAnchor="19.0" />
-            <Label font="$x3" layoutX="21.0" layoutY="223.0" text="Anchors" textFill="WHITE" />
-            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="255.0" spacing="10.0">
+            <Label font="$x3" layoutX="19.0" layoutY="70.0" text="Mobile Devices" textFill="WHITE" AnchorPane.leftAnchor="19.0" />
+            <Label font="$x3" layoutX="21.0" layoutY="259.0" text="3D Anchors" textFill="WHITE" />
+            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="291.0" spacing="10.0">
               <children>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" text="Anchor 1 ID:" textFill="WHITE" />
                     <TextField id="a1_id" fx:id="m_a1_id" prefWidth="100.0" promptText="0x0000" />
@@ -100,7 +100,7 @@
                     <TextField id="a1_z" fx:id="m_a1_z" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" text="Anchor 2 ID:" textFill="WHITE" />
                     <TextField id="a2_id" fx:id="m_a2_id" prefWidth="100.0" promptText="0x0000" />
@@ -112,7 +112,7 @@
                     <TextField id="a2_z" fx:id="m_a2_z" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" text="Anchor 3 ID:" textFill="WHITE" />
                     <TextField id="a3_id" fx:id="m_a3_id" prefWidth="100.0" promptText="0x0000" />
@@ -124,7 +124,7 @@
                     <TextField id="a3_z" fx:id="m_a3_z" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 4 ID:" textFill="WHITE" />
                     <TextField id="a4_id" fx:id="m_a4_id" prefWidth="100.0" promptText="0x0000" />
@@ -136,7 +136,7 @@
                     <TextField id="a4_z" fx:id="m_a4_z" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 5 ID:" textFill="WHITE" />
                     <TextField id="a4_id" fx:id="m_a5_id" prefWidth="100.0" promptText="0x0000" />
@@ -148,7 +148,7 @@
                     <TextField id="a4_z" fx:id="m_a5_z" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 6 ID:" textFill="WHITE" />
                     <TextField id="a4_id" fx:id="m_a6_id" prefWidth="100.0" promptText="0x0000" />
@@ -160,7 +160,7 @@
                     <TextField id="a4_z" fx:id="m_a6_z" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 7 ID:" textFill="WHITE" />
                     <TextField id="a4_id" fx:id="m_a7_id" prefWidth="100.0" promptText="0x0000" />
@@ -172,7 +172,7 @@
                     <TextField id="a4_z" fx:id="m_a7_z" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 8 ID:" textFill="WHITE" />
                     <TextField id="a4_id" fx:id="m_a8_id" prefWidth="100.0" promptText="0x0000" />
@@ -186,7 +186,7 @@
                 </HBox>
               </children>
             </VBox>
-            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="592.0" spacing="20.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="600.0" spacing="20.0">
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
@@ -206,11 +206,11 @@
                 </HBox>
               </children>
             </VBox>
-            <Label font="$x3" layoutX="21.0" layoutY="563.0" text="Sensor Data " textFill="WHITE" />
-            <Label font="$x3" layoutX="21.0" layoutY="666.0" text="Output" textFill="WHITE" />
-            <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="697.0" spacing="30.0">
+            <Label font="$x3" layoutX="21.0" layoutY="571.0" text="Sensor Data " textFill="WHITE" />
+            <Label font="$x3" layoutX="21.0" layoutY="671.0" text="Output" textFill="WHITE" />
+            <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="702.0" spacing="30.0">
               <children>
-                <CheckBox id="write_data_to_file" fx:id="m_use_file" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Write Data to File" textFill="WHITE"/>
+                <CheckBox id="write_data_to_file" fx:id="m_use_file" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" text="Write Data to File" textFill="WHITE" />
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
                     <Label font="$x2" text="Filename:" textFill="WHITE" />
@@ -222,48 +222,44 @@
             <Group id="Group" layoutX="521.0" layoutY="601.0" />
             <HBox id="HBox" alignment="CENTER" layoutY="702.0" prefWidth="800.0" spacing="30.0" AnchorPane.leftAnchor="9.0" />
             <HBox id="HBox" alignment="CENTER" layoutX="508.0" layoutY="663.0" prefHeight="32.0" spacing="5.0" />
-            <HBox id="HBox" alignment="CENTER" layoutX="190.0" layoutY="95.0" spacing="5.0">
+            <HBox id="HBox" alignment="CENTER" layoutX="190.0" layoutY="65.0" spacing="5.0">
               <children>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0">
-                  <children>
-                    <Label font="$x2" text="Number of Mobile Devices" textFill="WHITE">
-                      <graphic>
-                        <ChoiceBox id="m_number_remotes" fx:id="m_number_mobile_devices" prefWidth="50.0" value="0">
-                          <items>
-                            <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="0" />
-                              <String fx:value="1" />
-                              <String fx:value="2" />
-                              <String fx:value="3" />
-                              <String fx:value="4" />
-                              <String fx:value="5" />
-                              <String fx:value="6" />
-                            </FXCollections>
-                          </items>
-                        </ChoiceBox>
-                      </graphic>
-                    </Label>
-                  </children>
-                </HBox>
+              <Label font="$x2" text="Number of Mobile Devices" textFill="WHITE">
+                <graphic>
+                  <ChoiceBox id="m_number_remotes" fx:id="m_number_mobile_devices" prefWidth="50.0" value="0">
+                    <items>
+                      <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="0" />
+                        <String fx:value="1" />
+                        <String fx:value="2" />
+                        <String fx:value="3" />
+                        <String fx:value="4" />
+                        <String fx:value="5" />
+                        <String fx:value="6" />
+                      </FXCollections>
+                    </items>
+                  </ChoiceBox>
+                </graphic>
+              </Label>
               </children>
             </HBox>
-            <VBox id="VBox" alignment="CENTER" layoutX="62.0" layoutY="129.0" spacing="10.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="62.0" layoutY="104.0" spacing="10.0">
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="40.0">
                   <children>
-                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                    <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 1 ID:" textFill="WHITE" />
                         <TextField id="mobile_device_ID" fx:id="m_mobile_device_1_id" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
-                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                    <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 2 ID:" textFill="WHITE" />
                         <TextField id="mobile_device_ID" fx:id="m_mobile_device_2_id" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
-                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                    <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 3 ID:" textFill="WHITE" />
                         <TextField id="mobile_device_ID" fx:id="m_mobile_device_3_id" prefWidth="100.0" promptText="0x0000" />
@@ -273,19 +269,19 @@
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="40.0">
                   <children>
-                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                    <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 4 ID:" textFill="WHITE" />
                         <TextField id="mobile_device_ID" fx:id="m_mobile_device_4_id" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
-                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                    <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 5 ID:" textFill="WHITE" />
                         <TextField id="mobile_device_ID" fx:id="m_mobile_device_5_id" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
-                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                    <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 6 ID:" textFill="WHITE" />
                         <TextField id="mobile_device_ID" fx:id="m_mobile_device_6_id" prefWidth="100.0" promptText="0x0000" />
@@ -301,7 +297,7 @@
                 <HBox id="HBox" alignment="CENTER" spacing="5.0" />
               </children>
             </HBox>
-            <Label font="$x2" layoutX="190.0" layoutY="223.0" text="Number of Anchors" textFill="WHITE">
+            <Label font="$x2" layoutX="190.0" layoutY="251.0" text="Number of Anchors" textFill="WHITE">
               <graphic>
                 <ChoiceBox fx:id="m_number_anchors" prefWidth="50.0" value="4">
                   <items>
@@ -316,6 +312,30 @@
                 </ChoiceBox>
               </graphic>
             </Label>
+                  <Label layoutX="21.0" layoutY="178.0" text="1D Anchor" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" fx:id="x32" />
+                     </font>
+                  </Label>
+                  <HBox layoutX="56.0" layoutY="201.0" spacing="40.0">
+                     <children>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="25.0" text="Anchor 1 ID:" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" fx:id="x23" />
+                                 </font>
+                              </Label>
+                              <TextField id="a1_id" fx:id="m_range_anchor_id" prefWidth="100.0" promptText="0x0000" />
+                           </children>
+                        </HBox>
+                        <CheckBox id="use_remote_anchor_1d" fx:id="m_use_remote_1d_anchor" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="20.0" prefWidth="343.0" text="Range from remote anchor instead of local device" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" fx:id="x22" />
+                           </font>
+                        </CheckBox>
+                     </children>
+                  </HBox>
           </children>
         </AnchorPane>
       </items>

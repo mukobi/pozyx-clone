@@ -7,7 +7,8 @@ MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
 
 
 class ConfigStruct:
-    def __init__(self, in_use_remote, in_remote_id, in_tags, in_anchors, in_attributes_to_log, in_use_file, in_data_file):
+    def __init__(self, in_use_remote, in_remote_id, in_tags, in_anchors, in_attributes_to_log, in_use_file,
+                 in_data_file, in_range_anchor_id):
         self.use_remote = in_use_remote
         self.remote_id = in_remote_id
         self.tags = in_tags
@@ -15,10 +16,10 @@ class ConfigStruct:
         self.attributes_to_log = in_attributes_to_log
         self.use_file = in_use_file
         self.data_file = in_data_file
+        self.range_anchor_id = in_range_anchor_id
 
 
 class Configuration:
-
     @staticmethod
     def get_properties():
         psu_pozyx_folder = __file__
@@ -78,6 +79,17 @@ class Configuration:
             tags = [remote_1_id, remote_2_id, remote_3_id,
                     remote_4_id, remote_5_id, remote_6_id]
             tags = tags[:number_remote_devices]
+
+        try:
+            range_anchor_id = int(P["range_anchor_id"], 16)
+        except ValueError:
+            range_anchor_id = 0
+        try:
+            use_remote_1d_anchor = P["use_remote_1d_anchor"] == "true"
+        except KeyError:
+            use_remote_1d_anchor = False
+        if not use_remote_1d_anchor:
+            range_anchor_id = None
 
         try:
             number_anchors = int(P["number_anchors"])
@@ -207,7 +219,8 @@ class Configuration:
                    DeviceCoordinates(anchor_7_id, 1, Coordinates(anchor_7_x, anchor_7_y, anchor_7_z)),
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
-        config_struct = ConfigStruct(use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file)
+        config_struct = ConfigStruct(use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file,
+                                     range_anchor_id)
         return config_struct
 
     @staticmethod
@@ -233,14 +246,10 @@ class Configuration:
                                 port = get_serial_ports()[0].device
                             except IndexError:
                                 pass
-                                
         return port
 
 
-if __name__=="__main__":
-
+if __name__ == "__main__":
     MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
-    cc=Configuration()
+    cc = Configuration()
     cc.get_properties()
-
-

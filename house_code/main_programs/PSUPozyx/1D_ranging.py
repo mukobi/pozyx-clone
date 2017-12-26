@@ -90,6 +90,7 @@ if __name__ == "__main__":
     attributes_to_log = config.attributes_to_log
     to_use_file = config.use_file
     filename = config.data_file
+    range_anchor_id = config.range_anchor_id
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
     alpha_pos = 0.2
@@ -103,11 +104,8 @@ if __name__ == "__main__":
     # IMPORTANT: set destination_id to None if it is meant to be ranging from the device
     # connected to the computer. Do this by setting the destination_id to an empty
     # string "" in the GUI
-    destination_id = anchors[0].network_id
-    if destination_id == 0:
-        destination_id = None
     r = ReadyToRange(
-        pozyx, tags, destination_id, to_get_sensor_data, ranging_protocol)
+        pozyx, tags, range_anchor_id, to_get_sensor_data, ranging_protocol)
 
     range_data_array = []
     for tag in tags:
