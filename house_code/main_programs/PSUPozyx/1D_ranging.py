@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     # import properties from saved properties file
     (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-     filename, use_processing) = Configuration.get_properties()
+     filename) = Configuration.get_properties()
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
     alpha_pos = 0.2

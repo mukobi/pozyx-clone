@@ -18,7 +18,6 @@ class Configuration:
             if end == "PSUPozyx":
                 break
 
-
         if platform == "darwin" or platform == 'linux':
             configurations_file = psu_pozyx_folder + "/Configurations/" + MASTER_CONFIG_NAME
         else:
@@ -188,7 +187,6 @@ class Configuration:
             filename += ".csv"
         pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(psu_pozyx_folder)))
         data_file = pozyx_folder + "/Data/" + filename
-        use_processing = P["use_processing"] == "true"
         anchors = [DeviceCoordinates(anchor_1_id, 1, Coordinates(anchor_1_x, anchor_1_y, anchor_1_z)),
                    DeviceCoordinates(anchor_2_id, 1, Coordinates(anchor_2_x, anchor_2_y, anchor_2_z)),
                    DeviceCoordinates(anchor_3_id, 1, Coordinates(anchor_3_x, anchor_3_y, anchor_3_z)),
@@ -198,7 +196,7 @@ class Configuration:
                    DeviceCoordinates(anchor_7_id, 1, Coordinates(anchor_7_x, anchor_7_y, anchor_7_z)),
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
-        return use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file, use_processing
+        return use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file
 
     @staticmethod
     def get_correct_serial_port():

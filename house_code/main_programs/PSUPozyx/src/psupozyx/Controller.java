@@ -226,43 +226,11 @@ public class Controller implements Initializable {
     private void handleLaunchPositioning() {
         saveSettingsForUse();
         launchConsoleLogging("3D_positioning", true, "COMPILEDPATH");
-        if(use_processing.equals("true")) {
-            try {
-                File this_file = new File(
-                        Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-                File house_dir = this_file.getParentFile().getParentFile();
-                if(house_dir.toString().endsWith("main_programs")) {
-                    house_dir = house_dir.getParentFile();
-                }
-                File parent = new File(house_dir.toString() +
-                        "\\processing\\pozyx_ready_to_localize_PSU\\application.windows64\\");
-                String executable = parent.toString() + "\\pozyx_ready_to_localize_PSU.exe";
-                Runtime.getRuntime().exec(executable, null, parent);
-            } catch (URISyntaxException | IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
     @FXML
     private void handleLaunchMotionData() {
         saveSettingsForUse();
         launchConsoleLogging("motion_data", true, "COMPILEDPATH");
-        if(use_processing.equals("true")) {
-            try {
-                File this_file = new File(
-                        Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-                File house_dir = this_file.getParentFile().getParentFile();
-                if(house_dir.toString().endsWith("main_programs")) {
-                    house_dir = house_dir.getParentFile();
-                }
-                File parent = new File(house_dir.toString() +
-                        "\\processing\\pozyx_orientation3D_PSU\\application.windows64\\");
-                String executable = parent.toString() + "\\pozyx_orientation3D_PSU.exe";
-                Runtime.getRuntime().exec(executable, null, parent);
-            } catch (URISyntaxException | IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
     @FXML
     private void handleLaunchPositioningAndMotionData() {
@@ -389,7 +357,6 @@ public class Controller implements Initializable {
 
             props.setProperty("use_file", use_file);
             props.setProperty("filename", filename);
-            props.setProperty("use_processing", use_processing);
 
             // save properties to project root folder
             props.store(output, null);
