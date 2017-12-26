@@ -69,8 +69,12 @@ if __name__ == '__main__':
     serial_port = Configuration.get_correct_serial_port()
 
     # import properties from saved properties file
-    (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-        filename) = Configuration.get_properties()
+    config = Configuration.get_properties()
+    remote = config.use_remote
+    remote_id = config.remote_id
+    tags = config.tags
+    to_use_file = config.use_file
+    filename = config.data_file
 
     if not remote:
         remote_id = None

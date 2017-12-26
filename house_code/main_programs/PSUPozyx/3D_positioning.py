@@ -175,8 +175,12 @@ if __name__ == "__main__":
     serial_port = Configuration.get_correct_serial_port()
 
     # import properties from saved properties file
-    (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-     filename) = Configuration.get_properties()
+    config = Configuration.get_properties()
+    tags = config.tags
+    anchors = config.anchors
+    attributes_to_log = config.attributes_to_log
+    to_use_file = config.use_file
+    filename = config.data_file
     to_get_sensor_data = not attributes_to_log == []
 
     position_data_array = []

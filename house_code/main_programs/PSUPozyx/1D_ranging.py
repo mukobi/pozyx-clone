@@ -84,8 +84,12 @@ if __name__ == "__main__":
     use_velocity = True
 
     # import properties from saved properties file
-    (remote, remote_id, tags, anchors, attributes_to_log, to_use_file,
-     filename) = Configuration.get_properties()
+    config = Configuration.get_properties()
+    tags = config.tags
+    anchors = config.anchors
+    attributes_to_log = config.attributes_to_log
+    to_use_file = config.use_file
+    filename = config.data_file
 
     # smoothing constant; 1 is no filtering, lim->0 is most filtering
     alpha_pos = 0.2

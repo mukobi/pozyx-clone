@@ -6,6 +6,17 @@ import sys
 MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
 
 
+class ConfigStruct:
+    def __init__(self, in_use_remote, in_remote_id, in_tags, in_anchors, in_attributes_to_log, in_use_file, in_data_file):
+        self.use_remote = in_use_remote
+        self.remote_id = in_remote_id
+        self.tags = in_tags
+        self.anchors = in_anchors
+        self.attributes_to_log = in_attributes_to_log
+        self.use_file = in_use_file
+        self.data_file = in_data_file
+
+
 class Configuration:
 
     @staticmethod
@@ -196,7 +207,8 @@ class Configuration:
                    DeviceCoordinates(anchor_7_id, 1, Coordinates(anchor_7_x, anchor_7_y, anchor_7_z)),
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
-        return use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file
+        config_struct = ConfigStruct(use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file)
+        return config_struct
 
     @staticmethod
     def get_correct_serial_port():
