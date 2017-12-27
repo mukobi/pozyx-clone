@@ -88,7 +88,6 @@ class OSCDataHandling:
                 continue
             self.deal_with_data(new_data)
 
-
     def get_data(self):
         return self.x_data, self.y_data
 
@@ -134,6 +133,8 @@ if __name__ == "__main__":
 
     w = QtGui.QWidget()
 
+    pause_button = QtGui.QPushButton("Pause")
+
     x_label = QtGui.QLabel("X-axis:")
     x_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     x_dropdown = pg.ComboBox(items=possible_data_types)
@@ -158,21 +159,26 @@ if __name__ == "__main__":
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
 
-    layout.addWidget(x_label,           0, 0, 1, 1)
-    layout.addWidget(x_dropdown,        0, 1, 1, 2)
-    layout.addWidget(y_label,           0, 3, 1, 1)
-    layout.addWidget(y_dropdown,        0, 4, 1, 2)
-    layout.addWidget(data_point_label,  0, 6, 1, 1)
-    layout.addWidget(data_point_spin,   0, 7, 1, 3)
-    layout.addWidget(tag_label,         0, 10, 1, 1)
-    layout.addWidget(tag_input,         0, 11, 1, 2)
-    layout.addWidget(clear_data_button, 0, 13, 1, 1)
-    layout.addWidget(pw,                1, 0, 1, 14)
+    layout.addWidget(pause_button,      0, 0, 1, 1)
+    layout.addWidget(x_label,           0, 1, 1, 1)
+    layout.addWidget(x_dropdown,        0, 2, 1, 2)
+    layout.addWidget(y_label,           0, 4, 1, 1)
+    layout.addWidget(y_dropdown,        0, 5, 1, 2)
+    layout.addWidget(data_point_label,  0, 7, 1, 1)
+    layout.addWidget(data_point_spin,   0, 8, 1, 3)
+    layout.addWidget(tag_label,         0, 11, 1, 1)
+    layout.addWidget(tag_input,         0, 12, 1, 2)
+    layout.addWidget(clear_data_button, 0, 14, 1, 1)
+    layout.addWidget(pw,                1, 0, 1, 15)
 
     w.show()
     curve = pw.plot(pen=pen)
 
+    graphing_paused = False
+
     def update():
+        if graphing_paused:
+            return
         try:
             x, y = osc_handler.get_data()
             # print(x)
@@ -206,6 +212,10 @@ if __name__ == "__main__":
         print("Change tag to: " + new_tag)
         osc_handler.change_tag(new_tag)
 
+    def pause_handler(ind):
+        global graphing_paused
+        graphing_paused = not graphing_paused
+        print("Graphing", "paused." if graphing_paused else "resumed.")
 
     def clear_data_handler(ind):
         osc_handler.clear_data()
@@ -214,6 +224,7 @@ if __name__ == "__main__":
     y_dropdown.currentIndexChanged.connect(change_y_axis)
     data_point_spin.sigValueChanged.connect(change_data_length)
     tag_input.textEdited.connect(update_tag)
+    pause_button.clicked.connect(pause_handler)
     clear_data_button.clicked.connect(clear_data_handler)
 
     timer = QtCore.QTimer()
