@@ -11,6 +11,7 @@ import javafx.stage.*;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -249,6 +250,39 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchPositioningAndMotionData() {
         saveSettingsForUse();
+    }
+
+    @FXML
+    private void toggleAllSensorData() {
+        update_variables_from_gui();
+        if(Objects.equals(log_pressure, "true") &&
+                Objects.equals(log_acceleration, "true") &&
+                Objects.equals(log_magnetic, "true") &&
+                Objects.equals(log_angular_velocity, "true") &&
+                Objects.equals(log_euler_angles, "true") &&
+                Objects.equals(log_quaternion, "true") &&
+                Objects.equals(log_linear_acceleration, "true") &&
+                Objects.equals(log_gravity, "true")) {
+            m_log_pressure.setSelected(false);
+            m_log_acceleration.setSelected(false);
+            m_log_magnetic.setSelected(false);
+            m_log_angular_velocity.setSelected(false);
+            m_log_euler_angles.setSelected(false);
+            m_log_quaternion.setSelected(false);
+            m_log_linear_acceleration.setSelected(false);
+            m_log_gravity.setSelected(false);
+        }
+        else {
+            m_log_pressure.setSelected(true);
+            m_log_acceleration.setSelected(true);
+            m_log_magnetic.setSelected(true);
+            m_log_angular_velocity.setSelected(true);
+            m_log_euler_angles.setSelected(true);
+            m_log_quaternion.setSelected(true);
+            m_log_linear_acceleration.setSelected(true);
+            m_log_gravity.setSelected(true);
+        }
+        update_variables_from_gui();
     }
 
     private void update_variables_from_gui() {
