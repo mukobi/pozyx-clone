@@ -16,10 +16,10 @@ max_data_length = 200
 
 
 class OSCDataHandling:
-    def __init__(self, tag):
-        self.tag = tag
-        self.x_axis = "time"
-        self.y_axis = "1D_range"
+    def __init__(self):
+        self.tag = "0x6000"
+        self.x_axis = "Time"
+        self.y_axis = "1D Range"
         self.x_data = []
         self.y_data = []
         self.maxLen = max_data_length
@@ -56,10 +56,10 @@ class OSCDataHandling:
             self.to_check_tag_idx = False  # done checking
 
         x_index = definitions.OSC_INDEX_DICT[self.x_axis] + self.tag_idx
-        if self.x_axis == "time":
+        if self.x_axis == "Time":
             x_index = 0
         y_index = definitions.OSC_INDEX_DICT[self.y_axis] + self.tag_idx
-        if self.y_axis == "time":
+        if self.y_axis == "Time":
             y_index = 0
 
         x = message[x_index]
@@ -97,24 +97,20 @@ if __name__ == "__main__":
     arg_length = len(arguments)
 
     possible_data_types = [
-        "time",
-        "1D_range","1D_velocity",
-        "3D_position_X", "3D_position_Y", "3D_position_Z",
-        "3D_velocity_X", "3D_velocity_Y", "3D_velocity_Z",
-        "pressure",
-        "acceleration_x", "acceleration_y", "acceleration_z",
-        "magnetic_x", "magnetic_y", "magnetic_z",
-        "angular_vel_x", "angular_vel_y", "angular_vel_z",
-        "euler_heading", "euler_roll", "euler_pitch",
-        "quaternion_w","quaternion_x", "quaternion_y", "quaternion_z",
-        "lin_acc_x", "lin_acc_y", "lin_acc_z",
-        "gravity_x", "gravity_y", "gravity_z"]
+        "Time",
+        "1D Range","1D Velocity",
+        "3D Position X", "3D Position Y", "3D Position Z",
+        "3D Velocity X", "3D Velocity Y", "3D Velocity Z",
+        "Pressure",
+        "Acceleration X", "Acceleration Y", "Acceleration Z",
+        "Magnetic X", "Magnetic Y", "Magnetic Z",
+        "Angular Vel X", "Angular Vel Y", "Angular Vel Z",
+        "Euler Heading", "Euler Roll", "Euler Pitch",
+        "Quaternion W","Quaternion X", "Quaternion Y", "Quaternion Z",
+        "Lin Acc X", "Lin Acc Y", "Lin Acc Z",
+        "Gravity X", "Gravity Y", "Gravity Z"]
 
-
-
-    tag = "0x6041"
-
-    osc_handler = OSCDataHandling(tag)
+    osc_handler = OSCDataHandling()
 
     data_thread = _thread.start_new_thread(osc_handler.start_running, ())
 
@@ -138,11 +134,11 @@ if __name__ == "__main__":
     x_label = QtGui.QLabel("X-axis:")
     x_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     x_dropdown = pg.ComboBox(items=possible_data_types)
-    x_dropdown.setValue("time")
+    x_dropdown.setValue("Time")
     y_label = QtGui.QLabel("Y-axis:")
     y_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     y_dropdown = pg.ComboBox(items=possible_data_types)
-    y_dropdown.setValue("1D_range")
+    y_dropdown.setValue("1D Range")
 
     data_point_label = QtGui.QLabel("Points:")
     data_point_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
