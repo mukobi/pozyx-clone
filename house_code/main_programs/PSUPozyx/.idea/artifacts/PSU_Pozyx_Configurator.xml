@@ -14,7 +14,7 @@
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="PSU Pozyx Configurator.jar">
+      <element id="archive" name="PSU-Pozyx-Configurator.jar">
         <element id="module-output" name="PSUPozyx" />
       </element>
     </root>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="PSU Pozyx Configurator.jnlp">
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="PSU-Pozyx-Configurator.jnlp">
   <information>
     <title>PSU Poxyx</title>
     <vendor>Unknown</vendor>
@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PSU Pozyx Configurator.jar" size="367043530" download="eager" />
+    <jar href="PSU-Pozyx-Configurator.jar" size="367044906" download="eager" />
   </resources>
   <jfx:javafx-desc  width="1024" height="768" main-class="psupozyx.Main"  name="PSU Pozyx Configurator" />
   <update check="background"/>
