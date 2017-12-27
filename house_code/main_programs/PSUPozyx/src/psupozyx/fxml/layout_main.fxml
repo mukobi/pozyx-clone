@@ -11,6 +11,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.* ?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,6 +24,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
+<?import java.lang.Integer?>
 <GridPane alignment="CENTER" hgap="10.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.Controller">
   <children>
     <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="743.0" maxWidth="1024.0" minHeight="743.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="743.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
@@ -86,7 +89,7 @@
             <HBox id="HBox" alignment="CENTER" layoutX="56.0" layoutY="99.0" spacing="50.0" />
             <Label font="$x3" layoutX="19.0" layoutY="70.0" text="Mobile Devices" textFill="WHITE" AnchorPane.leftAnchor="19.0" />
             <Label font="$x3" layoutX="21.0" layoutY="259.0" text="3D Anchors" textFill="WHITE" />
-            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="291.0" spacing="10.0">
+            <VBox id="VBox" alignment="CENTER" layoutX="56.0" layoutY="286.0" spacing="10.0">
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
@@ -190,18 +193,18 @@
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <CheckBox id="log_pressure" fx:id="m_log_pressure" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Pressure" textFill="WHITE" />
-                    <CheckBox id="log_acceleration" fx:id="m_log_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Acceleration" textFill="WHITE" />
-                    <CheckBox id="log_magnetic" fx:id="m_log_magnetic" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Magnetic" textFill="WHITE" />
-                    <CheckBox id="log_angular_velocity" fx:id="m_log_angular_velocity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Angular Velocity" textFill="WHITE" />
+                    <CheckBox id="log_pressure" fx:id="m_log_pressure" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Pressure" textFill="WHITE" />
+                    <CheckBox id="log_acceleration" fx:id="m_log_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Acceleration" textFill="WHITE" />
+                    <CheckBox id="log_magnetic" fx:id="m_log_magnetic" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Magnetic" textFill="WHITE" />
+                    <CheckBox id="log_angular_velocity" fx:id="m_log_angular_velocity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Angular Vel" textFill="WHITE" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <CheckBox id="log_euler_angles" fx:id="m_log_euler_angles" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Euler Angles" textFill="WHITE" />
-                    <CheckBox id="log_quaternion" fx:id="m_log_quaternion" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Quaternion" textFill="WHITE" />
-                    <CheckBox id="log_linear_acceleration" fx:id="m_log_linear_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Linear Acceleration" textFill="WHITE" />
-                    <CheckBox id="log_gravity" fx:id="m_log_gravity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="170.0" text="Gravity" textFill="WHITE" />
+                    <CheckBox id="log_euler_angles" fx:id="m_log_euler_angles" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Euler Angles" textFill="WHITE" />
+                    <CheckBox id="log_quaternion" fx:id="m_log_quaternion" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Quaternion" textFill="WHITE" />
+                    <CheckBox id="log_linear_acceleration" fx:id="m_log_linear_acceleration" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Linear Acc" textFill="WHITE" />
+                    <CheckBox id="log_gravity" fx:id="m_log_gravity" contentDisplay="BOTTOM" font="$x2" mnemonicParsing="false" prefWidth="120.0" text="Gravity" textFill="WHITE" />
                   </children>
                 </HBox>
               </children>
@@ -336,6 +339,41 @@
                         </CheckBox>
                      </children>
                   </HBox>
+                  <Label layoutX="557.0" layoutY="575.0" text="Data Smoothing" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" fx:id="x33" />
+                     </font>
+                  </Label>
+                  <VBox layoutX="575.0" layoutY="607.0" spacing="20.0">
+                     <children>
+                         <fx:define>
+                             <Integer fx:id="min" fx:value="0"/>
+                             <Integer fx:id="max" fx:value="99"/>
+                         </fx:define>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="25.0" text="Position:" textFill="WHITE">
+                                 <font>
+                                    <Font size="15.0" fx:id="x331" />
+                                 </font>
+                              </Label>
+                              <Spinner fx:id="m_position_smooth" editable="true" prefHeight="25.0" prefWidth="80.0" min="$min" max="$max">
+                              </Spinner>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="25.0" text="Velocity:" textFill="WHITE">
+                                 <font>
+                                    <Font size="15.0" fx:id="x3311" />
+                                 </font>
+                              </Label>
+                              <Spinner fx:id="m_velocity_smooth" editable="true" prefHeight="25.0" prefWidth="80.0" min="$min" max="$max">
+                              </Spinner>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
           </children>
         </AnchorPane>
       </items>

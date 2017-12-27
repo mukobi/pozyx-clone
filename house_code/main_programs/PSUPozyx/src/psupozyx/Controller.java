@@ -10,15 +10,14 @@ import javafx.scene.control.*;
 import javafx.stage.*;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 import static java.lang.String.valueOf;
 
-public class Controller implements Initializable {
 
+public class Controller implements Initializable {
     private Stage stage = (Stage) null;
 
     // interface fields
@@ -129,6 +128,11 @@ public class Controller implements Initializable {
     private CheckBox m_log_gravity;
 
     @FXML
+    private Spinner<Integer> m_position_smooth;
+    @FXML
+    private Spinner<Integer> m_velocity_smooth;
+
+    @FXML
     private CheckBox m_use_file;
     @FXML
     private TextField m_filename;
@@ -187,6 +191,9 @@ public class Controller implements Initializable {
     private String log_quaternion;
     private String log_linear_acceleration;
     private String log_gravity;
+
+    private String position_smooth;
+    private String velocity_smooth;
 
     private String use_file;
     private String filename;
@@ -299,6 +306,11 @@ public class Controller implements Initializable {
         log_linear_acceleration = valueOf(m_log_linear_acceleration.isSelected());
         log_gravity = valueOf(m_log_gravity.isSelected());
 
+        position_smooth = valueOf(m_position_smooth.getValue());
+        velocity_smooth = valueOf(m_velocity_smooth.getValue());
+
+        System.out.println(position_smooth);
+
         use_file = valueOf(m_use_file.isSelected());
         filename = m_filename.getText();
     }
@@ -368,6 +380,9 @@ public class Controller implements Initializable {
             props.setProperty("log_linear_acceleration", log_linear_acceleration);
             props.setProperty("log_gravity", log_gravity);
 
+            props.setProperty("position_smooth", position_smooth);
+            props.setProperty("velocity_smooth", velocity_smooth);
+
             props.setProperty("use_file", use_file);
             props.setProperty("filename", filename);
 
@@ -384,7 +399,6 @@ public class Controller implements Initializable {
                     e.printStackTrace();
                 }
             }
-
         }
     }
 
@@ -451,6 +465,10 @@ public class Controller implements Initializable {
             m_log_quaternion.setSelected(Boolean.valueOf(prop.getProperty("log_quaternion", "false")));
             m_log_linear_acceleration.setSelected(Boolean.valueOf(prop.getProperty("log_linear_acceleration", "false")));
             m_log_gravity.setSelected(Boolean.valueOf(prop.getProperty("log_gravity", "false")));
+
+            m_position_smooth.getValueFactory().setValue(Integer.valueOf(prop.getProperty("position_smooth", "0")));
+            m_velocity_smooth.getValueFactory().setValue(Integer.valueOf(prop.getProperty("velocity_smooth", "0")));
+
             m_use_file.setSelected(Boolean.valueOf(prop.getProperty("use_file", "false")));
             m_filename.setText(prop.getProperty("filename", ""));
 
@@ -549,7 +567,6 @@ public class Controller implements Initializable {
         }
     }
 
-
     private static void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Save Settings Template");
         fileChooser.setInitialDirectory(
@@ -595,6 +612,14 @@ public class Controller implements Initializable {
         refreshDisabledAnchors();
         m_number_anchors.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldStr, newStr) -> refreshDisabledAnchors());
+
+
+        TextFormatter<Integer> position_formatter = new TextFormatter<>(m_position_smooth.getValueFactory().getConverter(), m_position_smooth.getValueFactory().getValue());
+        m_position_smooth.getEditor().setTextFormatter(position_formatter);
+        m_position_smooth.getValueFactory().valueProperty().bindBidirectional(position_formatter.valueProperty());
+        TextFormatter<Integer> velocity_formatter = new TextFormatter<>(m_position_smooth.getValueFactory().getConverter(), m_position_smooth.getValueFactory().getValue());
+        m_velocity_smooth.getEditor().setTextFormatter(velocity_formatter);
+        m_velocity_smooth.getValueFactory().valueProperty().bindBidirectional(velocity_formatter.valueProperty());
     }
 
     public void handleQuit() {

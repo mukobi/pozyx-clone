@@ -8,7 +8,7 @@ MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
 
 class ConfigStruct:
     def __init__(self, in_use_remote, in_remote_id, in_tags, in_anchors, in_attributes_to_log, in_use_file,
-                 in_data_file, in_range_anchor_id):
+                 in_data_file, in_range_anchor_id, in_position_smooth, in_velocity_smooth):
         self.use_remote = in_use_remote
         self.remote_id = in_remote_id
         self.tags = in_tags
@@ -17,6 +17,8 @@ class ConfigStruct:
         self.use_file = in_use_file
         self.data_file = in_data_file
         self.range_anchor_id = in_range_anchor_id
+        self.position_smooth = in_position_smooth
+        self.velocity_smooth = in_velocity_smooth
 
 
 class Configuration:
@@ -202,6 +204,17 @@ class Configuration:
         if P["log_gravity"] == "true":
             attributes_to_log.append("gravity")
 
+        # convert smooth vals from 0-100 percents in GUI to 0.01 to 1.00 alpha values for ema filter
+        try:
+            position_smooth = 0.01 * (100 - int(P["position_smooth"]))
+        except ValueError:
+            position_smooth = 1.00
+        try:
+            velocity_smooth = 0.01 * (100 - int(P["velocity_smooth"]))
+        except ValueError:
+            velocity_smooth = 1.00
+
+
         use_file = P["use_file"] == "true"
         filename = P["filename"]
         if filename == "":
@@ -220,7 +233,7 @@ class Configuration:
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
         config_struct = ConfigStruct(use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file,
-                                     range_anchor_id)
+                                     range_anchor_id, position_smooth, velocity_smooth)
         return config_struct
 
     @staticmethod
@@ -250,6 +263,7 @@ class Configuration:
 
 
 if __name__ == "__main__":
-    MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
-    cc = Configuration()
-    cc.get_properties()
+    # MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
+    # cc = Configuration()
+    # prop = cc.get_properties()
+    pass

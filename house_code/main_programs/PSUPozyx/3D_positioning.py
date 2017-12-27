@@ -159,18 +159,15 @@ def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
                     (1 - loop_alpha_vel) * single_device_data.velocity_z
                     + loop_alpha_vel * measured_velocity_z)
 
+
 class ContinueI(Exception):
     pass
+
 
 continue_i = ContinueI()
 
 
 if __name__ == "__main__":
-    # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha_pos = 1
-    alpha_vel = 0.077
-    smooth_velocity = True
-
     # shortcut to not have to find out the port yourself
     serial_port = Configuration.get_correct_serial_port()
 
@@ -182,6 +179,9 @@ if __name__ == "__main__":
     to_use_file = config.use_file
     filename = config.data_file
     to_get_sensor_data = not attributes_to_log == []
+    alpha_pos = config.position_smooth
+    alpha_vel = config.velocity_smooth
+    smooth_velocity = alpha_vel < 1.00
 
     position_data_array = []
     for tag in tags:
@@ -221,7 +221,7 @@ if __name__ == "__main__":
         start = time.time()
         new_time = 0.0
         time.sleep(0.00001)
-        
+
         while True:
             try:
                 elapsed = time.time() - start
@@ -231,9 +231,7 @@ if __name__ == "__main__":
 
                 r.loop(position_data_array)
                 for dataset in position_data_array:
-                    if (dataset.position.x == 0 and
-                        dataset.position.y == 0 and
-                        dataset.position.z == 0):
+                    if dataset.position.x == 0 and dataset.position.y == 0 and dataset.position.z == 0:
                         raise continue_i
 
                 apply_ema_filter(position_data_array, alpha_pos, alpha_vel)

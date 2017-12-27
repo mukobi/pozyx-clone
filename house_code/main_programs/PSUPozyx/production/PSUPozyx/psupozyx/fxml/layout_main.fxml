@@ -12,7 +12,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.control.* ?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,6 +24,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
+<?import java.lang.Integer?>
 <GridPane alignment="CENTER" hgap="10.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psupozyx.Controller">
   <children>
     <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="743.0" maxWidth="1024.0" minHeight="743.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="743.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
@@ -345,6 +346,10 @@
                   </Label>
                   <VBox layoutX="575.0" layoutY="607.0" spacing="20.0">
                      <children>
+                         <fx:define>
+                             <Integer fx:id="min" fx:value="0"/>
+                             <Integer fx:id="max" fx:value="99"/>
+                         </fx:define>
                         <HBox spacing="10.0">
                            <children>
                               <Label prefHeight="25.0" text="Position:" textFill="WHITE">
@@ -352,10 +357,7 @@
                                     <Font size="15.0" fx:id="x331" />
                                  </font>
                               </Label>
-                              <Spinner fx:id="m_position_smooth" editable="true" prefHeight="25.0" prefWidth="80.0">
-                                 <valueFactory>
-                                   <SpinnerValueFactory.IntegerSpinnerValueFactory max="99" min="0" />
-                                 </valueFactory>
+                              <Spinner fx:id="m_position_smooth" editable="true" prefHeight="25.0" prefWidth="80.0" min="$min" max="$max">
                               </Spinner>
                            </children>
                         </HBox>
@@ -366,10 +368,7 @@
                                     <Font size="15.0" fx:id="x3311" />
                                  </font>
                               </Label>
-                              <Spinner fx:id="m_velocity_smooth" editable="true" prefHeight="25.0" prefWidth="80.0">
-                                  <valueFactory>
-                                      <SpinnerValueFactory.IntegerSpinnerValueFactory max="99" min="0" />
-                                  </valueFactory>
+                              <Spinner fx:id="m_velocity_smooth" editable="true" prefHeight="25.0" prefWidth="80.0" min="$min" max="$max">
                               </Spinner>
                            </children>
                         </HBox>

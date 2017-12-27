@@ -9,18 +9,19 @@ This demo measures the range between the two devices.
 import sys
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
-from pythonosc.udp_client import SimpleUDPClient
 import time
 from modules.file_writing import RangingFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from modules.pozyx_osc import PozyxUDP
+
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
 
 class RangeOutputContainer:
     """Holds the range data, motion data, and more for a single device"""
+
     def __init__(self, tag, device_range, smoothed_range, sensor_data, loop_status):
         self.tag = tag
         self.device_range = device_range
@@ -70,9 +71,7 @@ class ReadyToRange(object):
 
 
 class ContinueI(Exception):
-  pass
-
-
+    pass
 
 
 continue_i = ContinueI()
@@ -91,11 +90,9 @@ if __name__ == "__main__":
     to_use_file = config.use_file
     filename = config.data_file
     range_anchor_id = config.range_anchor_id
-
-    # smoothing constant; 1 is no filtering, lim->0 is most filtering
-    alpha_pos = 0.2
-    alpha_vel = 0.2
-    smooth_velocity = True
+    alpha_pos = config.position_smooth
+    alpha_vel = config.velocity_smooth
+    smooth_velocity = alpha_vel < 1.00
 
     to_get_sensor_data = not attributes_to_log == []
 
@@ -149,16 +146,16 @@ if __name__ == "__main__":
                 old_time = new_time
                 new_time = elapsed
                 time_difference = new_time - old_time
-    
+
                 r.loop(range_data_array)
 
                 for dataset in range_data_array:
                     if dataset.device_range.distance == 0:
                         raise continue_i
-    
+
                 for single_data in range_data_array:
                     single_data.elapsed_time = elapsed  # update time for OSC message
-                # EMA filter calculations
+                    # EMA filter calculations
                     if type(single_data.device_range.distance) is int:
                         old_smoothed_range = single_data.smoothed_range
                         single_data.smoothed_range = (
@@ -174,19 +171,19 @@ if __name__ == "__main__":
                                 + alpha_vel * measured_velocity)
                             if not smooth_velocity:
                                 single_data.velocity = measured_velocity
-    
+
                 Console.print_1d_ranging_output(
                     index, elapsed, range_data_array, attributes_to_log)
-                
+
                 if to_use_file:
                     FileIO.write_range_data_to_file(
                         logfile, index, elapsed, time_difference, range_data_array, attributes_to_log)
-    
+
                 if range_data_array[0].loop_status == POZYX_SUCCESS:
                     data_type = ([definitions.DATA_TYPE_RANGING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
                                  else [definitions.DATA_TYPE_RANGING])
                     pozyxUDP.send_message(elapsed, tags, range_data_array, data_type)
-    
+
                 index = index + 1
             except ContinueI:
                 continue
