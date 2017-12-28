@@ -5,7 +5,6 @@ import _thread
 import time
 import sys
 import random
-sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 from modules import udp
 
