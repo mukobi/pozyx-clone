@@ -1,5 +1,5 @@
 ('C:\\Users\\Gabe\\Documents\\GitHub\\Pozyx\\house_code\\main_programs\\PSUPozyx\\build\\graphing_realtime_2D\\graphing_realtime_2D.exe',
- True,
+ False,
  False,
  True,
  None,
@@ -60,7 +60,7 @@
  [],
  False,
  False,
- 1514444900,
- [('run.exe',
-   'c:\\users\\gabe\\appdata\\local\\programs\\python\\python36-32\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-32bit\\run.exe',
+ 1514449267,
+ [('runw.exe',
+   'c:\\users\\gabe\\appdata\\local\\programs\\python\\python36-32\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-32bit\\runw.exe',
    'EXECUTABLE')])
