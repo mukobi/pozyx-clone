@@ -343,8 +343,6 @@ public class Controller implements Initializable {
         position_smooth = valueOf(m_position_smooth.getValue());
         velocity_smooth = valueOf(m_velocity_smooth.getValue());
 
-        System.out.println(position_smooth);
-
         use_file = valueOf(m_use_file.isSelected());
         filename = m_filename.getText();
     }
@@ -601,6 +599,16 @@ public class Controller implements Initializable {
         }
     }
 
+    private void refreshDisabledRangingAnchor() {
+        update_variables_from_gui();
+        if(Objects.equals(use_remote_1d_anchor, "false")) {
+            m_range_anchor_id.setDisable(true);
+        }
+        else {
+            m_range_anchor_id.setDisable(false);
+        }
+    }
+
     private static void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Save Settings Template");
         fileChooser.setInitialDirectory(
@@ -647,6 +655,10 @@ public class Controller implements Initializable {
         m_number_anchors.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldStr, newStr) -> refreshDisabledAnchors());
 
+        refreshDisabledRangingAnchor();
+        m_use_remote_1d_anchor.setOnAction((event -> {
+            refreshDisabledRangingAnchor();
+        }));
 
         TextFormatter<Integer> position_formatter = new TextFormatter<>(m_position_smooth.getValueFactory().getConverter(), m_position_smooth.getValueFactory().getValue());
         m_position_smooth.getEditor().setTextFormatter(position_formatter);
