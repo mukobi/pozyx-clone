@@ -388,10 +388,15 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" text="3D Positioning and Motion Data" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Graph">
+                <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleGraph2D" text="2D Realtime Graphing" />
+                    <MenuItem mnemonicParsing="false" text="3D Realtime Graphing" />
+                </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Analyze">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleDataReplay" text="Replay Data" />
-                  <MenuItem mnemonicParsing="false" text="Graph Data" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Help">

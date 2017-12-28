@@ -1,6 +1,7 @@
 package psupozyx;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -680,6 +681,11 @@ public class Controller implements Initializable {
     public void handleDataReplay() {
         Main main = new Main();
         main.openStage("/psupozyx/fxml/data_replay.fxml", "PSU Pozyx | Data Replay", 600, 400);
+    }
+
+    public void handleGraph2D(ActionEvent actionEvent) {
+        saveSettingsForUse();
+        launchConsoleLogging("graphing_realtime_2D", false, "PYINSTALLERPATH");
     }
 }
 

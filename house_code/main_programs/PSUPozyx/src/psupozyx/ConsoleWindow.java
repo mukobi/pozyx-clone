@@ -43,10 +43,16 @@ public class ConsoleWindow implements Initializable {
                     if(Objects.equals(prependPathType, "COMPILEDPATH")) {
                         executableWithDirectory = "build/exe.win32-3.6/" + executableWithDirectory + ".exe";
                     }
+                    else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
+                        executableWithDirectory = "dist/" + executableWithDirectory + "/" + executableWithDirectory + ".exe";
+                    }
                 }
                 else if (isMac()) {
                     if(Objects.equals(prependPathType, "COMPILEDPATH")) {
                         executableWithDirectory = "build/exe.macosx-10.6-intel-3.6/" + executableWithDirectory;
+                    }
+                    else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
+                        executableWithDirectory = "dist/" + executableWithDirectory + "/" + executableWithDirectory + ".app";
                     }
                 }
                 else if (isUnix()) {

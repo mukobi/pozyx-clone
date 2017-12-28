@@ -214,7 +214,6 @@ class Configuration:
         except ValueError:
             velocity_smooth = 1.00
 
-
         use_file = P["use_file"] == "true"
         filename = P["filename"]
         if filename == "":
