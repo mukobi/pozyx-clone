@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" hgap="10.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.com.psupozyx.Controller">
+<GridPane alignment="CENTER" hgap="10.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.psupozyx.Controller">
   <children>
     <SplitPane disable="false" dividerPositions="0.2669902912621359" focusTraversable="true" maxHeight="743.0" maxWidth="1024.0" minHeight="743.0" minWidth="1024.0" mouseTransparent="false" pickOnBounds="false" prefHeight="743.0" prefWidth="1024.0" style="-fx-background-color: #6a7f10;" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
       <items>

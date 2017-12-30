@@ -10,7 +10,7 @@
 <?import javafx.stage.*?>
 <?import javafx.stage.Screen?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="src.main.com.psupozyx.ConsoleWindow">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="src.main.java.com.psupozyx.app.ConsoleWindow">
   <fx:define>
     <Screen fx:factory="getPrimary" fx:id="screen" />
   </fx:define>
