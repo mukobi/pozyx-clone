@@ -134,7 +134,7 @@ public class ConfigureUwbSettings {
     private void launchConsoleLogging(String pythonCommands, boolean showConsole) {
         try {
             Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/console_window.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/fxml/console_window.fxml"));
             Parent root1 = loader.load();
             stage.setTitle("UWB Configuration Output");
             stage.setScene(new Scene(root1));

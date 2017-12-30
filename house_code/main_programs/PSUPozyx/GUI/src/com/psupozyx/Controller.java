@@ -623,7 +623,7 @@ public class Controller implements Initializable {
     private void launchConsoleLogging(String executable, boolean showConsole, String prependPathType) {
         try {
             stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/console_window.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/fxml/console_window.fxml"));
             Parent root1 = loader.load();
             stage.setTitle("Console Output");
             stage.setScene(new Scene(root1));

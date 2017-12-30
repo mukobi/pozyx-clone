@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        root = FXMLLoader.load(getClass().getResource("/src/com/psupozyx/resources/fxml/layout_main.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/src/resources/fxml/layout_main.fxml"));
         primaryStage.setTitle("PSU Pozyx");
         primaryStage.setScene(new Scene(root, 1024, 768));
         primaryStage.show();
