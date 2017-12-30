@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['1D_ranging.py'],
-             pathex=['/Users/CoraJune/Documents/GitHub/Pozyx/house_code/main_programs/PSUPozyx'],
+             pathex=['C:\\Users\\Gabe\\Documents\\GitHub\\Pozyx\\house_code\\main_programs\\PSUPozyx'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           debug=False,
           strip=False,
           upx=True,
-          console=True )
+          console=False )
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,

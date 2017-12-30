@@ -147,7 +147,7 @@ public class ConfigureUwbSettings {
                 stage.show();
             }
             String prependPathType = "";
-            console_controller.launchPyScript("Setting UWB settings. Feel free to close when done.", pythonCommands, prependPathType);
+            console_controller.launchScript("Setting UWB settings. Feel free to close when done.", pythonCommands, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();

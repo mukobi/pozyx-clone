@@ -636,7 +636,7 @@ public class Controller implements Initializable {
                 stage.show();
             }
 
-            console_controller.launchPyScript("Waiting for data to be collected...", executable, prependPathType);
+            console_controller.launchScript("Waiting for data to be collected...", executable, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();

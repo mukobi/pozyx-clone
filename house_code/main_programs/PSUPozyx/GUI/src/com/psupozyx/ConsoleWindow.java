@@ -30,7 +30,7 @@ public class ConsoleWindow implements Initializable {
     private String osName = System.getProperty("os.name");
     private String OS = osName.toLowerCase();
 
-    void launchPyScript(String startMessage, String executable, String prependPathType) {
+    void launchScript(String startMessage, String executable, String prependPathType) {
         if (startMessage != null) {
             console.setText(startMessage);
         }
@@ -44,7 +44,7 @@ public class ConsoleWindow implements Initializable {
                         executableWithDirectory = "build/exe.win32-3.6/" + executableWithDirectory + ".exe";
                     }
                     else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
-                        executableWithDirectory = "dist/" + executableWithDirectory + "/" + executableWithDirectory + ".exe";
+                        executableWithDirectory = "scripts/win/" + executableWithDirectory + "/" + executableWithDirectory + ".exe";
                     }
                 }
                 else if (isMac()) {
@@ -52,12 +52,15 @@ public class ConsoleWindow implements Initializable {
                         executableWithDirectory = "build/exe.macosx-10.6-intel-3.6/" + executableWithDirectory;
                     }
                     else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
-                        executableWithDirectory = "dist/" + executableWithDirectory + "/" + executableWithDirectory + ".app";
+                        executableWithDirectory = "scripts/mac/" + executableWithDirectory + "/" + executableWithDirectory + ".app";
                     }
                 }
                 else if (isUnix()) {
                     if(Objects.equals(prependPathType, "COMPILEDPATH")) {
                         executableWithDirectory = "build/exe.linux-i686-3.5/" + executableWithDirectory;
+                    }
+                    else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
+                        executableWithDirectory = "scripts/unix/" + executableWithDirectory + "/" + executableWithDirectory + ".deb";
                     }
                 }
                 else {
