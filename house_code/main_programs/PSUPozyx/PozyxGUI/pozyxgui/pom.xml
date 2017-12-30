@@ -22,7 +22,7 @@
 			<artifactId>javafx-maven-plugin</artifactId>
 			<version>8.6.0</version>
 			<configuration>
-				<mainClass>Main</mainClass>
+				<mainClass>com.psupozyx.app.Main</mainClass>
 				<verbose>true</verbose>
 				<updateExistingJar>true</updateExistingJar>
 				<allPermissions>true</allPermissions>

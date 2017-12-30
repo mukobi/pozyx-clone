@@ -31,6 +31,7 @@ class Configuration:
             end = psu_pozyx_folder[-8:]
             if end == "PSUPozyx":
                 break
+        psu_pozyx_folder = os.path.join(psu_pozyx_folder, "PozyxGUI", "pozyxgui")
 
         if platform == "darwin" or platform == 'linux':
             configurations_file = psu_pozyx_folder + "/Configurations/" + MASTER_CONFIG_NAME
