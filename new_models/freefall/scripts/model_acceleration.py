@@ -11,12 +11,15 @@ plt.rcParams.update(params)
 #####################################################################
 
 
-datafile = ['red_drop.csv', 'yellow_drop.csv', 'blue_drop.csv', 'orange_drop.csv', 'rocket_drop.csv']
+# old: datafile = ['red_drop.csv', 'yellow_drop.csv', 'blue_drop.csv', 'orange_drop.csv', 'rocket_drop.csv']
+datafile = ['red_122617.csv', 'yellow_122617.csv', 'blueball2_122617.csv', 'orange_drop.csv', 'rocket_122617.csv']
+
 ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
-figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'rocket.pdf'
-]
-rows = [slice(185,220,1), slice(159,192,1), slice(382,415,1), slice(2483,2540,1), slice(437,469,1)]
+figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'rocket.pdf']
+rows = [slice(361,399,1), slice(375,420,1), slice(415,456,1), slice(2483,2540,1), slice(554,589,1)]
+
+#rows = [slice(185,220,1), slice(159,192,1), slice(382,415,1), slice(2483,2540,1), slice(437,469,1)]
 
 for ii in range(5):
     g = -9.81
@@ -53,8 +56,10 @@ for ii in range(5):
     plt.figure()
     #plt.plot(x2,d2,'o')
 #    c_vect=np.array([0])
-    c_vect = np.array([0,0.2,0.4,0.6,0.8,1])
-    for c in range(6) :
+
+    c_vect = np.array([0,0.651,1])
+#    c_vect = np.array([0,0.2,0.4,0.6,0.8,1])
+    for c in range(3) :
         x_mod[0] = 0    # initial position of zero
         v_mod[0] = 0    # initial velocity of zero
         dragForce[0] = ball[ii].xSectionArea * 0.5 * c_vect[c] * rho * v_mod[0]**2   # initial drag force
@@ -78,10 +83,11 @@ for ii in range(5):
 
             #plot the model results
         plt.plot(model_times, a_mod, label='$C_d={}$'.format(c_vect[c]))
-    plt.xlabel("Time (s)")
-    plt.ylabel("Acceleration (m/s$^2$)")
-    plt.title(title[ii])
+    plt.xlabel("Time (s)", fontsize = 15)
+    plt.ylabel("Acceleration (m/s$^2$)", fontsize = 15)
+    plt.title("Acceleration".format(title[ii]), fontsize = 20)
     plt.legend()
+    plt.tick_params(labelsize = 'large')
     plt.savefig(figname[ii], bbox_inches='tight')
 
 #import pdb; pdb.set_trace()

@@ -13,11 +13,13 @@ params = {'mathtext.default': 'regular'}
 plt.rcParams.update(params)
 #####################################################################
 
-datafile = ['red_drop.csv', 'yellow_drop.csv', 'blue_drop.csv', 'orange_drop.csv', 'rocket_drop.csv']
+# old: datafile = ['red_drop.csv', 'yellow_drop.csv', 'blue_drop.csv', 'orange_drop.csv', 'rocket_drop.csv']
+datafile = ['red_122617.csv', 'yellow_122617.csv', 'blueball2_122617.csv', 'orange_drop.csv', 'rocket_122617.csv']
+
 ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
 figname = ['redBall', 'yellowBall', 'blueBall', 'orangeBall', 'rocket']
-rows = [slice(185,220,1), slice(159,192,1), slice(382,415,1), slice(2483,2540,1), slice(437,469,1)]
+rows = [slice(361,399,1), slice(375,420,1), slice(415,456,1), slice(2483,2540,1), slice(554,589,1)]
 
 for ii in range(5):
     g = -9.81
@@ -101,7 +103,7 @@ for ii in range(5):
         return np.array(xlist)
 
 
-    popt, pcov = curve_fit(func3, x2, d2, bounds=([0,0], [0.001,1]))
+    popt, pcov = curve_fit(func3, x2, d2, bounds=([-5,0], [10,1]))
     print(popt)
     plt.figure()
     x_filt = d2[d2 >= 0]

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.8)  23 DEC 2017 18:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.8)  26 DEC 2017 11:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -608,17 +608,17 @@ e
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_model/
-redBall.png, id=1, 420.6114pt x 330.2739pt>
+redBall.png, id=1, 424.2249pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_m
 odel/redBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_mo
 del/redBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
 /figures/position_model/redBall.png  used on input line 18. on input line 18.
-Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
-e 18.
+Package pdftex.def Info: Requested size: 254.5369pt x 198.16585pt on input line
+ 18.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_model/
-yellowBall.png, id=3, 420.6114pt x 330.2739pt>
+yellowBall.png, id=3, 424.9476pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_m
 odel/yellowBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_mo
@@ -626,7 +626,7 @@ del/yellowBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
 /figures/position_model/yellowBall.png  used on input line 19. on input line 19
 .
-Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
+Package pdftex.def Info: Requested size: 254.97052pt x 198.16585pt on input lin
 e 19.
 
 Underfull \hbox (badness 10000) in paragraph at lines 18--20
@@ -634,17 +634,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--20
  []
 
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_model/
-blueBall.png, id=4, 420.6114pt x 330.2739pt>
+blueBall.png, id=4, 424.9476pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_m
 odel/blueBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_mo
 del/blueBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
 /figures/position_model/blueBall.png  used on input line 23. on input line 23.
-Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
+Package pdftex.def Info: Requested size: 254.97052pt x 198.16585pt on input lin
 e 23.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_model/
-orangeBall.png, id=5, 420.6114pt x 330.2739pt>
+orangeBall.png, id=5, 424.2249pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_m
 odel/orangeBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_mo
@@ -652,265 +652,322 @@ del/orangeBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
 /figures/position_model/orangeBall.png  used on input line 24. on input line 24
 .
-Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
-e 24.
+Package pdftex.def Info: Requested size: 254.5369pt x 198.16585pt on input line
+ 24.
 
 Underfull \hbox (badness 10000) in paragraph at lines 23--25
 [][]
  []
 
+</Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_model/
+rocket.png, id=6, 422.7795pt x 330.2739pt>
+File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_m
+odel/rocket.png Graphic file (type png)
+<use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_mo
+del/rocket.png>
+Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
+/figures/position_model/rocket.png  used on input line 27. on input line 27.
+Package pdftex.def Info: Requested size: 253.66965pt x 198.16585pt on input lin
+e 27.
 [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
  </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/position_model
 /redBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/p
 osition_model/yellowBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_model
 s/toss/figures/position_model/blueBall.png> </Users/CoraJune/Documents/GitHub/P
-ozyx/new_models/toss/figures/position_model/orangeBall.png>]
+ozyx/new_models/toss/figures/position_model/orangeBall.png> </Users/CoraJune/Do
+cuments/GitHub/Pozyx/new_models/toss/figures/position_model/rocket.png>]
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_model/
-redBall.png, id=18, 411.2163pt x 330.2739pt>
+redBall.png, id=20, 414.1071pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_m
 odel/redBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_mo
 del/redBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/velocity_model/redBall.png  used on input line 35. on input line 35.
-Package pdftex.def Info: Requested size: 246.73167pt x 198.16585pt on input lin
-e 35.
+/figures/velocity_model/redBall.png  used on input line 36. on input line 36.
+Package pdftex.def Info: Requested size: 248.46617pt x 198.16585pt on input lin
+e 36.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_model/
-yellowBall.png, id=19, 411.2163pt x 330.2739pt>
+yellowBall.png, id=21, 414.1071pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_m
 odel/yellowBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_mo
 del/yellowBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/velocity_model/yellowBall.png  used on input line 36. on input line 36
+/figures/velocity_model/yellowBall.png  used on input line 37. on input line 37
 .
-Package pdftex.def Info: Requested size: 246.73167pt x 198.16585pt on input lin
-e 36.
+Package pdftex.def Info: Requested size: 248.46617pt x 198.16585pt on input lin
+e 37.
 
-Underfull \hbox (badness 10000) in paragraph at lines 35--37
+Underfull \hbox (badness 10000) in paragraph at lines 36--38
 [][]
  []
 
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_model/
-blueBall.png, id=20, 411.2163pt x 330.2739pt>
+blueBall.png, id=22, 414.1071pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_m
 odel/blueBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_mo
 del/blueBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/velocity_model/blueBall.png  used on input line 40. on input line 40.
-Package pdftex.def Info: Requested size: 246.73167pt x 198.16585pt on input lin
-e 40.
+/figures/velocity_model/blueBall.png  used on input line 41. on input line 41.
+Package pdftex.def Info: Requested size: 248.46617pt x 198.16585pt on input lin
+e 41.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_model/
-orangeBall.png, id=21, 411.2163pt x 330.2739pt>
+orangeBall.png, id=23, 414.1071pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_m
 odel/orangeBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_mo
 del/orangeBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/velocity_model/orangeBall.png  used on input line 41. on input line 41
+/figures/velocity_model/orangeBall.png  used on input line 42. on input line 42
 .
-Package pdftex.def Info: Requested size: 246.73167pt x 198.16585pt on input lin
-e 41.
+Package pdftex.def Info: Requested size: 248.46617pt x 198.16585pt on input lin
+e 42.
 
-Underfull \hbox (badness 10000) in paragraph at lines 40--42
+Underfull \hbox (badness 10000) in paragraph at lines 41--43
 [][]
  []
 
+</Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_model/
+rocket.png, id=24, 420.6114pt x 330.2739pt>
+File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_m
+odel/rocket.png Graphic file (type png)
+<use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_mo
+del/rocket.png>
+Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
+/figures/velocity_model/rocket.png  used on input line 45. on input line 45.
+Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
+e 45.
 [2 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/velocity_mod
 el/redBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures
 /velocity_model/yellowBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_mod
 els/toss/figures/velocity_model/blueBall.png> </Users/CoraJune/Documents/GitHub
-/Pozyx/new_models/toss/figures/velocity_model/orangeBall.png>]
+/Pozyx/new_models/toss/figures/velocity_model/orangeBall.png> </Users/CoraJune/
+Documents/GitHub/Pozyx/new_models/toss/figures/velocity_model/rocket.png>]
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleration_mo
-del/redBall.png, id=29, 421.3341pt x 330.2739pt>
+del/redBall.png, id=33, 421.3341pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/accelerati
 on_model/redBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleratio
 n_model/redBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/acceleration_model/redBall.png  used on input line 51. on input line 5
-1.
+/figures/acceleration_model/redBall.png  used on input line 53. on input line 5
+3.
 Package pdftex.def Info: Requested size: 252.8024pt x 198.16585pt on input line
- 51.
+ 53.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleration_mo
-del/yellowBall.png, id=30, 421.3341pt x 330.2739pt>
+del/yellowBall.png, id=34, 421.3341pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/accelerati
 on_model/yellowBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleratio
 n_model/yellowBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/acceleration_model/yellowBall.png  used on input line 52. on input lin
-e 52.
+/figures/acceleration_model/yellowBall.png  used on input line 54. on input lin
+e 54.
 Package pdftex.def Info: Requested size: 252.8024pt x 198.16585pt on input line
- 52.
+ 54.
 
-Underfull \hbox (badness 10000) in paragraph at lines 51--53
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
 [][]
  []
 
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleration_mo
-del/blueBall.png, id=31, 421.3341pt x 330.2739pt>
+del/blueBall.png, id=35, 421.3341pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/accelerati
 on_model/blueBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleratio
 n_model/blueBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/acceleration_model/blueBall.png  used on input line 56. on input line 
-56.
+/figures/acceleration_model/blueBall.png  used on input line 58. on input line 
+58.
 Package pdftex.def Info: Requested size: 252.8024pt x 198.16585pt on input line
- 56.
+ 58.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleration_mo
-del/orangeBall.png, id=32, 421.3341pt x 330.2739pt>
+del/orangeBall.png, id=36, 421.3341pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/accelerati
 on_model/orangeBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleratio
 n_model/orangeBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/acceleration_model/orangeBall.png  used on input line 57. on input lin
-e 57.
+/figures/acceleration_model/orangeBall.png  used on input line 59. on input lin
+e 59.
 Package pdftex.def Info: Requested size: 252.8024pt x 198.16585pt on input line
- 57.
+ 59.
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--58
+Underfull \hbox (badness 10000) in paragraph at lines 58--60
 [][]
  []
 
+</Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleration_mo
+del/rocket.png, id=37, 421.3341pt x 330.2739pt>
+File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/accelerati
+on_model/rocket.png Graphic file (type png)
+<use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleratio
+n_model/rocket.png>
+Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
+/figures/acceleration_model/rocket.png  used on input line 62. on input line 62
+.
+Package pdftex.def Info: Requested size: 252.8024pt x 198.16585pt on input line
+ 62.
 [3 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleration
 _model/redBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/fig
 ures/acceleration_model/yellowBall.png> </Users/CoraJune/Documents/GitHub/Pozyx
 /new_models/toss/figures/acceleration_model/blueBall.png> </Users/CoraJune/Docu
-ments/GitHub/Pozyx/new_models/toss/figures/acceleration_model/orangeBall.png>]
+ments/GitHub/Pozyx/new_models/toss/figures/acceleration_model/orangeBall.png> <
+/Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/acceleration_mod
+el/rocket.png>]
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_model
-/redBall.png, id=40, 420.6114pt x 330.2739pt>
+/redBall.png, id=46, 420.6114pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_
 model/redBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_m
 odel/redBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/dragForce_model/redBall.png  used on input line 67. on input line 67.
+/figures/dragForce_model/redBall.png  used on input line 70. on input line 70.
 Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
-e 67.
+e 70.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_model
-/yellowBall.png, id=41, 420.6114pt x 330.2739pt>
+/yellowBall.png, id=47, 420.6114pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_
 model/yellowBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_m
 odel/yellowBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/dragForce_model/yellowBall.png  used on input line 68. on input line 6
-8.
+/figures/dragForce_model/yellowBall.png  used on input line 71. on input line 7
+1.
 Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
-e 68.
+e 71.
 
-Underfull \hbox (badness 10000) in paragraph at lines 67--69
+Underfull \hbox (badness 10000) in paragraph at lines 70--72
 [][]
  []
 
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_model
-/blueBall.png, id=42, 420.6114pt x 330.2739pt>
+/blueBall.png, id=48, 420.6114pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_
 model/blueBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_m
 odel/blueBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/dragForce_model/blueBall.png  used on input line 72. on input line 72.
+/figures/dragForce_model/blueBall.png  used on input line 75. on input line 75.
 
 Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
-e 72.
+e 75.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_model
-/orangeBall.png, id=43, 420.6114pt x 330.2739pt>
+/orangeBall.png, id=49, 420.6114pt x 330.2739pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_
 model/orangeBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_m
 odel/orangeBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/dragForce_model/orangeBall.png  used on input line 73. on input line 7
-3.
+/figures/dragForce_model/orangeBall.png  used on input line 76. on input line 7
+6.
 Package pdftex.def Info: Requested size: 252.36879pt x 198.16585pt on input lin
-e 73.
+e 76.
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--74
+Underfull \hbox (badness 10000) in paragraph at lines 75--77
 [][]
  []
 
+</Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_model
+/rocket.png, id=50, 411.2163pt x 330.2739pt>
+File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_
+model/rocket.png Graphic file (type png)
+<use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_m
+odel/rocket.png>
+Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
+/figures/dragForce_model/rocket.png  used on input line 79. on input line 79.
+Package pdftex.def Info: Requested size: 246.73167pt x 198.16585pt on input lin
+e 79.
 [4 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_mo
 del/redBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figure
 s/dragForce_model/yellowBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_m
 odels/toss/figures/dragForce_model/blueBall.png> </Users/CoraJune/Documents/Git
-Hub/Pozyx/new_models/toss/figures/dragForce_model/orangeBall.png>]
+Hub/Pozyx/new_models/toss/figures/dragForce_model/orangeBall.png> </Users/CoraJ
+une/Documents/GitHub/Pozyx/new_models/toss/figures/dragForce_model/rocket.png>]
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/redBall
-.png, id=51, 411.939pt x 328.8285pt>
+.png, id=59, 411.939pt x 328.8285pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/re
 dBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/red
 Ball.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/fitting/redBall.png  used on input line 83. on input line 83.
+/figures/fitting/redBall.png  used on input line 87. on input line 87.
 Package pdftex.def Info: Requested size: 247.16528pt x 197.29861pt on input lin
-e 83.
+e 87.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/yellowB
-all.png, id=52, 411.939pt x 328.8285pt>
+all.png, id=60, 411.939pt x 328.8285pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/ye
 llowBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/yel
 lowBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/fitting/yellowBall.png  used on input line 84. on input line 84.
+/figures/fitting/yellowBall.png  used on input line 88. on input line 88.
 Package pdftex.def Info: Requested size: 247.16528pt x 197.29861pt on input lin
-e 84.
+e 88.
 
-Underfull \hbox (badness 10000) in paragraph at lines 83--85
+Underfull \hbox (badness 10000) in paragraph at lines 87--89
 [][]
  []
 
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/blueBal
-l.png, id=53, 420.6114pt x 328.8285pt>
+l.png, id=61, 420.6114pt x 328.8285pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/bl
 ueBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/blu
 eBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/fitting/blueBall.png  used on input line 88. on input line 88.
+/figures/fitting/blueBall.png  used on input line 92. on input line 92.
 Package pdftex.def Info: Requested size: 252.36879pt x 197.29861pt on input lin
-e 88.
+e 92.
 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/orangeB
-all.png, id=54, 411.939pt x 328.8285pt>
+all.png, id=62, 411.939pt x 328.8285pt>
 File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/or
 angeBall.png Graphic file (type png)
 <use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/ora
 ngeBall.png>
 Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
-/figures/fitting/orangeBall.png  used on input line 89. on input line 89.
+/figures/fitting/orangeBall.png  used on input line 93. on input line 93.
 Package pdftex.def Info: Requested size: 247.16528pt x 197.29861pt on input lin
-e 89.
+e 93.
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--90
+Underfull \hbox (badness 10000) in paragraph at lines 92--94
 [][]
  []
 
+</Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/rocket.
+png, id=63, 409.0482pt x 328.8285pt>
+File: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/ro
+cket.png Graphic file (type png)
+<use /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/roc
+ket.png>
+Package pdftex.def Info: /Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss
+/figures/fitting/rocket.png  used on input line 96. on input line 96.
+Package pdftex.def Info: Requested size: 245.4308pt x 197.29861pt on input line
+ 96.
 [5 </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fitting/redB
 all.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figures/fittin
 g/yellowBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_models/toss/figur
 es/fitting/blueBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_models/tos
-s/figures/fitting/orangeBall.png>] (./toss_plot_compilation.aux) ) 
+s/figures/fitting/orangeBall.png> </Users/CoraJune/Documents/GitHub/Pozyx/new_m
+odels/toss/figures/fitting/rocket.png>] (./toss_plot_compilation.aux) ) 
 Here is how much of TeX's memory you used:
- 3286 strings out of 492990
- 51061 string characters out of 6132637
+ 3307 strings out of 492990
+ 52934 string characters out of 6132637
  114856 words of memory out of 5000000
- 6801 multiletter control sequences out of 15000+600000
+ 6821 multiletter control sequences out of 15000+600000
  4598 words of font info for 17 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,8n,35p,288b,290s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb>
-Output written on toss_plot_compilation.pdf (5 pages, 736485 bytes).
+</usr/lo
+cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb>
+Output written on toss_plot_compilation.pdf (5 pages, 919897 bytes).
 PDF statistics:
- 73 PDF objects out of 1000 (max. 8388607)
+ 83 PDF objects out of 1000 (max. 8388607)
  22 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
 

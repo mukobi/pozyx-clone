@@ -4,6 +4,9 @@ import numpy as np
 import scipy.optimize as opt
 from scipy.optimize import curve_fit
 from math import pi
+
+params = {'mathtext.default': 'regular'}
+plt.rcParams.update(params)
 #################################################### parameters ##########################################
 ti = 11.039127 # when did the rocket take off?
 tf = 14.669509 #when did the rocket hit the ground?
@@ -17,7 +20,7 @@ n = 3.636 # to start newRange at zer
 diameter = 0.07083       # diameter of object
 radius = 1/2 * diameter
 A = pi*radius**2        # cross sectional area in meters
-vi = 16                 # initial velocity to try (m/s)
+vi = 18.372          # initial velocity to try (m/s)
 rho = 1.225             # density of air at sea level at 20 degrees C
 m = 0.227               # mass of the object in kg
 g = 9.81
@@ -86,13 +89,13 @@ v_mod=np.zeros(shape=(N))
 a_mod=np.zeros(shape=(N))
 dragForce=np.zeros(shape=(N))
 
-c_vect = [0,0.1,0.2,0.3,0.4]    # drag coefficients to try
+c_vect = [0,0.2,0.4,0.6,0.8,1]    # drag coefficients to try
 plt.figure()
 
-for c_vect in range(len(c_vect)) :
+for c in range(6) :
     x_mod[0] = 0    # initial position
     v_mod[0] = vi    # initial velocity
-    dragForce[0] = c_vect*((rho*v_mod[0]**2)/2)*A   # initial drag forcw
+    dragForce[0] = c_vect[c]*((rho*v_mod[0]**2)/2)*A   # initial drag forcw
     a_mod[0] = (Fg-dragForce[0])/m  # initial acceleration
     n=0
 
@@ -101,17 +104,19 @@ for c_vect in range(len(c_vect)) :
         v_mod[n+1] = v_mod[n] + a_mod[n] * 3.29492307e+00/100   # y = v + at for new velocity
 
         if v_mod[n] < 0 :   # when velocity is negative, drag force is negative
-            dragForce[n+1] = -(c_vect*((rho*(v_mod[n])**2)/2)*A)
+            dragForce[n+1] = -(c_vect[c]*((rho*(v_mod[n])**2)/2)*A)
 
         else: # when velocity is positive, drag force is positive
-            dragForce[n+1] = c_vect*((rho*v_mod[n]**2)/2)*A
+            dragForce[n+1] = c_vect[c]*((rho*v_mod[n]**2)/2)*A
 
         a_mod[n+1] = (Fg-dragForce[n+1])/m
         n = n+1
     x_filt = x_mod[x_mod >= 0]
 
-    plt.plot(xx7,a_mod)
-    plt.title("Modeled Acceleration Graphs")
-    plt.ylabel("Acceleration (m/s^2)")
+    plt.plot(xx7,a_mod,label='$C_d={}$'.format(c_vect[c]))
+    plt.legend()
+    plt.title("rocket Acceleration (V$_i$=18.372)")
+    plt.ylabel("Acceleration (m/s$^2$)")
     plt.xlabel("Time (s)")
+plt.savefig('acceleration', bbox_inches='tight')
 plt.show()

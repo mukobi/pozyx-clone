@@ -75,7 +75,7 @@ plt.tight_layout()
 #import pdb; pdb.set_trace()
 dtGlobal = 0.0000001
 dtGlobal = 0.0001
-dtGlobal = 0.00001
+#dtGlobal = 0.00001
 unitConv = 1000 # convert model units from meters to mm
 
 xx3 = np.linspace(0,3.63038170e+00,100)
@@ -142,11 +142,13 @@ x_filt = newRange[newRange >= 0]
 plt.plot(x3,newRange,'o', label = 'experimental data')
 plt.plot(xx3, func3(xx3, *popt),
          label='fit: initial velocity=%5.3f, drag coefficient=%5.3f' % tuple(popt))
-plt.title("Model with Optimized Velocity and Drag Coefficient")
+plt.title("rocket")
 plt.legend()
+plt.xlabel("Time (s)")
+plt.ylabel("Position (m)")
 model_data = func3(x3, *popt)
 slope, intercept, r_value, p_value, std_err = stats.linregress(model_data, newRange)
 print("r-squared:",r_value**2)
-
-
+plt.savefig('fitting', bbox_inches='tight')
+import pdb; pdb.set_trace()
 plt.show()

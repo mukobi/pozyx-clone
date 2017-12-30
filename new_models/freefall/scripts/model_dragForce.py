@@ -53,8 +53,9 @@ for ii in range(5):
     plt.figure()
     #plt.plot(x2,d2,'o')
 #    c_vect=np.array([0])
-    c_vect = np.array([0,0.2,0.4,0.6,0.8,1])
-    for c in range(6) :
+    c_vect = np.array([0,0.651,1])
+#    c_vect = np.array([0,0.2,0.4,0.6,0.8,1])
+    for c in range(3) :
         x_mod[0] = 0    # initial position of zero
         v_mod[0] = 0    # initial velocity of zero
         dragForce[0] = ball[ii].xSectionArea * 0.5 * c_vect[c] * rho * v_mod[0]**2   # initial drag force
@@ -78,10 +79,11 @@ for ii in range(5):
 
             #plot the model results
         plt.plot(model_times, dragForce, label='$C_d={}$'.format(c_vect[c]))
-    plt.xlabel("Time (s)")
-    plt.ylabel("Force (N)")
-    plt.title(title[ii])
+    plt.xlabel("Time (s)", fontsize = 15)
+    plt.ylabel("Force (N)", fontsize = 15)
+    plt.title("Drag Force", fontsize = 20)
     plt.legend()
+    plt.tick_params(labelsize = 'large')
     plt.savefig(figname[ii], bbox_inches='tight')
 
 #import pdb; pdb.set_trace()
