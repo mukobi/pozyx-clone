@@ -23,7 +23,7 @@ public class ConsoleWindow implements Initializable {
     @FXML
     private Label console;
 
-    private Process     pr;
+    private Process pr;
 
     private static final int CHARACTERDISPLAYBUFFER = 30000;
 
@@ -38,30 +38,15 @@ public class ConsoleWindow implements Initializable {
         console.setText("Running " + executable + " on " + osName + '\n');
         new Thread(() -> {
             try {
-                String executableWithDirectory = executable;
+                String executableWithDirectory = null;
                 if (isWindows()) {
-                    if(Objects.equals(prependPathType, "COMPILEDPATH")) {
-                        executableWithDirectory = "build/exe.win32-3.6/" + executableWithDirectory + ".exe";
-                    }
-                    else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
-                        executableWithDirectory = "scripts/win/" + executableWithDirectory + "/" + executableWithDirectory + ".exe";
-                    }
+                    executableWithDirectory = "scripts/win/" + executable + "/" + executable + ".exe";
                 }
                 else if (isMac()) {
-                    if(Objects.equals(prependPathType, "COMPILEDPATH")) {
-                        executableWithDirectory = "build/exe.macosx-10.6-intel-3.6/" + executableWithDirectory;
-                    }
-                    else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
-                        executableWithDirectory = "scripts/mac/" + executableWithDirectory + "/" + executableWithDirectory + ".app";
-                    }
+                    executableWithDirectory = "build/exe.macosx-10.6-intel-3.6/" + executable + ".app";
                 }
                 else if (isUnix()) {
-                    if(Objects.equals(prependPathType, "COMPILEDPATH")) {
-                        executableWithDirectory = "build/exe.linux-i686-3.5/" + executableWithDirectory;
-                    }
-                    else if(Objects.equals(prependPathType, "PYINSTALLERPATH")) {
-                        executableWithDirectory = "scripts/unix/" + executableWithDirectory + "/" + executableWithDirectory + ".deb";
-                    }
+                    executableWithDirectory = "scripts/unix/" + executable + "/" + executable + ".deb";
                 }
                 else {
                     console.setText("Unfortunately your operating system is not yet supported.\n" +
