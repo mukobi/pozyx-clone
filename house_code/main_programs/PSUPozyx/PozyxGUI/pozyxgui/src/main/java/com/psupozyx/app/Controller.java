@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.*;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Properties;
@@ -646,7 +647,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        load_properties_from_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
+        load_properties_from_file(traverseUpToRootFolder() + "Configurations/MASTER_ACTIVE_CONFIG.properties");
 
         refreshDisabledMobileIds();
         m_number_mobile_devices.getSelectionModel().selectedItemProperty().addListener(
@@ -686,6 +687,17 @@ public class Controller implements Initializable {
     public void handleGraph2D(ActionEvent actionEvent) {
         saveSettingsForUse();
         launchConsoleLogging("graphing_realtime_2D", false, "PYINSTALLERPATH");
+    }
+
+    public String traverseUpToRootFolder() {
+        try {
+            String currentLocation = getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            currentLocation = currentLocation.substring(0, currentLocation.lastIndexOf("target"));
+            return currentLocation;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
 

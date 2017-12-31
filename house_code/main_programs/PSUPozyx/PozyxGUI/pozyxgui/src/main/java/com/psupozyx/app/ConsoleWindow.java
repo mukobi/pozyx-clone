@@ -32,15 +32,16 @@ public class ConsoleWindow implements Initializable {
         console.setText("Running " + executable + " on " + osName + '\n');
         new Thread(() -> {
             try {
-                String executableWithDirectory = null;
+                Controller controller = new Controller();
+                String executableWithDirectory = controller.traverseUpToRootFolder();;
                 if (isWindows()) {
-                    executableWithDirectory = "scripts/win/" + executable + "/" + executable + ".exe";
+                    executableWithDirectory += "scripts/win/" + executable + "/" + executable + ".exe";
                 }
                 else if (isMac()) {
-                    executableWithDirectory = "build/exe.macosx-10.6-intel-3.6/" + executable + ".app";
+                    executableWithDirectory += "build/exe.macosx-10.6-intel-3.6/" + executable + ".app";
                 }
                 else if (isUnix()) {
-                    executableWithDirectory = "scripts/unix/" + executable + "/" + executable + ".deb";
+                    executableWithDirectory += "scripts/unix/" + executable + "/" + executable + ".deb";
                 }
                 else {
                     console.setText("Unfortunately your operating system is not yet supported.\n" +
