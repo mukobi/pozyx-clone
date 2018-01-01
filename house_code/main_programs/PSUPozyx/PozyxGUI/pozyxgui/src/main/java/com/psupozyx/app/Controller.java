@@ -230,7 +230,7 @@ public class Controller implements Initializable {
 
     private void saveSettingsForUse() {
         update_variables_from_gui();
-        save_properties_to_file("Configurations/MASTER_ACTIVE_CONFIG.properties");
+        save_properties_to_file(traverseUpToRootFolder() + "Configurations/MASTER_ACTIVE_CONFIG.properties");
     }
 
     @FXML
@@ -620,7 +620,7 @@ public class Controller implements Initializable {
         );
     }
 
-    public void launchConsoleLogging(String executable, boolean showConsole, String[] args, String prependPathType) {
+    void launchConsoleLogging(String executable, boolean showConsole, String[] args, String prependPathType) {
         try {
             stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/console_window.fxml"));
@@ -688,7 +688,7 @@ public class Controller implements Initializable {
         launchConsoleLogging("graphing_realtime_2D", false, null,"PYINSTALLERPATH");
     }
 
-    public String traverseUpToRootFolder() {
+    String traverseUpToRootFolder() {
         try {
             String currentLocation = getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             currentLocation = currentLocation.substring(0, currentLocation.lastIndexOf("target"));
