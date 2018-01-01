@@ -112,11 +112,6 @@ def repr_uwb_settings(uwb_settings):
 
 if __name__ == '__main__':
     # ***DEFAULTS*** #
-    default_uwb_settings = UWBSettings(channel=2,
-                                       bitrate=1,
-                                       prf=2,
-                                       plen=0x08,
-                                       gain_db=15.0)
     # set to True if local tag needs to change settings as well.
     set_local = True
     # set to True if needed to save to flash
@@ -125,6 +120,9 @@ if __name__ == '__main__':
     devices = [0x0000]
     # ***END DEFAULTS*** #
 
+    serial_port = Configuration.get_correct_serial_port()
+    pozyx = PozyxSerial(serial_port)
+
     uwb_settings = None
 
     arguments = sys.argv
@@ -132,10 +130,10 @@ if __name__ == '__main__':
 
     # no arguments added on, only call was to script
     if arg_length is 1:
-        uwb_settings = default_uwb_settings
-        time.sleep(0.01)
-        print("Setting default UWB settings:\n" + repr_uwb_settings(uwb_settings) + "\n", flush=True)
-        time.sleep(0.01)
+        print("Showing old UWB settings for local device.")
+        # shows the previous UWB settings
+        c = ChangeUWBSettings(pozyx, uwb_settings, devices, set_local, save_to_flash)
+        sys.exit()
     # all 5 UWB arguments were passed plus the call to the script
     elif arg_length is 6:
         try:
@@ -145,28 +143,22 @@ if __name__ == '__main__':
             arg_plen = int(arguments[4], 16)
             arg_gain = float(arguments[5])
         except ValueError:
-            sys.exit(
-                "\nThere was an error in your arguments, please make sure they are in the form:\n"
+            print("There was an error in your arguments; please make sure they are in the form:\n"
                 "[int] channel [int] bitrate [int] prf [hex int] plen [float] gain")
+            sys.exit()
 
         uwb_settings = UWBSettings(channel=arg_channel,
                                    bitrate=arg_bitrate,
                                    prf=arg_prf,
                                    plen=arg_plen,
                                    gain_db=arg_gain)
-
     else:
         sys.exit("\nSorry, your arguments are incorrect. Please make sure you include no arguments "
-                 "after the script name to use the default settings or include 6 arguments in the form:\n"
+                 "after the script name to check the previous settings or to set the UWB settings "
+                 "include 6 arguments in the form:\n"
                  "[int] channel [int] bitrate [int] prf [hex int] plen [float] gain")
 
     check_uwb_setting(uwb_settings)
-
-    #print(repr_uwb_settings(uwb_settings))
-
-    serial_port = Configuration.get_correct_serial_port()
-    # pozyx
-    pozyx = PozyxSerial(serial_port)
 
     # initialize the class
     c = ChangeUWBSettings(pozyx, uwb_settings, devices, set_local, save_to_flash)
