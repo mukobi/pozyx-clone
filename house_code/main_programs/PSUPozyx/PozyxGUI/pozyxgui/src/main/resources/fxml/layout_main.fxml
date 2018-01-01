@@ -6,6 +6,23 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.* ?>
 <?import javafx.scene.layout.* ?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Spinner?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
@@ -78,97 +95,97 @@
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" text="Anchor 1 ID:" textFill="WHITE" />
-                    <TextField id="a1_id" fx:id="m_a1_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a1_id" fx:id="m_a1_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a2_id" fx:id="m_a1_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a2_id" fx:id="m_a1_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a1_y" fx:id="m_a1_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a1_y" fx:id="m_a1_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a1_z" fx:id="m_a1_z" prefWidth="96.0" promptText="0" />
+                    <TextField id="a1_z" fx:id="m_a1_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" text="Anchor 2 ID:" textFill="WHITE" />
-                    <TextField id="a2_id" fx:id="m_a2_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a2_id" fx:id="m_a2_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a2_x" fx:id="m_a2_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a2_x" fx:id="m_a2_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a2_y" fx:id="m_a2_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a2_y" fx:id="m_a2_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a2_z" fx:id="m_a2_z" prefWidth="96.0" promptText="0" />
+                    <TextField id="a2_z" fx:id="m_a2_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" text="Anchor 3 ID:" textFill="WHITE" />
-                    <TextField id="a3_id" fx:id="m_a3_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a3_id" fx:id="m_a3_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a3_x" fx:id="m_a3_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a3_x" fx:id="m_a3_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a3_y" fx:id="m_a3_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a3_y" fx:id="m_a3_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a3_z" fx:id="m_a3_z" prefWidth="96.0" promptText="0" />
+                    <TextField id="a3_z" fx:id="m_a3_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 4 ID:" textFill="WHITE" />
-                    <TextField id="a4_id" fx:id="m_a4_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a4_id" fx:id="m_a4_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a4_x" fx:id="m_a4_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_x" fx:id="m_a4_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a4_y" fx:id="m_a4_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_y" fx:id="m_a4_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a4_z" fx:id="m_a4_z" prefWidth="95.9998779296875" promptText="0" />
+                    <TextField id="a4_z" fx:id="m_a4_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 5 ID:" textFill="WHITE" />
-                    <TextField id="a4_id" fx:id="m_a5_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a4_id" fx:id="m_a5_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a4_x" fx:id="m_a5_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_x" fx:id="m_a5_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a4_y" fx:id="m_a5_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_y" fx:id="m_a5_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a4_z" fx:id="m_a5_z" prefWidth="95.9998779296875" promptText="0" />
+                    <TextField id="a4_z" fx:id="m_a5_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 6 ID:" textFill="WHITE" />
-                    <TextField id="a4_id" fx:id="m_a6_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a4_id" fx:id="m_a6_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a4_x" fx:id="m_a6_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_x" fx:id="m_a6_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a4_y" fx:id="m_a6_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_y" fx:id="m_a6_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a4_z" fx:id="m_a6_z" prefWidth="95.9998779296875" promptText="0" />
+                    <TextField id="a4_z" fx:id="m_a6_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 7 ID:" textFill="WHITE" />
-                    <TextField id="a4_id" fx:id="m_a7_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a4_id" fx:id="m_a7_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a4_x" fx:id="m_a7_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_x" fx:id="m_a7_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a4_y" fx:id="m_a7_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_y" fx:id="m_a7_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a4_z" fx:id="m_a7_z" prefWidth="95.9998779296875" promptText="0" />
+                    <TextField id="a4_z" fx:id="m_a7_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="10.0">
                   <children>
                     <Label font="$x2" prefHeight="22.0" text="Anchor 8 ID:" textFill="WHITE" />
-                    <TextField id="a4_id" fx:id="m_a8_id" prefWidth="100.0" promptText="0x0000" />
+                    <TextField id="a4_id" fx:id="m_a8_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                     <Label font="$x2" text="X (m):" textFill="WHITE" />
-                    <TextField id="a4_x" fx:id="m_a8_x" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_x" fx:id="m_a8_x" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Y (m):" textFill="WHITE" />
-                    <TextField id="a4_y" fx:id="m_a8_y" prefWidth="96.0" promptText="0" />
+                    <TextField id="a4_y" fx:id="m_a8_y" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="96.0" promptText="0" />
                     <Label font="$x2" text="Z (m):" textFill="WHITE" />
-                    <TextField id="a4_z" fx:id="m_a8_z" prefWidth="95.9998779296875" promptText="0" />
+                    <TextField id="a4_z" fx:id="m_a8_z" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="95.9998779296875" promptText="0" />
                   </children>
                 </HBox>
               </children>
@@ -237,19 +254,19 @@
                     <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 1 ID:" textFill="WHITE" />
-                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_1_id" prefWidth="100.0" promptText="0x0000" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_1_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
                     <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 2 ID:" textFill="WHITE" />
-                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_2_id" prefWidth="100.0" promptText="0x0000" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_2_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
                     <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 3 ID:" textFill="WHITE" />
-                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_3_id" prefWidth="100.0" promptText="0x0000" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_3_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
                   </children>
@@ -259,19 +276,19 @@
                     <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 4 ID:" textFill="WHITE" />
-                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_4_id" prefWidth="100.0" promptText="0x0000" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_4_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
                     <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 5 ID:" textFill="WHITE" />
-                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_5_id" prefWidth="100.0" promptText="0x0000" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_5_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
                     <HBox id="HBox" alignment="CENTER" spacing="10.0">
                       <children>
                         <Label font="$x2" text="Device 6 ID:" textFill="WHITE" />
-                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_6_id" prefWidth="100.0" promptText="0x0000" />
+                        <TextField id="mobile_device_ID" fx:id="m_mobile_device_6_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                       </children>
                     </HBox>
                   </children>
@@ -313,7 +330,7 @@
                                     <Font size="14.0" fx:id="x23" />
                                  </font>
                               </Label>
-                              <TextField id="a1_id" fx:id="m_range_anchor_id" prefWidth="100.0" promptText="0x0000" />
+                              <TextField id="a1_id" fx:id="m_range_anchor_id" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="100.0" promptText="0x0000" />
                            </children>
                         </HBox>
                         <CheckBox id="use_remote_anchor_1d" fx:id="m_use_remote_1d_anchor" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="20.0" prefWidth="343.0" text="Range from remote anchor instead of local device" textFill="WHITE">
