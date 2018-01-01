@@ -50,9 +50,6 @@ class ReadyToRange(object):
             loop_status = self.pozyx.doRanging(tag, device_range, self.destination_id)
             if int(device_range.distance) > 2147483647:
                 loop_status = POZYX_FAILURE
-            # print(device_range.distance)
-            if loop_status != POZYX_SUCCESS:
-                device_range.timestamp, device_range.distance, device_range.rss = "", "", ""
 
             # get motion data in this section-
             sensor_data = SensorData()
