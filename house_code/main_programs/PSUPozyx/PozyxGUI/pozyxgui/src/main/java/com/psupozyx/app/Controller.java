@@ -236,18 +236,17 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchRanging() {
         saveSettingsForUse();
-        launchConsoleLogging("1D_ranging", true, "COMPILEDPATH");
+        launchConsoleLogging("1D_ranging", true, null,"COMPILEDPATH");
     }
-
     @FXML
     private void handleLaunchPositioning() {
         saveSettingsForUse();
-        launchConsoleLogging("3D_positioning", true, "COMPILEDPATH");
+        launchConsoleLogging("3D_positioning", true, null, "COMPILEDPATH");
     }
     @FXML
     private void handleLaunchMotionData() {
         saveSettingsForUse();
-        launchConsoleLogging("motion_data", true, "COMPILEDPATH");
+        launchConsoleLogging("motion_data", true, null, "COMPILEDPATH");
     }
     @FXML
     private void handleLaunchPositioningAndMotionData() {
@@ -621,7 +620,7 @@ public class Controller implements Initializable {
         );
     }
 
-    private void launchConsoleLogging(String executable, boolean showConsole, String prependPathType) {
+    public void launchConsoleLogging(String executable, boolean showConsole, String[] args, String prependPathType) {
         try {
             stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/console_window.fxml"));
@@ -629,7 +628,7 @@ public class Controller implements Initializable {
             stage.setTitle("Console Output");
             stage.setScene(new Scene(root1));
             stage.setMaximized(false);
-            stage.initOwner(m_a1_id.getScene().getWindow());
+            //stage.initOwner(m_a1_id.getScene().getWindow());
             stage.initStyle(StageStyle.DECORATED);
             ConsoleWindow console_controller = loader.getController();
             stage.setOnCloseRequest(we -> console_controller.terminateProcess());
@@ -637,7 +636,7 @@ public class Controller implements Initializable {
                 stage.show();
             }
 
-            console_controller.launchScript("Waiting for data to be collected...", executable, prependPathType);
+            console_controller.launchScript("Waiting for data to be collected...", executable, args, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -676,17 +675,17 @@ public class Controller implements Initializable {
 
     public void handleConfigureUwbSettings() {
         Main main = new Main();
-        main.openStage("/psupozyx/fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 800, 220);
+        main.openStage("fxml/configure_uwb_settings.fxml", "PSU Pozyx | UWB Settings", 800, 220);
     }
 
     public void handleDataReplay() {
         Main main = new Main();
-        main.openStage("/psupozyx/fxml/data_replay.fxml", "PSU Pozyx | Data Replay", 600, 400);
+        main.openStage("fxml/fxml/data_replay.fxml", "PSU Pozyx | Data Replay", 600, 400);
     }
 
     public void handleGraph2D(ActionEvent actionEvent) {
         saveSettingsForUse();
-        launchConsoleLogging("graphing_realtime_2D", false, "PYINSTALLERPATH");
+        launchConsoleLogging("graphing_realtime_2D", false, null,"PYINSTALLERPATH");
     }
 
     public String traverseUpToRootFolder() {

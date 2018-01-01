@@ -9,6 +9,7 @@ import sys
 from pypozyx import *
 from pypozyx.definitions.registers import POZYX_UWB_CHANNEL, POZYX_UWB_RATES, POZYX_UWB_PLEN
 from modules.configuration import Configuration
+import time
 
 class ChangeUWBSettings:
 
@@ -26,7 +27,7 @@ class ChangeUWBSettings:
         self.start_settings = UWBSettings()
         status = self.pozyx.getUWBSettings(self.start_settings)
         if status == POZYX_SUCCESS:
-            print("Old UWB settings: %s" % self.start_settings)
+            print("Old UWB settings: %s" % self.start_settings, flush=True)
         else:
             print("Old UWB settings could not be retrieved, terminating")
             raise Exception
@@ -36,9 +37,9 @@ class ChangeUWBSettings:
         self.start_settings = UWBSettings()
         status = self.pozyx.getUWBSettings(self.start_settings)
         if status == POZYX_SUCCESS:
-            print("New UWB settings: %s" % self.start_settings)
+            print("New UWB settings: %s" % self.start_settings, flush=True)
         else:
-            print("New UWB settings could not be retrieved, terminating")
+            print("New UWB settings could not be retrieved, terminating", flush=True)
             raise Exception
         return status
 
@@ -59,16 +60,15 @@ class ChangeUWBSettings:
         whoami = SingleRegister()
         status = self.pozyx.getWhoAmI(whoami, remote_id)
         if whoami[0] != 0x67 or status != POZYX_SUCCESS:
-            # print("Changing UWB settings on device 0x%0.4x failed" % remote_id)
             return
         else:
-            print("Settings successfully changed on device 0x%0.4x" % remote_id)
+            print("Settings successfully changed on device 0x%0.4x" % remote_id, flush=True)
         if self.save_to_flash:
             status = self.pozyx.saveUWBSettings(remote_id)
             if status != POZYX_SUCCESS:
-                print("\tAnd saving settings failed.")
+                print("\tAnd saving settings failed.", flush=True)
             else:
-                print("\tAnd saving settings succeeded")
+                print("\tAnd saving settings succeeded", flush=True)
 
 
 def check_uwb_setting(uwb_settings):
@@ -98,10 +98,10 @@ def check_uwb_setting(uwb_settings):
 if __name__ == '__main__':
     # ***DEFAULTS*** #
     default_uwb_settings = UWBSettings(channel=2,
-                               bitrate=1,
-                               prf=2,
-                               plen=0x08,
-                               gain_db=15.0)
+                                       bitrate=1,
+                                       prf=2,
+                                       plen=0x08,
+                                       gain_db=15.0)
     # set to True if local tag needs to change settings as well.
     set_local = True
     # set to True if needed to save to flash
@@ -118,7 +118,9 @@ if __name__ == '__main__':
     # no arguments added on, only call was to script
     if arg_length is 1:
         uwb_settings = default_uwb_settings
-        print("Setting default UWB settings:\nCh 2, BR 850 mbps, PRF 64 Mhz, PLen 1024, Gain 15 db\n")
+        time.sleep(0.01)
+        print("Setting default UWB settings:\nCh 2, BR 850 mbps, PRF 64 Mhz, PLen 1024, Gain 15 db\n", flush=True)
+        time.sleep(0.01)
     # all 5 UWB arguments were passed plus the call to the script
     elif arg_length is 6:
         try:
@@ -137,11 +139,6 @@ if __name__ == '__main__':
                                    prf=arg_prf,
                                    plen=arg_plen,
                                    gain_db=arg_gain)
-        # print(uwb_settings)
-        # print(uwb_settings.data)
-
-
-
 
     else:
         sys.exit("\nSorry, your arguments are incorrect. Please make sure you include no arguments "

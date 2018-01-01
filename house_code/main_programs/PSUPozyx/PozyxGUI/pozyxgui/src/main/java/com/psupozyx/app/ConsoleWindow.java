@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ConsoleWindow implements Initializable {
@@ -24,7 +27,7 @@ public class ConsoleWindow implements Initializable {
     private String osName = System.getProperty("os.name");
     private String OS = osName.toLowerCase();
 
-    void launchScript(String startMessage, String executable, String prependPathType) {
+    void launchScript(String startMessage, String executable, String[] args, String prependPathType) {
         if (startMessage != null) {
             console.setText(startMessage);
         }
@@ -48,9 +51,14 @@ public class ConsoleWindow implements Initializable {
                             "Please try again on a Windows, Mac, or Linux device.");
                     throw new NotImplementedException();
                 }
-
-
-                ProcessBuilder ps=new ProcessBuilder(executableWithDirectory);
+                String[] command;
+                if(args == null) command = new String[]{executableWithDirectory};
+                else {
+                    List<String> list = new LinkedList<String>(Arrays.asList(args));
+                    list.add(0, executableWithDirectory);
+                    command = list.toArray(new String[list.size()]);
+                }
+                ProcessBuilder ps=new ProcessBuilder(command);
 
                 ps.redirectErrorStream(true);
 

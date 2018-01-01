@@ -165,7 +165,7 @@ public class DataReplay {
                 stage.show();
             }
             String prependPathType = "";
-            console_controller.launchScript("", pythonCommands, prependPathType);
+            console_controller.launchScript("", pythonCommands, null, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();

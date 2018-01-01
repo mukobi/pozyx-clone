@@ -26,7 +26,7 @@ public class Main extends Application {
 
     void openStage(String fxmlPath, String title, int width, int height) {
         try {
-            root = FXMLLoader.load(getClass().getResource(fxmlPath));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource(fxmlPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
