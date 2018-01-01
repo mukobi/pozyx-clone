@@ -611,10 +611,10 @@ public class Controller implements Initializable {
         }
     }
 
-    private static void configureFileChooser(final FileChooser fileChooser) {
+    private void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Save Settings Template");
         fileChooser.setInitialDirectory(
-                new File("./Configurations/")
+                new File(traverseUpToRootFolder() + "Configurations/")
         );
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Properties", "*.properties")
