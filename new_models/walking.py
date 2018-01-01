@@ -16,10 +16,10 @@ df2 = df.ix[::].dropna() #index range pertaining to data of interest
 posx=df['posx'].values
 posy=df['posy'].values
 
-pxa=df2['posx'].values
+pxa=df2['posx'].values*0.001
 xi = pxa[0] # when was the ball released?
 x_final = pxa[-1] - xi # sets land time assuming drop time is zero
-px = pxa - xi # sets release time to zero
+px = pxa - xi + 1 # sets release time to zero
 
 pya=df2['posy'].values*0.001
 di = pya[0] # when was the ball released?

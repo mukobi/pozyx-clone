@@ -14,7 +14,7 @@ ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
 figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'rocket.pdf']
 rows = [slice(417,454,1), slice(359,396,1), slice(172,209,1), slice(2319,2347,1), slice(166,216,1)]
-vi = [7.440, 6.824, 6.642, 7.545, 17.788]
+vi = [7.440, 6.824, 6.642, 7.545, 17.79]
 
 for ii in range(5):
     g = -9.81
