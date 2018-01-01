@@ -95,6 +95,21 @@ def check_uwb_setting(uwb_settings):
         sys.exit("Incorrect gain value. Gain needs to be a number from 0 to 33.5.")
 
 
+def repr_uwb_settings(uwb_settings):
+    output = "Ch "
+    output += str(uwb_settings.channel)
+    output += ", BR "
+    output += ["110 mbps", "850 mbps", "6810 mbps"][uwb_settings.bitrate]
+    output += ", PRF "
+    output += "16 MHz" if uwb_settings.prf == 1 else "64 MHz"
+    output += ", PLen "
+    plen_index = [0x04, 0x14, 0x24, 0x34, 0x08, 0x18, 0x28, 0x0C].index(uwb_settings.plen)
+    output += ["64", "128", "256", "512", "1024", "1536", "2048", "4096"][plen_index]
+    output += ", Gain "
+    output += str(uwb_settings.gain_db) + " dB"
+    return output
+
+
 if __name__ == '__main__':
     # ***DEFAULTS*** #
     default_uwb_settings = UWBSettings(channel=2,
@@ -119,7 +134,7 @@ if __name__ == '__main__':
     if arg_length is 1:
         uwb_settings = default_uwb_settings
         time.sleep(0.01)
-        print("Setting default UWB settings:\nCh 2, BR 850 mbps, PRF 64 Mhz, PLen 1024, Gain 15 db\n", flush=True)
+        print("Setting default UWB settings:\n" + repr_uwb_settings(uwb_settings) + "\n", flush=True)
         time.sleep(0.01)
     # all 5 UWB arguments were passed plus the call to the script
     elif arg_length is 6:
@@ -146,6 +161,8 @@ if __name__ == '__main__':
                  "[int] channel [int] bitrate [int] prf [hex int] plen [float] gain")
 
     check_uwb_setting(uwb_settings)
+
+    #print(repr_uwb_settings(uwb_settings))
 
     serial_port = Configuration.get_correct_serial_port()
     # pozyx
