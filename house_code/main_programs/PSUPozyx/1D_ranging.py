@@ -105,10 +105,13 @@ if __name__ == "__main__":
         pozyx, tags, range_anchor_id, to_get_sensor_data, ranging_protocol)
 
     range_data_array = []
+    previous_distance_array = []
     for tag in tags:
         range_data_array.append(RangeOutputContainer(None, None, 0, None, None))
+        previous_distance_array.append(0)
     if not tags:
         sys.exit("Please add at least one remote device for 1D ranging.")
+
 
     logfile = None
     if to_use_file:
@@ -147,10 +150,13 @@ if __name__ == "__main__":
                 new_time = elapsed
                 time_difference = new_time - old_time
 
+                for idx, dataset in enumerate(range_data_array):
+                    previous_distance_array[idx] = dataset.device_range.distance
+
                 r.loop(range_data_array)
 
-                for dataset in range_data_array:
-                    if dataset.device_range.distance == 0:
+                for idx, dataset in enumerate(range_data_array):
+                    if dataset.device_range.distance == 0 and previous_distance_array[idx] != 0:
                         raise continue_i
 
                 for single_data in range_data_array:
