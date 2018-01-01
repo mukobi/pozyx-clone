@@ -1,6 +1,7 @@
 package com.psupozyx.app;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -96,6 +97,10 @@ public class ConfigureUwbSettings {
         String[] args =  {channel, bitrate, prf, plen, gain};
 
         new Controller().launchConsoleLogging("configure_uwb_settings", true, args, "PYINSTALLERPATH");
+    }
+
+    public void handleLaunchCheckUwb(ActionEvent actionEvent) {
+        new Controller().launchConsoleLogging("configure_uwb_settings", true, null, "PYINSTALLERPATH");
     }
 
     public void handleMaximumRange() {

@@ -22,7 +22,7 @@
   <children>
       <AnchorPane maxHeight="220.0" maxWidth="800.0" minHeight="220.0" minWidth="800.0" prefHeight="220.0" prefWidth="800.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <children>
-            <VBox layoutX="20.0" layoutY="8.0" spacing="22.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <VBox layoutX="20.0" layoutY="8.0" spacing="22.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                <children>
                   <Label alignment="TOP_CENTER" contentDisplay="TOP" prefWidth="800.0" text="UWB Settings Configurator" textFill="WHITE">
                      <font>
@@ -191,14 +191,15 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox spacing="20.0">
+                  <HBox spacing="10.0">
                      <children>
-                        <TextArea editable="false" prefHeight="50.0" prefWidth="624.0" text="If you don't know what these settings do, you probably shouldn't be using them. Select your settings, then click configure. Make sure the settings are the same for all devices in a group. " wrapText="true">
+                        <TextArea editable="false" prefHeight="50.0" prefWidth="537.0" text="If you don't know what these settings do, don't use them. Select your settings, then click configure. Make sure the settings are the same for all devices in a group. " wrapText="true">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextArea>
-                        <Button mnemonicParsing="false" onAction="#handleLaunchConfigureUwb" prefHeight="50.0" prefWidth="160.0" text="Configure" />
+                        <Button mnemonicParsing="false" onAction="#handleLaunchCheckUwb" prefHeight="50.0" prefWidth="110.0" text="Check" />
+                        <Button mnemonicParsing="false" onAction="#handleLaunchConfigureUwb" prefHeight="50.0" prefWidth="110.0" text="Configure" />
                      </children>
                   </HBox>
                </children>
