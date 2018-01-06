@@ -25,7 +25,7 @@ from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import FileOpener
-from modules.file_writing import SensorDataFileWriting as FileIO
+from modules.file_writing import MotionDataFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from modules.pozyx_osc import PozyxUDP
@@ -74,6 +74,7 @@ if __name__ == '__main__':
     remote = config.use_remote
     remote_id = config.remote_id
     tags = config.tags
+    attributes_to_log = config.attributes_to_log
     to_use_file = config.use_file
     filename = config.data_file
 
@@ -86,14 +87,13 @@ if __name__ == '__main__':
     loop_data_array = []
     for tag in tags:
         loop_data_array.append(MotionDataOutputContainer(None, None, None))
-    if not tags: # allocate 1 data slot for local device
+    if not tags:  # allocate 1 data slot for local device
         loop_data_array.append(MotionDataOutputContainer(None, None, None))
 
     logfile = None
     if to_use_file:
         logfile = FileOpener.create_csv(filename)
-        # TODO make this write a standardized header for all tags
-        FileIO.write_sensor_data_header_to_file(logfile)
+        FileIO.write_headers_to_file(logfile, tags, attributes_to_log)
 
     try:
         pozyxUDP = PozyxUDP()
@@ -113,8 +113,8 @@ if __name__ == '__main__':
             #     index, elapsed, loop_data_array, attributes_to_log)
 
             if to_use_file:
-                # TODO make this method write data for all tags
-                FileIO.write_line_of_sensor_data_to_file(index, elapsed, time_difference, logfile, loop_data_array[0].sensor_data)
+                FileIO.write_line_of_data_to_file(
+                    logfile, index, elapsed, time_difference, loop_data_array, attributes_to_log)
 
             if loop_data_array[0].loop_status == POZYX_SUCCESS:
                 data_type = [definitions.DATA_TYPE_MOTION_DATA]
