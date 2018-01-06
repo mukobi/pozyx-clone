@@ -96,10 +96,7 @@ if __name__ == '__main__':
         FileIO.write_sensor_data_header_to_file(logfile)
 
     try:
-        ip, network_port = "127.0.0.1", 8888
-        osc_udp_client = SimpleUDPClient(ip, network_port)
-        pozyxUDP = PozyxUDP(osc_udp_client)
-
+        pozyxUDP = PozyxUDP()
         index = 0
         start = time.time()
         new_time = 0.0
