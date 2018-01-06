@@ -108,9 +108,8 @@ if __name__ == '__main__':
 
             o.loop(loop_data_array)
 
-            # TODO implement this in condensed console logging
-            # Console.print_motion_data_output(
-            #     index, elapsed, loop_data_array, attributes_to_log)
+            Console.print_motion_data_output(
+                index, elapsed, loop_data_array, attributes_to_log)
 
             if to_use_file:
                 FileIO.write_line_of_data_to_file(

@@ -723,3 +723,12 @@ class CondensedConsoleLogging:
                 single_device, attributes_to_log)
             output += CondensedConsoleLogging.build_position(single_device)
         print(output, flush=True)
+
+    @staticmethod
+    def print_motion_data_output(index, elapsed, loop_array, attributes_to_log):
+        output = CondensedConsoleLogging.build_timestamp(index, elapsed)
+        for single_device in loop_array:
+            output += CondensedConsoleLogging.build_tag(single_device)
+            output += CondensedConsoleLogging.build_sensor_data(
+                single_device, attributes_to_log)
+        print(output, flush=True)
