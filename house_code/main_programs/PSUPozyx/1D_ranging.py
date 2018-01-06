@@ -11,10 +11,10 @@ from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 import time
 from modules.file_writing import RangingFileWriting as FileIO
+from modules.file_writing import FileOpener
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from modules.pozyx_osc import PozyxUDP
-
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
@@ -109,10 +109,9 @@ if __name__ == "__main__":
     if not tags:
         sys.exit("Please add at least one remote device for 1D ranging.")
 
-
     logfile = None
     if to_use_file:
-        logfile = open(filename, 'w')
+        logfile = FileOpener.create_csv(filename)
         FileIO.write_range_headers_to_file(logfile, tags, attributes_to_log)
 
     # wait for motion data to work before running main loop

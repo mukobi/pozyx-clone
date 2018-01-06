@@ -17,6 +17,7 @@ from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
 from pythonosc.udp_client import SimpleUDPClient
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
+from modules.file_writing import FileOpener
 from modules.file_writing import PositioningFileWriting as FileIO
 #from modules.pozyx_osc import PozyxOSC
 from modules.pozyx_osc import PozyxUDP
@@ -191,7 +192,7 @@ if __name__ == "__main__":
 
     logfile = None
     if to_use_file:
-        logfile = open(filename, 'a')
+        logfile = FileOpener.create_csv(filename)
         FileIO.write_position_headers_to_file(logfile, tags, attributes_to_log)
 
     pozyx = PozyxSerial(serial_port)

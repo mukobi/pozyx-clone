@@ -225,7 +225,6 @@ public class Controller implements Initializable {
             String templatePath = templateFile.getAbsolutePath();
             save_properties_to_file(templatePath);
         }
-
     }
 
     private void saveSettingsForUse() {

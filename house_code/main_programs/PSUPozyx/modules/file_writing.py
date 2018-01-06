@@ -1,6 +1,30 @@
 from .data_functions import DataFunctions as DataFunctions
 
 
+class FileOpener:
+    @staticmethod
+    def create_csv(filename):
+        try:
+            f = open(filename, 'r')
+            f.close()
+        except FileNotFoundError:
+            # doesn't already exist
+            return open(filename, 'w')
+        # file does exist
+        if filename.endswith(".csv"):
+            filename = filename[:-4]
+        index = 1
+        while True:
+            numbered_file = filename + " (" + str(index) + ").csv"
+            try:
+                f = open(numbered_file, 'r')
+                f.close()
+            except FileNotFoundError:
+                # doesn't already exist
+                return open(numbered_file, 'w')
+            index += 1
+
+
 class SensorDataFileWriting:
     @staticmethod
     def write_sensor_data_header_to_file(file,
