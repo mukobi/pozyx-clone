@@ -146,7 +146,7 @@ def apply_ema_filter(loop_position_data_array, loop_alpha_pos, loop_alpha_vel):
                     single_device_data.velocity_x = measured_velocity_x
                     single_device_data.velocity_y = measured_velocity_y
                     single_device_data.velocity_z = measured_velocity_z
-                    return
+                    continue
                 # smooth velocity
                 single_device_data.velocity_x = (
                     (1 - loop_alpha_vel) * single_device_data.velocity_x
