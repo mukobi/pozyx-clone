@@ -57,7 +57,7 @@ class Orientation3D(object):
             sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
             calibration_status = SingleRegister()
             if self.remote_id is not None or self.pozyx.checkForFlag(POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-                loop_status = self.pozyx.getAllSensorData(sensor_data, self.remote_id)
+                loop_status = self.pozyx.getAllSensorData(sensor_data, tag)
                 loop_status &= self.pozyx.getCalibrationStatus(calibration_status, self.remote_id)
 
             single = loop_data_array[idx]
