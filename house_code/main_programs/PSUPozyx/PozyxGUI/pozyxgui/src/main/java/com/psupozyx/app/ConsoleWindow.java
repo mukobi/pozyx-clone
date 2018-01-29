@@ -64,7 +64,7 @@ public class ConsoleWindow implements Initializable {
 
                 if(ConsoleWindow.class.getResource("ConsoleWindow.class").toString().startsWith("jar:")) {
                     // running inside the jar file
-                    String jarPath = ConsoleWindow.class.getProtectionDomain().getCodeSource().getLocation().toString();
+                    String jarPath = ConsoleWindow.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ");
                     Platform.runLater( () -> console.setText("\nJarPath: " + jarPath+ "\n" + console.getText()));
                     Thread.sleep(300);
                     String appFolder = jarPath.substring(jarPath.indexOf("file:") + 6, jarPath.lastIndexOf("app") + 3);
