@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.*;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -229,7 +230,7 @@ public class Controller implements Initializable {
 
     private void saveSettingsForUse() {
         update_variables_from_gui();
-        save_properties_to_file(traverseUpToRootFolder() + "Configurations/MASTER_ACTIVE_CONFIG.properties");
+        save_properties_to_file(GetDocumentsFolder() + "Configurations/MASTER_ACTIVE_CONFIG.properties");
     }
 
     @FXML
@@ -612,7 +613,7 @@ public class Controller implements Initializable {
     private void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("Save Settings Template");
         fileChooser.setInitialDirectory(
-                new File(traverseUpToRootFolder() + "Configurations/")
+                new File(GetDocumentsFolder() + "Configurations/")
         );
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Properties", "*.properties")
@@ -645,7 +646,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        load_properties_from_file(traverseUpToRootFolder() + "Configurations/MASTER_ACTIVE_CONFIG.properties");
+        load_properties_from_file(GetDocumentsFolder() + "Configurations/MASTER_ACTIVE_CONFIG.properties");
 
         refreshDisabledMobileIds();
         m_number_mobile_devices.getSelectionModel().selectedItemProperty().addListener(
@@ -687,7 +688,15 @@ public class Controller implements Initializable {
         launchConsoleLogging("graphing_realtime_2D", false, null,"PYINSTALLERPATH");
     }
 
-    String traverseUpToRootFolder() {
+    String GetDocumentsFolder() {
+        String documentsFolder = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "/PSUPozyx/";
+        if(new SysTools().isMac()) {
+            documentsFolder += "Library/Application Support/PSUPozyx/"; // may or may not work
+        }
+        return documentsFolder;
+    }
+
+    String TraverseUpToRootFolder() {
         try {
             String currentLocation = getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             currentLocation = currentLocation.substring(0, currentLocation.lastIndexOf("target"));

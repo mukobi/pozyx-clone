@@ -24,21 +24,15 @@ class ConfigStruct:
 class Configuration:
     @staticmethod
     def get_properties():
-        psu_pozyx_folder = __file__
-        end = psu_pozyx_folder[-8:]
-        while True:
-            psu_pozyx_folder = os.path.dirname(psu_pozyx_folder)
-            end = psu_pozyx_folder[-8:]
-            if end == "PSUPozyx":
-                break
-        psu_pozyx_folder = os.path.join(psu_pozyx_folder, "PozyxGUI", "pozyxgui")
 
-        if platform == "darwin" or platform == 'linux':
-            configurations_file = psu_pozyx_folder + "/Configurations/" + MASTER_CONFIG_NAME
-        else:
-            configurations_file = psu_pozyx_folder + "\\Configurations\\" + MASTER_CONFIG_NAME
-        P = dict(line.strip().split('=') for line in open(configurations_file)
-                 if not line.startswith('#') and not line.startswith('\n'))
+        configurations_file = Configuration.get_configurations_folder() + MASTER_CONFIG_NAME
+        try:
+            P = dict(line.strip().split('=') for line in open(configurations_file)
+                     if not line.startswith('#') and not line.startswith('\n'))
+        except FileNotFoundError:
+            # master config file doesn't exist
+            print("Error, configuration file does not exist. This shouldn't happen if you run through the GUI")
+            sys.exit(1)
         try:
             number_remote_devices = int(P["number_remotes"])
         except ValueError:
@@ -221,8 +215,8 @@ class Configuration:
             use_file = False
         if not filename.endswith(".csv"):
             filename += ".csv"
-        pozyx_folder = os.path.dirname(os.path.dirname(os.path.dirname(psu_pozyx_folder)))
-        data_file = pozyx_folder + "/Data/" + filename
+
+        data_file = Configuration.get_data_folder() + filename
         anchors = [DeviceCoordinates(anchor_1_id, 1, Coordinates(anchor_1_x, anchor_1_y, anchor_1_z)),
                    DeviceCoordinates(anchor_2_id, 1, Coordinates(anchor_2_x, anchor_2_y, anchor_2_z)),
                    DeviceCoordinates(anchor_3_id, 1, Coordinates(anchor_3_x, anchor_3_y, anchor_3_z)),
@@ -261,6 +255,28 @@ class Configuration:
                                 pass
         return port
 
+    @staticmethod
+    def get_psupozyx_folder():
+        if 'win' in sys.platform:
+            # windows
+            filepath = os.path.expanduser('~') + "/Documents/PSUPozyx/"
+        else:
+            # hopefully mac
+            filepath = os.path.expanduser('~') + "/Library/Application Support/PSUPozyx/"
+        os.makedirs(filepath, exist_ok=True)
+        return filepath
+
+    @staticmethod
+    def get_configurations_folder():
+        folder = Configuration.get_psupozyx_folder() + "/Configurations/"
+        os.makedirs(folder, exist_ok=True)
+        return folder
+
+    @staticmethod
+    def get_data_folder():
+        folder = Configuration.get_psupozyx_folder() + "/Data/"
+        os.makedirs(folder, exist_ok=True)
+        return folder
 
 if __name__ == "__main__":
     # MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"

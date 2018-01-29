@@ -1,7 +1,12 @@
 # Config
 .idea/
 house_code/main_programs/PSUPozyx/Configurations/MASTER_ACTIVE_CONFIG.properties
-
 house_code/main_programs/PSUPozyx/PSU Pozyx Configurator.jar
 "house_code/main_programs/PSUPozyx/PSU Pozyx Configurator.jar"
 *Configurator.jar
+
+house_code/main_programs/PSUPozyx/send_yes.vbs
+
+house_code/main_programs/PSUPozyx/compile_python_scripts.bat
+
+house_code/main_programs/PSUPozyx/PozyxGUI/pozyxgui/target

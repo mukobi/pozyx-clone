@@ -4,13 +4,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import sun.nio.ch.IOUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,32 +36,53 @@ public class ConsoleWindow implements Initializable {
         new Thread(() -> {
             try {
                 Controller controller = new Controller();
-                String executableWithDirectory = controller.traverseUpToRootFolder();;
+                String executableWithDirectory = "";
                 if (isWindows()) {
-                    executableWithDirectory += "scripts/win/" + executable + "/" + executable + ".exe";
+                    executableWithDirectory += "/scripts/win/" + executable + "/" + executable + ".exe";
                 }
                 else if (isMac()) {
-                    executableWithDirectory += "build/exe.macosx-10.6-intel-3.6/" + executable + ".app";
+                    executableWithDirectory += "/build/exe.macosx-10.6-intel-3.6/" + executable + ".app";
+                    Platform.runLater( () -> console.setText("Unfortunately your operating system is not yet supported.\n" +
+                            "Please try again on a Windows device."));
+                    throw new NotImplementedException();
                 }
                 else if (isUnix()) {
-                    executableWithDirectory += "scripts/unix/" + executable + "/" + executable + ".deb";
+                    executableWithDirectory += "/scripts/unix/" + executable + "/" + executable + ".deb";
+                    Platform.runLater( () -> console.setText("Unfortunately your operating system is not yet supported.\n" +
+                            "Please try again on a Windows device."));
+                    throw new NotImplementedException();
                 }
                 else {
                     console.setText("Unfortunately your operating system is not yet supported.\n" +
                             "Please try again on a Windows, Mac, or Linux device.");
                     throw new NotImplementedException();
                 }
+
+                System.out.println(executableWithDirectory);
+                String commandRoot = ConsoleWindow.class.getResource(executableWithDirectory).getPath();
+                System.out.println("Root: " + commandRoot);
+
+                if(ConsoleWindow.class.getResource("ConsoleWindow.class").toString().startsWith("jar:")) {
+                    // running inside the jar file
+                    String jarPath = ConsoleWindow.class.getProtectionDomain().getCodeSource().getLocation().toString();
+                    Platform.runLater( () -> console.setText("\nJarPath: " + jarPath+ "\n" + console.getText()));
+                    Thread.sleep(300);
+                    String appFolder = jarPath.substring(jarPath.indexOf("file:") + 6, jarPath.lastIndexOf("app") + 3);
+                    Platform.runLater( () -> console.setText("\nAppFolder: " + appFolder+ "\n" + console.getText()));
+                    Thread.sleep(500);
+                    commandRoot = appFolder + executableWithDirectory;
+                }
+
                 String[] command;
-                if(args == null) command = new String[]{executableWithDirectory};
+                if(args == null) command = new String[]{commandRoot};
                 else {
-                    List<String> list = new LinkedList<String>(Arrays.asList(args));
+                    List<String> list = new LinkedList<>(Arrays.asList(args));
                     list.add(0, executableWithDirectory);
                     command = list.toArray(new String[list.size()]);
                 }
                 ProcessBuilder ps=new ProcessBuilder(command);
 
                 ps.redirectErrorStream(true);
-
                 pr = ps.start();
                 InputStream inputStream = pr.getInputStream();
 
@@ -82,9 +103,8 @@ public class ConsoleWindow implements Initializable {
                 pr.waitFor();
 
                 in.close();
-
             } catch (IOException | InterruptedException e) {
-                console.setText(e.toString() + console.getText());
+                Platform.runLater( () -> console.setText(e.toString() + "\n" + console.getText()));
                 e.printStackTrace();
             }
         }).start();
@@ -111,9 +131,5 @@ public class ConsoleWindow implements Initializable {
 
     private boolean isUnix() {
         return (OS.contains("nix") || OS.contains("nux") || OS.indexOf("aix") > 0 );
-    }
-
-    private boolean isSolaris() {
-        return (OS.contains("sunos"));
     }
 }
