@@ -621,6 +621,8 @@ public class Controller implements Initializable {
     }
 
     void launchConsoleLogging(String executable, boolean showConsole, String[] args, String prependPathType) {
+        CreateFoldersInDocuments();
+
         try {
             stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/console_window.fxml"));
@@ -646,6 +648,8 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CreateFoldersInDocuments();
+
         load_properties_from_file(GetDocumentsFolder() + "Configurations/MASTER_ACTIVE_CONFIG.properties");
 
         refreshDisabledMobileIds();
@@ -688,7 +692,7 @@ public class Controller implements Initializable {
         launchConsoleLogging("graphing_realtime_2D", false, null,"PYINSTALLERPATH");
     }
 
-    String GetDocumentsFolder() {
+    private String GetDocumentsFolder() {
         String documentsFolder = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "/PSUPozyx/";
         if(new SysTools().isMac()) {
             documentsFolder += "Library/Application Support/PSUPozyx/"; // may or may not work
@@ -705,6 +709,20 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         return "";
+    }
+
+    private void CreateFoldersInDocuments() {
+        String documentsFolder = GetDocumentsFolder();
+        String configFolder = documentsFolder + "Configurations/";
+        String dataFolder = documentsFolder + "Data/";
+        File configFile = new File(configFolder);
+        File dataFile = new File(dataFolder);
+        if(!configFile.exists()) {
+            configFile.mkdirs();
+        }
+        if(!dataFile.exists()) {
+            dataFile.mkdirs();
+        }
     }
 }
 
