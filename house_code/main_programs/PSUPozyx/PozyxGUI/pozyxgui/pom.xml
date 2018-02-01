@@ -28,6 +28,7 @@
                     <mainClass>com.psupozyx.app.Main</mainClass>
                     <verbose>true</verbose>
                     <vendor>PortlandStateUniversity</vendor>
+                    <bundler>EXE</bundler>
                     <additionalAppResources>src/main/resources</additionalAppResources>
                 </configuration>
                 <executions>
