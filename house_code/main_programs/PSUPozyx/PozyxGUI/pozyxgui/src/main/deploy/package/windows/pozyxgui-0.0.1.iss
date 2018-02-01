@@ -32,9 +32,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\PozyxGUI\pozyxgui\target\jfx\native\pozyxgui-0.0.1\pozyxgui-0.0.1.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\PozyxGUI\pozyxgui\target\jfx\native\pozyxgui-0.0.1\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "pozyxgui-0.0.1\pozyxgui-0.0.1.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "pozyxgui-0.0.1\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
