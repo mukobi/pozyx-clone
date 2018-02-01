@@ -58,17 +58,17 @@ public class ConsoleWindow implements Initializable {
                     throw new NotImplementedException();
                 }
 
-                System.out.println(executableWithDirectory);
+                // System.out.println(executableWithDirectory);
                 String commandRoot = ConsoleWindow.class.getResource(executableWithDirectory).getPath();
-                System.out.println("Root: " + commandRoot);
+                // System.out.println("Root: " + commandRoot);
 
                 if(ConsoleWindow.class.getResource("ConsoleWindow.class").toString().startsWith("jar:")) {
                     // running inside the jar file
                     String jarPath = ConsoleWindow.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ");
-                    Platform.runLater( () -> console.setText("\nJarPath: " + jarPath+ "\n" + console.getText()));
+                    // Platform.runLater( () -> console.setText("\nJarPath: " + jarPath+ "\n" + console.getText()));
                     Thread.sleep(300);
                     String appFolder = jarPath.substring(jarPath.indexOf("file:") + 6, jarPath.lastIndexOf("app") + 3);
-                    Platform.runLater( () -> console.setText("\nAppFolder: " + appFolder+ "\n" + console.getText()));
+                    // Platform.runLater( () -> console.setText("\nAppFolder: " + appFolder+ "\n" + console.getText()));
                     Thread.sleep(500);
                     commandRoot = appFolder + executableWithDirectory;
                 }

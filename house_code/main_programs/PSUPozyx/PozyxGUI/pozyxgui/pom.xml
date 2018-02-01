@@ -29,11 +29,6 @@
                     <verbose>true</verbose>
                     <vendor>PortlandStateUniversity</vendor>
                     <additionalAppResources>src/main/resources</additionalAppResources>
-                    <bundleArguments>
-                        <!-- to include "dtjava.js" and other related files, set this to TRUE -->
-                        <jnlp.includeDT>true</jnlp.includeDT>
-                        <jnlp.outfile>PSUPozyxJNLP</jnlp.outfile>
-                    </bundleArguments>
                 </configuration>
                 <executions>
                     <execution>
