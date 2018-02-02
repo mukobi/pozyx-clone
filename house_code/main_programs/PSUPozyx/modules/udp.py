@@ -1,6 +1,5 @@
 import socket
 import struct
-import time
 import msgpack
 
 HOST_IP = '0.0.0.0'  # all interfaces

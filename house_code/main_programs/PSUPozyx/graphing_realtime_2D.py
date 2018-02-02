@@ -7,11 +7,14 @@ import sys
 import random
 from constants import definitions
 from modules import udp
+from socket import gethostbyname, gethostname
 
 # global config variables
 data_address = "/pozyx"
 (ip, network_code) = ("127.0.0.1", 8888)
 max_data_length = 200
+
+my_local_ip_address = gethostbyname(gethostname())
 
 
 class OSCDataHandling:
@@ -87,6 +90,9 @@ class OSCDataHandling:
         while True:
             new_data = self.consumer.receive()
             if new_data is None:
+                time.sleep(0.04)
+                continue
+            if not self.use_lan_data and my_local_ip_address not in new_data[0]:
                 time.sleep(0.04)
                 continue
             self.deal_with_data(new_data)

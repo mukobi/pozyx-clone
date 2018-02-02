@@ -70,7 +70,8 @@ class Positioning(object):
                 sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
                 if loop_tag is not None or self.pozyx.checkForFlag(
                         POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-                    loop_status = self.pozyx.getAllSensorData(sensor_data, loop_tag)
+                    loop_status = self.pozyx.getAllSensorData(sensor_data, y
+                                                              )
                     loop_status &= self.pozyx.getCalibrationStatus(calibration_status, loop_tag)
 
             single = loop_position_data_array[idx]
