@@ -67,5 +67,3 @@ class PozyxUDP:
                 data_for_tag.sensor_data.gravity_vector.x,
                 data_for_tag.sensor_data.gravity_vector.y,
                 data_for_tag.sensor_data.gravity_vector.z]
-
-
