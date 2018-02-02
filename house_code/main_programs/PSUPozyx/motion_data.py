@@ -28,7 +28,7 @@ from modules.file_writing import FileOpener
 from modules.file_writing import MotionDataFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from modules.pozyx_osc import PozyxUDP
+from modules.message_sender import PozyxUDP
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 

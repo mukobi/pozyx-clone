@@ -14,7 +14,8 @@ from modules.file_writing import RangingFileWriting as FileIO
 from modules.file_writing import FileOpener
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from modules.pozyx_osc import PozyxUDP
+from modules.message_sender import PozyxUDP
+from modules.message_sender import PozyxMmap
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
@@ -124,7 +125,7 @@ if __name__ == "__main__":
             except TypeError:
                 not_started = True
 
-    pozyxUDP = None
+    udp_sender = None
     try:
         # Initialize EMA filter so it doesn't start at 0
         r.loop(range_data_array)
@@ -133,7 +134,9 @@ if __name__ == "__main__":
                 single_data.smoothed_range = single_data.device_range.distance
 
         # update message client after data working - don't send initial 0 range over osc
-        pozyxUDP = PozyxUDP()
+        mmap_sender = PozyxMmap()
+        if config.send_lan_udp:
+            udp_sender = PozyxUDP()
 
         index = 0
         start = time.time()
@@ -184,15 +187,17 @@ if __name__ == "__main__":
                 if range_data_array[0].loop_status == POZYX_SUCCESS:
                     data_type = ([definitions.DATA_TYPE_RANGING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
                                  else [definitions.DATA_TYPE_RANGING])
-                    pozyxUDP.send_message(elapsed, tags, range_data_array, data_type)
+
+                    mmap_sender.send_message(elapsed, tags, range_data_array, data_type)
+                    if config.send_lan_udp:
+                        udp_sender.send_message(elapsed, tags, range_data_array, data_type)
 
                 index = index + 1
             except ContinueI:
                 continue
 
     finally:
+        if config.send_lan_udp:
+            udp_sender.producer.close_socket()
         if to_use_file:
-            pozyxUDP.producer.close_socket()
             logfile.close()
-            print("closing file")
-            # time.sleep(1)
