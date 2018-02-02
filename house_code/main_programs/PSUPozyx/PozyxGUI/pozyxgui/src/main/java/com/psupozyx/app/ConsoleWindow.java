@@ -47,10 +47,7 @@ public class ConsoleWindow implements Initializable {
                     throw new NotImplementedException();
                 }
                 else if (isUnix()) {
-                    executableWithDirectory += "/scripts/unix/" + executable + "/" + executable + ".deb";
-                    Platform.runLater( () -> console.setText("Unfortunately your operating system is not yet supported.\n" +
-                            "Please try again on a Windows device."));
-                    throw new NotImplementedException();
+                    executableWithDirectory += "/scripts/unix/" + executable + "/" + executable;
                 }
                 else {
                     console.setText("Unfortunately your operating system is not yet supported.\n" +
