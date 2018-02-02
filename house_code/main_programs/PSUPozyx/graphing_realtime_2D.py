@@ -25,6 +25,10 @@ class OSCDataHandling:
         self.consumer = udp.Consumer()
         self.tag_idx = 1
         self.to_check_tag_idx = False
+        self.use_lan_data = False
+
+    def set_use_lan_data(self, new_value):
+        self.use_lan_data = new_value
 
     def clear_data(self):
         self.x_data = []
@@ -151,6 +155,9 @@ if __name__ == "__main__":
 
     clear_data_button = QtGui.QPushButton("Clear Window")
 
+
+    lan_data_checkbox = QtGui.QCheckBox("LAN Data")
+
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
 
@@ -164,7 +171,8 @@ if __name__ == "__main__":
     layout.addWidget(tag_label,         0, 11, 1, 1)
     layout.addWidget(tag_input,         0, 12, 1, 2)
     layout.addWidget(clear_data_button, 0, 14, 1, 1)
-    layout.addWidget(pw,                1, 0, 1, 15)
+    layout.addWidget(lan_data_checkbox, 0, 15, 1, 1)
+    layout.addWidget(pw,                1, 0, 1, 16)
 
     w.show()
     curve = pw.plot(pen=pen)
@@ -214,6 +222,13 @@ if __name__ == "__main__":
 
     def clear_data_handler(ind):
         osc_handler.clear_data()
+        print("Cleared data")
+
+    def lan_data_handler(ind):
+        check_state = bool(lan_data_checkbox.checkState())
+        print("Toggling the use of LAN data. This affects whether or not you receive "
+              "data to graph from other systems collecting data on the local network.")
+        osc_handler.set_use_lan_data(check_state)
 
     x_dropdown.currentIndexChanged.connect(change_x_axis)
     y_dropdown.currentIndexChanged.connect(change_y_axis)
@@ -221,6 +236,7 @@ if __name__ == "__main__":
     tag_input.textEdited.connect(update_tag)
     pause_button.clicked.connect(pause_handler)
     clear_data_button.clicked.connect(clear_data_handler)
+    lan_data_checkbox.clicked.connect(lan_data_handler)
 
     timer = QtCore.QTimer()
     timer.timeout.connect(update)

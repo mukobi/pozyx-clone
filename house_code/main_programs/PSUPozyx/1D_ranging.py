@@ -95,9 +95,6 @@ if __name__ == "__main__":
 
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
 
-    # IMPORTANT: set destination_id to None if it is meant to be ranging from the device
-    # connected to the computer. Do this by setting the destination_id to an empty
-    # string "" in the GUI
     r = ReadyToRange(
         pozyx, tags, range_anchor_id, to_get_sensor_data, ranging_protocol)
 
