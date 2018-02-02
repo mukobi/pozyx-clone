@@ -7,7 +7,6 @@ import sys
 import random
 from constants import definitions
 from modules import udp
-from modules.configuration import Configuration
 
 # global config variables
 data_address = "/pozyx"
@@ -93,7 +92,8 @@ class OSCDataHandling:
 
 
 if __name__ == "__main__":
-    send_lan_udp = Configuration.get_properties().send_lan_udp
+    arguments = sys.argv
+    arg_length = len(arguments)
 
     possible_data_types = [
         "Time",
@@ -109,11 +109,9 @@ if __name__ == "__main__":
         "Lin Acc X", "Lin Acc Y", "Lin Acc Z",
         "Gravity X", "Gravity Y", "Gravity Z"]
 
-    data_handler = None
+    osc_handler = OSCDataHandling()
 
-    if send_lan_udp:
-        data_handler = OSCDataHandling()
-        data_thread = _thread.start_new_thread(data_handler.start_running, ())
+    data_thread = _thread.start_new_thread(osc_handler.start_running, ())
 
     colors = ["g", "r", "c", "m", "b", "k"]
     color = colors[random.randint(0, len(colors) - 1)]
@@ -177,27 +175,27 @@ if __name__ == "__main__":
         if graphing_paused:
             return
         try:
-            x, y = data_handler.get_data()
+            x, y = osc_handler.get_data()
             # print(x)
             curve.setData(x, y)
 
             QtGui.QApplication.processEvents()
-        except Exception as e:
-            print(e)
+        except Exception:
+            print("TypeError")
 
     def change_x_axis(ind):
-        data_handler.clear_data()
+        osc_handler.clear_data()
         print("Change x-axis to: " + x_dropdown.value())
-        data_handler.change_x_axis(x_dropdown.value())
+        osc_handler.change_x_axis(x_dropdown.value())
 
     def change_y_axis(ind):
-        data_handler.clear_data()
+        osc_handler.clear_data()
         print("Change y-axis to: " + y_dropdown.value())
-        data_handler.change_y_axis(y_dropdown.value())
+        osc_handler.change_y_axis(y_dropdown.value())
 
     def change_data_length(item):
         print("Change num data points to: " + str(item.value()))
-        data_handler.change_max_data_len(int(item.value()))
+        osc_handler.change_max_data_len(int(item.value()))
 
     def update_tag(item):
         new_tag = tag_input.text()
@@ -207,7 +205,7 @@ if __name__ == "__main__":
             print(new_tag + " is not a valid hexadecimal tag name.")
             return
         print("Change tag to: " + new_tag)
-        data_handler.change_tag(new_tag)
+        osc_handler.change_tag(new_tag)
 
     def pause_handler(ind):
         global graphing_paused
@@ -215,7 +213,7 @@ if __name__ == "__main__":
         print("Graphing", "paused." if graphing_paused else "resumed.")
 
     def clear_data_handler(ind):
-        data_handler.clear_data()
+        osc_handler.clear_data()
 
     x_dropdown.currentIndexChanged.connect(change_x_axis)
     y_dropdown.currentIndexChanged.connect(change_y_axis)
@@ -231,7 +229,7 @@ if __name__ == "__main__":
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         app.exec_()
 
-    data_handler.consumer.close_socket()
+    osc_handler.consumer.close_socket()
 
     _thread.exit_thread()
 
