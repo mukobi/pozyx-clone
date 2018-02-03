@@ -9,13 +9,19 @@ params = {'mathtext.default': 'regular'}
 plt.rcParams.update(params)
 #####################################################################
 # old: datafile = ['red_drop.csv', 'yellow_drop.csv', 'blue_drop.csv', 'orange_drop.csv', 'rocket_drop.csv']
+'''
 datafile = ['red_122617.csv', 'yellow_122617.csv', 'blueball2_122617.csv', 'orange_drop.csv', 'rocket_122617.csv']
 
 ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
 figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'rocket.pdf']
 rows = [slice(361,399,1), slice(375,420,1), slice(415,456,1), slice(2483,2540,1), slice(554,589,1)]
+'''
 
+ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
+title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
+figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'roc    ket.pdf']
+rows = [slice(363,397,1), slice(376,407,1), slice(416,454,1), slice(2485,2540,1),     slice(557,588,1)]
 
 for ii in range(5):
     g = -9.81

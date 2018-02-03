@@ -27,7 +27,6 @@ for ii in range(5):
 
     df.columns = ['index', 'time', 'range']
 
-
     df2 = df.ix[rows[ii]].dropna() #index range pertaining to data of interest
 
     xa=df2['time'].values

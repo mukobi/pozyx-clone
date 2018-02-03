@@ -11,13 +11,22 @@ from physProps import *
 params = {'mathtext.default': 'regular'}
 plt.rcParams.update(params)
 #####################################################################
-
+'''
 datafile = ['redtoss_ralf.csv', 'yellow_toss2.csv', 'blue_toss2.csv', 'orange_toss.csv', 'rocket_launch.csv']
 ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
 figname = ['redBall', 'yellowBall', 'blueBall', 'orangeBall', 'rocket']
 # old: rows = [slice(417,454,1), slice(359,396,1), slice(172,209,1), slice(2319,2347,1), slice(166,216,1)]
 rows = [slice(431,458,1), slice(359,396,1), slice(172,209,1), slice(2319,2347,1), slice(166,216,1)]
+#vi = [7.440, 6.824, 6.642, 7.545, 17]
+'''
+
+datafile = ['redtoss_ralf.csv', 'yellow_toss2.csv', 'blue_toss2.csv', 'orange_toss.csv', 'rocket_launch.csv']
+ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
+title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
+figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'rocket.pdf']
+# old: rows = [slice(417,454,1), slice(359,396,1), slice(172,209,1), slice(2319,2347,1), slice(166,216,1)]
+rows = [slice(431,458,1), slice(362,395,1), slice(175,208,1), slice(2325,2346,1), slice(167,216,1)]
 #vi = [7.440, 6.824, 6.642, 7.545, 17]
 
 for ii in range(5):
@@ -122,7 +131,7 @@ for ii in range(5):
         return np.array(xlist)
 
     if datafile[ii] == 'rocket_launch.csv':
-        popt, pcov = curve_fit(func3, adj_time, newRange, bounds=([0,0], [20,2]))
+        popt, pcov = curve_fit(func3, adj_time[:-1], newRange, bounds=([0,0], [20,2]))
         plt.figure()
         plt.plot(adj_time,newRange,'o')
         plt.plot(xx3, func3(xx3, *popt),
@@ -145,7 +154,7 @@ for ii in range(5):
 #    plt.plot(xx3, func3(xx3, *popt),
 #            label='fit: initial velocity=%5.3f, drag coefficient=%5.3f' % tuple(popt))
 
-    plt.title("{}".format(figname[ii]))
+    plt.title("{}".format(title[ii]))
     plt.xlabel("Time (s)")
     plt.ylabel("Position (m)")
     plt.legend()

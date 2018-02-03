@@ -15,11 +15,18 @@ plt.rcParams.update(params)
 
 # old: datafile = ['red_drop.csv', 'yellow_drop.csv', 'blue_drop.csv', 'orange_drop.csv', 'rocket_drop.csv']
 datafile = ['red_122617.csv', 'yellow_122617.csv', 'blueball2_122617.csv', 'orange_drop.csv', 'rocket_122617.csv']
-
+'''
 ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
 figname = ['redBall', 'yellowBall', 'blueBall', 'orangeBall', 'rocket']
 rows = [slice(361,399,1), slice(375,420,1), slice(415,456,1), slice(2483,2540,1), slice(554,589,1)]
+'''
+
+
+ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
+title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
+figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'rocket.pdf']
+rows = [slice(363,397,1), slice(376,407,1), slice(416,454,1), slice(2485,2540,1),     slice(557,588,1)]
 
 for ii in range(5):
     g = -9.81
@@ -103,14 +110,14 @@ for ii in range(5):
         return np.array(xlist)
 
 
-    popt, pcov = curve_fit(func3, x2, d2, bounds=([-5,0], [10,1]))
+    popt, pcov = curve_fit(func3, x2, d2, bounds=([-5,0], [5,2]))
     print(popt)
     plt.figure()
     x_filt = d2[d2 >= 0]
     plt.plot(x2,d2,'o', label = 'experimental data')
     plt.plot(xx3, func3(xx3, *popt),
             label='fit: initial velocity=%5.3f, drag coefficient=%5.3f' % tuple(popt))
-    plt.title("{} forced".format(figname[ii]))
+    plt.title("{} (velocity bounds [-5,5]) free fall".format(title[ii]))
     plt.xlabel("Time (s)")
     plt.ylabel("Position (m)")
     plt.legend()
