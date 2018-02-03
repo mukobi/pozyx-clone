@@ -9,8 +9,12 @@ fileName= input('Enter file name: ') #ask user to name the file
 fileType= '.csv'
 
 def OpenScaleData():
-    ser=serial.Serial('COM6',115200)
-    ser2=serial.Serial('COM26', 115200)
+    ser=serial.Serial('COM4',115200)
+                        #lenovo Yoga COM4
+                        #w520        COM6
+    ser2=serial.Serial('COM10', 115200)
+                        #lenovo Yoga COM10
+                        #w520        COM26
 
 ## open text file to store the current 
     text_file = open(fileName+fileType, 'w')
@@ -25,15 +29,15 @@ def OpenScaleData():
 
 
             
-##        if ser2.inWaiting():
+        if ser2.inWaiting():
             x1=ser2.readline() 
             print(x1)
-##        data= int(filter(str.isdigit, x))
+##       data= int(filter(str.isdigit, x))
             text_file.write(str (x1))
             text_file.write('\n')
-            if x1=='\n':
-                text_file.seek(0)
-                text_file.truncate()
+##            if x1=='\n':
+##          text_file.seek(0)
+##          text_file.truncate()
             text_file.flush()
 
 ## close the serial connection and text file
