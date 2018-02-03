@@ -74,7 +74,7 @@ public class ConsoleWindow implements Initializable {
                 if(args == null) command = new String[]{commandRoot};
                 else {
                     List<String> list = new LinkedList<>(Arrays.asList(args));
-                    list.add(0, executableWithDirectory);
+                    list.add(0, commandRoot);
                     command = list.toArray(new String[list.size()]);
                 }
                 ProcessBuilder ps=new ProcessBuilder(command);

@@ -1,11 +1,11 @@
 missing module named 'win32com.gen_py' - imported by win32com, c:\users\gabe\appdata\local\programs\python\python36-32\lib\site-packages\PyInstaller\loader\rthooks\pyi_rth_win32comgenpy.py
 missing module named pyimod03_importers - imported by c:\users\gabe\appdata\local\programs\python\python36-32\lib\site-packages\PyInstaller\loader\rthooks\pyi_rth_pkgres.py
-missing module named 'com.sun' - imported by pkg_resources._vendor.appdirs
-missing module named com - imported by pkg_resources._vendor.appdirs
-missing module named 'pkg_resources.extern.pyparsing' - imported by pkg_resources._vendor.packaging.requirements, pkg_resources._vendor.packaging.markers
+missing module named StringIO - imported by numpy.lib.utils, numpy.testing.utils, numpy.lib.format, pkg_resources._vendor.six
 missing module named __builtin__ - imported by numpy.core.numerictypes, numpy.core.numeric, numpy.distutils.misc_util, numpy.lib.function_base, numpy.lib._iotools, numpy.ma.core, numpy, pkg_resources._vendor.pyparsing
 missing module named ordereddict - imported by pkg_resources._vendor.pyparsing
-missing module named StringIO - imported by numpy.lib.utils, numpy.testing.utils, numpy.lib.format, pkg_resources._vendor.six
+missing module named 'pkg_resources.extern.pyparsing' - imported by pkg_resources._vendor.packaging.requirements, pkg_resources._vendor.packaging.markers
+missing module named 'com.sun' - imported by pkg_resources._vendor.appdirs
+missing module named com - imported by pkg_resources._vendor.appdirs
 missing module named __main__ - imported by pkg_resources
 missing module named multiprocessing.SimpleQueue - imported by multiprocessing, concurrent.futures.process
 missing module named multiprocessing.set_start_method - imported by multiprocessing, multiprocessing.spawn
@@ -22,7 +22,7 @@ missing module named 'multiprocessing.forking' - imported by c:\users\gabe\appda
 missing module named resource - imported by posix, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
 missing module named posix - imported by os, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
 missing module named _posixsubprocess - imported by subprocess, multiprocessing.util, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
-missing module named org - imported by pickle, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
+missing module named 'org.python' - imported by pickle, setuptools.sandbox, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py, xml.sax
 missing module named readline - imported by cmd, code, pdb, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
 excluded module named _frozen_importlib - imported by importlib, importlib.abc, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
 missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
@@ -36,7 +36,7 @@ missing module named urllib.splittag - imported by urllib, setuptools.py26compat
 missing module named grp - imported by shutil, tarfile, pathlib, distutils.archive_util, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
 missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, pathlib, distutils.util, distutils.archive_util, netrc, getpass, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
 missing module named _dummy_threading - imported by dummy_threading, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
-missing module named 'org.python' - imported by copy, setuptools.sandbox, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py, xml.sax
+missing module named org - imported by copy, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\motion_data.py
 missing module named '__pypy__.builders' - imported by msgpack.fallback
 missing module named __pypy__ - imported by msgpack.fallback
 missing module named commands - imported by numpy.distutils.cpuinfo
