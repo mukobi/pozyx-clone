@@ -141,6 +141,9 @@ public class Controller implements Initializable {
     @FXML
     private TextField m_filename;
 
+    @FXML
+    private CheckBox m_share_data_over_lan;
+
     // field data variables
     private String number_mobile_devices;
     private String remote_1_id;
@@ -201,6 +204,8 @@ public class Controller implements Initializable {
 
     private String use_file;
     private String filename;
+
+    private String share_data_over_lan;
 
 
     @FXML
@@ -346,6 +351,8 @@ public class Controller implements Initializable {
 
         use_file = valueOf(m_use_file.isSelected());
         filename = m_filename.getText();
+
+        share_data_over_lan = valueOf(m_share_data_over_lan.isSelected());
     }
 
     private void save_properties_to_file(String file) {
@@ -418,6 +425,8 @@ public class Controller implements Initializable {
 
             props.setProperty("use_file", use_file);
             props.setProperty("filename", filename);
+
+            props.setProperty("share_data_over_lan", share_data_over_lan);
 
             // save properties to project root folder
             props.store(output, null);
@@ -504,6 +513,8 @@ public class Controller implements Initializable {
 
             m_use_file.setSelected(Boolean.valueOf(prop.getProperty("use_file", "false")));
             m_filename.setText(prop.getProperty("filename", ""));
+
+            m_share_data_over_lan.setSelected(Boolean.valueOf(prop.getProperty("share_data_over_lan", "false")));
 
             update_variables_from_gui();
         }
