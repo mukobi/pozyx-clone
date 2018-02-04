@@ -14,7 +14,7 @@ from modules.file_writing import RangingFileWriting as FileIO
 from modules.file_writing import FileOpener
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from modules.pozyx_osc import PozyxUDP
+from modules.messaging import PozyxUDP, MmapCommunication
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
@@ -91,6 +91,8 @@ if __name__ == "__main__":
     alpha_vel = config.velocity_smooth
     smooth_velocity = alpha_vel < 1.00
 
+    share_data_over_lan = False
+
     to_get_sensor_data = not attributes_to_log == []
 
     ranging_protocol = POZYX_RANGE_PROTOCOL_PRECISION  # the ranging protocol
@@ -121,7 +123,8 @@ if __name__ == "__main__":
             except TypeError:
                 not_started = True
 
-    pozyxUDP = None
+    udp_messager = None
+    mmap_messager = None
     try:
         # Initialize EMA filter so it doesn't start at 0
         r.loop(range_data_array)
@@ -130,7 +133,9 @@ if __name__ == "__main__":
                 single_data.smoothed_range = single_data.device_range.distance
 
         # update message client after data working - don't send initial 0 range over osc
-        pozyxUDP = PozyxUDP()
+        if share_data_over_lan:
+            udp_messager = PozyxUDP()
+        mmap_messager = MmapCommunication()
 
         index = 0
         start = time.time()
@@ -181,7 +186,9 @@ if __name__ == "__main__":
                 if range_data_array[0].loop_status == POZYX_SUCCESS:
                     data_type = ([definitions.DATA_TYPE_RANGING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
                                  else [definitions.DATA_TYPE_RANGING])
-                    pozyxUDP.send_message(elapsed, tags, range_data_array, data_type)
+                    if share_data_over_lan:
+                        udp_messager.send_message(elapsed, tags, range_data_array, data_type)
+                    mmap_messager.send_message(elapsed, tags, range_data_array, data_type)
 
                 index = index + 1
             except ContinueI:
@@ -189,7 +196,9 @@ if __name__ == "__main__":
 
     finally:
         if to_use_file:
-            pozyxUDP.producer.close_socket()
+            if share_data_over_lan:
+                udp_messager.producer.close_socket()
+            mmap_messager.cleanup()
             logfile.close()
             print("closing file")
             # time.sleep(1)

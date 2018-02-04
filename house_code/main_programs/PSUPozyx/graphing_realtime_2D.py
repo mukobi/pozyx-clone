@@ -7,6 +7,7 @@ import sys
 import random
 from constants import definitions
 from modules import udp
+from modules.messaging import MmapCommunication
 from socket import gethostbyname, gethostname
 
 # global config variables
@@ -17,7 +18,7 @@ max_data_length = 200
 my_local_ip_address = gethostbyname(gethostname())
 
 
-class OSCDataHandling:
+class DataHandler:
     def __init__(self):
         self.tag = "0x6000"
         self.x_axis = "Time"
@@ -25,13 +26,20 @@ class OSCDataHandling:
         self.x_data = []
         self.y_data = []
         self.maxLen = max_data_length
-        self.consumer = udp.Consumer()
+        self.use_lan_data = False
+        if self.use_lan_data:
+            self.consumer = udp.Consumer()
+        else:
+            self.consumer = MmapCommunication()
         self.tag_idx = 1
         self.to_check_tag_idx = False
-        self.use_lan_data = False
 
     def set_use_lan_data(self, new_value):
         self.use_lan_data = new_value
+        if self.use_lan_data:
+            self.consumer = udp.Consumer()
+        else:
+            self.consumer = MmapCommunication()
 
     def clear_data(self):
         self.x_data = []
@@ -92,9 +100,6 @@ class OSCDataHandling:
             if new_data is None:
                 time.sleep(0.04)
                 continue
-            if not self.use_lan_data and my_local_ip_address not in new_data[0]:
-                time.sleep(0.04)
-                continue
             self.deal_with_data(new_data)
 
     def get_data(self):
@@ -119,9 +124,9 @@ if __name__ == "__main__":
         "Lin Acc X", "Lin Acc Y", "Lin Acc Z",
         "Gravity X", "Gravity Y", "Gravity Z"]
 
-    osc_handler = OSCDataHandling()
+    data_handler = DataHandler()
 
-    data_thread = _thread.start_new_thread(osc_handler.start_running, ())
+    data_thread = _thread.start_new_thread(data_handler.start_running, ())
 
     colors = ["g", "r", "c", "m", "b", "k"]
     color = colors[random.randint(0, len(colors) - 1)]
@@ -189,7 +194,7 @@ if __name__ == "__main__":
         if graphing_paused:
             return
         try:
-            x, y = osc_handler.get_data()
+            x, y = data_handler.get_data()
             # print(x)
             curve.setData(x, y)
 
@@ -198,18 +203,18 @@ if __name__ == "__main__":
             print("TypeError")
 
     def change_x_axis(ind):
-        osc_handler.clear_data()
+        data_handler.clear_data()
         print("Change x-axis to: " + x_dropdown.value())
-        osc_handler.change_x_axis(x_dropdown.value())
+        data_handler.change_x_axis(x_dropdown.value())
 
     def change_y_axis(ind):
-        osc_handler.clear_data()
+        data_handler.clear_data()
         print("Change y-axis to: " + y_dropdown.value())
-        osc_handler.change_y_axis(y_dropdown.value())
+        data_handler.change_y_axis(y_dropdown.value())
 
     def change_data_length(item):
         print("Change num data points to: " + str(item.value()))
-        osc_handler.change_max_data_len(int(item.value()))
+        data_handler.change_max_data_len(int(item.value()))
 
     def update_tag(item):
         new_tag = tag_input.text()
@@ -219,7 +224,7 @@ if __name__ == "__main__":
             print(new_tag + " is not a valid hexadecimal tag name.")
             return
         print("Change tag to: " + new_tag)
-        osc_handler.change_tag(new_tag)
+        data_handler.change_tag(new_tag)
 
     def pause_handler(ind):
         global graphing_paused
@@ -227,14 +232,14 @@ if __name__ == "__main__":
         print("Graphing", "paused." if graphing_paused else "resumed.")
 
     def clear_data_handler(ind):
-        osc_handler.clear_data()
+        data_handler.clear_data()
         print("Cleared data")
 
     def lan_data_handler(ind):
         check_state = bool(lan_data_checkbox.checkState())
         print("Toggling the use of LAN data. This affects whether or not you receive "
               "data to graph from other systems collecting data on the local network.")
-        osc_handler.set_use_lan_data(check_state)
+        data_handler.set_use_lan_data(check_state)
 
     x_dropdown.currentIndexChanged.connect(change_x_axis)
     y_dropdown.currentIndexChanged.connect(change_y_axis)
@@ -251,7 +256,7 @@ if __name__ == "__main__":
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         app.exec_()
 
-    osc_handler.consumer.close_socket()
+    data_handler.consumer.close_socket()
 
     _thread.exit_thread()
 

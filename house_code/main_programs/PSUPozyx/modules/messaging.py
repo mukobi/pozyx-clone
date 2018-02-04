@@ -2,22 +2,11 @@ import sys
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 from modules import udp
+import os
+import mmap
+import array
 
-
-class PozyxUDP:
-    def __init__(self, osc_udp_client_in=None):
-        self.producer = udp.Producer()
-
-    def send_message(self, elapsed_time, tags, data_array, data_types):
-        message_array = [elapsed_time]
-        for idx, tag in enumerate(tags):
-            message_array.append(tag)
-            data_for_tag = data_array[idx]
-            message_array = message_array + self.add_range_data(data_for_tag, data_types)
-            message_array = message_array + self.add_position_data(data_for_tag, data_types)
-            message_array = message_array + self.add_motion_data(data_for_tag, data_types)
-        self.producer.send(message_array)
-
+class MessageBuilder():
     @staticmethod
     def add_range_data(data_for_tag, data_types):
         if definitions.DATA_TYPE_RANGING not in data_types:
@@ -67,3 +56,55 @@ class PozyxUDP:
                 data_for_tag.sensor_data.gravity_vector.x,
                 data_for_tag.sensor_data.gravity_vector.y,
                 data_for_tag.sensor_data.gravity_vector.z]
+
+class PozyxUDP:
+    def __init__(self):
+        self.producer = udp.Producer()
+
+    def send_message(self, elapsed_time, tags, data_array, data_types):
+        message_array = [elapsed_time]
+        for idx, tag in enumerate(tags):
+            message_array.append(tag)
+            data_for_tag = data_array[idx]
+            message_array = message_array + MessageBuilder.add_range_data(data_for_tag, data_types)
+            message_array = message_array + MessageBuilder.add_position_data(data_for_tag, data_types)
+            message_array = message_array + MessageBuilder.add_motion_data(data_for_tag, data_types)
+        self.producer.send(message_array)
+
+
+class MmapCommunication():
+    def __init__(self):
+        self.temp_file_name = definitions.MMAP_TEMP_FILE_NAME
+        if not os.path.exists(self.temp_file_name):
+            with open(self.temp_file_name, 'wb'):
+                pass  # creates file if not existing
+
+        self.f = open(self.temp_file_name, "r+b")
+        self.mm = mmap.mmap(self.f.fileno(), definitions.MMAP_LENGTH)  # memory-map the file
+
+    def send_message(self, elapsed_time, tags, data_array, data_types):
+        message_array = [elapsed_time]
+        for idx, tag in enumerate(tags):
+            message_array.append(tag)
+            data_for_tag = data_array[idx]
+            message_array = message_array + MessageBuilder.add_range_data(data_for_tag, data_types)
+            message_array = message_array + MessageBuilder.add_position_data(data_for_tag, data_types)
+            message_array = message_array + MessageBuilder.add_motion_data(data_for_tag, data_types)
+        self.send_array(message_array)
+
+    def send_array(self, message_array):
+        self.mm.seek(0)
+        packed = array.array("d", message_array)
+        print(packed)
+        self.mm.write(packed)
+
+    def receive(self):
+        self.mm.seek(0)
+        raw = self.mm.read(definitions.MMAP_LENGTH)
+        data = raw.rstrip(b"\x00") # remove trailing padding
+        unpacked = array.array("d", data).tolist()
+        return None, unpacked # returns None for address to match UDP.consumer.receive()
+
+    def cleanup(self):
+        self.mm.close()
+        self.f.close()

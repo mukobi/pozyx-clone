@@ -1,3 +1,5 @@
+import tempfile
+
 # data collection type definitions
 DATA_TYPE_POSITIONING = 0
 DATA_TYPE_RANGING = 1
@@ -71,3 +73,6 @@ OSC_INDEX_DICT = {
     "Gravity Y": OSC_GRAVITY_Y_INDEX,
     "Gravity Z": OSC_GRAVITY_Z_INDEX
 }
+
+MMAP_TEMP_FILE_NAME = tempfile.gettempdir() + "\\PSU Pozyx temporary file"
+MMAP_LENGTH = 4096
