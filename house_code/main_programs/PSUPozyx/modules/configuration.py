@@ -8,7 +8,7 @@ MASTER_CONFIG_NAME = "MASTER_ACTIVE_CONFIG.properties"
 
 class ConfigStruct:
     def __init__(self, in_use_remote, in_remote_id, in_tags, in_anchors, in_attributes_to_log, in_use_file,
-                 in_data_file, in_range_anchor_id, in_position_smooth, in_velocity_smooth):
+                 in_data_file, in_range_anchor_id, in_position_smooth, in_velocity_smooth, in_share_data_over_lan):
         self.use_remote = in_use_remote
         self.remote_id = in_remote_id
         self.tags = in_tags
@@ -19,6 +19,7 @@ class ConfigStruct:
         self.range_anchor_id = in_range_anchor_id
         self.position_smooth = in_position_smooth
         self.velocity_smooth = in_velocity_smooth
+        self.share_data_over_lan = in_share_data_over_lan
 
 
 class Configuration:
@@ -216,6 +217,11 @@ class Configuration:
         if not filename.endswith(".csv"):
             filename += ".csv"
 
+        try:
+            share_data_over_lan = P["share_data_over_lan"] == "true"
+        except IndexError:
+            share_data_over_lan = False
+
         data_file = Configuration.get_data_folder() + filename
         anchors = [DeviceCoordinates(anchor_1_id, 1, Coordinates(anchor_1_x, anchor_1_y, anchor_1_z)),
                    DeviceCoordinates(anchor_2_id, 1, Coordinates(anchor_2_x, anchor_2_y, anchor_2_z)),
@@ -227,7 +233,7 @@ class Configuration:
                    DeviceCoordinates(anchor_8_id, 1, Coordinates(anchor_8_x, anchor_8_y, anchor_8_z))]
         anchors = anchors[0:number_anchors]
         config_struct = ConfigStruct(use_remote, remote_id, tags, anchors, attributes_to_log, use_file, data_file,
-                                     range_anchor_id, position_smooth, velocity_smooth)
+                                     range_anchor_id, position_smooth, velocity_smooth, share_data_over_lan)
         return config_struct
 
     @staticmethod

@@ -91,7 +91,7 @@ if __name__ == "__main__":
     alpha_vel = config.velocity_smooth
     smooth_velocity = alpha_vel < 1.00
 
-    share_data_over_lan = True
+    share_data_over_lan = config.share_data_over_lan
 
     to_get_sensor_data = not attributes_to_log == []
 
