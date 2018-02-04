@@ -47,7 +47,7 @@ class Consumer:
                              socket.inet_aton(mcast_addr) + socket.inet_aton(client_ip))
         self.sock.setblocking(blocking)
 
-    def close_socket(self):
+    def cleanup(self):
         self.sock.close()
 
     def receive(self, size=1024):

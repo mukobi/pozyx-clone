@@ -81,6 +81,7 @@ class MmapCommunication():
 
         self.f = open(self.temp_file_name, "r+b")
         self.mm = mmap.mmap(self.f.fileno(), definitions.MMAP_LENGTH)  # memory-map the file
+        self.previous_index_value = None
 
     def send_message(self, elapsed_time, tags, data_array, data_types):
         message_array = [elapsed_time]
@@ -90,6 +91,10 @@ class MmapCommunication():
             message_array = message_array + MessageBuilder.add_range_data(data_for_tag, data_types)
             message_array = message_array + MessageBuilder.add_position_data(data_for_tag, data_types)
             message_array = message_array + MessageBuilder.add_motion_data(data_for_tag, data_types)
+            # the mmap reader strips all the Null bytes from the end of the padded message, so if your last
+            # data point ends with a zero, it will be removed from the message, screwing it up. This line
+            # adds a dummy [1] value to the end so that the message is never cut before that on read
+            message_array = message_array + [1]
         self.send_array(message_array)
 
     def send_array(self, message_array):
@@ -103,7 +108,10 @@ class MmapCommunication():
         raw = self.mm.read(definitions.MMAP_LENGTH)
         data = raw.rstrip(b"\x00") # remove trailing padding
         unpacked = array.array("d", data).tolist()
-        return None, unpacked # returns None for address to match UDP.consumer.receive()
+        if unpacked[0] != self.previous_index_value:
+            self.previous_index_value = unpacked[0] # store index to avoid duplicate data
+            return None, unpacked # returns None for address to match UDP.consumer.receive()
+        return definitions.MMAP_NO_NEW_DATA_FLAG
 
     def cleanup(self):
         self.mm.close()

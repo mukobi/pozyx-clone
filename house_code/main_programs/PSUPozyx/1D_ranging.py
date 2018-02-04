@@ -91,7 +91,7 @@ if __name__ == "__main__":
     alpha_vel = config.velocity_smooth
     smooth_velocity = alpha_vel < 1.00
 
-    share_data_over_lan = False
+    share_data_over_lan = True
 
     to_get_sensor_data = not attributes_to_log == []
 
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     finally:
         if to_use_file:
             if share_data_over_lan:
-                udp_messager.producer.close_socket()
+                udp_messager.producer.cleanup()
             mmap_messager.cleanup()
             logfile.close()
             print("closing file")

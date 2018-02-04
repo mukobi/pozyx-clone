@@ -76,3 +76,4 @@ OSC_INDEX_DICT = {
 
 MMAP_TEMP_FILE_NAME = tempfile.gettempdir() + "\\PSU Pozyx temporary file"
 MMAP_LENGTH = 4096
+MMAP_NO_NEW_DATA_FLAG = "No new mmap data"

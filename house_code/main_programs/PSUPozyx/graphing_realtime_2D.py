@@ -77,7 +77,10 @@ class DataHandler:
             y_index = 0
 
         x = message[x_index]
-        y = message[y_index]
+        try:
+            y = message[y_index]
+        except IndexError:
+            pass
         return x, y
 
     def add(self, x, y):
@@ -99,6 +102,9 @@ class DataHandler:
             new_data = self.consumer.receive()
             if new_data is None:
                 time.sleep(0.04)
+                continue
+            elif new_data == definitions.MMAP_NO_NEW_DATA_FLAG:
+                time.sleep(0.007) # wait a lot less since MMAP so fast
                 continue
             self.deal_with_data(new_data)
 
@@ -199,8 +205,8 @@ if __name__ == "__main__":
             curve.setData(x, y)
 
             QtGui.QApplication.processEvents()
-        except Exception:
-            print("TypeError")
+        except Exception as e:
+            print(e)
 
     def change_x_axis(ind):
         data_handler.clear_data()
@@ -256,7 +262,7 @@ if __name__ == "__main__":
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         app.exec_()
 
-    data_handler.consumer.close_socket()
+    data_handler.consumer.cleanup()
 
     _thread.exit_thread()
 
