@@ -23,12 +23,11 @@ import sys
 import time
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
-from pythonosc.udp_client import SimpleUDPClient
 from modules.file_writing import FileOpener
 from modules.file_writing import MotionDataFileWriting as FileIO
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
-from modules.messaging import PozyxUDP
+from modules.messaging import PozyxUDP, MmapCommunication
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
@@ -77,6 +76,7 @@ if __name__ == '__main__':
     attributes_to_log = config.attributes_to_log
     to_use_file = config.use_file
     filename = config.data_file
+    share_data_over_lan = config.share_data_over_lan
 
     if not remote:
         remote_id = None
@@ -95,8 +95,12 @@ if __name__ == '__main__':
         logfile = FileOpener.create_csv(filename)
         FileIO.write_headers_to_file(logfile, tags, attributes_to_log)
 
+    udp_messenger = None
+    mmap_messenger = None
     try:
-        pozyxUDP = PozyxUDP()
+        if share_data_over_lan:
+            udp_messenger = PozyxUDP()
+        mmap_messenger = MmapCommunication()
         index = 0
         start = time.time()
         new_time = 0.0
@@ -117,7 +121,9 @@ if __name__ == '__main__':
 
             if loop_data_array[0].loop_status == POZYX_SUCCESS:
                 data_type = [definitions.DATA_TYPE_MOTION_DATA]
-                pozyxUDP.send_message(elapsed, tags, loop_data_array, data_type)
+                if share_data_over_lan:
+                    udp_messenger.send_message(elapsed, tags, loop_data_array, data_type)
+                mmap_messenger.send_message(elapsed, tags, loop_data_array, data_type)
 
             index = index + 1
 
@@ -127,3 +133,6 @@ if __name__ == '__main__':
     finally:
         if to_use_file:
             logfile.close()
+        if share_data_over_lan:
+            udp_messenger.producer.cleanup()
+        mmap_messenger.cleanup()

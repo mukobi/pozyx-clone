@@ -33,7 +33,7 @@ class MessageBuilder():
     def add_motion_data(data_for_tag, data_types):
         if definitions.DATA_TYPE_MOTION_DATA not in data_types:
             return [0] * 23
-        return [data_for_tag.sensor_data.pressure,
+        return [data_for_tag.sensor_data.pressure.value,
                 data_for_tag.sensor_data.acceleration.x,
                 data_for_tag.sensor_data.acceleration.y,
                 data_for_tag.sensor_data.acceleration.z,

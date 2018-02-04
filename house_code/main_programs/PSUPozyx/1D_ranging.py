@@ -90,7 +90,6 @@ if __name__ == "__main__":
     alpha_pos = config.position_smooth
     alpha_vel = config.velocity_smooth
     smooth_velocity = alpha_vel < 1.00
-
     share_data_over_lan = config.share_data_over_lan
 
     to_get_sensor_data = not attributes_to_log == []
@@ -123,8 +122,8 @@ if __name__ == "__main__":
             except TypeError:
                 not_started = True
 
-    udp_messager = None
-    mmap_messager = None
+    udp_messenger = None
+    mmap_messenger = None
     try:
         # Initialize EMA filter so it doesn't start at 0
         r.loop(range_data_array)
@@ -134,8 +133,8 @@ if __name__ == "__main__":
 
         # update message client after data working - don't send initial 0 range over osc
         if share_data_over_lan:
-            udp_messager = PozyxUDP()
-        mmap_messager = MmapCommunication()
+            udp_messenger = PozyxUDP()
+        mmap_messenger = MmapCommunication()
 
         index = 0
         start = time.time()
@@ -187,8 +186,8 @@ if __name__ == "__main__":
                     data_type = ([definitions.DATA_TYPE_RANGING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
                                  else [definitions.DATA_TYPE_RANGING])
                     if share_data_over_lan:
-                        udp_messager.send_message(elapsed, tags, range_data_array, data_type)
-                    mmap_messager.send_message(elapsed, tags, range_data_array, data_type)
+                        udp_messenger.send_message(elapsed, tags, range_data_array, data_type)
+                    mmap_messenger.send_message(elapsed, tags, range_data_array, data_type)
 
                 index = index + 1
             except ContinueI:
@@ -196,9 +195,7 @@ if __name__ == "__main__":
 
     finally:
         if to_use_file:
-            if share_data_over_lan:
-                udp_messager.producer.cleanup()
-            mmap_messager.cleanup()
             logfile.close()
-            print("closing file")
-            # time.sleep(1)
+        if share_data_over_lan:
+            udp_messenger.producer.cleanup()
+        mmap_messenger.cleanup()

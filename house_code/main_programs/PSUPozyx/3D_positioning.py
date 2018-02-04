@@ -11,15 +11,13 @@ in the PSUPozyx GUI.
 """
 import time
 import sys
-import pythonosc
 from pypozyx import *
 from pypozyx.definitions.bitmasks import POZYX_INT_MASK_IMU
-from pythonosc.udp_client import SimpleUDPClient
 from modules.console_logging_functions import CondensedConsoleLogging as Console
 from modules.configuration import Configuration as Configuration
 from modules.file_writing import FileOpener
 from modules.file_writing import PositioningFileWriting as FileIO
-from modules.messaging import PozyxUDP
+from modules.messaging import PozyxUDP, MmapCommunication
 sys.path.append(sys.path[0] + "/..")
 from constants import definitions
 
@@ -70,8 +68,7 @@ class Positioning(object):
                 sensor_data.data_format = 'IhhhhhhhhhhhhhhhhhhhhhhB'
                 if loop_tag is not None or self.pozyx.checkForFlag(
                         POZYX_INT_MASK_IMU, 0.01) == POZYX_SUCCESS:
-                    loop_status = self.pozyx.getAllSensorData(sensor_data, y
-                                                              )
+                    loop_status = self.pozyx.getAllSensorData(sensor_data, loop_tag)
                     loop_status &= self.pozyx.getCalibrationStatus(calibration_status, loop_tag)
 
             single = loop_position_data_array[idx]
@@ -182,6 +179,7 @@ if __name__ == "__main__":
     alpha_pos = config.position_smooth
     alpha_vel = config.velocity_smooth
     smooth_velocity = alpha_vel < 1.00
+    share_data_over_lan = config.share_data_over_lan
 
     position_data_array = []
     for tag in tags:
@@ -211,11 +209,12 @@ if __name__ == "__main__":
                     single_data.smoothed_y = single_data.position.y
                     single_data.smoothed_y = single_data.position.y
 
+    udp_messenger = None
+    mmap_messenger = None
     try:
-        # update message client after data working - don't send initial 0 range over osc
-        ip, network_port = "127.0.0.1", 8888
-        osc_udp_client = SimpleUDPClient(ip, network_port)
-        pozyxOSC = PozyxUDP(osc_udp_client)
+        if share_data_over_lan:
+            udp_messenger = PozyxUDP()
+        mmap_messenger = MmapCommunication()
 
         index = 0
         start = time.time()
@@ -246,10 +245,9 @@ if __name__ == "__main__":
                 if position_data_array[0].loop_status == POZYX_SUCCESS:
                     data_type = ([definitions.DATA_TYPE_POSITIONING, definitions.DATA_TYPE_MOTION_DATA] if attributes_to_log
                                  else [definitions.DATA_TYPE_POSITIONING])
-                    try:
-                        pozyxOSC.send_message(elapsed, tags, position_data_array, data_type)
-                    except pythonosc.osc_message.ParseError:
-                        pass
+                    if share_data_over_lan:
+                        udp_messenger.send_message(elapsed, tags, position_data_array, data_type)
+                    mmap_messenger.send_message(elapsed, tags, position_data_array, data_type)
 
                 index = index + 1
 
@@ -262,3 +260,6 @@ if __name__ == "__main__":
     finally:
         if to_use_file:
             logfile.close()
+        if share_data_over_lan:
+            udp_messenger.producer.cleanup()
+        mmap_messenger.cleanup()
