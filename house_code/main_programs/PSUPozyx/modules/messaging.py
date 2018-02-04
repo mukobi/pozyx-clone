@@ -100,7 +100,7 @@ class MmapCommunication():
     def send_array(self, message_array):
         self.mm.seek(0)
         packed = array.array("d", message_array)
-        print(packed)
+        # print(packed)
         self.mm.write(packed)
 
     def receive(self):
