@@ -17,16 +17,16 @@
 ////////////////// PARAMETERS //////////////////
 ////////////////////////////////////////////////
 
-uint16_t remote_id = 0x611d;                            // set this to the ID of the remote device
+uint16_t remote_id = 0x615b;                            // set this to the ID of the remote device
 bool remote = true;                                    // set this to true to use the remote ID
 
 boolean use_processing = false;                         // set this to true to output data for the processing sketch
 
 const uint8_t num_anchors = 4;                                    // the number of anchors
-uint16_t anchors[num_anchors] = {0x605d, 0x604f, 0x6129, 0x6020};     // the network id of the anchors: change these to the network ids of your anchors.
-int32_t anchors_x[num_anchors] = {1873, 0, 291, 2617};               // anchor x-coorindates in mm
-int32_t anchors_y[num_anchors] = {3745, 0, 6183, 2908};                  // anchor y-coordinates in mm
-int32_t heights[num_anchors] = {970, 1660, 1731, 1705};              // anchor z-coordinates in mm
+uint16_t anchors[num_anchors] = {0x605d, 0x6863, 0x6129, 0x6020};     // the network id of the anchors: change these to the network ids of your anchors.
+int32_t anchors_x[num_anchors] = {0,4079 ,4067 , 0};               // anchor x-coorindates in mm
+int32_t anchors_y[num_anchors] = {0,0 ,7102 ,7406 };                  // anchor y-coordinates in mm
+int32_t heights[num_anchors] = {991, 983, 982 , 998};              // anchor z-coordinates in mm
 
 uint8_t algorithm = POZYX_POS_ALG_UWB_ONLY;             // positioning algorithm to use. try POZYX_POS_ALG_TRACKING for fast moving objects.
 uint8_t dimension = POZYX_3D;                           // positioning dimension
