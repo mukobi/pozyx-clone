@@ -27,7 +27,10 @@ uint16_t anchors[num_anchors] = {0x605d, 0x6863, 0x6129, 0x6020};     // the net
 int32_t anchors_x[num_anchors] = {0,4079 ,4067 , 0};               // anchor x-coorindates in mm
 int32_t anchors_y[num_anchors] = {0,0 ,7102 ,7406 };                  // anchor y-coordinates in mm
 int32_t heights[num_anchors] = {991, 983, 982 , 998};              // anchor z-coordinates in mm
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1cf0e6a8306897a6e827e27cac826c80d073db7c
 
 uint8_t algorithm = POZYX_POS_ALG_UWB_ONLY;             // positioning algorithm to use. try POZYX_POS_ALG_TRACKING for fast moving objects.
 uint8_t dimension = POZYX_3D;                           // positioning dimension
