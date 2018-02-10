@@ -73,24 +73,29 @@ def check_uwb_setting(uwb_settings):
     # channel
     channel = uwb_settings.channel
     if channel < 1 or channel > 6:
-        sys.exit("Incorrect channel value (%i). Channel needs to be a whole number from 1 to 6." % channel)
+        print("Incorrect channel value (%i). Channel needs to be a whole number from 1 to 6." % channel)
+        sys.exit(1)
     # bitrate
     bitrate = uwb_settings.bitrate
     if bitrate < 0 or bitrate > 2:
-        sys.exit("Incorrect bitrate value. Bitrate needs to be a whole number from 0 to 2.")
+        print("Incorrect bitrate value. Bitrate needs to be a whole number from 0 to 2.")
+        sys.exit(1)
     # prf
     prf = uwb_settings.prf
     if prf < 1 or prf > 2:
-        sys.exit("Incorrect prf value. Prf needs to be 1 or 2.")
+        print("Incorrect prf value. Prf needs to be 1 or 2.")
+        sys.exit(1)
     # plen
     plen = uwb_settings.plen
     possible_plen = [0x0C, 0x28, 0x18, 0x08, 0x34, 0x24, 0x14, 0x04]
     if plen not in possible_plen:
-        sys.exit("Incorrect plen value. Plen needs to be 0x0C, 0x28, 0x18, 0x08, 0x34, 0x24, 0x14, or 0x04.")
+        print("Incorrect plen value. Plen needs to be 0x0C, 0x28, 0x18, 0x08, 0x34, 0x24, 0x14, or 0x04.")
+        sys.exit(1)
     # gain
     gain = uwb_settings.gain_db
     if uwb_settings.gain_db < 0 or uwb_settings.channel > 33.5:
-        sys.exit("Incorrect gain value. Gain needs to be a number from 0 to 33.5.")
+        print("Incorrect gain value. Gain needs to be a number from 0 to 33.5.")
+        sys.exit(1)
 
 
 def repr_uwb_settings(uwb_settings):
@@ -131,7 +136,7 @@ if __name__ == '__main__':
         print("Showing old UWB settings for the local device.")
         # shows the previous UWB settings
         c = ChangeUWBSettings(pozyx, uwb_settings, devices, set_local, save_to_flash)
-        sys.exit()
+        sys.exit(0)
     # all 5 UWB arguments were passed plus the call to the script
     elif arg_length is 6:
         try:
@@ -143,7 +148,7 @@ if __name__ == '__main__':
         except ValueError:
             print("There was an error in your arguments; please make sure they are in the form:\n"
                 "[int] channel [int] bitrate [int] prf [hex int] plen [float] gain")
-            sys.exit()
+            sys.exit(1)
 
         uwb_settings = UWBSettings(channel=arg_channel,
                                    bitrate=arg_bitrate,
@@ -151,10 +156,11 @@ if __name__ == '__main__':
                                    plen=arg_plen,
                                    gain_db=arg_gain)
     else:
-        sys.exit("\nSorry, your arguments are incorrect. Please make sure you include no arguments "
+        print("\nSorry, your arguments are incorrect. Please make sure you include no arguments "
                  "after the script name to check the previous settings or to set the UWB settings "
                  "include 6 arguments in the form:\n"
                  "[int] channel [int] bitrate [int] prf [hex int] plen [float] gain")
+        sys.exit(1)
 
     check_uwb_setting(uwb_settings)
 
