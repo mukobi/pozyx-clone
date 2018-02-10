@@ -7,9 +7,7 @@ finds all devices on all settings.
 """
 import sys
 from pypozyx import *
-from pypozyx.definitions.registers import POZYX_UWB_CHANNEL, POZYX_UWB_RATES, POZYX_UWB_PLEN
 from modules.configuration import Configuration
-import time
 
 class ChangeUWBSettings:
 
@@ -130,7 +128,7 @@ if __name__ == '__main__':
 
     # no arguments added on, only call was to script
     if arg_length is 1:
-        print("Showing old UWB settings for local device.")
+        print("Showing old UWB settings for the local device.")
         # shows the previous UWB settings
         c = ChangeUWBSettings(pozyx, uwb_settings, devices, set_local, save_to_flash)
         sys.exit()
