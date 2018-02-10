@@ -101,7 +101,7 @@ public class ConfigureUwbSettings {
 
     public void handleLaunchCheckUwb(ActionEvent actionEvent) {
         new Controller().launchConsoleLogging("configure_uwb_settings", true, null, "PYINSTALLERPATH");
-    }
+}
 
     public void handleMaximumRange() {
         m_bitrate.setValue("110 Mbps");

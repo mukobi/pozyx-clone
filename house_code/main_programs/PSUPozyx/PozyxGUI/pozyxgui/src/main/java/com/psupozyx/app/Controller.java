@@ -22,7 +22,9 @@ import static java.lang.String.valueOf;
 
 
 public class Controller implements Initializable {
-    private Stage stage = (Stage) null;
+    private static Stage consoleStage = (Stage) null;
+
+    private static ConsoleWindow consoleController;
 
     // interface fields
     @FXML
@@ -213,7 +215,7 @@ public class Controller implements Initializable {
         update_variables_from_gui();
         FileChooser fileChooser = new FileChooser();
         configureFileChooser(fileChooser);
-        File loadFile = fileChooser.showOpenDialog(stage);
+        File loadFile = fileChooser.showOpenDialog(consoleStage);
         if (loadFile != null) {
             String templatePath = loadFile.getAbsolutePath();
             load_properties_from_file(templatePath);
@@ -226,7 +228,7 @@ public class Controller implements Initializable {
 
         FileChooser fileChooser = new FileChooser();
         configureFileChooser(fileChooser);
-        File templateFile = fileChooser.showSaveDialog(stage);
+        File templateFile = fileChooser.showSaveDialog(consoleStage);
         if (templateFile != null) {
             String templatePath = templateFile.getAbsolutePath();
             save_properties_to_file(templatePath);
@@ -631,25 +633,29 @@ public class Controller implements Initializable {
         );
     }
 
-    void launchConsoleLogging(String executable, boolean showConsole, String[] args, String prependPathType) {
+    static void launchConsoleLogging(String executable, boolean showConsole, String[] args, String prependPathType) {
         CreateFoldersInDocuments();
 
         try {
-            stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/console_window.fxml"));
+            if(consoleStage != null) {
+                consoleController.terminateProcess();
+                consoleStage.close();
+            }
+            consoleStage = new Stage();
+            FXMLLoader loader = new FXMLLoader(Controller.class.getClassLoader().getResource("fxml/console_window.fxml"));
             Parent root1 = loader.load();
-            stage.setTitle("Console Output");
-            stage.setScene(new Scene(root1));
-            stage.setMaximized(false);
-            //stage.initOwner(m_a1_id.getScene().getWindow());
-            stage.initStyle(StageStyle.DECORATED);
-            ConsoleWindow console_controller = loader.getController();
-            stage.setOnCloseRequest(we -> console_controller.terminateProcess());
+            consoleStage.setTitle("Console Output");
+            consoleStage.setScene(new Scene(root1));
+            consoleStage.setMaximized(false);
+            //consoleStage.initOwner(m_a1_id.getScene().getWindow());
+            consoleStage.initStyle(StageStyle.DECORATED);
+            consoleController = loader.getController();
+            consoleStage.setOnCloseRequest(we -> consoleController.terminateProcess());
             if (showConsole) {
-                stage.show();
+                consoleStage.show();
             }
 
-            console_controller.launchScript("Waiting for data to be collected...", executable, args, prependPathType);
+            consoleController.launchScript("Waiting for data to be collected...", executable, args, prependPathType);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -703,7 +709,7 @@ public class Controller implements Initializable {
         launchConsoleLogging("graphing_realtime_2D", false, null,"PYINSTALLERPATH");
     }
 
-    private String GetDocumentsFolder() {
+    private static String GetDocumentsFolder() {
         String documentsFolder = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "/PSUPozyx/";
         if(new SysTools().isMac()) {
             documentsFolder += "Library/Application Support/PSUPozyx/"; // may or may not work
@@ -722,7 +728,7 @@ public class Controller implements Initializable {
         return "";
     }
 
-    private void CreateFoldersInDocuments() {
+    private static void CreateFoldersInDocuments() {
         String documentsFolder = GetDocumentsFolder();
         String configFolder = documentsFolder + "Configurations/";
         String dataFolder = documentsFolder + "Data/";
@@ -734,6 +740,14 @@ public class Controller implements Initializable {
         if(!dataFile.exists()) {
             dataFile.mkdirs();
         }
+    }
+
+    ConsoleWindow getConsoleController() {
+        return consoleController;
+    }
+
+    Stage getConsoleStage() {
+        return consoleStage;
     }
 }
 

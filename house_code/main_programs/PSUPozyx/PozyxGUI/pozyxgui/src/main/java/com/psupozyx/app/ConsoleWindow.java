@@ -3,7 +3,9 @@ package com.psupozyx.app;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import sun.nio.ch.IOUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -112,6 +114,7 @@ public class ConsoleWindow implements Initializable {
     }
 
     void terminateProcess() {
+        System.out.println("destroying");
         if (pr != null) {
             pr.destroy();
         }
