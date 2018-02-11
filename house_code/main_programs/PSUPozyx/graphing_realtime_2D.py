@@ -143,6 +143,7 @@ if __name__ == "__main__":
     pg.setConfigOption('foreground', 'k')
     pg.setConfigOption('useOpenGL', True)
     pg.setConfigOption('crashWarning', True)
+    pg.setConfigOption('antialias', True)
 
     app = QtGui.QApplication([])
     pw = pg.PlotWidget()
