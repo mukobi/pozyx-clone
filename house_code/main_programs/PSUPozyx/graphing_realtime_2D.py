@@ -141,6 +141,8 @@ if __name__ == "__main__":
 
     pg.setConfigOption('background', 'w')
     pg.setConfigOption('foreground', 'k')
+    pg.setConfigOption('useOpenGL', True)
+    pg.setConfigOption('crashWarning', True)
 
     app = QtGui.QApplication([])
     pw = pg.PlotWidget()
@@ -171,7 +173,6 @@ if __name__ == "__main__":
     tag_input.setMaxLength(6)
 
     clear_data_button = QtGui.QPushButton("Clear Window")
-
 
     lan_data_checkbox = QtGui.QCheckBox("LAN Data")
 
@@ -263,6 +264,8 @@ if __name__ == "__main__":
         app.exec_()
 
     data_handler.consumer.cleanup()
+
+    app.closeAllWindows()
 
     _thread.exit_thread()
 
