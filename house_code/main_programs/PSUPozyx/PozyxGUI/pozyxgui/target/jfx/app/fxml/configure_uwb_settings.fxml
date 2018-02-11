@@ -213,34 +213,12 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Load Settings" />
-                  <MenuItem mnemonicParsing="false" text="Save Settings" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
+              <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Setup">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Configure UWB Settings" />
-               </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Run">
-            <items>
-              <MenuItem mnemonicParsing="false" text="1D Ranging" />
-                  <MenuItem mnemonicParsing="false" text="3D Positioning" />
-                  <MenuItem mnemonicParsing="false" text="Motion Data" />
-                  <MenuItem mnemonicParsing="false" text="3D Positioning and Motion Data" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Analyze">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Replay Data" />
-                  <MenuItem mnemonicParsing="false" text="Graph Data" />
-               </items>
-            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="Pozyx Help" />
-                  <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" text="UWB Help" />
             </items>
           </Menu>
         </menus>

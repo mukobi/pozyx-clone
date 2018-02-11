@@ -399,13 +399,11 @@
               <MenuItem mnemonicParsing="false" onAction="#handleLaunchRanging" text="1D Ranging" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLaunchPositioning" text="3D Positioning" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLaunchMotionData" text="Motion Data" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleLaunchPositioningAndMotionData" text="3D Positioning and Motion Data" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Graph">
                 <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleGraph2D" text="2D Realtime Graphing" />
-                    <MenuItem mnemonicParsing="false" text="3D Realtime Graphing" />
                 </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Analyze">
@@ -415,9 +413,8 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="Pozyx Help" />
-                  <MenuItem mnemonicParsing="false" text="About" />
-                <MenuItem mnemonicParsing="false" text="Python Test" />
+                <MenuItem mnemonicParsing="false" text="Pozyx Help" />
+                <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
