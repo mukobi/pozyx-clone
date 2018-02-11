@@ -134,10 +134,7 @@ if __name__ == "__main__":
 
     data_thread = _thread.start_new_thread(data_handler.start_running, ())
 
-    colors = ["g", "r", "c", "m", "b", "k"]
-    color = "k"
 
-    pen = pg.mkPen(color, width=2)
 
     pg.setConfigOption('background', 'w')
     pg.setConfigOption('foreground', 'k')
@@ -175,6 +172,13 @@ if __name__ == "__main__":
 
     clear_data_button = QtGui.QPushButton("Clear Window")
 
+    color_label = QtGui.QLabel("Color:")
+    color_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+
+    colors = ["g", "r", "c", "m", "b", "k"]
+    color_dropdown = pg.ComboBox(items=["Black", "Green", "Red", "Cyan", "Magenta", "Blue"])
+    color_dropdown.setValue("Black")
+
     lan_data_checkbox = QtGui.QCheckBox("LAN Data")
 
     layout = QtGui.QGridLayout()
@@ -191,9 +195,13 @@ if __name__ == "__main__":
     layout.addWidget(tag_input,         0, 12, 1, 2)
     layout.addWidget(clear_data_button, 0, 14, 1, 1)
     layout.addWidget(lan_data_checkbox, 0, 15, 1, 1)
-    layout.addWidget(pw,                1, 0, 1, 16)
+    layout.addWidget(color_label,       1, 0, 1, 1)
+    layout.addWidget(color_dropdown,    1, 1, 1, 1)
+    layout.addWidget(pw,                2, 0, 1, 16)
 
     w.show()
+
+    pen = pg.mkPen('k', width=2)
     curve = pw.plot(pen=pen)
 
     graphing_paused = False
@@ -249,6 +257,16 @@ if __name__ == "__main__":
               "data to graph from other systems collecting data on the local network.")
         data_handler.set_use_lan_data(check_state)
 
+    def color_handler(ind):
+        global curve
+        new_color = color_dropdown.value()
+        print("Change color to: " + new_color)
+        color_char = new_color[0].lower()
+        if new_color == "Black":
+            color_char = "k"
+        curve.setPen(color_char, width=2)
+
+
     x_dropdown.currentIndexChanged.connect(change_x_axis)
     y_dropdown.currentIndexChanged.connect(change_y_axis)
     data_point_spin.sigValueChanged.connect(change_data_length)
@@ -256,6 +274,7 @@ if __name__ == "__main__":
     pause_button.clicked.connect(pause_handler)
     clear_data_button.clicked.connect(clear_data_handler)
     lan_data_checkbox.clicked.connect(lan_data_handler)
+    color_dropdown.currentIndexChanged.connect(color_handler)
 
     timer = QtCore.QTimer()
     timer.timeout.connect(update)
