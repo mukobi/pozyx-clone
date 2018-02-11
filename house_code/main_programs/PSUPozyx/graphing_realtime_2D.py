@@ -135,7 +135,7 @@ if __name__ == "__main__":
     data_thread = _thread.start_new_thread(data_handler.start_running, ())
 
     colors = ["g", "r", "c", "m", "b", "k"]
-    color = colors[random.randint(0, len(colors) - 1)]
+    color = "k"
 
     pen = pg.mkPen(color, width=2)
 
