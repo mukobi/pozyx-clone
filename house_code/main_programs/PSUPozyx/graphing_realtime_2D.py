@@ -184,20 +184,26 @@ if __name__ == "__main__":
     layout = QtGui.QGridLayout()
     w.setLayout(layout)
 
-    layout.addWidget(pause_button,      0, 0, 1, 1)
-    layout.addWidget(x_label,           0, 1, 1, 1)
-    layout.addWidget(x_dropdown,        0, 2, 1, 2)
-    layout.addWidget(y_label,           0, 4, 1, 1)
-    layout.addWidget(y_dropdown,        0, 5, 1, 2)
-    layout.addWidget(data_point_label,  0, 7, 1, 1)
-    layout.addWidget(data_point_spin,   0, 8, 1, 3)
-    layout.addWidget(tag_label,         0, 11, 1, 1)
-    layout.addWidget(tag_input,         0, 12, 1, 2)
-    layout.addWidget(clear_data_button, 0, 14, 1, 1)
-    layout.addWidget(lan_data_checkbox, 0, 15, 1, 1)
-    layout.addWidget(color_label,       1, 0, 1, 1)
-    layout.addWidget(color_dropdown,    1, 1, 1, 1)
-    layout.addWidget(pw,                2, 0, 1, 16)
+    # row 1
+    layout.addWidget(pause_button,      0, 0, 1, 2)
+    layout.addWidget(clear_data_button, 0, 2, 1, 2)
+    layout.addWidget(x_label,           0, 4, 1, 1)
+    layout.addWidget(x_dropdown,        0, 5, 1, 2)
+    layout.addWidget(y_label,           0, 7, 1, 1)
+    layout.addWidget(y_dropdown,        0, 8, 1, 2)
+    # row 2
+    layout.addWidget(lan_data_checkbox, 1, 0, 1, 2)
+    layout.addWidget(color_label,       1, 2, 1, 1)
+    layout.addWidget(color_dropdown,    1, 3, 1, 1)
+    layout.addWidget(data_point_label,  1, 4, 1, 1)
+    layout.addWidget(data_point_spin,   1, 5, 1, 2)
+    layout.addWidget(tag_label,         1, 7, 1, 1)
+    layout.addWidget(tag_input,         1, 8, 1, 2)
+    # row 3
+    layout.addWidget(pw,                2, 0, 1, 10)
+
+    for i in range(0, 10):
+        layout.setColumnStretch(i, 1)
 
     w.show()
 
