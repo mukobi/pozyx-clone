@@ -238,28 +238,7 @@ class Configuration:
 
     @staticmethod
     def get_correct_serial_port():
-        port = None
-
-        try:
-            port = get_serial_ports()[5].device
-        except IndexError:
-            try:
-                port = get_serial_ports()[4].device
-            except IndexError:
-                try:
-                    port = get_serial_ports()[3].device
-                except IndexError:
-                    try:
-                        port = get_serial_ports()[2].device
-                    except IndexError:
-                        try:
-                            port = get_serial_ports()[1].device
-                        except IndexError:
-                            try:
-                                port = get_serial_ports()[0].device
-                            except IndexError:
-                                pass
-        return port
+        return get_first_pozyx_serial_port()
 
     @staticmethod
     def get_psupozyx_folder():

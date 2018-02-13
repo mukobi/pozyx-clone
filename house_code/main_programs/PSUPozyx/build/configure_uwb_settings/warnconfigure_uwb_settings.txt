@@ -13,8 +13,8 @@ missing module named vms_lib - imported by platform, C:\Users\Gabe\Documents\Git
 missing module named termios - imported by tty, serial.serialposix, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\configure_uwb_settings.py, getpass
 missing module named grp - imported by shutil, tarfile, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\configure_uwb_settings.py
 missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\configure_uwb_settings.py, netrc, getpass
-missing module named 'org.python' - imported by copy, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\configure_uwb_settings.py, xml.sax
 missing module named _dummy_threading - imported by dummy_threading, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\configure_uwb_settings.py
+missing module named 'org.python' - imported by copy, C:\Users\Gabe\Documents\GitHub\Pozyx\house_code\main_programs\PSUPozyx\configure_uwb_settings.py, xml.sax
 missing module named fcntl - imported by serial.serialposix
 missing module named 'System.IO' - imported by serial.serialcli
 missing module named System - imported by serial.serialcli
