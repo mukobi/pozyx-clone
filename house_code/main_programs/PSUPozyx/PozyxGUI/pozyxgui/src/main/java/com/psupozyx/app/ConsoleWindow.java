@@ -22,14 +22,14 @@ public class ConsoleWindow implements Initializable {
     @FXML
     private Label console;
 
-    private Process pr;
+    private static Process pr;
 
     private static final int CHARACTERDISPLAYBUFFER = 30000;
 
     private String osName = System.getProperty("os.name");
     private String OS = osName.toLowerCase();
 
-    void launchScript(String startMessage, String executable, String[] args, String prependPathType) {
+    void launchScript(String startMessage, String executable, String[] args) {
         if (startMessage != null) {
             console.setText(startMessage);
         }
@@ -82,6 +82,9 @@ public class ConsoleWindow implements Initializable {
                 ProcessBuilder ps=new ProcessBuilder(command);
 
                 ps.redirectErrorStream(true);
+                if(pr != null) {
+                    pr.destroy();
+                }
                 pr = ps.start();
                 InputStream inputStream = pr.getInputStream();
 

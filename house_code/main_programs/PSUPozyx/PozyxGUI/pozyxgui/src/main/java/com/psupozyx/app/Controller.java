@@ -243,17 +243,17 @@ public class Controller implements Initializable {
     @FXML
     private void handleLaunchRanging() {
         saveSettingsForUse();
-        launchConsoleLogging("1D_ranging", true, null,"COMPILEDPATH");
+        launchConsoleLogging("1D_ranging", true, null,"1D Ranging");
     }
     @FXML
     private void handleLaunchPositioning() {
         saveSettingsForUse();
-        launchConsoleLogging("3D_positioning", true, null, "COMPILEDPATH");
+        launchConsoleLogging("3D_positioning", true, null, "3D Positioning");
     }
     @FXML
     private void handleLaunchMotionData() {
         saveSettingsForUse();
-        launchConsoleLogging("motion_data", true, null, "COMPILEDPATH");
+        launchConsoleLogging("motion_data", true, null, "Motion Data");
     }
     @FXML
     private void handleLaunchPositioningAndMotionData() {
@@ -633,18 +633,19 @@ public class Controller implements Initializable {
         );
     }
 
-    static void launchConsoleLogging(String executable, boolean showConsole, String[] args, String prependPathType) {
+    static void launchConsoleLogging(String executable, boolean showConsole, String[] args, String title) {
         CreateFoldersInDocuments();
 
         try {
             if(consoleStage != null) {
+                // .contains are used to make sure we don't close a graphing window and a graphing window doesn't close others
                 consoleController.terminateProcess();
                 consoleStage.close();
             }
             consoleStage = new Stage();
             FXMLLoader loader = new FXMLLoader(Controller.class.getClassLoader().getResource("fxml/console_window.fxml"));
             Parent root1 = loader.load();
-            consoleStage.setTitle("Console Output");
+            consoleStage.setTitle(title);
             consoleStage.setScene(new Scene(root1));
             consoleStage.setMaximized(false);
             //consoleStage.initOwner(m_a1_id.getScene().getWindow());
@@ -655,11 +656,16 @@ public class Controller implements Initializable {
                 consoleStage.show();
             }
 
-            consoleController.launchScript("Waiting for data to be collected...", executable, args, prependPathType);
+            consoleController.launchScript("Waiting for data to be collected...", executable, args);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    static void launchScriptWithoutConsole(String executable, String[] args) {
+        CreateFoldersInDocuments();
+        new ProcessRunner().launchScript(executable, args);
     }
 
 
@@ -706,7 +712,7 @@ public class Controller implements Initializable {
 
     public void handleGraph2D(ActionEvent actionEvent) {
         saveSettingsForUse();
-        launchConsoleLogging("graphing_realtime_2D", false, null,"PYINSTALLERPATH");
+        launchScriptWithoutConsole("graphing_realtime_2D", null);
     }
 
     private static String GetDocumentsFolder() {

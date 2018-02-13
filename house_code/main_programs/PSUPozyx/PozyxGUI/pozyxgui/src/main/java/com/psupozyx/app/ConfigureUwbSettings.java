@@ -96,11 +96,11 @@ public class ConfigureUwbSettings {
 
         String[] args =  {channel, bitrate, prf, plen, gain};
 
-        new Controller().launchConsoleLogging("configure_uwb_settings", true, args, "PYINSTALLERPATH");
+        new Controller().launchConsoleLogging("configure_uwb_settings", true, args, "Configure UWB Settings");
     }
 
     public void handleLaunchCheckUwb(ActionEvent actionEvent) {
-        new Controller().launchConsoleLogging("configure_uwb_settings", true, null, "PYINSTALLERPATH");
+        new Controller().launchConsoleLogging("configure_uwb_settings", true, null, "Check UWB Settings");
 }
 
     public void handleMaximumRange() {
