@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.8)  30 JAN 2018 21:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.8)  16 FEB 2018 11:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -632,7 +632,7 @@ Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss
 Package pdftex.def Info: Requested size: 247.16528pt x 197.29861pt on input lin
 e 27.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_fitti
-ng/redBall.pdf, id=4, pagebox=cropbox, 418.34856pt x 327.20317pt>
+ng/redBall.pdf, id=4, pagebox=cropbox, 427.93123pt x 327.20317pt>
 File: /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_
 fitting/redBall.pdf Graphic file (type pdf)
 <use /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_f
@@ -640,7 +640,7 @@ itting/redBall.pdf>
 Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/free
 fall/figures/accel_fitting/redBall.pdf  used on input line 31. on input line 31
 .
-Package pdftex.def Info: Requested size: 251.01106pt x 196.32341pt on input lin
+Package pdftex.def Info: Requested size: 256.76071pt x 196.32341pt on input lin
 e 31.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitting/r
 edBall.pdf, id=5, pagebox=cropbox, 420.79413pt x 327.20317pt>
@@ -674,7 +674,7 @@ Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss
 Package pdftex.def Info: Requested size: 247.16528pt x 197.29861pt on input lin
 e 42.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_fitti
-ng/yellowBall.pdf, id=8, pagebox=cropbox, 418.34856pt x 327.20317pt>
+ng/yellowBall.pdf, id=8, pagebox=cropbox, 427.93123pt x 327.20317pt>
 File: /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_
 fitting/yellowBall.pdf Graphic file (type pdf)
 <use /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_f
@@ -682,10 +682,10 @@ itting/yellowBall.pdf>
 Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/free
 fall/figures/accel_fitting/yellowBall.pdf  used on input line 46. on input line
  46.
-Package pdftex.def Info: Requested size: 251.01106pt x 196.32341pt on input lin
+Package pdftex.def Info: Requested size: 256.76071pt x 196.32341pt on input lin
 e 46.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitting/y
-ellowBall.pdf, id=9, pagebox=cropbox, 418.34856pt x 327.20317pt>
+ellowBall.pdf, id=9, pagebox=cropbox, 427.93123pt x 327.20317pt>
 File: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitt
 ing/yellowBall.pdf Graphic file (type pdf)
 <use /Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitti
@@ -693,7 +693,7 @@ ng/yellowBall.pdf>
 Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss
 /figures/accel_fitting/yellowBall.pdf  used on input line 48. on input line 48.
 
-Package pdftex.def Info: Requested size: 251.01106pt x 196.32341pt on input lin
+Package pdftex.def Info: Requested size: 256.76071pt x 196.32341pt on input lin
 e 48.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/new_fitting
 /blueBall.pdf, id=10, pagebox=cropbox, 418.34856pt x 327.20317pt>
@@ -759,7 +759,7 @@ Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss
 Package pdftex.def Info: Requested size: 247.16528pt x 197.29861pt on input lin
 e 72.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_fitti
-ng/orangeBall.pdf, id=16, pagebox=cropbox, 418.34856pt x 327.20317pt>
+ng/orangeBall.pdf, id=16, pagebox=cropbox, 427.93123pt x 327.20317pt>
 File: /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_
 fitting/orangeBall.pdf Graphic file (type pdf)
 <use /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_f
@@ -767,10 +767,10 @@ itting/orangeBall.pdf>
 Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/free
 fall/figures/accel_fitting/orangeBall.pdf  used on input line 76. on input line
  76.
-Package pdftex.def Info: Requested size: 251.01106pt x 196.32341pt on input lin
+Package pdftex.def Info: Requested size: 256.76071pt x 196.32341pt on input lin
 e 76.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitting/o
-rangeBall.pdf, id=17, pagebox=cropbox, 427.93123pt x 327.20317pt>
+rangeBall.pdf, id=17, pagebox=cropbox, 418.34856pt x 327.20317pt>
 File: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitt
 ing/orangeBall.pdf Graphic file (type pdf)
 <use /Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitti
@@ -778,7 +778,7 @@ ng/orangeBall.pdf>
 Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss
 /figures/accel_fitting/orangeBall.pdf  used on input line 78. on input line 78.
 
-Package pdftex.def Info: Requested size: 256.76071pt x 196.32341pt on input lin
+Package pdftex.def Info: Requested size: 251.01106pt x 196.32341pt on input lin
 e 78.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/new_fitting
 /rocket.pdf, id=18, pagebox=cropbox, 418.34856pt x 327.20317pt>
@@ -801,7 +801,7 @@ Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss
 Package pdftex.def Info: Requested size: 245.4308pt x 197.29861pt on input line
  87.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_fitti
-ng/rocket.pdf, id=20, pagebox=cropbox, 421.54802pt x 327.20317pt>
+ng/rocket.pdf, id=20, pagebox=cropbox, 418.34856pt x 327.20317pt>
 File: /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_
 fitting/rocket.pdf Graphic file (type pdf)
 <use /Users/CoraJune/Documents/Github/Pozyx/new_models/freefall/figures/accel_f
@@ -809,17 +809,17 @@ itting/rocket.pdf>
 Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/free
 fall/figures/accel_fitting/rocket.pdf  used on input line 91. on input line 91.
 
-Package pdftex.def Info: Requested size: 252.93076pt x 196.32341pt on input lin
+Package pdftex.def Info: Requested size: 251.01106pt x 196.32341pt on input lin
 e 91.
 </Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitting/r
-ocket.pdf, id=21, pagebox=cropbox, 418.34856pt x 327.20317pt>
+ocket.pdf, id=21, pagebox=cropbox, 427.93123pt x 327.20317pt>
 File: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitt
 ing/rocket.pdf Graphic file (type pdf)
 <use /Users/CoraJune/Documents/Github/Pozyx/new_models/toss/figures/accel_fitti
 ng/rocket.pdf>
 Package pdftex.def Info: /Users/CoraJune/Documents/Github/Pozyx/new_models/toss
 /figures/accel_fitting/rocket.pdf  used on input line 93. on input line 93.
-Package pdftex.def Info: Requested size: 251.01106pt x 196.32341pt on input lin
+Package pdftex.def Info: Requested size: 256.76071pt x 196.32341pt on input lin
 e 93.
 [1
 
@@ -906,9 +906,9 @@ Here is how much of TeX's memory you used:
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmr17.pfb>
-Output written on accelFit.pdf (5 pages, 333560 bytes).
+Output written on accelFit.pdf (5 pages, 371129 bytes).
 PDF statistics:
- 742 PDF objects out of 1000 (max. 8388607)
+ 810 PDF objects out of 1000 (max. 8388607)
  99 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  101 words of extra memory for PDF output out of 10000 (max. 10000000)

@@ -9,7 +9,11 @@ from scipy.optimize import curve_fit
 from scipy import stats
 from physProps import *
 params = {'mathtext.default': 'regular'}
+
+params2 = {'legend.fontsize': 9,
+          'legend.handlelength': 1}
 plt.rcParams.update(params)
+plt.rcParams.update(params2)
 #####################################################################
 
 datafile = ['red_122617.csv', 'yellow_122617.csv', 'blueball2_122617.csv', 'orange_drop.csv', 'rocket_122617.csv']
@@ -144,12 +148,13 @@ for ii in range(5):
     #else:
     popt, pcov = curve_fit(func4, x2, linAcc, bounds=([-5,0], [5,2]))
     plt.figure()
-    plt.plot(x2,linAcc,'o')
+    plt.plot(x2,linAcc,'o', label='vSum')
     plt.plot(xx3, func4(xx3, *popt),
-        label='fit: initial velocity=%5.3f, drag coefficient=%5.3f' % tuple(popt))
-
-
-
+        label='fit: vi=%5.3f, Cd=%5.3f' % tuple(popt))
+    plt.plot(x2, xLinAcc, 'o', label='xLinAcc')
+    plt.plot(x2, yLinAcc, 'o', label='yLinAcc')
+    plt.plot(x2, zLinAcc, 'o', label='zLinAcc')
+    plt.legend()
 #    if datafile[ii] == 'rocket_launch.csv':
 #        plt.plot(x2,newRange,'o')
 #    else:

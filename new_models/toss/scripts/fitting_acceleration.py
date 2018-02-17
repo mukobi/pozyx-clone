@@ -12,12 +12,12 @@ params = {'mathtext.default': 'regular'}
 plt.rcParams.update(params)
 #####################################################################
 
-datafile = ['redtoss_ralf.csv', 'yellow_toss2.csv', 'blue_toss2.csv', 'orange_toss.csv', 'rocket_launch.csv']
+datafile = ['redtoss_ralf.csv', 'yellow_toss2_altered.csv', 'blue_toss2.csv', 'orange_toss.csv', 'rocket_launch.csv']
 ball = [redBall, yellowBall, blueBall, orangeBall, rocket]
 title = ['red ball', 'yellow ball', 'blue ball', 'orange ball', 'rocket']
 figname = ['redBall.pdf', 'yellowBall.pdf', 'blueBall.pdf', 'orangeBall.pdf', 'rocket.pdf']
 # old: rows = [slice(417,454,1), slice(359,396,1), slice(172,209,1), slice(2319,2347,1), slice(166,216,1)]
-rows = [slice(431,458,1), slice(362,395,1), slice(175,208,1), slice(2325,2346,1), slice(167,216,1)]
+rows = [slice(431,458,1), slice(362,392,1), slice(175,208,1), slice(2325,2346,1), slice(167,216,1)]
 #vi = [7.440, 6.824, 6.642, 7.545, 17]
 
 for ii in range(5):
@@ -145,11 +145,13 @@ for ii in range(5):
     #else:
     popt, pcov = curve_fit(func4, x2, linAcc, bounds=([-20,0], [20,2]))
     plt.figure()
-    plt.plot(x2,linAcc,'o')
+    plt.plot(x2,linAcc,'-o', label='vSum')
     plt.plot(xx3, func4(xx3, *popt),
-        label='fit: initial velocity=%5.3f, drag coefficient=%5.3f' % tuple(popt))
-
-
+        label='fit: vi=%5.3f, Cd=%5.3f' % tuple(popt))
+    plt.plot(x2, xLinAcc, '-o', label='xLinAcc')
+    plt.plot(x2, yLinAcc, '-o', label='yLinAcc')
+    plt.plot(x2, zLinAcc, '-o', label='zLinAcc')
+    plt.legend()
 
 #    if datafile[ii] == 'rocket_launch.csv':
 #        plt.plot(x2,newRange,'o')
