@@ -193,7 +193,7 @@
                   </HBox>
                   <HBox spacing="10.0">
                      <children>
-                        <TextArea editable="false" prefHeight="50.0" prefWidth="537.0" text="If you don't know what these settings do, don't use them. Select your settings, then click configure. Make sure the settings are the same for all devices in a group. " wrapText="true">
+                        <TextArea editable="false" prefHeight="50.0" prefWidth="537.0" text="If you don't know what these settings do, don't use them. Select your settings, then click configure. Make sure the settings are the same for all devices in a group." wrapText="true">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -218,7 +218,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="UWB Help" />
+              <MenuItem mnemonicParsing="false" text="UWB Help (not implemented)" />
             </items>
           </Menu>
         </menus>

@@ -113,7 +113,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="Data Replay Help" />
+            <MenuItem mnemonicParsing="false" text="Data Replay Help (not implemented)" />
           </items>
         </Menu>
       </menus>

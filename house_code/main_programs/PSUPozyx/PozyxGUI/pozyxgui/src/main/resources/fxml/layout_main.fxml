@@ -406,15 +406,10 @@
                     <MenuItem mnemonicParsing="false" onAction="#handleGraph2D" text="2D Realtime Graphing" />
                 </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Analyze">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleDataReplay" text="Replay Data" />
-               </items>
-            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-                <MenuItem mnemonicParsing="false" text="Pozyx Help" />
-                <MenuItem mnemonicParsing="false" text="About" />
+                <MenuItem mnemonicParsing="false" text="Pozyx Help (not implemented)" />
+                <MenuItem mnemonicParsing="false" text="About (not implemented)" />
             </items>
           </Menu>
         </menus>
