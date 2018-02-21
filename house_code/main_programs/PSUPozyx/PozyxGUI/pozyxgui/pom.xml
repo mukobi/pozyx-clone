@@ -4,7 +4,7 @@
     <groupId>com.psupozyx.app</groupId>
     <artifactId>pozyxgui</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <name>pozyxgui</name>
     <url>http://maven.apache.org</url>
     <organization>
@@ -27,7 +27,7 @@
                 <configuration>
                     <mainClass>com.psupozyx.app.Main</mainClass>
                     <verbose>true</verbose>
-                    <vendor>PortlandStateUniversity</vendor>
+                    <vendor>Portland State University</vendor>
                     <bundler>EXE</bundler>
                     <additionalAppResources>src/main/resources</additionalAppResources>
                 </configuration>
