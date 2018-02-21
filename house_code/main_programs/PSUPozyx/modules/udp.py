@@ -27,7 +27,7 @@ class Producer:
         packed_message = msgpack.packb(msg)
         self.sock.sendto(packed_message, (mcast_addr, mcast_port))
 
-    def close_socket(self):
+    def cleanup(self):
         self.sock.close()
 
     @staticmethod
