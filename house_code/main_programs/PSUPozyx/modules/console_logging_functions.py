@@ -119,7 +119,7 @@ class CondensedConsoleLogging:
                 if attribute_to_log == "pressure":
                     attribute_to_log = "Press"
                     line_of_data.append(DataFunctions.str_append_length(
-                        sensor_data.pressure, 8))
+                        sensor_data.pressure.value, 8))
                 elif attribute_to_log == "acceleration":
                     attribute_to_log = "Acc"
                     line_of_data.append(DataFunctions.str_prepend_length(

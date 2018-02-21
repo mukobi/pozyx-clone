@@ -74,7 +74,7 @@ class MotionDataFileWriting:
         for single_output in loop_output_array:
             motion = single_output.sensor_data
             if "pressure" in attributes_to_log:
-                output += (str(motion.pressure) + ",")
+                output += (str(motion.pressure.value) + ",")
             if "acceleration" in attributes_to_log:
                 output += (str(motion.acceleration.x) + ",")
                 output += (str(motion.acceleration.y) + ",")
@@ -160,7 +160,7 @@ class RangingFileWriting:
         for single_output in loop_output_array:
             motion = single_output.sensor_data
             if "pressure" in attributes_to_log:
-                output += (str(motion.pressure) + ",")
+                output += (str(motion.pressure.value) + ",")
             if "acceleration" in attributes_to_log:
                 output += (str(motion.acceleration.x) + ",")
                 output += (str(motion.acceleration.y) + ",")
@@ -258,7 +258,7 @@ class PositioningFileWriting:
         for single_output in loop_output_array:
             motion = single_output.sensor_data
             if "pressure" in attributes_to_log:
-                output += (str(motion.pressure) + ",")
+                output += (str(motion.pressure.value) + ",")
             if "acceleration" in attributes_to_log:
                 output += (str(motion.acceleration.x) + ",")
                 output += (str(motion.acceleration.y) + ",")
