@@ -122,11 +122,11 @@ class CondensedConsoleLogging:
                         sensor_data.pressure.value, 8))
                 elif attribute_to_log == "acceleration":
                     attribute_to_log = "Acc"
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.acceleration.x, 6))
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.acceleration.y, 6))
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.acceleration.z, 6))
                 elif attribute_to_log == "magnetic":
                     attribute_to_log = "Mag"
@@ -167,19 +167,19 @@ class CondensedConsoleLogging:
                         sensor_data.quaternion.w, 6))
                 elif attribute_to_log == "linear acceleration":
                     attribute_to_log = "Lin Acc"
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.linear_acceleration.x, 6))
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.linear_acceleration.y, 6))
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.linear_acceleration.z, 6))
                 elif attribute_to_log == "gravity":
                     attribute_to_log = "Grav"
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.gravity_vector.x, 6))
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.gravity_vector.y, 6))
-                    line_of_data.append(DataFunctions.str_prepend_length(
+                    line_of_data.append(DataFunctions.str_append_length(
                         sensor_data.gravity_vector.z, 6))
                 data_dictionary[attribute_to_log.title()] = line_of_data
             return data_dictionary
