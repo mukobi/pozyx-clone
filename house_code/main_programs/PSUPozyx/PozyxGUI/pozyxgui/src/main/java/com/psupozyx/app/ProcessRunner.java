@@ -57,9 +57,7 @@ public class ProcessRunner {
                 ProcessBuilder ps=new ProcessBuilder(command);
 
                 ps.redirectErrorStream(true);
-                if(pr != null) {
-                    pr.destroy();
-                }
+
                 pr = ps.start();
 
                 pr.waitFor();
