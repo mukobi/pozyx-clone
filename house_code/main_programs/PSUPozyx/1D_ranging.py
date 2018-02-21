@@ -118,7 +118,7 @@ if __name__ == "__main__":
         while not_started:
             r.loop(range_data_array)
             try:
-                not_started = int(range_data_array[0].sensor_data.pressure) == 0
+                not_started = int(range_data_array[0].sensor_data.pressure.value) == 0
             except TypeError:
                 not_started = True
 

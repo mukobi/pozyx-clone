@@ -201,7 +201,7 @@ if __name__ == "__main__":
         not_started = True
         while not_started:
             r.loop(position_data_array)
-            not_started = position_data_array[0].sensor_data.pressure == 0
+            not_started = position_data_array[0].sensor_data.pressure.value == 0
             for single_data in position_data_array:
                 # Initialize EMA filter
                 if type(single_data.position.x) is int:
