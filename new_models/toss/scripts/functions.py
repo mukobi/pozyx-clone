@@ -29,5 +29,3 @@ def horizontalCompensate(datafile, rows):
     adj_newRange_mod = newRange_mod - newRange_mod[0] # adjusted to start at zero
     adj_x4_mod = x4 - 11.23917484 #adjusted to start at zero
     return
-
-
